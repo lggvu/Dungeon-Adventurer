@@ -8,11 +8,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Game extends ApplicationAdapter {
@@ -28,23 +33,22 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		playerTexture = new Texture("hero/knight1.png");
+		playerTexture = new Texture("hero/knight.png");
 		// resize the player texture to 50x50
-		playerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//		playerTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		playerX = Gdx.graphics.getWidth() / 2 - playerTexture.getWidth() / 2;
 		playerY = Gdx.graphics.getHeight() / 2 - playerTexture.getHeight() / 2;
 
 //		// Load Tiled map
-//		map = new TmxMapLoader().load("test-map/second_map.tmx");
-//
-//
-//		// Create camera
-//		camera = new OrthographicCamera();
-//		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//
-//		// Create map renderer
-//		mapRenderer = new OrthogonalTiledMapRenderer(map);
+		map = new TmxMapLoader().load("test-map/second_map.tmx");
+
+		// Create camera
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+	// Create map renderer
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
 	}
 
 	@Override
@@ -66,30 +70,46 @@ public class Game extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			playerY -= playerSpeed * Gdx.graphics.getDeltaTime();
 		}
+		// Render the Tiled map
+		mapRenderer.setView(camera);
+		mapRenderer.render();
+
+		TiledMapTileLayer obstacleLayer = (TiledMapTileLayer) map.getLayers().get("Collisions");
 
 		// Draw the player texture at its current position
 		batch.begin();
 		batch.draw(playerTexture, playerX, playerY);
+
 		batch.end();
 //
-//		// Update the camera
-//		camera.update();
+		// Update the camera
+		camera.update();
 //
-//		// Set the batch's projection matrix to the camera's combined matrix
-//		batch.setProjectionMatrix(camera.combined);
+		// Set the batch's projection matrix to the camera's combined matrix
+		batch.setProjectionMatrix(camera.combined);
+//		batch.getProjectionMatrix().setToOrtho2D(playerX, playerY, Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
+
 //
-//		// Begin drawing the batch
-//		batch.begin();
+		// Begin drawing the batch
+		batch.begin();
 //
-//		// Draw the player sprite
-//		batch.draw(playerTexture, playerX, playerY);
+		// Draw the player sprite
+		batch.draw(playerTexture, playerX, playerY);
 //
-//		// End drawing the batch
-//		batch.end();
-//
-//		// Render the Tiled map
-//		mapRenderer.setView(camera);
-//		mapRenderer.render();
+		// End drawing the batch
+		batch.end();
+
+//		TiledMapTileLayer obstacleLayer = (TiledMapTileLayer) map.getLayers().get("obstacles");
+//		int playerTileX = (int) (playerX / obstacleLayer.getTileWidth());
+//		int playerTileY = (int) (playerY / obstacleLayer.getTileHeight());
+//		TiledMapTileLayer.Cell cell = obstacleLayer.getCell(playerTileX, playerTileY);
+//		if (cell != null) {
+//			// Collision detected!
+//		}
+
+
+
+
 	}
 	
 	@Override
@@ -97,7 +117,8 @@ public class Game extends ApplicationAdapter {
 		// Dispose of the resources
 		batch.dispose();
 		playerTexture.dispose();
-//		map.dispose();
+		map.dispose();
+		((BatchTiledMapRenderer)mapRenderer).dispose();
 
 //		// Dispose of the Batch used by the OrthogonalTiledMapRenderer
 //		Batch batch = ((BatchTiledMapRenderer)mapRenderer).getBatch();
