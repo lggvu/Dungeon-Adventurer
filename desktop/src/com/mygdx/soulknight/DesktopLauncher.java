@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("SoulKnightSE");
+		config.setWindowedMode(1600, 1000);
 		new Lwjgl3Application(new Game(), config);
 	}
 }
