@@ -5,75 +5,139 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
 public class Monster extends Sprite {
-    private float speed = 200; // Speed of movement
+    // Character stats
+    private final int SPEED = 150; // Speed of movement
     private int hp;
     private int damage;
     private int defense;
 
-    private float monsterX;
-    private float monsterY;
+    private Vector2 characterPosition = new Vector2();
+    private TiledMapTileLayer collisionLayer;
+    private final int COLLISION_STEP_CHECK = 8;
 
-    public Monster(Texture texture) {
-        super(texture);
-    }
-
-//    public Monster(Texture texture, TiledMap map) {
-//        super(texture
-//    }
-
-    public Monster(Sprite sprite) {
+    public Monster(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
+        this.collisionLayer = collisionLayer;
     }
 
-//    public Monster(Sprite sprite , TiledMapTileLayer collisionLayer)
+    public Vector2 getCharacterPosition() {
+        return this.characterPosition;
+    }
 
     @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
+    public void draw(Batch Batch) {
+        update(Gdx.graphics.getDeltaTime());
+        super.draw(Batch);
     }
 
-    public void update(float delta, TiledMap map) {
-//        monsterX = Gdx.graphics.getWidth() / 2 - this.getWidth()  /2;
-//        monsterY = Gdx.graphics.getHeight() / 2 - this.getHeight() /2;
+    private boolean isCellBlocked(float x, float y) {
+        TiledMapTileLayer.Cell cell;
+        cell = this.collisionLayer.getCell((int) (x / this.collisionLayer.getTileWidth()), (int) (y / this.collisionLayer.getTileHeight()));
+        return cell != null && cell.getTile() != null;
+    }
+
+    public boolean collidesRight() {
+        boolean collides = false;
+
+        for(float step = 0; step < getHeight(); step += this.collisionLayer.getTileHeight() / COLLISION_STEP_CHECK) {
+            if (collides = isCellBlocked(getX() + getWidth(), getY() + step)) {
+                break;
+            }
+        }
+        return collides;
+    }
+
+    public boolean collidesLeft() {
+        boolean collides = false;
+        for(float step = 0; step < getHeight(); step += this.collisionLayer.getTileHeight() / COLLISION_STEP_CHECK) {
+            if (collides = isCellBlocked(getX()-getWidth(), getY() + step)) {
+                break;
+            }
+        }
+        return collides;
+    }
+
+    public boolean collidesTop() {
+        boolean collides = false;
+        for(float step = 0; step < getWidth(); step += this.collisionLayer.getTileWidth() / COLLISION_STEP_CHECK) {
+            if (collides = isCellBlocked(getX() + step, getY())) {
+                break;
+            }
+        }
+        return collides;
+    }
+
+    public boolean collidesBottom() {
+        boolean collides = false;
+        for(float step = 0; step < getWidth(); step += this.collisionLayer.getTileWidth() / COLLISION_STEP_CHECK) {
+            if (collides = isCellBlocked(getX() + step, getY())) {
+                break;
+            }
+        }
+        return collides;
+    }
+
+    public void update(float delta) {
+        boolean collisionX, collisionY;
+        float oldX = this.getX(), oldY = this.getY();
 
         // Move the monster based on the input
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            this.translateX(-speed * delta);
+            System.out.println("left");
+            collisionX = collidesLeft();
+            System.out.println(collisionX);
+
+            // reacting to collision
+            if(collisionX) {
+                this.setX(oldX);
+            }
+            else {
+                this.translateX(-SPEED*delta);
+            }
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            this.translateX(speed * delta);
+            System.out.println("right");
+            collisionX = collidesRight();
+            System.out.println(collisionX);
+
+            // reacting to collision
+            if(collisionX) {
+                this.setX(oldX);
+            }
+            else {
+                this.translateX(SPEED*delta);
+            }
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            this.translateY(speed * delta);
+            System.out.println("up");
+            collisionY = collidesTop();
+            System.out.println(collisionY);
+
+            if(collisionY) {
+                this.setY(oldY);
+            }
+            else {
+                this.translateY(SPEED*delta);
+            }
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.translateY(-speed * delta);
+            System.out.println("down");
+            collisionY = collidesBottom();
+            System.out.println(collisionY);
+
+            if(collisionY) {
+                this.setY(oldY);
+            }
+            else {
+                this.translateY(-SPEED*delta);
+            }
         }
-
-        // Handle collision
-        // Get the tile layer from the TiledMap
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get("Collisions");
-
-        // Get the cell of the tile at the monster's position
-        TiledMapTileLayer.Cell cell = tileLayer.getCell((int) (this.getX() / tileLayer.getTileWidth()),
-                (int) (this.getY() / tileLayer.getTileHeight()));
-
-        // Check if the cell is null or contains a tile with a collision property
-        if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("collision")) {
-            // Handle collision here
-            System.out.println("Collision!");
-        }
-
-
     }
 }

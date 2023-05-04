@@ -37,10 +37,9 @@ public class PlayScreen extends ApplicationAdapter {
         camera.update();
 
         // Create the monster
-        monster = new Monster(new Texture("hero/rogue-right.png"));
-        monster.setSize(monster.getWidth() / 16, monster.getHeight() / 16);
+        monster = new Monster(new Sprite(new Texture("hero/rogue-right.png")), (TiledMapTileLayer) map.getLayers().get("Collisions"));
+        monster.setSize(monster.getWidth() / 20, monster.getHeight() / 20);
         monster.setPosition(Gdx.graphics.getWidth()/2 - monster.getWidth()/2, Gdx.graphics.getHeight()/2 - monster.getHeight()/2);
-
     }
 
     @Override
@@ -58,7 +57,7 @@ public class PlayScreen extends ApplicationAdapter {
         mapRenderer.render();
 
         // Update the monster's position based on keyboard input
-        monster.update(Gdx.graphics.getDeltaTime(), map);
+        monster.update(Gdx.graphics.getDeltaTime());
 
         // Draw the monster to the screen
         batch.setProjectionMatrix(camera.combined);
@@ -66,7 +65,6 @@ public class PlayScreen extends ApplicationAdapter {
         monster.draw(batch);
         batch.end();
     }
-
 
     @Override
     public void dispose () {
@@ -76,14 +74,6 @@ public class PlayScreen extends ApplicationAdapter {
         map.dispose();
         ((BatchTiledMapRenderer)mapRenderer).dispose();
 
-//		// Dispose of the Batch used by the OrthogonalTiledMapRenderer
-//		Batch batch = ((BatchTiledMapRenderer)mapRenderer).getBatch();
-//		if (batch != null) {
-//			batch.dispose();
-//		}
-//
-//		// Dispose of the OrthogonalTiledMapRenderer
-//		((BatchTiledMapRenderer)mapRenderer).dispose();
     }
 }
 
