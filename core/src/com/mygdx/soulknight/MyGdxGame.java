@@ -1,4 +1,7 @@
 package com.mygdx.soulknight;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,9 +23,11 @@ public class MyGdxGame extends ApplicationAdapter {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapTileLayer collisionLayer;
-    private Texture characterTexture, actualTexture;
-    private Vector2 characterPosition;
+    private Character character;
     private SpriteBatch spriteBatch;
+    private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    private Vector2 direction = new Vector2(1,0);
+
 
     @Override
     public void create () {
@@ -36,8 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
         collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Collisions");
 
         // Load the character texture and position
-        characterTexture = new Texture("bucket.png");
-        characterPosition = new Vector2(130,130);
+        character = new Character(new Texture("bucket.png"),new Vector2(130,130));
         // Set up the sprite batch
         spriteBatch = new SpriteBatch();
     }
@@ -50,21 +54,38 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // Move the character based on user input
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            moveCharacter(-CHARACTER_SPEED, 0);
+            character.move(-CHARACTER_SPEED, 0, collisionLayer);
+            direction = new Vector2(-1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            moveCharacter(CHARACTER_SPEED, 0);
+        	character.move(CHARACTER_SPEED, 0, collisionLayer);
+        	direction = new Vector2(1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            moveCharacter(0, CHARACTER_SPEED);
+            character.move(0, CHARACTER_SPEED, collisionLayer);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            moveCharacter(0, -CHARACTER_SPEED);
+        	character.move(0, -CHARACTER_SPEED, collisionLayer);
+        }
+        
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            //Create a new bullet texture and set its position to the current position of the character
+            Texture bulletTexture = new Texture("bucket.png");
+            Vector2 bulletPosition = new Vector2(character.getPosition().x + character.getTexture().getWidth() /2, character.getPosition().y + character.getTexture().getHeight() / 2);
+            direction.nor();
+
+            //Add the new bullet to the game's list of bullets
+            Bullet bullet = new Bullet(bulletTexture, bulletPosition, direction);
+            bullets.add(bullet);
         }
 
+        // ...
+
+        // Update and draw the bullets
+        
         // Update the camera position based on the character's position
-        camera.position.x = characterPosition.x + characterTexture.getWidth() /2;
-        camera.position.y = characterPosition.y + characterTexture.getHeight() / 2;
+        camera.position.x = character.getPosition().x + character.getTexture().getWidth() /2;
+        camera.position.y = character.getPosition().y + character.getTexture().getHeight() / 2;
         camera.update();
 
         // Render the map and the character
@@ -73,36 +94,44 @@ public class MyGdxGame extends ApplicationAdapter {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        spriteBatch.draw(characterTexture, characterPosition.x, characterPosition.y, 0, 0, characterTexture.getWidth(), characterTexture.getHeight(), 0.5f, 0.5f, 0, 0, 0, characterTexture.getWidth(), characterTexture.getHeight(), false, false);
+        spriteBatch.draw(character.getTexture(), character.getPosition().x, character.getPosition().y, 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), 0.5f, 0.5f, 0, 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), false, false);
         
+        Iterator<Bullet> iterator = bullets.iterator();
+        while (iterator.hasNext()){
+            //Update the bullet position based on its direction and speed
+            Bullet bullet = iterator.next();
+        	bullet.update();
+
+            //Render the bullet
+            spriteBatch.draw(bullet.getTexture(), bullet.getPosition().x, bullet.getPosition().y, 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), 0.2f, 0.2f, 0, 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), false, false);
+            
+
+            //Check for collision between the bullet and the collision layer
+            int tileX = (int) (bullet.getPosition().x / collisionLayer.getTileWidth());
+            int tileY = (int) (bullet.getPosition().y / collisionLayer.getTileHeight());
+
+            TiledMapTileLayer.Cell cell = collisionLayer.getCell(tileX, tileY);
+
+            if(cell != null){
+                //Remove the bullet from the game's list of bullets if it collides with a tile in the collision layer
+                iterator.remove();
+            }
+        }
 
         spriteBatch.end();
     }
 
-    private void moveCharacter(float deltaX, float deltaY) {
-        // Check if the character can move to the desired position
-    	int tileX = (int) ((characterPosition.x + deltaX) / collisionLayer.getTileWidth());
-        int tileY = (int) ((characterPosition.y + deltaY) / collisionLayer.getTileHeight());
 
-        // Check the tiles surrounding the character for collisions
-        TiledMapTileLayer.Cell cell = collisionLayer.getCell(tileX, tileY);
-        TiledMapTileLayer.Cell cellRight = collisionLayer.getCell(tileX + 1, tileY);
-        TiledMapTileLayer.Cell cellTop = collisionLayer.getCell(tileX, tileY + 1);
-        TiledMapTileLayer.Cell cellDiagonal = collisionLayer.getCell(tileX + 1, tileY + 1);
-
-        // If none of the surrounding tiles are collidable, move the character
-        if (cell == null && cellRight == null && cellTop == null && cellDiagonal == null) {
-            characterPosition.x += deltaX;
-            characterPosition.y += deltaY;
-        }
-    }
 
     @Override
     public void dispose () {
         // Dispose of resources
         tiledMap.dispose();
         mapRenderer.dispose();
-        characterTexture.dispose();
+        character.getTexture().dispose();
+        for (Bullet bullet : bullets) {
+            bullet.getTexture().dispose();
+        }
         spriteBatch.dispose();
     }
 }
