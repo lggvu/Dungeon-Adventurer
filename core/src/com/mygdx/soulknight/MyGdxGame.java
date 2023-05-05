@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class MyGdxGame extends ApplicationAdapter {
-    private static final float CHARACTER_SPEED = 4f;
+    private static final float CHARACTER_SPEED = 180f;
     private final float CHARACTER_SCALE_FACTOR = 0.75f;
 
     private OrthographicCamera camera;
@@ -54,20 +54,21 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        float deltaTime = Gdx.graphics.getDeltaTime();
         // Move the character based on user input
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            character.move(-CHARACTER_SPEED,0);
+            character.move(-CHARACTER_SPEED * deltaTime,0);
             direction = new Vector2(-1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-        	character.move(+CHARACTER_SPEED, 0);
+        	character.move(+CHARACTER_SPEED * deltaTime, 0);
         	direction = new Vector2(1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            character.move(0, CHARACTER_SPEED);
+            character.move(0, CHARACTER_SPEED * deltaTime);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-        	character.move(0, -CHARACTER_SPEED);
+        	character.move(0, -CHARACTER_SPEED * deltaTime);
         }
         
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
