@@ -74,7 +74,7 @@ public class MyGdxGame extends ApplicationAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             //Create a new bullet texture and set its position to the current position of the character
             Texture bulletTexture = new Texture("bucket.png");
-            Vector2 bulletPosition = new Vector2(character.getX() + character.getTexture().getWidth() /2, character.getY() + character.getTexture().getHeight() / 2);
+            Vector2 bulletPosition = new Vector2(character.getX() + character.getTexture().getWidth() /2, character.getY() + character.getTexture().getHeight() / 4);
             direction.nor();
 
             //Add the new bullet to the game's list of bullets

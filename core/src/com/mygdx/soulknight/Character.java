@@ -56,9 +56,6 @@ public class Character extends Sprite {
 		int toptileY = (int) Math.ceil(y / collisionLayer.getTileHeight());
 		int bottomtileY = (int) Math.floor(y / collisionLayer.getTileHeight());
 
-		System.out.println("topTileX "+ lefttileX);
-		System.out.println("topTileY "+ toptileY);
-
 		// Check if the sprite collides with any cell in the collision layer
 		TiledMapTileLayer.Cell cell = collisionLayer.getCell(lefttileX, toptileY);
 		if (cell != null) {
