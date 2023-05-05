@@ -43,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // Load the character texture and position
         character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
-        character.setSize(0.2f * collisionLayer.getTileWidth(), 0.2f * collisionLayer.getTileHeight());
+        character.setSize(character.getWidth()/2, character.getHeight()/2);
         // Set up the sprite batch
         spriteBatch = new SpriteBatch();
     }
@@ -55,14 +55,15 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         float deltaTime = Gdx.graphics.getDeltaTime();
+
+        System.out.println("delta" + deltaTime);
         // Move the character based on user input
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             character.move(-CHARACTER_SPEED * deltaTime,0);
-            direction = new Vector2(-1,0);
         }
+
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
         	character.move(+CHARACTER_SPEED * deltaTime, 0);
-        	direction = new Vector2(1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             character.move(0, CHARACTER_SPEED * deltaTime);
