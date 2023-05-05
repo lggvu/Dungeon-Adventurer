@@ -1,10 +1,11 @@
 package com.mygdx.soulknight;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bullet {
+public class Bullet extends Sprite {
     private Texture texture;
     private Vector2 position;
     private Vector2 direction;
@@ -26,7 +27,7 @@ public class Bullet {
         return texture;
     }
 
-    public Vector2 getPosition(){
-        return position;
-    }
+//    public Vector2 getPosition(){
+//        return position;
+//    }
 }

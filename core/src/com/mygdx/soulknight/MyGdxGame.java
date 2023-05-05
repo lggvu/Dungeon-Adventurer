@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class MyGdxGame extends ApplicationAdapter {
     private static final float CHARACTER_SPEED = 4f;
@@ -41,7 +42,8 @@ public class MyGdxGame extends ApplicationAdapter {
         collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Collisions");
 
         // Load the character texture and position
-        character = new Character(new Texture("bucket.png"),new Vector2(130,130));
+        character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
+        character.setSize(0.2f * collisionLayer.getTileWidth(), 0.2f * collisionLayer.getTileHeight());
         // Set up the sprite batch
         spriteBatch = new SpriteBatch();
     }
@@ -54,24 +56,24 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // Move the character based on user input
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            character.move(-CHARACTER_SPEED, 0, collisionLayer);
+            character.move(-CHARACTER_SPEED,0);
             direction = new Vector2(-1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-        	character.move(CHARACTER_SPEED, 0, collisionLayer);
+        	character.move(+CHARACTER_SPEED, 0);
         	direction = new Vector2(1,0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            character.move(0, CHARACTER_SPEED, collisionLayer);
+            character.move(0, CHARACTER_SPEED);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-        	character.move(0, -CHARACTER_SPEED, collisionLayer);
+        	character.move(0, -CHARACTER_SPEED);
         }
         
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             //Create a new bullet texture and set its position to the current position of the character
             Texture bulletTexture = new Texture("bucket.png");
-            Vector2 bulletPosition = new Vector2(character.getPosition().x + character.getTexture().getWidth() /2, character.getPosition().y + character.getTexture().getHeight() / 2);
+            Vector2 bulletPosition = new Vector2(character.getX() + character.getTexture().getWidth() /2, character.getY() + character.getTexture().getHeight() / 2);
             direction.nor();
 
             //Add the new bullet to the game's list of bullets
@@ -84,8 +86,8 @@ public class MyGdxGame extends ApplicationAdapter {
         // Update and draw the bullets
         
         // Update the camera position based on the character's position
-        camera.position.x = character.getPosition().x + character.getTexture().getWidth() /2;
-        camera.position.y = character.getPosition().y + character.getTexture().getHeight() / 2;
+        camera.position.x = character.getX() + character.getTexture().getWidth() /2;
+        camera.position.y = character.getY() + character.getTexture().getHeight() / 2;
         camera.update();
 
         // Render the map and the character
@@ -94,7 +96,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        spriteBatch.draw(character.getTexture(), character.getPosition().x, character.getPosition().y, 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), 0.5f, 0.5f, 0, 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), false, false);
+        spriteBatch.draw(character.getTexture(), character.getX(), character.getY(), 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), 0.5f, 0.5f, 0, 0, 0, character.getTexture().getWidth(), character.getTexture().getHeight(), false, false);
         
         Iterator<Bullet> iterator = bullets.iterator();
         while (iterator.hasNext()){
@@ -103,12 +105,12 @@ public class MyGdxGame extends ApplicationAdapter {
         	bullet.update();
 
             //Render the bullet
-            spriteBatch.draw(bullet.getTexture(), bullet.getPosition().x, bullet.getPosition().y, 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), 0.2f, 0.2f, 0, 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), false, false);
+            spriteBatch.draw(bullet.getTexture(), bullet.getX(), bullet.getY(), 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), 0.2f, 0.2f, 0, 0, 0, bullet.getTexture().getWidth(), bullet.getTexture().getHeight(), false, false);
             
 
             //Check for collision between the bullet and the collision layer
-            int tileX = (int) (bullet.getPosition().x / collisionLayer.getTileWidth());
-            int tileY = (int) (bullet.getPosition().y / collisionLayer.getTileHeight());
+            int tileX = (int) (bullet.getX() / collisionLayer.getTileWidth());
+            int tileY = (int) (bullet.getY() / collisionLayer.getTileHeight());
 
             TiledMapTileLayer.Cell cell = collisionLayer.getCell(tileX, tileY);
 
