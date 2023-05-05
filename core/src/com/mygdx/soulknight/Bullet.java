@@ -13,19 +13,25 @@ public class Bullet extends Sprite {
 
     public Bullet(Texture texture, Vector2 position, Vector2 direction){
         this.texture = texture;
-        this.position = position;
+        this.setX(position.x) ;
+        this.setY(position.y) ;
         this.direction = direction;
     }
 
     public void update(){
         //Update the bullet position based on its direction and speed
-        position.x += direction.x * speed;
-        position.y += direction.y * speed;
+        this.setX(this.getX()+ direction.x * speed);
+        this.setY(this.getY()+ direction.y * speed);
+
     }
 
     public Texture getTexture(){
         return texture;
     }
+
+	public Vector2 getPosition() {
+		return position;
+	}
 
 //    public Vector2 getPosition(){
 //        return position;
