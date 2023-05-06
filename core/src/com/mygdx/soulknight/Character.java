@@ -6,8 +6,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 public class Character extends Sprite {
-	private Texture texture =new Texture("bucket.png");
-
+	protected Texture texture =new Texture("bucket.png");
+	protected int HP = 100;
+	protected int armor = 100;
+	
 	private TiledMapTileLayer collisionLayer;
 	public Character(Texture texture, TiledMap tiledMap, String collisionLayerName) {
 		super(texture);
@@ -45,8 +47,8 @@ public class Character extends Sprite {
 			int bottomtileY = (int) Math.floor((newY+overlapH) / collisionLayer.getTileHeight());
 			// Check if the sprite collides with any cell in the collision layer
 			TiledMapTileLayer.Cell cell = collisionLayer.getCell(lefttileX, toptileY);
-		TiledMapTileLayer.Cell cell1 = collisionLayer.getCell(lefttileX, bottomtileY);
-		TiledMapTileLayer.Cell cell2 = collisionLayer.getCell(righttileX, toptileY);
+			TiledMapTileLayer.Cell cell1 = collisionLayer.getCell(lefttileX, bottomtileY);
+			TiledMapTileLayer.Cell cell2 = collisionLayer.getCell(righttileX, toptileY);
 			TiledMapTileLayer.Cell cell3 = collisionLayer.getCell(righttileX, bottomtileY);
 
 //		System.out.println("location"+newX+newY);
@@ -67,6 +69,26 @@ public class Character extends Sprite {
 		int cell_Y=(int) Math.ceil(y/collisionLayer.getTileHeight());
 		return collisionLayer.getCell(cell_X, cell_Y) != null;
 	}
+	public void getHit(int dmg) {
+		if (this.armor > dmg) {
+			this.armor -= dmg;
+		}
+		else {
+			this.armor = 0;
+			this.HP  -= (dmg - this.armor);
+		}
+	}
+    public Rectangle getBoundingRectangle() {
+        return new Rectangle(this.getX(), this.getY(), texture.getWidth() * 0.5f, texture.getHeight() * 0.5f);
+    }
+	public int getHP() {
+		return HP;
+	}
+	public int getArmor() {
+		return armor;
+	}
+    
+	
 }
 
 

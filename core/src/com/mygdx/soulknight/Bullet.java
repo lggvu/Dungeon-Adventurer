@@ -3,6 +3,7 @@ package com.mygdx.soulknight;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet extends Sprite {
@@ -32,8 +33,8 @@ public class Bullet extends Sprite {
 	public Vector2 getPosition() {
 		return position;
 	}
+    public Rectangle getBoundingRectangle() {
+        return new Rectangle(this.getX(), this.getY(), this.texture.getWidth() * 0.2f, this.texture.getHeight() * 0.2f);
+    }
 
-//    public Vector2 getPosition(){
-//        return position;
-//    }
 }
