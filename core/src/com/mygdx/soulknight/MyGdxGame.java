@@ -45,7 +45,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // Load the character texture and position
         character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
-        character.setSize(character.getWidth()/2, character.getHeight()/2);
+        character.setSize(character.getWidth() / 2, character.getHeight() / 2);
         // Set up the sprite batch
         spriteBatch = new SpriteBatch();
         monsters = random_monsters(10);
@@ -63,19 +63,19 @@ public class MyGdxGame extends ApplicationAdapter {
         elapsedSeconds += Gdx.graphics.getDeltaTime();
 
         // Move the character based on user input
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
             character.move(-CHARACTER_SPEED * deltaTime,0);
             direction = new Vector2(-1,0);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
         	character.move(CHARACTER_SPEED * deltaTime, 0);
         	direction = new Vector2(1,0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             character.move(0, CHARACTER_SPEED * deltaTime);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
         	character.move(0, -CHARACTER_SPEED * deltaTime);
         }
         
