@@ -1,8 +1,8 @@
-package com.mygdx.soulknight.game.entity;
+package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.SoulKnight;
 
 import java.util.ArrayList;
 

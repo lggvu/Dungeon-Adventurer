@@ -1,12 +1,11 @@
-package com.mygdx.soulknight.game.entity;
+package com.mygdx.soulknight.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.game.SoulKnight;
-import com.mygdx.soulknight.game.util.ReuseCode;
+import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.util.ReuseCode;
 
 import java.util.HashMap;
 

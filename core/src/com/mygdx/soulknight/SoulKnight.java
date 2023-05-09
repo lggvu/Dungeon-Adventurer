@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.game;
+package com.mygdx.soulknight;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.game.entity.*;
-import com.mygdx.soulknight.game.entity.Character;
+import com.mygdx.soulknight.entity.*;
+import com.mygdx.soulknight.entity.Character;
 
 import java.util.ArrayList;
 

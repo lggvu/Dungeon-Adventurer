@@ -1,11 +1,11 @@
-package com.mygdx.soulknight.game.entity;
+package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.game.SoulKnight;
-import com.mygdx.soulknight.game.util.ReuseCode;
+import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.util.ReuseCode;
 
 public class Bullet extends Sprite {
     SoulKnight game;

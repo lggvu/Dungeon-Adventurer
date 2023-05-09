@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.game.screen;
+package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.ScreenAdapter;
 

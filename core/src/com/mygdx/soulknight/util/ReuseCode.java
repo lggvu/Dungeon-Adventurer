@@ -1,9 +1,9 @@
-package com.mygdx.soulknight.game.util;
+package com.mygdx.soulknight.util;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.SoulKnight;
 
 public class ReuseCode {
     public static boolean isMapCollision(SoulKnight game, float x, float y) {

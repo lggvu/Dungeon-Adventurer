@@ -3,7 +3,6 @@ package com.mygdx.soulknight;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.mygdx.soulknight.game.SoulKnight;
 
 public class DesktopLauncher {
     public static void main (String[] arg) {
