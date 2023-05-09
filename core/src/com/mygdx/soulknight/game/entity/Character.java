@@ -15,8 +15,8 @@ public abstract class Character extends Sprite {
     protected int HP = 100;
     protected int mana = 200;
     protected SoulKnight game;
-    private Vector2 direction = new Vector2(1,0);
-    private float runSpeed = 180f;
+    protected Vector2 headDirection = new Vector2(1,0);
+    protected float runSpeed = 180f;
     private ArrayList<Weapon> weapons;
     private int currentWeapon = 0;
 
@@ -68,12 +68,13 @@ public abstract class Character extends Sprite {
         getCurrentWeapon().update(deltaTime);
     }
     public void move(Vector2 direction, float deltaTime) {
+        direction = direction.nor();
         float newX = getX() + direction.x * deltaTime * runSpeed;
         float newY = getY() + direction.y * deltaTime * runSpeed;
         if (direction.x < 0) {
-            this.direction = new Vector2(-1, 0);
+            this.headDirection = new Vector2(-1, 0);
         } else if (direction.x > 0) {
-            this.direction = new Vector2(1, 0);
+            this.headDirection = new Vector2(1, 0);
         }
         if (!ReuseCode.isMapCollision(game, newX, newY)) {
             setPosition(newX, newY);
@@ -100,8 +101,11 @@ public abstract class Character extends Sprite {
         return new Rectangle(this.getX(), getY(), getWidth(), getHeight());
     }
     public abstract void attack();
+    public abstract void addBullet(Bullet bullet);
 
-    public Vector2 getDirection() {
-        return direction;
+
+    public Vector2 getHeadDirection() {
+        return headDirection;
     }
+    public int getHP() {return HP;}
 }

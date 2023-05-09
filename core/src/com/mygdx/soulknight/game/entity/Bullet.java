@@ -11,7 +11,10 @@ public class Bullet extends Sprite {
     SoulKnight game;
     private Vector2 direction;
     private float speed = 300f;
-    private int dmg = 1;
+
+
+
+    private int dmg = 50;
     private float rotation = 0;
 
     public Bullet(Texture texture, SoulKnight game, Vector2 position, Vector2 direction) {
@@ -20,6 +23,10 @@ public class Bullet extends Sprite {
         setPosition(position.x, position.y);
         this.direction = direction;
         setSize(32, 32);
+    }
+
+    public int getDmg() {
+        return dmg;
     }
 
     public void update(float deltaTime){

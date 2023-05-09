@@ -12,10 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.game.entity.Bullet;
+import com.mygdx.soulknight.game.entity.*;
 import com.mygdx.soulknight.game.entity.Character;
-import com.mygdx.soulknight.game.entity.Player;
-import com.mygdx.soulknight.game.entity.Weapon;
 
 import java.util.ArrayList;
 
@@ -27,11 +25,12 @@ public class SoulKnight extends ApplicationAdapter {
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapTileLayer collisionLayer;
     private Player player;
-    private ArrayList<Bullet> bulletList;
+    private ArrayList<Character> monsterList;
 
     @Override
     public void create () {
-        bulletList = new ArrayList<Bullet>();
+        monsterList = new ArrayList<>();
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -47,6 +46,13 @@ public class SoulKnight extends ApplicationAdapter {
         player.addWeapon(weapon);
         player.setSize(32, 32);
 
+        for (int i = 0; i < 10; i++) {
+            Monster monster = new Monster(new Texture("bucket.png"), this);
+            Weapon monstorWeapon = new Weapon(null, this);
+            monster.addWeapon(monstorWeapon);
+            monsterList.add(monster);
+            monster.setSize(32, 32);
+        }
         // Set up the sprite batch
         batch = new SpriteBatch();
     }
@@ -74,7 +80,7 @@ public class SoulKnight extends ApplicationAdapter {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            player.getCurrentWeapon().attack();
+            player.attack();
         }
 
         camera.position.x = player.getX() + player.getWidth() /2;
@@ -85,19 +91,38 @@ public class SoulKnight extends ApplicationAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
+//        Update charecter position
         player.update(deltaTime);
-//        Check if a bullet is destroyed or not
-        ArrayList<Bullet> bulletsRemove = new ArrayList<Bullet>();
-        for (Bullet bullet : bulletList) {
-            bullet.update(deltaTime);
-//           If true, remove that bullet
-            if (bullet.handleCollideWithWall()) {
-                bulletsRemove.add(bullet);
+        for (Character monster : monsterList) {
+            monster.update(deltaTime);
+        }
+
+        handleBulletCollision(Player.BULLET_ARRAY_LIST, monsterList, deltaTime);
+        ArrayList<Character> playerArrayList = new ArrayList<>();
+        playerArrayList.add(player);
+        handleBulletCollision(Monster.BULLET_ARRAY_LIST, playerArrayList, deltaTime);
+
+//        Remove all monster has HP < 0
+        ArrayList<Character> monsterRemove = new ArrayList<>();
+        for (Character monster : monsterList) {
+            Monster temp = (Monster) monster;
+            if (temp.getHP() <= 0) {
+                monsterRemove.add(monster);
             }
         }
-        bulletList.removeAll(bulletsRemove);
+        monsterList.removeAll(monsterRemove);
 
-        for (Bullet bullet : bulletList) {
+        for (Character monster : monsterList) {
+            monster.attack();
+            monster.render();
+        }
+
+        for (Bullet bullet : Player.BULLET_ARRAY_LIST) {
+            bullet.render();
+        }
+
+        for (Bullet bullet : Monster.BULLET_ARRAY_LIST) {
             bullet.render();
         }
 
@@ -110,8 +135,25 @@ public class SoulKnight extends ApplicationAdapter {
 
     }
 
-    public void addBullet(Bullet bullet) {
-        bulletList.add(bullet);
+    public void handleBulletCollision(ArrayList<Bullet> bulletArrayList, ArrayList<Character> characterArrayList, float deltaTime) {
+        //        Check bullet shot from player
+        ArrayList<Bullet> bulletsRemove = new ArrayList<Bullet>();
+        for (Bullet bullet : bulletArrayList) {
+            bullet.update(deltaTime);
+//           If true, remove that bullet
+            if (bullet.handleCollideWithWall()) {
+                bulletsRemove.add(bullet);
+            }
+//            If collide with monster
+            for (Character character : characterArrayList) {
+                if (bullet.getBoundingRectangle().overlaps(character.getBoundingRectangle())) {
+                    character.getHit(bullet.getDmg());
+                    bulletsRemove.add(bullet);
+                    break;
+                }
+            }
+        }
+        bulletArrayList.removeAll(bulletsRemove);
     }
 
     public SpriteBatch getBatch() {
@@ -120,5 +162,9 @@ public class SoulKnight extends ApplicationAdapter {
 
     public TiledMapTileLayer getCollisionLayer() {
         return collisionLayer;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

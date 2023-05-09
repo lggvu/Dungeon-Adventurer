@@ -44,11 +44,12 @@ public class Weapon extends Sprite {
     public void update(float deltaTime) {
         this.elapsedSeconds += deltaTime;
     }
+
 //    When we have more weapon, we set attack function to an abstract class
-    public void attack() {
+    public void attack(Vector2 direction) {
         if (elapsedSeconds >= intervalSeconds) {
             elapsedSeconds = 0;
-            game.addBullet(new Bullet(new Texture("bullet.png"), game, new Vector2(owner.getX(), owner.getY()), owner.getDirection()));
+            owner.addBullet(new Bullet(new Texture("bullet.png"), game, new Vector2(owner.getX(), owner.getY()), direction));
         }
     }
 }
