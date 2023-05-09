@@ -8,12 +8,12 @@ import com.mygdx.soulknight.game.util.ReuseCode;
 
 import java.util.ArrayList;
 
-public class Monster extends Character {
+public class Monster extends AnimationCharecter {
 
     public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     private Vector2 moveDirection;
     public Monster(Texture texture, SoulKnight game) {
-        super(texture, game);
+        super(game, texture);
         this.moveDirection = new Vector2(headDirection.x, headDirection.y);
         while (true) {
             int x = MathUtils.random(game.getCollisionLayer().getWidth() - 1);
@@ -57,7 +57,7 @@ public class Monster extends Character {
                 int deg = MathUtils.random(-180, 180);
                 moveDirection = moveDirection.rotateDeg(deg).nor();
             } else {
-                setPosition(newX, newY);
+                move(moveDirection, deltaTime);
                 break;
             }
         }

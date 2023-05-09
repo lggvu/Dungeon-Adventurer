@@ -24,7 +24,7 @@ public abstract class Character extends Sprite {
         super(texture);
         this.weapons = new ArrayList<Weapon>();
         this.game = game;
-        setPosition(60,60);
+        setPosition(400,100);
     }
 
     public Character(Texture texture, SoulKnight game, int HP, int armor, float runSpeed) {

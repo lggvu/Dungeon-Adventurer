@@ -29,6 +29,7 @@ public class SoulKnight extends ApplicationAdapter {
 
     @Override
     public void create () {
+
         monsterList = new ArrayList<>();
 
         camera = new OrthographicCamera();
@@ -41,17 +42,19 @@ public class SoulKnight extends ApplicationAdapter {
 
         // Load the character texture and position
 //        character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
-        player = new Player(new Texture("bucket.png"), this);
+
+        player = new Player(new Texture("charecter.png"), this);
+
         Weapon weapon = new Weapon(null, this);
         player.addWeapon(weapon);
-        player.setSize(32, 32);
+        player.setSize(16, 32);
 
         for (int i = 0; i < 10; i++) {
-            Monster monster = new Monster(new Texture("bucket.png"), this);
+            Monster monster = new Monster(new Texture("charecter.png"), this);
             Weapon monstorWeapon = new Weapon(null, this);
             monster.addWeapon(monstorWeapon);
             monsterList.add(monster);
-            monster.setSize(32, 32);
+            monster.setSize(16, 32);
         }
         // Set up the sprite batch
         batch = new SpriteBatch();
@@ -63,20 +66,33 @@ public class SoulKnight extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
 
+        boolean keyPress = false;
+        Vector2 vectorMove = new Vector2(0,0);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            player.move(new Vector2(-1,0), deltaTime);
+            vectorMove.add(-1, 0);
+            keyPress = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            player.move(new Vector2(1,0), deltaTime);
+//            player.move(new Vector2(1,0), deltaTime);
+            vectorMove.add(1, 0);
+            keyPress = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            player.move(new Vector2(0,1), deltaTime);
+//            player.move(new Vector2(0,1), deltaTime);
+            vectorMove.add(0,1);
+            keyPress = true;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            player.move(new Vector2(0,-1), deltaTime);
+//            player.move(new Vector2(0,-1), deltaTime);
+            vectorMove.add(0, -1);
+            keyPress = true;
+        }
+
+        if (keyPress) {
+            player.move(vectorMove.nor(), deltaTime);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {

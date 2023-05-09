@@ -6,15 +6,12 @@ import com.mygdx.soulknight.game.SoulKnight;
 
 import java.util.ArrayList;
 
-public class Player extends Character {
+public class Player extends AnimationCharecter {
     public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     public Player(Texture texture, SoulKnight game) {
-        super(texture, game);
+        super(game, texture);
     }
 
-    public Player(Texture texture, SoulKnight game, int HP, int armor, float runSpeed) {
-        super(texture, game, HP, armor, runSpeed);
-    }
     public void addBullet(Bullet bullet) {
         BULLET_ARRAY_LIST.add(bullet);
     }
