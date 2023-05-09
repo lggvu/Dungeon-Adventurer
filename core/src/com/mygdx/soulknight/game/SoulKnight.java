@@ -35,9 +35,9 @@ public class SoulKnight extends ApplicationAdapter {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Load the map
-        tiledMap = new TmxMapLoader().load("second_map.tmx");
+        tiledMap = new TmxMapLoader().load("map/maps.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Collisions");
+        collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
 
         // Load the character texture and position
 //        character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
