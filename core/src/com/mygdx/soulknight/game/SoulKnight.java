@@ -35,7 +35,7 @@ public class SoulKnight extends ApplicationAdapter {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         // Load the map
-        tiledMap = new TmxMapLoader().load("map/maps.tmx");
+        tiledMap = new TmxMapLoader().load("maps.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
 
