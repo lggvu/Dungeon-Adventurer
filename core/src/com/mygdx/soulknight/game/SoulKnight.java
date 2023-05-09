@@ -130,6 +130,10 @@ public class SoulKnight extends ApplicationAdapter {
         batch.end();
     }
 
+    public ArrayList<Character> getMonsterList() {
+        return monsterList;
+    }
+
     @Override
     public void dispose () {
 
