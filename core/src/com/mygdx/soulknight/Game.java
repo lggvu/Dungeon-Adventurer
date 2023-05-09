@@ -30,7 +30,7 @@ public class Game extends ApplicationAdapter {
 		// Load the map
 		tiledMap = new TmxMapLoader().load("maps.tmx");
 		mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Collisions");
+		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Wall");
 
 	}
 
