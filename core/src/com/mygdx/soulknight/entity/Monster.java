@@ -8,7 +8,7 @@ import com.mygdx.soulknight.util.ReuseCode;
 
 import java.util.ArrayList;
 
-public class Monster extends AnimationCharecter {
+public class Monster extends AnimationCharacter {
 
     public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     private Vector2 moveDirection;

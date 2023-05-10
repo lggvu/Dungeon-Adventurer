@@ -6,7 +6,7 @@ import com.mygdx.soulknight.SoulKnight;
 
 import java.util.ArrayList;
 
-public class Player extends AnimationCharecter {
+public class Player extends AnimationCharacter {
     public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     public Player(Texture texture, SoulKnight game) {
         super(game, texture);

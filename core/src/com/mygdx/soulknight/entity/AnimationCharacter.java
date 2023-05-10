@@ -9,7 +9,7 @@ import com.mygdx.soulknight.util.ReuseCode;
 
 import java.util.HashMap;
 
-public abstract class AnimationCharecter extends Character {
+public abstract class AnimationCharacter extends Character {
     private static final float ANIMATION_SPEED = 0.1f;
     private TextureRegion[][] allTexture;
     private HashMap<Integer, Integer> degree2AnimationID;
@@ -18,7 +18,7 @@ public abstract class AnimationCharecter extends Character {
     private TextureRegion currentTextureRegion;
     private int frame_cols = 8;
     private int frame_rows = 8;
-    public AnimationCharecter(SoulKnight game, Texture texture) {
+    public AnimationCharacter(SoulKnight game, Texture texture) {
         super(texture, game);
         degree2AnimationID = new HashMap<>();
         Texture walkSheet = getTexture();
