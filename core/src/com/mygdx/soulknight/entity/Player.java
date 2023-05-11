@@ -7,10 +7,15 @@ import com.mygdx.soulknight.SoulKnight;
 import java.util.ArrayList;
 
 public class Player extends AnimationCharacter {
-    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
-    public Player(Texture texture, SoulKnight game) {
-        super(game, texture);
+
+    public Player(SoulKnight game, String texturePath, String characterName) {
+        super(game, texturePath, characterName);
     }
+
+    public Player(SoulKnight game, String texturePath, String characterName, int HP, int armor, float runSpeed) {
+        super(game, texturePath, characterName, HP, armor, runSpeed);
+    }
+    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
 
     public void addBullet(Bullet bullet) {
         BULLET_ARRAY_LIST.add(bullet);

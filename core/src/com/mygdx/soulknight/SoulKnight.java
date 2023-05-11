@@ -11,9 +11,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.*;
 import com.mygdx.soulknight.entity.Character;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 
@@ -43,14 +45,17 @@ public class SoulKnight extends ApplicationAdapter {
         // Load the character texture and position
 //        character = new Character(new Texture("bucket.png"), tiledMap,"Collisions");
 
-        player = new Player(new Texture("character.png"), this);
+        player = new Player(this,"character/img2.png", "young");
 
         Weapon weapon = new Weapon(null, this);
         player.addWeapon(weapon);
         player.setSize(16, 32);
 
+
+        ArrayList<String> names = SpriteLoader.getCharacterNameFromImage("character/img1.png");
         for (int i = 0; i < 10; i++) {
-            Monster monster = new Monster(new Texture("character.png"), this);
+            int random = MathUtils.random(names.size() - 1);
+            Monster monster = new Monster(this, "character/img1.png", names.get(random));
             Weapon monsterWeapon = new Weapon(null, this);
             monster.addWeapon(monsterWeapon);
             monsterList.add(monster);

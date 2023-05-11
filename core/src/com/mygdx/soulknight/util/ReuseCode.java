@@ -28,14 +28,4 @@ public class ReuseCode {
 
         return true;
     }
-
-    public static TextureRegion[][] splitTexture(Texture texture, int width, int height, int gapWidth, int gapHeight, int frame_cols, int frame_rows) {
-        TextureRegion[][] textureRegions = new TextureRegion[frame_rows][frame_cols];
-        for (int i = 0; i < frame_rows; i++) {
-            for (int j = 0; j < frame_cols; j++) {
-                textureRegions[i][j] = new TextureRegion(texture, (gapWidth + width) * j, (gapHeight + height) * i, width, height);
-            }
-        }
-        return textureRegions;
-    }
 }

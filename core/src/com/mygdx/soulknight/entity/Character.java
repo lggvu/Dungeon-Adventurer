@@ -19,15 +19,15 @@ public abstract class Character extends Sprite {
     private ArrayList<Weapon> weapons;
     private int currentWeapon = 0;
 
-    public Character(Texture texture, SoulKnight game) {
-        super(texture);
+    public Character(SoulKnight game, String texturePath) {
+        super(new Texture(texturePath));
         this.weapons = new ArrayList<Weapon>();
         this.game = game;
         setPosition(400,100);
     }
 
-    public Character(Texture texture, SoulKnight game, int HP, int armor, float runSpeed) {
-        this(texture, game);
+    public Character(SoulKnight game, String texturePath, int HP, int armor, float runSpeed) {
+        this(game, texturePath);
         this.HP = HP;
         this.armor = armor;
         this.runSpeed = runSpeed;

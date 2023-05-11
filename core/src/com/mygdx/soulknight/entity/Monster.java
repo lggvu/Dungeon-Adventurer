@@ -12,8 +12,8 @@ public class Monster extends AnimationCharacter {
 
     public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     private Vector2 moveDirection;
-    public Monster(Texture texture, SoulKnight game) {
-        super(game, texture);
+    public Monster(SoulKnight game, String texturePath, String characterName) {
+        super(game, texturePath, characterName);
         this.moveDirection = new Vector2(headDirection.x, headDirection.y);
         while (true) {
             int x = MathUtils.random(game.getCollisionLayer().getWidth() - 1);
@@ -30,8 +30,8 @@ public class Monster extends AnimationCharacter {
         this.armor = 0;
     }
 
-    public Monster(Texture texture, SoulKnight game, int HP, int armor, float runSpeed) {
-        this(texture, game);
+    public Monster(SoulKnight game, String texturePath, String characterName, int HP, int armor, float runSpeed) {
+        super(game, texturePath, characterName, HP, armor, runSpeed);
         this.HP = HP;
         this.runSpeed = runSpeed;
         this.mana = Integer.MAX_VALUE;
