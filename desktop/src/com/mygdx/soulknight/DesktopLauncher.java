@@ -11,6 +11,11 @@ public class DesktopLauncher {
         config.setTitle("My Game");
         config.setWindowedMode(800, 480);
         new Lwjgl3Application(new MyGdxGame(), config);
+        /*
+        asdw to move
+        space to shoot
+        f to collect gun
+        */
     }
     
 }
