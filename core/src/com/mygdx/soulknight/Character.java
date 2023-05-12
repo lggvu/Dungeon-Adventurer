@@ -1,27 +1,32 @@
 package com.mygdx.soulknight;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 public class Character extends Sprite {
-	protected Texture texture =new Texture("bucket.png");
+	protected Texture texture = new Texture("bucket.png");
 	protected int HP = 100;
 	protected int armor = 100;
-	
-	private TiledMapTileLayer collisionLayer;
-	public Character(Texture texture, TiledMap tiledMap, String collisionLayerName) {
+	protected Vector2 position = new Vector2(32, 32); 
+	protected int speed = 200;
+	protected Gun gun;
+	protected MyGdxGame game;
+		
+	public Character(Texture texture, MyGdxGame game) {
 		super(texture);
-		// Set the initial position, size, and appearance of the character
-		setPosition(60, 60);
-//		setSize(4, 4);
-		setOrigin(getWidth() / 2, getHeight() / 2);
-		setColor(1, 1, 1, 1);
-		// Initialize the bounding box of the character
-//		bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		// Initialize the tiled map and collision layer
-		this.collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(collisionLayerName);
+		this.setSize(this.getWidth(), this.getHeight());
+		this.game = game;
+//		this.game.getthis.game.getCollisionLayer()() = this.game.getthis.game.getCollisionLayer()();
+//		this.game.getGuns() = this.game.getGuns();
+		this.gun = new Gun("4", this);		
 	}
 	public Texture getTexture() {
 		return texture;
@@ -30,45 +35,113 @@ public class Character extends Sprite {
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
-	public void move(float deltaX, float deltaY) {
-		float overlapW = collisionLayer.getTileWidth()/12f;
-		float overlapH = collisionLayer.getTileHeight()/12f;
-		if (deltaX!=0 || deltaY!=0){
-
-
-			float resX = getX();
-			float resY = getY();
-			float newX = getX() + deltaX;
-			float newY = getY() + deltaY;
-			// Calculate the tile coordinates of the sprite at the new position
-			int righttileX = (int) Math.ceil((newX-overlapW) / collisionLayer.getTileWidth());
-			int lefttileX = (int) Math.floor((newX+overlapW) / collisionLayer.getTileWidth());
-			int toptileY = (int) Math.ceil((newY-overlapH) / collisionLayer.getTileHeight());
-			int bottomtileY = (int) Math.floor((newY+overlapH) / collisionLayer.getTileHeight());
-			// Check if the sprite collides with any cell in the collision layer
-			TiledMapTileLayer.Cell cell = collisionLayer.getCell(lefttileX, toptileY);
-			TiledMapTileLayer.Cell cell1 = collisionLayer.getCell(lefttileX, bottomtileY);
-			TiledMapTileLayer.Cell cell2 = collisionLayer.getCell(righttileX, toptileY);
-			TiledMapTileLayer.Cell cell3 = collisionLayer.getCell(righttileX, bottomtileY);
-
-//		System.out.println("location"+newX+newY);
-			if (cell == null & cell1 == null& cell2 == null& cell3 == null) {
-				resX = newX;
-				resY = newY;
-				setPosition(resX, resY);
-			} else {
-				System.out.println("tile"+ righttileX + lefttileX+ toptileY +bottomtileY);
-				System.out.println("character size"+ getHeight()+getWidth());
-				System.out.println("tile size"+ collisionLayer.getTileWidth()+collisionLayer.getTileWidth());
-				setPosition(resX, resY);
+	
+	public void update(float deltaTime) {
+		if (Gdx.input.isKeyPressed(Keys.A) && !checkCollision("left", deltaTime)) {
+			position.x-=deltaTime*speed;
+			this.setFlip(true, false);
+		}
+		if (Gdx.input.isKeyPressed(Keys.D) && !checkCollision("right", deltaTime)) {
+			position.x+=deltaTime*speed;
+			this.setFlip(false, false);
+		}
+		if (Gdx.input.isKeyPressed(Keys.S) && !checkCollision("down", deltaTime)) {
+			position.y-=deltaTime*speed;
+		}
+		if (Gdx.input.isKeyPressed(Keys.W) && !checkCollision("up", deltaTime)) {
+			position.y+=deltaTime*speed;
+		}
+		if (Gdx.input.isKeyPressed(Keys.SPACE) && this.gun != null) {			
+			this.gun.fire();
+		}
+		
+		Gun g = this.collectGun();
+		this.game.setConsiderGun(g);
+	
+		if (g != null && Gdx.input.isKeyJustPressed(Keys.F)) {
+			if (this.gun != null) {
+				this.game.addGun(new Gun(this.gun.getName(), g.getX(), g.getY()));
+			}
+			this.gun = new Gun(g.getName(), this);		
+			this.game.removeGun(g);
+		};		
+	}
+	
+	public void Draw(SpriteBatch batch) {
+		update(Gdx.graphics.getDeltaTime());
+		this.setPosition(position.x, position.y);
+		if (!this.isFlipX()) {
+			this.draw(batch);
+			if (this.gun != null) {
+				gun.Draw(batch);
 			}
 		}
+		else {
+			if (this.gun != null) {
+				gun.Draw(batch);
+			}
+			this.draw(batch);
 		}
-	public boolean check_collision(float x, float y){
-		int cell_X= (int) Math.ceil(x/collisionLayer.getTileWidth());
-		int cell_Y=(int) Math.ceil(y/collisionLayer.getTileHeight());
-		return collisionLayer.getCell(cell_X, cell_Y) != null;
 	}
+	
+	public boolean checkCollision(String dir, float deltaTime){
+		float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+		
+		if (dir.equals("left")) {
+			x1 = position.x + this.getWidth()/4 - deltaTime*speed;
+			y1 = position.y + this.getHeight()/2;
+			x2 = position.x + this.getWidth()/4 - deltaTime*speed;
+			y2 = position.y;
+		}
+		if (dir.equals("right")) {
+			x1 = position.x + 3*this.getWidth()/4 + deltaTime*speed;
+			y1 = position.y + this.getHeight()/2;
+			x2 = position.x + 3*this.getWidth()/4 + deltaTime*speed;
+			y2 = position.y;
+		}
+		if (dir.equals("down")) {
+			x1 = position.x + this.getWidth()/4;
+			y1 = position.y - deltaTime*speed;
+			x2 = position.x + 3*this.getWidth()/4;
+			y2 = position.y - deltaTime*speed;
+		}
+		if (dir.equals("up")) {
+			x1 = position.x + this.getWidth()/4;
+			y1 = position.y + this.getHeight()/2 + deltaTime*speed;
+			x2 = position.x + 3*this.getWidth()/4;
+			y2 = position.y + this.getHeight()/2 + deltaTime*speed;
+		}
+		
+		if (this.game.getCollisionLayer().getCell((int) x1/this.game.getCollisionLayer().getTileWidth(), (int) y1/this.game.getCollisionLayer().getTileHeight()) != null || 
+				this.game.getCollisionLayer().getCell((int) x2/this.game.getCollisionLayer().getTileWidth(), (int) y2/this.game.getCollisionLayer().getTileHeight()) != null) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isOverlap(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
+		return ((x1 <= x2 && x2 < x1 + w1) ||
+			   (x2 <= x1 && x1 < x2 + w2)) &&
+			   ((y1 <= y2 && y2 < y1 + h1) ||
+			   (y2 <= y1 && y1 < y2 + h2));
+	}
+	
+	public Gun collectGun() {
+		float x = this.getX();
+		float y = this.getY();
+
+		for (Gun g: this.game.getGuns()) {
+			if (this.isOverlap(x, y, this.getWidth(), this.getHeight(), g.getX(), g.getY(), g.getWidth(), g.getHeight())) {
+				return g;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+
 	public void getHit(int dmg) {
 		if (this.armor > dmg) {
 			this.armor -= dmg;
@@ -87,8 +160,9 @@ public class Character extends Sprite {
 	public int getArmor() {
 		return armor;
 	}
-    
-	
+	public TiledMapTileLayer getCollisionLayer() {
+		return this.game.getCollisionLayer();
+	}
 }
 
 

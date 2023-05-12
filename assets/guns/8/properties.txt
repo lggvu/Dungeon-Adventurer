@@ -1,0 +1,8 @@
+damage:3
+energy_cost:1
+precision:1
+bullets_per_time:1
+attack_speed:0.3
+range:400
+critical_rate:0.25
+bullet_speed:600
