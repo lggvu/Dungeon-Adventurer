@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
@@ -24,6 +25,7 @@ public abstract class Character extends Sprite {
         this.weapons = new ArrayList<Weapon>();
         this.game = game;
         setPosition(400,100);
+//        Polygon
     }
 
     public Character(SoulKnight game, String texturePath, int HP, int armor, float runSpeed) {

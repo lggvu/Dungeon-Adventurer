@@ -1,16 +1,12 @@
 package com.mygdx.soulknight.util;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import java.nio.file.Paths;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -18,14 +14,12 @@ public class SpriteLoader {
     private int imgCharacterWidth, imgCharacterHeight;
     private int frameCols, frameRows;
     private HashMap<Integer, Integer> degree2AnimationID;
-    private static final String storageFolder = Paths.get(Gdx.files.getLocalStoragePath(), "assets").toString();
     private TextureRegion[][] textureRegions;
     public static final float ANIMATION_SPEED = 0.1f;
     public SpriteLoader(String sourceImage, String characterName, String infoPath) {
         this.degree2AnimationID = new HashMap<>();
-        infoPath = Paths.get(storageFolder, infoPath).toString();
         try {
-            JsonObject json = new Gson().fromJson(new FileReader(infoPath), JsonObject.class);
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
             JsonObject source = json.get(sourceImage).getAsJsonObject();
             int gapWidth = source.get("gapWidth").getAsInt();
             int gapHeight = source.get("gapHeight").getAsInt();
@@ -53,9 +47,8 @@ public class SpriteLoader {
 
     public static ArrayList<String> getCharacterNameFromImage(String sourceImage, String infoPath) {
         ArrayList<String> result = new ArrayList<>();
-        infoPath = Paths.get(storageFolder, infoPath).toString();
         try {
-            JsonObject characters = new Gson().fromJson(new FileReader(infoPath), JsonObject.class).get(sourceImage).getAsJsonObject().get("character").getAsJsonObject();
+            JsonObject characters = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class).get(sourceImage).getAsJsonObject().get("character").getAsJsonObject();
             for (String key : characters.keySet()) {
                 result.add(key);
             }
