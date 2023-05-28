@@ -21,8 +21,9 @@ public class Monster extends AnimationCharacter {
 
             if (game.getCollisionLayer().getCell(x, y) == null) {
                 Vector2 position = new Vector2(x * game.getCollisionLayer().getTileWidth(), y * game.getCollisionLayer().getTileHeight());
-                this.setX(position.x);
-                this.setY(position.y);
+//                this.setX(position.x);
+//                this.setY(position.y);
+                setPosition(400,100);
                 break;
             }
         }
