@@ -147,7 +147,7 @@ public class MainGameScreen extends ScreenAdapter {
                 noMonsterLeft = false;
             }
         }
-        if (noMonsterLeft) {
+        if (noMonsterLeft || player.getCurrentHP() <= 0) {
             game.setScreen(new MenuScreen(game));
             game.resetBatch();
             this.dispose();

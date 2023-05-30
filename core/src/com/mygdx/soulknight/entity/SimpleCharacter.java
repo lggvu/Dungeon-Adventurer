@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.screen.MainGameScreen;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 public abstract class SimpleCharacter {
     protected TextureRegion texture;
+    protected SpriteLoader spriteLoader;
     protected int maxHP = 10;
+    private float stateTime = 0f;
     protected int currentHP = 10;
     protected float x = 30;
     protected float y = 30;
@@ -42,7 +45,9 @@ public abstract class SimpleCharacter {
     }
 
     public SimpleCharacter (MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height, int hp, float speedRun) {
-        texture = new TextureRegion(new Texture(texturePath));
+        spriteLoader = new SpriteLoader("character/img1.png", "king");
+        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+//        texture = new TextureRegion(new Texture(texturePath));
         this.gameScreen = gameScreen;
         setPosition(x, y);
         setSize(width, height);
@@ -56,13 +61,15 @@ public abstract class SimpleCharacter {
 
     public void move(float x, float y) {
         lastMoveDirection = new Vector2(x, y).nor();
+        stateTime += deltaTime;
 
         float degree = lastMoveDirection.angleDeg(currentHeadDirection);
         if (degree > 90 && degree < 270) {
-            texture.flip(true, false);
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
+//            texture.flip(true, false);
         }
 
+        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
 
         x = lastMoveDirection.x;
         y = lastMoveDirection.y;
