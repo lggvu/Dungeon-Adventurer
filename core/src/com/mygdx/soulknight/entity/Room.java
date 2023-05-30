@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity1;
+package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -42,7 +42,7 @@ public class Room {
                         float x = MathUtils.random(roomRectangle.getX(), roomRectangle.getX() + roomRectangle.getWidth());
                         float y = MathUtils.random(roomRectangle.getY(), roomRectangle.getY() + roomRectangle.getHeight());
                         Monster monster = new Monster(gameScreen);
-                        monster.setWeapon(new Gun(monster, 180f));
+                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
                         monster.setPosition(x, y);
 
                         boolean noCollision = true;

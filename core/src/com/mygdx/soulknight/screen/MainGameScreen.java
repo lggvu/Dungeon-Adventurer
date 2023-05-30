@@ -20,7 +20,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.soulknight.entity1.*;
+import com.mygdx.soulknight.entity.*;
 
 import java.util.ArrayList;
 
@@ -50,6 +50,7 @@ public class MainGameScreen extends ScreenAdapter {
 
         player = new Player(this);
         player.addWeapon(new Gun(player));
+        player.addWeapon(new Gun(player, "weapon/weapon1.png"));
 
         rooms = new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
@@ -84,6 +85,10 @@ public class MainGameScreen extends ScreenAdapter {
         if (moveDirection.x != 0 || moveDirection.y != 0) {
             moveDirection = moveDirection.nor();
             player.move(moveDirection.x, moveDirection.y);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            player.switchWeapon();
         }
 
         //        Update screen
@@ -136,6 +141,19 @@ public class MainGameScreen extends ScreenAdapter {
 
         handleBulletCollision();
 
+        boolean noMonsterLeft = true;
+        for (Room room : rooms) {
+            if (room.getMonsterAlive().size() > 0) {
+                noMonsterLeft = false;
+            }
+        }
+        if (noMonsterLeft) {
+            game.setScreen(new MenuScreen(game));
+            game.resetBatch();
+            this.dispose();
+            return;
+        }
+
         camera.position.x = player.getX() + player.getWidth() / 2;
         camera.position.y = player.getY() + player.getHeight() / 2;
 
@@ -161,16 +179,7 @@ public class MainGameScreen extends ScreenAdapter {
             room.draw(game.getBatch());
         }
 
-        boolean noMonsterLeft = true;
-        for (Room room : rooms) {
-            if (room.getMonsterAlive().size() > 0) {
-                noMonsterLeft = false;
-            }
-        }
-        if (noMonsterLeft) {
-            game.setScreen(new MenuScreen(game));
-            this.dispose();
-        }
+
 
         game.getBatch().end();
         if (!noMonsterLeft) {

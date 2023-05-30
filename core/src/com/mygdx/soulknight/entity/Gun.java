@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity1;
+package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +15,19 @@ public class Gun extends Weapon {
 
     public Gun(SimpleCharacter owner, float bulletSpeed) {
         super(owner);
+        this.bulletSpeed = bulletSpeed;
+    }
+
+    public Gun(SimpleCharacter owner, String texturePath) {
+        super(owner, texturePath);
+    }
+
+    public Gun(SimpleCharacter owner, String texturePath, float intervalSeconds) {
+        super(owner, texturePath, intervalSeconds);
+    }
+
+    public Gun(SimpleCharacter owner, String texturePath, float intervalSeconds, float bulletSpeed) {
+        super(owner, texturePath, intervalSeconds);
         this.bulletSpeed = bulletSpeed;
     }
 

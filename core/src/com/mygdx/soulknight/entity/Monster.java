@@ -1,73 +1,52 @@
 package com.mygdx.soulknight.entity;
 
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.SoulKnight;
-import com.mygdx.soulknight.util.ReuseCode;
+import com.mygdx.soulknight.screen.MainGameScreen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Monster extends AnimationCharacter {
+public class Monster extends SimpleCharacter {
 
-    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
-    private Vector2 moveDirection;
-    public Monster(SoulKnight game, String texturePath, String characterName) {
-        super(game, texturePath, characterName);
-        this.moveDirection = new Vector2(headDirection.x, headDirection.y);
-        while (true) {
-            int x = MathUtils.random(game.getCollisionLayer().getWidth() - 1);
-            int y = MathUtils.random(game.getCollisionLayer().getHeight() - 1);
+    Weapon weapon;
 
-            if (game.getCollisionLayer().getCell(x, y) == null) {
-                Vector2 position = new Vector2(x * game.getCollisionLayer().getTileWidth(), y * game.getCollisionLayer().getTileHeight());
-//                this.setX(position.x);
-//                this.setY(position.y);
-                setPosition(400,100);
-                break;
-            }
-        }
-        this.mana = Integer.MAX_VALUE;
-        this.armor = 0;
+    public Monster(MainGameScreen gameScreen) {
+        super(gameScreen, "heros/monster-1.png");
+        setSpeedRun(120f);
     }
 
-    public Monster(SoulKnight game, String texturePath, String characterName, int HP, int armor, float runSpeed) {
-        super(game, texturePath, characterName, HP, armor, runSpeed);
-        this.HP = HP;
-        this.runSpeed = runSpeed;
-        this.mana = Integer.MAX_VALUE;
-        this.armor = 0;
-    }
-
-    public void addBullet(Bullet bullet) {
-        BULLET_ARRAY_LIST.add(bullet);
-    }
-
-    public void removeAllBullet(ArrayList<Bullet> bulletsRemove) {
-        BULLET_ARRAY_LIST.removeAll(bulletsRemove);
+    @Override
+    public void getHit(int damage) {
+        currentHP -= damage;
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        float newX, newY;
         while (true) {
-            newX = getX() + deltaTime * moveDirection.x * runSpeed;
-            newY = getY() + deltaTime * moveDirection.y * runSpeed;
-            if (ReuseCode.isMapCollision(game, newX, newY)) {
-                int deg = MathUtils.random(-180, 180);
-                moveDirection = moveDirection.rotateDeg(deg).nor();
-            } else {
-                move(moveDirection, deltaTime);
+            float testX = getX() + lastMoveDirection.x * speedRun * deltaTime;
+            float testY = getY() + lastMoveDirection.y * speedRun * deltaTime;
+            if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                move(lastMoveDirection.x, lastMoveDirection.y);
                 break;
             }
+            lastMoveDirection = new Vector2(MathUtils.random(-10, 10), MathUtils.random(-10, 10)).nor();
         }
-
     }
+
     @Override
-    public void attack() {
-        Vector2 currentPlayerPosition = new Vector2(game.getPlayer().getX(), game.getPlayer().getY());
-        Vector2 shotDirection = currentPlayerPosition.sub(getX(), getY()).nor();
-        getCurrentWeapon().attack(shotDirection);
+    public void attack(Vector2 direction) {
+        weapon.attack(direction);
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }

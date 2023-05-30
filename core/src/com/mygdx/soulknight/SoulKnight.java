@@ -15,9 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.*;
-import com.mygdx.soulknight.entity.Character;
 import com.mygdx.soulknight.screen.MenuScreen;
-import com.mygdx.soulknight.util.SpriteLoader;
+
 
 import java.util.ArrayList;
 
@@ -164,26 +163,26 @@ public class SoulKnight extends Game {
 
     }
 
-    public void handleBulletCollision(ArrayList<Bullet> bulletArrayList, ArrayList<Character> characterArrayList, float deltaTime) {
-        //        Check bullet shot from player
-        ArrayList<Bullet> bulletsRemove = new ArrayList<Bullet>();
-        for (Bullet bullet : bulletArrayList) {
-            bullet.update(deltaTime);
-//           If true, remove that bullet
-            if (bullet.handleCollideWithWall()) {
-                bulletsRemove.add(bullet);
-            }
-//            If collide with monster
-            for (Character character : characterArrayList) {
-                if (bullet.getBoundingRectangle().overlaps(character.getBoundingRectangle())) {
-                    character.getHit(bullet.getDmg());
-                    bulletsRemove.add(bullet);
-                    break;
-                }
-            }
-        }
-        bulletArrayList.removeAll(bulletsRemove);
-    }
+//    public void handleBulletCollision(ArrayList<Bullet> bulletArrayList, ArrayList<Character> characterArrayList, float deltaTime) {
+//        //        Check bullet shot from player
+//        ArrayList<Bullet> bulletsRemove = new ArrayList<Bullet>();
+//        for (Bullet bullet : bulletArrayList) {
+//            bullet.update(deltaTime);
+////           If true, remove that bullet
+//            if (bullet.handleCollideWithWall()) {
+//                bulletsRemove.add(bullet);
+//            }
+////            If collide with monster
+//            for (Character character : characterArrayList) {
+//                if (bullet.getBoundingRectangle().overlaps(character.getBoundingRectangle())) {
+//                    character.getHit(bullet.getDmg());
+//                    bulletsRemove.add(bullet);
+//                    break;
+//                }
+//            }
+//        }
+//        bulletArrayList.removeAll(bulletsRemove);
+//    }
 
     public SpriteBatch getBatch() {
         return batch;
@@ -195,5 +194,9 @@ public class SoulKnight extends Game {
 
     public Player getPlayer() {
         return player;
+    }
+    public void resetBatch() {
+        batch.dispose();
+        batch = new SpriteBatch();
     }
 }

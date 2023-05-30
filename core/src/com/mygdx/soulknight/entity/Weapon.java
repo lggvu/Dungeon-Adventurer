@@ -2,27 +2,36 @@ package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
 
-public class Weapon extends Sprite {
+import java.util.ArrayList;
+
+public abstract class Weapon {
+//    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
+
     private static int ID = 1;
     private int weaponID;
-    private float elapsedSeconds = 1;
-    private float intervalSeconds = 0.5f;
-    private Character owner;
-    private SoulKnight game;
-
-    public Weapon(Texture texture, SoulKnight game) {
-//        super(texture);
-        weaponID = ID++;
-        this.game = game;
+    protected float elapsedSeconds = 1;
+    protected float intervalSeconds = 0.5f;
+    protected SimpleCharacter owner;
+    protected float rangeWeapon = 1000f;
+    protected Texture texture;
+    public Weapon(SimpleCharacter owner) {
+        this(owner, "weapon/weapon.png");
     }
 
-    public Weapon(Texture texture, SoulKnight game, float elapsedSeconds, float intervalSeconds) {
-        this(texture, game);
-        this.elapsedSeconds = elapsedSeconds;
+    public Weapon(SimpleCharacter owner, String texturePath) {
+        this(owner, texturePath, 0.5f);
+    }
+
+    public Weapon(SimpleCharacter owner, String texturePath, float intervalSeconds) {
+        this.texture = new Texture(texturePath);
         this.intervalSeconds = intervalSeconds;
+        this.elapsedSeconds = intervalSeconds;
+        this.owner = owner;
+        weaponID = ID++;
     }
 
     public void reset() {
@@ -37,7 +46,7 @@ public class Weapon extends Sprite {
         return false;
     }
 
-    public void setOwner(Character owner) {
+    public void setOwner(SimpleCharacter owner) {
         this.owner = owner;
     }
 
@@ -45,11 +54,19 @@ public class Weapon extends Sprite {
         this.elapsedSeconds += deltaTime;
     }
 
-//    When we have more weapon, we set attack function to an abstract class
-    public void attack(Vector2 direction) {
+    //    When we have more weapon, we set attack function to an abstract class
+    public abstract void attack(Vector2 direction);
+    public abstract void draw(SpriteBatch batch);
+
+    protected boolean isAllowedAttack() {
         if (elapsedSeconds >= intervalSeconds) {
             elapsedSeconds = 0;
-            owner.addBullet(new Bullet(new Texture("bullet.png"), game, new Vector2(owner.getX(), owner.getY()), direction));
+            return true;
         }
+        return false;
+    }
+
+    public float getRangeWeapon() {
+        return rangeWeapon;
     }
 }

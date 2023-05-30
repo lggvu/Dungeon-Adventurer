@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity1;
+package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
