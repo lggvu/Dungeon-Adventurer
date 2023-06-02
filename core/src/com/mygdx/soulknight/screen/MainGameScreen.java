@@ -56,7 +56,6 @@ public class MainGameScreen extends ScreenAdapter {
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
-
     }
 
     @Override
@@ -115,7 +114,7 @@ public class MainGameScreen extends ScreenAdapter {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || true) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (roomPlayerIn != null) {
                 float minDst = Float.MAX_VALUE;
                 Vector2 minPos = null;
@@ -178,8 +177,6 @@ public class MainGameScreen extends ScreenAdapter {
         for (Room room : rooms) {
             room.draw(game.getBatch());
         }
-
-
 
         game.getBatch().end();
         if (!noMonsterLeft) {

@@ -12,6 +12,7 @@ import com.mygdx.soulknight.screen.MainGameScreen;
 import java.util.ArrayList;
 
 public class Room {
+    private int numOfMonsters=4;
     private MapLayer layer;
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
@@ -32,7 +33,7 @@ public class Room {
             }
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numOfMonsters; i++) {
 
             for (MapObject mapObject : layer.getObjects()) {
                 if (mapObject instanceof RectangleMapObject) {
@@ -113,6 +114,7 @@ public class Room {
     }
 
     public void update(float deltaTime) {
+
         if (combat) {
             ArrayList<Monster> monstersKilled = new ArrayList<>();
             for (Monster monster : monsterAlive) {
@@ -120,8 +122,10 @@ public class Room {
                     monstersKilled.add(monster);
                     continue;
                 }
-                monster.update(deltaTime);
-                monster.attack(new Vector2(player.getX(),player.getY()).sub(monster.getX(), monster.getY()).nor());
+                // if monster position is N tiles far away from the player, call the update method
+                float distance = (float) Math.sqrt(Math.pow(player.getX() - monster.getX(), 2) + Math.pow(player.getY() - monster.getY(),2));
+                monster.update(deltaTime, player.getX(), player.getY());
+//                monster.attack(new Vector2(player.getX(),player.getY()).sub(monster.getX(), monster.getY()).nor());
 
                 Weapon weapon = monster.getWeapon();
                 weapon.update(deltaTime);

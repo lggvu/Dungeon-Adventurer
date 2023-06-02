@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.*;
+import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.screen.MenuScreen;
 
 
@@ -64,7 +65,7 @@ public class SoulKnight extends Game {
 //        }
         // Set up the sprite batch
         batch = new SpriteBatch();
-        this.setScreen(new MenuScreen(this));
+        this.setScreen(new MainGameScreen(this));
     }
 
     @Override

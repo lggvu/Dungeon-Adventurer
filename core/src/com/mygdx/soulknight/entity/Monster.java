@@ -10,12 +10,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Monster extends SimpleCharacter {
-
+    float attackRadius = 200;
     Weapon weapon;
+    float speedWhenIdle = this.speedRun/10; // The speed that monster will move when cannot approach the player
 
     public Monster(MainGameScreen gameScreen) {
         super(gameScreen, "heros/monster-1.png");
-        setSpeedRun(120f);
+        setSpeedRun(20f);
+    }
+
+    public float getAttackRadius() {
+        return attackRadius;
+    }
+
+    public void setAttackRadius(float attackRadius) {
+        this.attackRadius = attackRadius;
     }
 
     @Override
@@ -23,18 +32,46 @@ public class Monster extends SimpleCharacter {
         currentHP -= damage;
     }
 
-    @Override
-    public void update(float deltaTime) {
+//    @Override
+//    public void update(float deltaTime) {
+//        super.update(deltaTime);
+//        while (true) {
+//            float testX = getX() + lastMoveDirection.x * speedRun * deltaTime;
+//            float testY = getY() + lastMoveDirection.y * speedRun * deltaTime;
+//            if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+//                move(lastMoveDirection.x, lastMoveDirection.y);
+//                break;
+//            }
+//            lastMoveDirection = new Vector2(MathUtils.random(-10, 10), MathUtils.random(-10, 10)).nor();
+//        }
+//    }
+    public void update(float deltaTime, float playerX, float playerY) {
+        // The monster will chase the player if the player is in the attack radius
         super.update(deltaTime);
-        while (true) {
-            float testX = getX() + lastMoveDirection.x * speedRun * deltaTime;
-            float testY = getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
-                move(lastMoveDirection.x, lastMoveDirection.y);
-                break;
+        float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
+        if (distance <= this.attackRadius) {
+            Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
+            if (direction.x != 0 || direction.y != 0) {
+                move(direction.x, direction.y);
             }
-            lastMoveDirection = new Vector2(MathUtils.random(-10, 10), MathUtils.random(-10, 10)).nor();
+            this.attack(direction);
+
         }
+        else {
+            // The monster will move randomly if the player is not in the attack radius
+            while (true) {
+                float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
+                float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
+                if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                    move(lastMoveDirection.x, lastMoveDirection.y);
+                    break;
+                }
+                this.setSpeedRun(this.speedWhenIdle);
+                lastMoveDirection = new Vector2(MathUtils.random(-10, 10), MathUtils.random(-10, 10)).nor();
+
+            }
+        }
+
     }
 
     @Override
