@@ -31,7 +31,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     private Vector2 direction = new Vector2(1,0);
     private ArrayList<Bullet> monsterbullets = new ArrayList<Bullet>();
-    private ArrayList<Monster> monsters = new ArrayList<Monster>();
+//    private ArrayList<Monster> monsters = new ArrayList<Monster>();
     private float elapsedSeconds =0;
     private float intervalSeconds = 2; //Monster will shoot each 3 seconds
     private ArrayList<Gun> guns = new ArrayList<Gun>();
@@ -97,9 +97,9 @@ public class MyGdxGame extends ApplicationAdapter {
         for (Bullet bullet : bullets) {
             bullet.getTexture().dispose();
         }
-        for (Monster monster : monsters) {
-            monster.getTexture().dispose();
-        }
+//        for (Monster monster : monsters) {
+//            monster.getTexture().dispose();
+//        }
 
         spriteBatch.dispose();
     }
