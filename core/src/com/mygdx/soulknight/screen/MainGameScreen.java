@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.*;
+import com.mygdx.soulknight.util.WeaponLoader;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,9 @@ public class MainGameScreen extends ScreenAdapter {
         MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
 
         player = new Player(this);
-        player.addWeapon(new Gun(player));
-        player.addWeapon(new Gun(player, "weapon/weapon1.png"));
+        WeaponLoader weaponLoader = new WeaponLoader();
+        player.addWeapon(weaponLoader.load(player,"Gun 1"));
+        player.addWeapon(weaponLoader.load(player,"Gun 2"));
 
         rooms = new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
@@ -114,7 +116,7 @@ public class MainGameScreen extends ScreenAdapter {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || true) {
             if (roomPlayerIn != null) {
                 float minDst = Float.MAX_VALUE;
                 Vector2 minPos = null;

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Gun extends Weapon {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f;
-
+    private String bulletTexturePath = "bullet/bullet1.png";
     public Gun(SimpleCharacter owner) {
         super(owner);
     }
@@ -34,7 +34,7 @@ public class Gun extends Weapon {
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
-            bulletArrayList.add(new Bullet("bullet/bullet1.png", owner.getX(), owner.getY(), direction, bulletSpeed));
+            bulletArrayList.add(new Bullet(bulletTexturePath, owner.getX(), owner.getY(), direction, bulletSpeed));
         }
     }
 
@@ -49,5 +49,9 @@ public class Gun extends Weapon {
 
     public void setBulletSpeed(float bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
+    }
+
+    public void setBulletTexturePath(String bulletTexturePath) {
+        this.bulletTexturePath = bulletTexturePath;
     }
 }

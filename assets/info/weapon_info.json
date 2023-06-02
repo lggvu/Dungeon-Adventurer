@@ -1,0 +1,12 @@
+{
+    "Gun 1": {
+        "type": "Gun",
+        "gun_texture": "weapon/weapon.png",
+        "bullet_texture": "bullet/bullet1.png"
+    },
+    "Gun 2": {
+        "type": "Gun",
+        "gun_texture": "weapon/weapon1.png",
+        "bullet_texture": "bullet/bullet3.png"
+    }
+}

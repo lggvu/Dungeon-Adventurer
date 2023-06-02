@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.screen.MainGameScreen;
+import com.mygdx.soulknight.util.WeaponLoader;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class Room {
         this.layer = roomLayer;
         player = gameScreen.getPlayer();
         ArrayList<Rectangle> rectangles = new ArrayList<>();
+        WeaponLoader weaponLoader = new WeaponLoader();
+
         for (MapObject mapObject : gameScreen.getCollisionLayer().getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 rectangles.add(((RectangleMapObject) mapObject).getRectangle());
@@ -43,7 +46,13 @@ public class Room {
                         float x = MathUtils.random(roomRectangle.getX(), roomRectangle.getX() + roomRectangle.getWidth());
                         float y = MathUtils.random(roomRectangle.getY(), roomRectangle.getY() + roomRectangle.getHeight());
                         Monster monster = new Monster(gameScreen);
-                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
+
+                        Gun gun = (Gun) weaponLoader.load(monster, "Gun 1");
+                        gun.setBulletSpeed(120f);
+                        gun.setIntervalSeconds(2f);
+                        monster.setWeapon(gun);
+//                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
+
                         monster.setPosition(x, y);
 
                         boolean noCollision = true;

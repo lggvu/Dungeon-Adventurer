@@ -69,4 +69,8 @@ public abstract class Weapon {
     public float getRangeWeapon() {
         return rangeWeapon;
     }
+
+    public void setIntervalSeconds(float intervalSeconds) {
+        this.intervalSeconds = intervalSeconds;
+    }
 }
