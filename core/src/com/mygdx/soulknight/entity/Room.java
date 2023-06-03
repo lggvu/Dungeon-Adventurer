@@ -50,7 +50,7 @@ public class Room {
                         Gun gun = (Gun) weaponLoader.load(monster, "Gun 1");
                         gun.setBulletSpeed(120f);
                         gun.setIntervalSeconds(2f);
-                        monster.setWeapon(gun);
+                        monster.addWeapon(gun);
 //                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
 
                         monster.setPosition(x, y);
@@ -104,16 +104,10 @@ public class Room {
     public void draw(SpriteBatch batch) {
         for (Monster monster : monsterAlive) {
             monster.draw(batch);
-            Weapon weapon = monster.getWeapon();
-            weapon.draw(batch);
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.draw(batch);
-                }
-            }
         }
+
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getWeapon();
+            Weapon weapon = monster.getCurrentWeapon();
             if (weapon instanceof Gun) {
                 for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                     bullet.draw(batch);
@@ -136,14 +130,14 @@ public class Room {
                 monster.update(deltaTime, player.getX(), player.getY());
 //                monster.attack(new Vector2(player.getX(),player.getY()).sub(monster.getX(), monster.getY()).nor());
 
-                Weapon weapon = monster.getWeapon();
-                weapon.update(deltaTime);
-
-                if (weapon instanceof Gun) {
-                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                        bullet.update(deltaTime);
-                    }
-                }
+//                Weapon weapon = monster.getWeapon();
+//                weapon.update(deltaTime);
+//
+//                if (weapon instanceof Gun) {
+//                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+//                        bullet.update(deltaTime);
+//                    }
+//                }
             }
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);
@@ -154,7 +148,7 @@ public class Room {
         }
 
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getWeapon();
+            Weapon weapon = monster.getCurrentWeapon();
             if (weapon instanceof Gun) {
                 for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                     bullet.update(deltaTime);

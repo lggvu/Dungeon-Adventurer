@@ -39,8 +39,22 @@ public class Gun extends Weapon {
     }
 
     @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        for (Bullet bullet : bulletArrayList) {
+            bullet.update(deltaTime);
+        }
+    }
+
+    @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, owner.getX() + owner.getWidth() * 0.75f, owner.getY() + owner.getHeight() * 0.25f, 16, 16);
+        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
+
+        batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f,0, 4, 12, 8, 1, 1, degree);
+//        batch.draw(texture, owner.getX() + owner.getWidth() * 0.6f, owner.getY() + owner.getHeight() * 0.25f, 12, 12);
+        for (Bullet bullet : bulletArrayList) {
+            bullet.draw(batch);
+        }
     }
 
     public ArrayList<Bullet> getBulletArrayList() {

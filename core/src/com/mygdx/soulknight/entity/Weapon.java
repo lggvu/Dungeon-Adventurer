@@ -3,6 +3,7 @@ package com.mygdx.soulknight.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
 
@@ -10,14 +11,14 @@ import java.util.ArrayList;
 
 public abstract class Weapon {
 //    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
-
+    protected String name;
     private static int ID = 1;
     private int weaponID;
     protected float elapsedSeconds = 1;
     protected float intervalSeconds = 0.5f;
     protected SimpleCharacter owner;
     protected float rangeWeapon = 1000f;
-    protected Texture texture;
+    protected TextureRegion texture;
     public Weapon(SimpleCharacter owner) {
         this(owner, "weapon/weapon.png");
     }
@@ -27,7 +28,7 @@ public abstract class Weapon {
     }
 
     public Weapon(SimpleCharacter owner, String texturePath, float intervalSeconds) {
-        this.texture = new Texture(texturePath);
+        this.texture = new TextureRegion(new Texture(texturePath));
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
         this.owner = owner;
@@ -72,5 +73,9 @@ public abstract class Weapon {
 
     public void setIntervalSeconds(float intervalSeconds) {
         this.intervalSeconds = intervalSeconds;
+    }
+
+    public TextureRegion getTextureRegion() {
+        return texture;
     }
 }

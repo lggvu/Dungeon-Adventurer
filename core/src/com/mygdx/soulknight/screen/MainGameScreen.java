@@ -94,14 +94,6 @@ public class MainGameScreen extends ScreenAdapter {
 
         //        Update screen
         player.update(deltaTime);
-        for (Weapon weapon : player.getWeapons()) {
-            weapon.update(deltaTime);
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.update(deltaTime);
-                }
-            }
-        }
 
         isCombat = false;
         Room roomPlayerIn = null;
@@ -166,15 +158,6 @@ public class MainGameScreen extends ScreenAdapter {
         game.getBatch().begin();
 
         player.draw(game.getBatch());
-        player.getCurrentWeapon().draw(game.getBatch());
-
-        for (Weapon weapon : player.getWeapons()) {
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.draw(game.getBatch());
-                }
-            }
-        }
 
         for (Room room : rooms) {
             room.draw(game.getBatch());
@@ -224,7 +207,7 @@ public class MainGameScreen extends ScreenAdapter {
 
         for (Room room : rooms) {
             for (Monster monster : room.getAllMonster()) {
-                Weapon monsterWeapon = monster.getWeapon();
+                Weapon monsterWeapon = monster.getCurrentWeapon();
                 if (monsterWeapon instanceof Gun) {
                     Gun gun = (Gun) monsterWeapon;
                     removeBulletList = new ArrayList<>();

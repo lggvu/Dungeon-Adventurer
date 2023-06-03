@@ -1,5 +1,7 @@
 package com.mygdx.soulknight.entity;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.screen.MainGameScreen;
 
@@ -12,8 +14,6 @@ public class Player extends SimpleCharacter {
     private int maxMana = 200;
     private float timeHealArmor = 1f;
     private float currentHealArmor = 0;
-    private ArrayList<Weapon> weapons = new ArrayList<>();
-    private int currentWeaponId = 0;
 
     public Player(MainGameScreen gameScreen) {
         super(gameScreen);
@@ -29,6 +29,7 @@ public class Player extends SimpleCharacter {
 
     public Player(MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height) {
         super(gameScreen, texturePath, x, y, width, height);
+//        Polygon
     }
 
     public Player(MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height, int hp) {
@@ -58,6 +59,22 @@ public class Player extends SimpleCharacter {
     }
 
     @Override
+    public void draw(SpriteBatch batch) {
+        super.draw(batch);
+        for (Weapon weapon : weapons) {
+            if (weapon.equals(getCurrentWeapon())) {
+                weapon.draw(batch);
+            } else {
+                if (weapon instanceof Gun) {
+                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+                        bullet.draw(batch);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
@@ -66,6 +83,7 @@ public class Player extends SimpleCharacter {
         if (currentArmor == maxArmor) {
             currentHealArmor = 0;
         }
+
         if (currentHealArmor > timeHealArmor) {
             currentHealArmor = 0;
             currentArmor++;
@@ -74,6 +92,9 @@ public class Player extends SimpleCharacter {
             currentArmor = maxArmor;
         }
 
+        for (Weapon weapon : weapons) {
+            weapon.update(deltaTime);
+        }
     }
 
     public void switchWeapon() {
@@ -86,13 +107,6 @@ public class Player extends SimpleCharacter {
         return weapons.get(currentWeaponId);
     }
 
-    public ArrayList<Weapon> getWeapons() {
-        return weapons;
-    }
-
-    public void addWeapon(Weapon weapon) {
-        weapons.add(weapon);
-    }
 
     public int getMaxArmor() {
         return maxArmor;

@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
 
+import java.util.ArrayList;
+
 public abstract class SimpleCharacter {
     protected TextureRegion texture;
     protected SpriteLoader spriteLoader;
@@ -23,6 +25,8 @@ public abstract class SimpleCharacter {
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
+    protected int currentWeaponId = 0;
+    protected ArrayList<Weapon> weapons = new ArrayList<>();
     protected MainGameScreen gameScreen;
     public SimpleCharacter (MainGameScreen gameScreen) {
         this(gameScreen, "heros/hero-1.png");
@@ -66,6 +70,9 @@ public abstract class SimpleCharacter {
         float degree = lastMoveDirection.angleDeg(currentHeadDirection);
         if (degree > 90 && degree < 270) {
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
+            for (Weapon weapon : weapons) {
+                weapon.getTextureRegion().flip(false, true);
+            }
 //            texture.flip(true, false);
         }
 
@@ -84,6 +91,10 @@ public abstract class SimpleCharacter {
     public void draw(SpriteBatch batch) {
 
         batch.draw(texture, x, y, width, height);
+    }
+
+    public void addWeapon(Weapon weapon) {
+        weapons.add(weapon);
     }
 
     public Rectangle getRectangle() {
@@ -123,6 +134,13 @@ public abstract class SimpleCharacter {
         this.height = height;
     }
 
+    public Weapon getCurrentWeapon() {
+        if (weapons.size() > 0) {
+            return weapons.get(currentWeaponId);
+        }
+        return null;
+    };
+
     public void setSpeedRun(float speedRun) {
         this.speedRun = speedRun;
     }
@@ -140,5 +158,13 @@ public abstract class SimpleCharacter {
 
     public void setCurrentHP(int currentHP) {
         this.currentHP = currentHP;
+    }
+
+    public Vector2 getCurrentHeadDirection() {
+        return currentHeadDirection;
+    }
+
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
     }
 }

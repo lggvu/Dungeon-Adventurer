@@ -14,6 +14,11 @@ public class Sword extends Weapon {
     }
 
     @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+    }
+
+    @Override
     public void attack(Vector2 direction) {
 
     }
