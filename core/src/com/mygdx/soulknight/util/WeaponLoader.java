@@ -38,10 +38,10 @@ public class WeaponLoader {
                 Texture texture = new Texture(source.get("effect_texture").getAsString());
                 System.out.println(texture.getWidth() / 2 + " and " + texture.getHeight() / 3);
                 TextureRegion[][] frames = SpriteLoader.splitTexture(
-                        texture,
-                        128, 170, 0, 0, 0, 0, 2, 3, 0, 0
+                        texture, 100, 100, 24, 50,
+                        16, 30, 2, 3, 0, 1
                 );
-                sword.setEffectTexturePath(source.get("effect_texture").getAsString());
+                sword.setEffectFrames(frames);
                 System.out.println("loaded effect");
                 return sword;
             }

@@ -11,15 +11,15 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 public class Sword extends Weapon {
     private Animation<TextureRegion> swordAnimation;
     private float stateTime;
-    private String effectTexturePath;
+    private TextureRegion[][] frames;
     private boolean isAttacking;
 
     public Sword(SimpleCharacter owner, String texturePath) {
         super(owner, texturePath);
     }
 
-    public void setEffectTexturePath(String effectTexturePath) {
-        this.effectTexturePath = effectTexturePath;
+    public void setEffectFrames(TextureRegion[][] frames) {
+        this.frames = frames;
     }
 
     @Override
@@ -36,6 +36,16 @@ public class Sword extends Weapon {
     }
 
     @Override
+    public void flip(boolean x, boolean y) {
+        texture.flip(x, y);
+        for (int i = 0; i < frames.length; i++) {
+            for (int j = 0; j < frames[i].length; j++) {
+                frames[i][j].flip(x, y);
+            }
+        }
+    }
+
+    @Override
     public void draw(SpriteBatch batch) {
         float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
         // Draw the sword
@@ -44,30 +54,23 @@ public class Sword extends Weapon {
         }
         // Draw effect when attacking
         if (isAttacking) {
-            Texture swordSheet = new Texture(effectTexturePath);
-
-            // Define the width and height of each individual sprite frame
-            int frameWidth = swordSheet.getWidth() / 2; // Assuming each frame has equal width
-            int frameHeight = swordSheet.getHeight() / 3;
-
-            // Split the sprite sheet into individual frames
-            TextureRegion[][] frames = TextureRegion.split(swordSheet, frameWidth, frameHeight);
 
             // Create the animation object and define the frame duration
-            float frameDuration = 0.1f; // Adjust the duration as per your preference
-            swordAnimation = new Animation<>(frameDuration, frames[1]);
+            float frameDuration = 0.05f; // Adjust the duration as per your preference
+            swordAnimation = new Animation<>(frameDuration, frames[0]);
 
             stateTime += Gdx.graphics.getDeltaTime();
 
             // Get the current frame from the animation
             TextureRegion currentFrame = swordAnimation.getKeyFrame(stateTime, true);
-//            if (degree > 90 || degree < 270) {
+//            if (degree > 90 && degree < 270) {
+//                currentFrame = new TextureRegion(currentFrame);
 //                currentFrame.flip(false, true);
 //            }
             // Calculate the position for drawing the animation
-            float offsetX = owner.getX();
-            float offsetY = owner.getY();
-            batch.draw(currentFrame, offsetX, offsetY, 64, 64);
+            float offsetX = owner.getX() + owner.getWidth() / 2;
+            float offsetY = owner.getY() + owner.getHeight() / 2 - 24;
+            batch.draw(currentFrame, offsetX, offsetY, 0, 24, 48, 48, 1, 1, degree);
 //            batch.draw(currentFrame, degree);
 
             // Check if the animation has reached the last frame

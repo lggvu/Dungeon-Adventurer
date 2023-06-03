@@ -70,7 +70,7 @@ public abstract class SimpleCharacter {
         if (degree > 90 && degree < 270) {
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
             for (Weapon weapon : weapons) {
-                weapon.getTextureRegion().flip(false, true);
+                weapon.flip(false, true);
             }
 //            texture.flip(true, false);
         }

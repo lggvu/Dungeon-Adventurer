@@ -12,6 +12,6 @@
     "Sword 1": {
         "type": "Sword",
         "sword_texture": "weapon/sword.png",
-        "effect_texture": "weapon/sword-effect-test.png"
+        "effect_texture": "weapon/sword-effect.png"
     }
 }

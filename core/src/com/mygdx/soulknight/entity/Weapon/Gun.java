@@ -48,6 +48,11 @@ public class Gun extends Weapon {
     }
 
     @Override
+    public void flip(boolean x, boolean y) {
+        texture.flip(x, y);
+    }
+
+    @Override
     public void draw(SpriteBatch batch) {
         float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
 

@@ -54,6 +54,7 @@ public abstract class Weapon {
 
     //    When we have more weapon, we set attack function to an abstract class
     public abstract void attack(Vector2 direction);
+    public abstract void flip(boolean x, boolean y);
     public abstract void draw(SpriteBatch batch);
 //    public abstract void draw(float deltaTime, SpriteBatch batch);
 
