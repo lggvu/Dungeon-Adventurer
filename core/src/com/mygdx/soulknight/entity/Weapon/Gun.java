@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Gun extends Weapon {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
-    private float bulletSpeed = 1000f;
+    private float bulletSpeed = 1000f/2;
     private String bulletTexturePath = "bullet/bullet1.png";
     public Gun(SimpleCharacter owner) {
         super(owner);
