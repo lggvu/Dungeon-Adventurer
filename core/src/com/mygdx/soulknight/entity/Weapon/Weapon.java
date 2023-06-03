@@ -17,7 +17,7 @@ public abstract class Weapon {
     protected float rangeWeapon = 1000f;
     protected TextureRegion texture;
     public Weapon(SimpleCharacter owner) {
-        this(owner, "weapon/weapon.png");
+        this(owner, "weapon/sword.png");
     }
 
     public Weapon(SimpleCharacter owner, String texturePath) {
@@ -55,6 +55,7 @@ public abstract class Weapon {
     //    When we have more weapon, we set attack function to an abstract class
     public abstract void attack(Vector2 direction);
     public abstract void draw(SpriteBatch batch);
+//    public abstract void draw(float deltaTime, SpriteBatch batch);
 
     protected boolean isAllowedAttack() {
         if (elapsedSeconds >= intervalSeconds) {

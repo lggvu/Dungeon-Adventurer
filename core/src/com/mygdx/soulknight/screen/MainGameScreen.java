@@ -63,7 +63,7 @@ public class MainGameScreen extends ScreenAdapter {
         player = new Player(this);
         WeaponLoader weaponLoader = new WeaponLoader();
         player.addWeapon(weaponLoader.load(player,"Gun 1"));
-        player.addWeapon(weaponLoader.load(player,"Gun 2"));
+        player.addWeapon(weaponLoader.load(player,"Sword 1"));
 
         rooms = new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
