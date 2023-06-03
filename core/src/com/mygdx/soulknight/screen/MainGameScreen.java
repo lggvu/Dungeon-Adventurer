@@ -15,6 +15,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Monster;
@@ -36,7 +42,10 @@ public class MainGameScreen extends ScreenAdapter {
     private MapLayer doorCollision;
     private Player player;
     private ArrayList<Room> rooms;
+    private boolean isPaused = false;
     private boolean isCombat = false;
+    private Stage stage;
+
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public MainGameScreen(SoulKnight game) {
         this.game = game;
@@ -60,10 +69,54 @@ public class MainGameScreen extends ScreenAdapter {
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
-    }
+     // Add the following code to your constructor or initialization method
+	     stage = new Stage();
+	
+	     // Create the pause menu buttons
+	     Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
+
+	     Button settingsButton = new TextButton("Go to Settings", skin);
+	     Button resumeButton = new TextButton("Resume Game", skin);
+	
+	     // Set the position and size of the buttons
+	     settingsButton.setPosition(100, 100);
+	     resumeButton.setPosition(100, 200);
+	
+	     // Add click listeners to the buttons
+	     settingsButton.addListener(new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	             // Handle the "Go to Settings" button click
+	             // Add code to navigate to the settings screen
+	         }
+	     });
+	
+	     resumeButton.addListener(new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	             // Handle the "Resume Game" button click
+	             isPaused = false;
+	         }
+	     });
+	
+	     // Add the buttons to the stage
+	     stage.addActor(settingsButton);
+	     stage.addActor(resumeButton);
+	
+	    }
 
     @Override
     public void render(float deltaTime) {
+    	if (isPaused) {
+    		stage.act(deltaTime);
+    		stage.draw();
+    		return;
+    	}
+    	
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            isPaused = true;
+            Gdx.input.setInputProcessor(stage);
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -174,6 +227,7 @@ public class MainGameScreen extends ScreenAdapter {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
+        stage.dispose();
     }
 
     public boolean isMapCollision(Rectangle rectangle) {
