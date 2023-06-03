@@ -3,9 +3,11 @@ package com.mygdx.soulknight.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -18,9 +20,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Monster;
@@ -42,9 +49,12 @@ public class MainGameScreen extends ScreenAdapter {
     private MapLayer doorCollision;
     private Player player;
     private ArrayList<Room> rooms;
-    private boolean isPaused = false;
     private boolean isCombat = false;
     private Stage stage;
+    private Music backgroundMusic;
+    private float musicPosition = 0.0f;
+    private TextButton pauseButton;
+
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public MainGameScreen(SoulKnight game) {
@@ -69,56 +79,30 @@ public class MainGameScreen extends ScreenAdapter {
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
-     // Add the following code to your constructor or initialization method
-	     stage = new Stage();
-	
-	     // Create the pause menu buttons
-	     Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
+        
+        backgroundMusic = Settings.music;
+        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+        
+        pauseButton = this.pauseButton();
+        
+        
+    }
+    @Override
+    public void show() {
+    	stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        Gdx.input.setInputProcessor(stage);
 
-	     Button settingsButton = new TextButton("Go to Settings", skin);
-	     Button resumeButton = new TextButton("Resume Game", skin);
-	
-	     // Set the position and size of the buttons
-	     settingsButton.setPosition(100, 100);
-	     resumeButton.setPosition(100, 200);
-	
-	     // Add click listeners to the buttons
-	     settingsButton.addListener(new ClickListener() {
-	         @Override
-	         public void clicked(InputEvent event, float x, float y) {
-	             // Handle the "Go to Settings" button click
-	             // Add code to navigate to the settings screen
-	         }
-	     });
-	
-	     resumeButton.addListener(new ClickListener() {
-	         @Override
-	         public void clicked(InputEvent event, float x, float y) {
-	             // Handle the "Resume Game" button click
-	             isPaused = false;
-	         }
-	     });
-	
-	     // Add the buttons to the stage
-	     stage.addActor(settingsButton);
-	     stage.addActor(resumeButton);
-	
-	    }
-
+        stage.addActor(pauseButton);
+    }
     @Override
     public void render(float deltaTime) {
-    	if (isPaused) {
-    		stage.act(deltaTime);
-    		stage.draw();
-    		return;
-    	}
-    	
-    	if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            isPaused = true;
-            Gdx.input.setInputProcessor(stage);
-        }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+
 
         Vector2 moveDirection = new Vector2(0, 0);
 
@@ -222,12 +206,17 @@ public class MainGameScreen extends ScreenAdapter {
         if (!noMonsterLeft) {
             drawHealthBar();
         }
+        stage.act(deltaTime);
+        stage.draw();
+
     }
     @Override
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
         stage.dispose();
+        backgroundMusic.dispose();
+
     }
 
     public boolean isMapCollision(Rectangle rectangle) {
@@ -301,6 +290,7 @@ public class MainGameScreen extends ScreenAdapter {
                 gun.getBulletArrayList().removeAll(removeBulletList);
             }
         }
+        
     }
 
     public MapLayer getCollisionLayer() {
@@ -316,7 +306,7 @@ public class MainGameScreen extends ScreenAdapter {
     }
 
     private void drawHealthBar() {
-
+    	
         float barWidth = 200;
         float barHeight = 20;
         float boardWidth = 250;
@@ -357,7 +347,43 @@ public class MainGameScreen extends ScreenAdapter {
         shapeRenderer.rect(barX, barArmorY, armorBarWidth, barHeight);
 
         shapeRenderer.end();
+        
+    	
     }
 
+    public void resumeGame() {
+        backgroundMusic.play();
+        backgroundMusic.setPosition(musicPosition);
+    }
+
+    @Override
+    public void hide() {
+        backgroundMusic.stop();
+    }
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+
+        // Update the position of the pause button when the screen is resized
+        pauseButton.setPosition(stage.getWidth() - pauseButton.getWidth() - 10, stage.getHeight() - pauseButton.getHeight() - 10);
+    }
+
+    public TextButton pauseButton() {
+        Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
+
+        // Create the pause button
+        TextButton pauseButton = new TextButton("Pause", skin);
+        pauseButton.setPosition(Gdx.graphics.getWidth() - pauseButton.getWidth() - 10, Gdx.graphics.getHeight() - pauseButton.getHeight() - 10);
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PauseGameScreen(game, MainGameScreen.this));
+                if (backgroundMusic.isPlaying()) {
+                    musicPosition = backgroundMusic.getPosition();
+                    backgroundMusic.stop();
+                }
+                            }
+        });
+        return pauseButton;
+    }
 
 }

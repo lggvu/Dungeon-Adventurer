@@ -10,6 +10,11 @@ dct = {
         'type': 'Gun',
         'gun_texture': 'weapon/weapon1.png',
         'bullet_texture': 'bullet/bullet3.png'
+    },
+    "Sword 1": {
+        "type": "Sword",
+        "sword_texture": "weapon/sword.png",
+        "effect_texture": "weapon/sword-effect-test.png"
     }
 }
 
