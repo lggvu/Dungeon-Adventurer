@@ -37,7 +37,7 @@ public class Sword extends Weapon {
 
     @Override
     public void draw(SpriteBatch batch) {
-        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
+        float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
         // Draw the sword
         if (!isAttacking) {
             batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f, 0, 4, 12, 8, 1, 1, degree);
@@ -55,16 +55,19 @@ public class Sword extends Weapon {
 
             // Create the animation object and define the frame duration
             float frameDuration = 0.1f; // Adjust the duration as per your preference
-            swordAnimation = new Animation<>(frameDuration, frames[0]);
+            swordAnimation = new Animation<>(frameDuration, frames[1]);
 
             stateTime += Gdx.graphics.getDeltaTime();
 
             // Get the current frame from the animation
             TextureRegion currentFrame = swordAnimation.getKeyFrame(stateTime, true);
+//            if (degree > 90 || degree < 270) {
+//                currentFrame.flip(false, true);
+//            }
             // Calculate the position for drawing the animation
-            float offsetX = owner.getX() - frameWidth / 2f;
-            float offsetY = owner.getY() - frameHeight / 2f;
-            batch.draw(currentFrame, offsetX, offsetY);
+            float offsetX = owner.getX();
+            float offsetY = owner.getY();
+            batch.draw(currentFrame, offsetX, offsetY, 64, 64);
 //            batch.draw(currentFrame, degree);
 
             // Check if the animation has reached the last frame

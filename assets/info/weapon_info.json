@@ -1,7 +1,7 @@
 {
     "Gun 1": {
         "type": "Gun",
-        "gun_texture": "weapon/sword.png",
+        "gun_texture": "weapon/weapon.png",
         "bullet_texture": "bullet/bullet1.png"
     },
     "Gun 2": {
@@ -12,6 +12,6 @@
     "Sword 1": {
         "type": "Sword",
         "sword_texture": "weapon/sword.png",
-        "effect_texture": "weapon/sword-effect.png"
+        "effect_texture": "weapon/sword-effect-test.png"
     }
 }
