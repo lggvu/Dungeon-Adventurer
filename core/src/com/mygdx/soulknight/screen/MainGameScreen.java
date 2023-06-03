@@ -6,9 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -20,7 +17,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.soulknight.entity.*;
+import com.mygdx.soulknight.entity.Character.Monster;
+import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Map.Room;
+import com.mygdx.soulknight.entity.Weapon.Bullet;
+import com.mygdx.soulknight.entity.Weapon.Gun;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.util.WeaponLoader;
 
 import java.util.ArrayList;
@@ -108,7 +110,7 @@ public class MainGameScreen extends ScreenAdapter {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || true) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && true) {
             if (roomPlayerIn != null) {
                 float minDst = Float.MAX_VALUE;
                 Vector2 minPos = null;

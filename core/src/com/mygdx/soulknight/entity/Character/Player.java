@@ -1,11 +1,11 @@
-package com.mygdx.soulknight.entity;
+package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Weapon.Bullet;
+import com.mygdx.soulknight.entity.Weapon.Gun;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
-
-import java.util.ArrayList;
 
 public class Player extends SimpleCharacter {
     private int maxArmor = 6;
@@ -93,7 +93,15 @@ public class Player extends SimpleCharacter {
         }
 
         for (Weapon weapon : weapons) {
-            weapon.update(deltaTime);
+            if (weapon.equals(getCurrentWeapon())) {
+                weapon.update(deltaTime);
+            } else {
+                if (weapon instanceof Gun) {
+                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+                        bullet.update(deltaTime);
+                    }
+                }
+            }
         }
     }
 
@@ -103,10 +111,6 @@ public class Player extends SimpleCharacter {
             currentWeaponId = 0;
         }
     }
-    public Weapon getCurrentWeapon() {
-        return weapons.get(currentWeaponId);
-    }
-
 
     public int getMaxArmor() {
         return maxArmor;

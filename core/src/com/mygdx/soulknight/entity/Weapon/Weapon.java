@@ -1,13 +1,10 @@
-package com.mygdx.soulknight.entity;
+package com.mygdx.soulknight.entity.Weapon;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.SoulKnight;
-
-import java.util.ArrayList;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 
 public abstract class Weapon {
 //    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();

@@ -3,9 +3,9 @@ package com.mygdx.soulknight.util;
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.entity.Gun;
-import com.mygdx.soulknight.entity.SimpleCharacter;
-import com.mygdx.soulknight.entity.Weapon;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Weapon.Gun;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 public class WeaponLoader {
     JsonObject json;

@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity;
+package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -6,7 +6,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Character.Monster;
+import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Weapon.Bullet;
+import com.mygdx.soulknight.entity.Weapon.Gun;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.WeaponLoader;
 
@@ -99,8 +103,6 @@ public class Room {
         return false;
     }
 
-
-
     public void draw(SpriteBatch batch) {
         for (Monster monster : monsterAlive) {
             monster.draw(batch);
@@ -128,16 +130,7 @@ public class Room {
                 // if monster position is N tiles far away from the player, call the update method
                 float distance = (float) Math.sqrt(Math.pow(player.getX() - monster.getX(), 2) + Math.pow(player.getY() - monster.getY(),2));
                 monster.update(deltaTime, player.getX(), player.getY());
-//                monster.attack(new Vector2(player.getX(),player.getY()).sub(monster.getX(), monster.getY()).nor());
 
-//                Weapon weapon = monster.getWeapon();
-//                weapon.update(deltaTime);
-//
-//                if (weapon instanceof Gun) {
-//                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-//                        bullet.update(deltaTime);
-//                    }
-//                }
             }
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);

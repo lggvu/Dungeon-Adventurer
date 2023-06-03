@@ -1,14 +1,12 @@
-package com.mygdx.soulknight.entity;
+package com.mygdx.soulknight.entity.Character;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.screen.MainGameScreen;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Monster extends SimpleCharacter {
     float attackRadius = 200;
