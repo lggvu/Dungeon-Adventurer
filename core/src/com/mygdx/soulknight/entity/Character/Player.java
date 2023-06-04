@@ -1,43 +1,59 @@
 package com.mygdx.soulknight.entity.Character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Map.Room;
+import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
+import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.WeaponLoader;
+import com.badlogic.gdx.Input;
 
 public class Player extends SimpleCharacter {
     private int maxArmor = 6;
     private int currentArmor = maxArmor;
     private int currentMana = 200;
     private int maxMana = 200;
-    private float timeHealArmor = 1f;
+    private float timeHealArmor = 1.5f;
     private float currentHealArmor = 0;
+    private boolean fighting = false;
+    private float visionRange = 1000f;
 
-    public Player(MainGameScreen gameScreen) {
-        super(gameScreen);
+    public Player(String characterName, WorldMap map) {
+        super(characterName, map);
     }
 
-    public Player(MainGameScreen gameScreen, String texturePath) {
-        super(gameScreen, texturePath);
-    }
 
-    public Player(MainGameScreen gameScreen, String texturePath, float x, float y) {
-        super(gameScreen, texturePath, x, y);
-    }
+    @Override
+    public void load() {
+        try {
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
+            JsonObject source = json.get(characterName).getAsJsonObject();
+            if (!source.get("type").getAsString().equals("hero")) {
+                throw new Exception("Player must load character type hero");
+            }
+            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
+            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+            maxHP = source.get("hp").getAsInt();
+            currentHP = maxHP;
+            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
+            weapon.setOwner(this);
+            addWeapon(weapon);
+            speedRun = source.get("speed_run").getAsFloat();
 
-    public Player(MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height) {
-        super(gameScreen, texturePath, x, y, width, height);
-//        Polygon
-    }
-
-    public Player(MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height, int hp) {
-        super(gameScreen, texturePath, x, y, width, height, hp);
-    }
-
-    public Player(MainGameScreen gameScreen, String texturePath, float x, float y, float width, float height, int hp, float speedRun) {
-        super(gameScreen, texturePath, x, y, width, height, hp, speedRun);
+            maxArmor = source.get("armor").getAsInt();
+            currentArmor = maxArmor;
+            maxMana = source.get("energy").getAsInt();
+            currentMana = maxMana;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -76,7 +92,44 @@ public class Player extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
+
+        Vector2 moveDirection = new Vector2(0, 0);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            moveDirection = moveDirection.add(-1, 0);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            moveDirection = moveDirection.add(1, 0);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+            moveDirection = moveDirection.add(0, 1);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            moveDirection = moveDirection.add(0, -1);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            switchWeapon();
+        }
+
+        if (moveDirection.x != 0 || moveDirection.y != 0) {
+            moveDirection = moveDirection.nor();
+            move(moveDirection.x, moveDirection.y, deltaTime);
+        }
+
+        Room room = map.getRoomPlayerIn();
+        fighting = false;
+        if (room != null && room.getMonsterAlive().size() > 0) {
+            fighting = true;
+            room.setCombat(true);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || true) {
+            attack(getAttackDirection(room));
+        }
 
 //        Armor auto heal
         currentHealArmor += deltaTime;
@@ -105,6 +158,25 @@ public class Player extends SimpleCharacter {
         }
     }
 
+    public Vector2 getAttackDirection(Room roomPlayerIn) {
+        if (roomPlayerIn != null) {
+            float minDst = Float.MAX_VALUE;
+            Vector2 direction = null;
+            Vector2 playerPosition = new Vector2(x, y);
+            for (Monster monster : roomPlayerIn.getMonsterAlive()) {
+                float dst = playerPosition.dst(monster.getX(), monster.getY());
+                if (dst < minDst) {
+                    minDst = dst;
+                    direction = new Vector2(monster.getX(), monster.getY()).sub(playerPosition);
+                }
+            }
+            if (direction != null) {
+                return direction;
+            }
+        }
+        return lastMoveDirection;
+    }
+
     public void switchWeapon() {
         currentWeaponId++;
         if (currentWeaponId >= weapons.size()) {
@@ -127,4 +199,14 @@ public class Player extends SimpleCharacter {
     public int getMaxMana() {
         return maxMana;
     }
+
+    public boolean isFighting() {
+        return fighting;
+    }
+
+    public void setCurrentMana(int currentMana) {
+        this.currentMana = currentMana;
+    }
+
+
 }

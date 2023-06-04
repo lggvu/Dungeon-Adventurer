@@ -2,7 +2,10 @@ package com.mygdx.soulknight.entity.Weapon;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Character.Monster;
+import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Map.Room;
 
 import java.util.ArrayList;
 
@@ -10,31 +13,18 @@ public class Gun extends Weapon {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
     private String bulletTexturePath = "bullet/bullet1.png";
-    public Gun(SimpleCharacter owner) {
-        super(owner);
-    }
 
-    public Gun(SimpleCharacter owner, float bulletSpeed) {
-        super(owner);
+    public Gun(String texturePath, String bulletTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
+        super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
+        this.bulletTexturePath = bulletTexturePath;
         this.bulletSpeed = bulletSpeed;
     }
 
-    public Gun(SimpleCharacter owner, String texturePath) {
-        super(owner, texturePath);
-    }
-
-    public Gun(SimpleCharacter owner, String texturePath, float intervalSeconds) {
-        super(owner, texturePath, intervalSeconds);
-    }
-
-    public Gun(SimpleCharacter owner, String texturePath, float intervalSeconds, float bulletSpeed) {
-        super(owner, texturePath, intervalSeconds);
-        this.bulletSpeed = bulletSpeed;
-    }
 
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
+            subOwnerMana();
             bulletArrayList.add(new Bullet(bulletTexturePath, owner.getX(), owner.getY(), direction, bulletSpeed));
         }
     }
@@ -45,6 +35,8 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
         }
+        handleBulletCollision();
+        dealDamageMethod();
     }
 
     @Override
@@ -61,6 +53,32 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
+    }
+
+    @Override
+    public void dealDamageMethod() {
+        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
+        ArrayList<Bullet> removeList;
+        for (SimpleCharacter character : listEnemy) {
+            removeList = new ArrayList<>();
+            for (Bullet bullet : bulletArrayList) {
+                if (bullet.getRectangle().overlaps(character.getRectangle())) {
+                    character.getHit(damage);
+                    removeList.add(bullet);
+                }
+            }
+            bulletArrayList.removeAll(removeList);
+        }
+    }
+
+    public void handleBulletCollision() {
+        ArrayList<Bullet> removeList = new ArrayList<>();
+        for (Bullet bullet : bulletArrayList) {
+            if (owner.getMap().isMapCollision(bullet.getRectangle())) {
+                removeList.add(bullet);
+            }
+        }
+        bulletArrayList.removeAll(removeList);
     }
 
     public ArrayList<Bullet> getBulletArrayList() {

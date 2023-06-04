@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Room;
+import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -29,238 +30,193 @@ import java.util.ArrayList;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
-    private OrthographicCamera camera;
-    private TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private MapLayer collisionLayer;
-    private MapLayer doorCollision;
+    private WorldMap map;
     private Player player;
-    private ArrayList<Room> rooms;
-    private boolean isCombat = false;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public MainGameScreen(SoulKnight game) {
         this.game = game;
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
-
-//        Load the map
-        tiledMap = new TmxMapLoader().load("split_map/tmx/maps.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        collisionLayer = tiledMap.getLayers().get("collision_layer");
-        doorCollision = tiledMap.getLayers().get("door_layer");
-        MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
-
-        player = new Player(this);
-        WeaponLoader weaponLoader = new WeaponLoader();
-        player.addWeapon(weaponLoader.load(player,"Gun 1"));
-        player.addWeapon(weaponLoader.load(player,"Sword 1"));
-
-        rooms = new ArrayList<>();
-        for (MapLayer roomLayer : roomLayers.getLayers()) {
-            rooms.add(new Room(roomLayer,this));
-        }
+        player = new Player("king", null);
+        map = new WorldMap("split_map/tmx/maps.tmx", player);
+        player.setMap(map);
     }
 
     @Override
     public void render(float deltaTime) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        map.update(deltaTime);
+        map.draw(game.getBatch());
 
-        Vector2 moveDirection = new Vector2(0, 0);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            moveDirection = moveDirection.add(-1, 0);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            moveDirection = moveDirection.add(1, 0);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            moveDirection = moveDirection.add(0, 1);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            moveDirection = moveDirection.add(0, -1);
-        }
-
-        if (moveDirection.x != 0 || moveDirection.y != 0) {
-            moveDirection = moveDirection.nor();
-            player.move(moveDirection.x, moveDirection.y);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-            player.switchWeapon();
-        }
-
-        //        Update screen
-        player.update(deltaTime);
-
-        isCombat = false;
-        Room roomPlayerIn = null;
-        if (!isPlayerInDoor(player.getRectangle())) {
-            for (Room room : rooms) {
-                if (room.isInRoom(player.getRectangle()) && room.getMonsterAlive().size() > 0) {
-                    roomPlayerIn = room;
-                    isCombat = true;
-                    room.setCombat(true);
-                }
-                room.update(deltaTime);
-            }
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && true) {
-            if (roomPlayerIn != null) {
-                float minDst = Float.MAX_VALUE;
-                Vector2 minPos = null;
-                for (Monster monster : roomPlayerIn.getMonsterAlive()) {
-                    Vector2 monsterPos = new Vector2(monster.getX(), monster.getY());
-                    float dst = monsterPos.dst(new Vector2(player.getX(), player.getY()));
-//                    System.out.println(dst);
-                    if (dst < minDst) {
-                        minDst = dst;
-                        minPos = monsterPos;
-                    }
-                }
-//                System.out.println(minDst);
-                if (minDst <= player.getCurrentWeapon().getRangeWeapon()) {
-                    player.attack(minPos.sub(player.getX(), player.getY()).nor());
-                } else {
-                    player.attack(player.getLastMoveDirection());
-                }
-            } else {
-                player.attack(player.getLastMoveDirection());
-            }
-        }
-
-        handleBulletCollision();
-
-        boolean noMonsterLeft = true;
-        for (Room room : rooms) {
-            if (room.getMonsterAlive().size() > 0) {
-                noMonsterLeft = false;
-            }
-        }
-        if (noMonsterLeft || player.getCurrentHP() <= 0) {
-            game.setScreen(new MenuScreen(game));
-            game.resetBatch();
-            this.dispose();
-            return;
-        }
-
-        camera.position.x = player.getX() + player.getWidth() / 2;
-        camera.position.y = player.getY() + player.getHeight() / 2;
-
-        camera.update();
-        mapRenderer.setView(camera);
-        mapRenderer.render();
-        game.getBatch().setProjectionMatrix(camera.combined);
-
-        game.getBatch().begin();
-
-        player.draw(game.getBatch());
-
-        for (Room room : rooms) {
-            room.draw(game.getBatch());
-        }
-
-        game.getBatch().end();
-        if (!noMonsterLeft) {
-            drawHealthBar();
-        }
+//        Vector2 moveDirection = new Vector2(0, 0);
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            moveDirection = moveDirection.add(-1, 0);
+//        }
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            moveDirection = moveDirection.add(1, 0);
+//        }
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            moveDirection = moveDirection.add(0, 1);
+//        }
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+//            moveDirection = moveDirection.add(0, -1);
+//        }
+//
+//        if (moveDirection.x != 0 || moveDirection.y != 0) {
+//            moveDirection = moveDirection.nor();
+//            player.move(moveDirection.x, moveDirection.y);
+//        }
+//
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+//            player.switchWeapon();
+//        }
+//
+//        //        Update screen
+//        player.update(deltaTime);
+//
+//        isCombat = false;
+//        Room roomPlayerIn = null;
+//        if (!isPlayerInDoor(player.getRectangle())) {
+//            for (Room room : rooms) {
+//                if (room.isInRoom(player.getRectangle()) && room.getMonsterAlive().size() > 0) {
+//                    roomPlayerIn = room;
+//                    isCombat = true;
+//                    room.setCombat(true);
+//                }
+//                room.update(deltaTime);
+//            }
+//        }
+//
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && true) {
+//            if (roomPlayerIn != null) {
+//                float minDst = Float.MAX_VALUE;
+//                Vector2 minPos = null;
+//                for (Monster monster : roomPlayerIn.getMonsterAlive()) {
+//                    Vector2 monsterPos = new Vector2(monster.getX(), monster.getY());
+//                    float dst = monsterPos.dst(new Vector2(player.getX(), player.getY()));
+////                    System.out.println(dst);
+//                    if (dst < minDst) {
+//                        minDst = dst;
+//                        minPos = monsterPos;
+//                    }
+//                }
+////                System.out.println(minDst);
+//                if (minDst <= player.getCurrentWeapon().getRangeWeapon()) {
+//                    player.attack(minPos.sub(player.getX(), player.getY()).nor());
+//                } else {
+//                    player.attack(player.getLastMoveDirection());
+//                }
+//            } else {
+//                player.attack(player.getLastMoveDirection());
+//            }
+//        }
+//
+//        handleBulletCollision();
+//
+//        boolean noMonsterLeft = true;
+//        for (Room room : rooms) {
+//            if (room.getMonsterAlive().size() > 0) {
+//                noMonsterLeft = false;
+//            }
+//        }
+//        if (noMonsterLeft || player.getCurrentHP() <= 0) {
+//            game.setScreen(new MenuScreen(game));
+//            game.resetBatch();
+//            this.dispose();
+//            return;
+//        }
+//
+//        camera.position.x = player.getX() + player.getWidth() / 2;
+//        camera.position.y = player.getY() + player.getHeight() / 2;
+//
+//        camera.update();
+//        mapRenderer.setView(camera);
+//        mapRenderer.render();
+//        game.getBatch().setProjectionMatrix(camera.combined);
+//
+//        game.getBatch().begin();
+//
+//        player.draw(game.getBatch());
+//
+//        for (Room room : rooms) {
+//            room.draw(game.getBatch());
+//        }
+//
+//        game.getBatch().end();
+        drawHealthBar();
+//        if (!noMonsterLeft) {
+//            drawHealthBar();
+//        }
     }
     @Override
     public void dispose() {
-        tiledMap.dispose();
-        mapRenderer.dispose();
+        map.dispose();
+//        tiledMap.dispose();
+//        mapRenderer.dispose();
     }
 
-    public boolean isMapCollision(Rectangle rectangle) {
-        for (MapObject mapObject : collisionLayer.getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                    return true;
-                }
-            }
-        }
-        if (isCombat) {
-            if (isPlayerInDoor(rectangle)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    private boolean isPlayerInDoor(Rectangle rectangle) {
-        for (MapObject mapObject : doorCollision.getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void handleBulletCollision() {
-        ArrayList<Bullet> removeBulletList;
-        ArrayList<Monster> removeMonsterList;
-
-        for (Room room : rooms) {
-            for (Monster monster : room.getAllMonster()) {
-                Weapon monsterWeapon = monster.getCurrentWeapon();
-                if (monsterWeapon instanceof Gun) {
-                    Gun gun = (Gun) monsterWeapon;
-                    removeBulletList = new ArrayList<>();
-                    for (Bullet bullet : gun.getBulletArrayList()) {
-                        if (isMapCollision(bullet.getRectangle())) {
-                            removeBulletList.add(bullet);
-                        } else if (bullet.getRectangle().overlaps(player.getRectangle())) {
-                            player.getHit(bullet.getDmg());
-                            removeBulletList.add(bullet);
-                        }
-                    }
-                    gun.getBulletArrayList().removeAll(removeBulletList);
-                }
-
-
-            }
-        }
-
-        for (Weapon playerWeapon : player.getWeapons()) {
-            if (playerWeapon instanceof Gun) {
-                Gun gun = (Gun) playerWeapon;
-                removeBulletList = new ArrayList<>();
-                for (Bullet bullet : gun.getBulletArrayList()) {
-                    for (Room room : rooms) {
-                        for (Monster monster : room.getMonsterAlive()) {
-                            if (isMapCollision(bullet.getRectangle())) {
-                                removeBulletList.add(bullet);
-                            }else if (monster.getRectangle().overlaps(bullet.getRectangle())) {
-                                removeBulletList.add(bullet);
-                                monster.getHit(bullet.getDmg());
-                            }
-                        }
-                    }
-                }
-                gun.getBulletArrayList().removeAll(removeBulletList);
-            }
-        }
-    }
-
-    public MapLayer getCollisionLayer() {
-        return collisionLayer;
-    }
-
-    public MapLayer getDoorCollision() {
-        return doorCollision;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
+//    public void handleBulletCollision() {
+//        ArrayList<Bullet> removeBulletList;
+//        ArrayList<Monster> removeMonsterList;
+//
+//        for (Room room : rooms) {
+//            for (Monster monster : room.getAllMonster()) {
+//                Weapon monsterWeapon = monster.getCurrentWeapon();
+//                if (monsterWeapon instanceof Gun) {
+//                    Gun gun = (Gun) monsterWeapon;
+//                    removeBulletList = new ArrayList<>();
+//                    for (Bullet bullet : gun.getBulletArrayList()) {
+//                        if (isMapCollision(bullet.getRectangle())) {
+//                            removeBulletList.add(bullet);
+//                        } else if (bullet.getRectangle().overlaps(player.getRectangle())) {
+//                            player.getHit(bullet.getDmg());
+//                            removeBulletList.add(bullet);
+//                        }
+//                    }
+//                    gun.getBulletArrayList().removeAll(removeBulletList);
+//                }
+//
+//
+//            }
+//        }
+//
+//        for (Weapon playerWeapon : player.getWeapons()) {
+//            if (playerWeapon instanceof Gun) {
+//                Gun gun = (Gun) playerWeapon;
+//                removeBulletList = new ArrayList<>();
+//                for (Bullet bullet : gun.getBulletArrayList()) {
+//                    for (Room room : rooms) {
+//                        for (Monster monster : room.getMonsterAlive()) {
+//                            if (isMapCollision(bullet.getRectangle())) {
+//                                removeBulletList.add(bullet);
+//                            }else if (monster.getRectangle().overlaps(bullet.getRectangle())) {
+//                                removeBulletList.add(bullet);
+//                                monster.getHit(bullet.getDmg());
+//                            }
+//                        }
+//                    }
+//                }
+//                gun.getBulletArrayList().removeAll(removeBulletList);
+//            }
+//        }
+//    }
+//
+//    public MapLayer getCollisionLayer() {
+//        return collisionLayer;
+//    }
+//
+//    public MapLayer getDoorCollision() {
+//        return doorCollision;
+//    }
+//
+//    public Player getPlayer() {
+//        return player;
+//    }
+//
     private void drawHealthBar() {
 
         float barWidth = 200;
@@ -304,6 +260,6 @@ public class MainGameScreen extends ScreenAdapter {
 
         shapeRenderer.end();
     }
-
-
+//
+//
 }

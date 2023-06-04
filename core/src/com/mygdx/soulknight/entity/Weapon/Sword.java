@@ -5,17 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+
+import java.util.ArrayList;
 
 public class Sword extends Weapon {
     private Animation<TextureRegion> swordAnimation;
     private float stateTime;
     private TextureRegion[][] frames;
     private boolean isAttacking;
+    private Vector2 attackDirection;
 
-    public Sword(SimpleCharacter owner, String texturePath) {
-        super(owner, texturePath);
+    public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
+        super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
     }
 
     public void setEffectFrames(TextureRegion[][] frames) {
@@ -30,9 +35,14 @@ public class Sword extends Weapon {
 
     @Override
     public void attack(Vector2 direction) {
-        // Initialize state time
-        stateTime = 0f;
-        isAttacking = true;
+        if (isAllowedAttack()) {
+            subOwnerMana();
+            // Initialize state time
+            attackDirection = direction;
+            stateTime = 0f;
+            isAttacking = true;
+            dealDamageMethod();
+        }
     }
 
     @Override
@@ -47,13 +57,14 @@ public class Sword extends Weapon {
 
     @Override
     public void draw(SpriteBatch batch) {
-        float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
         // Draw the sword
         if (!isAttacking) {
+            float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
             batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f, 0, 4, 12, 8, 1, 1, degree);
         }
         // Draw effect when attacking
         if (isAttacking) {
+            float degree = attackDirection.angleDeg(new Vector2(1, 0));
 
             // Create the animation object and define the frame duration
             float frameDuration = 0.05f; // Adjust the duration as per your preference
@@ -76,6 +87,18 @@ public class Sword extends Weapon {
             // Check if the animation has reached the last frame
             if (swordAnimation.isAnimationFinished(stateTime)) {
                 isAttacking = false; // Stop the animation
+            }
+        }
+    }
+
+    @Override
+    public void dealDamageMethod() {
+        System.out.println(rangeWeapon);
+        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
+        Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
+        for (SimpleCharacter character : listEnemy) {
+            if (rectangle.overlaps(character.getRectangle())) {
+                character.getHit(damage);
             }
         }
     }

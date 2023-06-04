@@ -2,16 +2,64 @@
     "Gun 1": {
         "type": "Gun",
         "gun_texture": "weapon/weapon.png",
-        "bullet_texture": "bullet/bullet1.png"
+        "bullet_texture": "bullet/bullet1.png",
+        "properties": {
+            "damage": 3,
+            "energy_cost": 1,
+            "attack_speed": 1.2,
+            "range": 400,
+            "critical_rate": 0.25,
+            "bullet_speed": 600.0
+        }
     },
     "Gun 2": {
         "type": "Gun",
         "gun_texture": "weapon/weapon1.png",
-        "bullet_texture": "bullet/bullet3.png"
+        "bullet_texture": "bullet/bullet3.png",
+        "properties": {
+            "damage": 5,
+            "energy_cost": 2,
+            "attack_speed": 0.9,
+            "range": 600,
+            "critical_rate": 0.4,
+            "bullet_speed": 1000.0
+        }
+    },
+    "Gun Monster 1": {
+        "type": "Gun",
+        "gun_texture": "weapon/weapon.png",
+        "bullet_texture": "bullet/bullet1.png",
+        "properties": {
+            "damage": 3,
+            "energy_cost": 2,
+            "attack_speed": 2.0,
+            "range": 600,
+            "critical_rate": 0.4,
+            "bullet_speed": 90.0
+        }
     },
     "Sword 1": {
         "type": "Sword",
         "sword_texture": "weapon/sword.png",
-        "effect_texture": "weapon/sword-effect.png"
+        "effect_texture": {
+            "path": "weapon/sword-effect.png",
+            "paddingWidth": 16,
+            "paddingHeight": 30,
+            "gapWidth": 24,
+            "gapHeight": 50,
+            "imgWidth": 100,
+            "imgHeight": 100,
+            "startCol": 0,
+            "startRow": 1,
+            "frameCols": 2,
+            "frameRows": 1
+        },
+        "properties": {
+            "damage": 8,
+            "energy_cost": 2,
+            "attack_speed": 0.8,
+            "range": 100,
+            "critical_rate": 0.7
+        }
     }
 }

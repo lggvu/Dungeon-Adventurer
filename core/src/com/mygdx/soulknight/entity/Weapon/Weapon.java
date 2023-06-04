@@ -1,10 +1,15 @@
 package com.mygdx.soulknight.entity.Weapon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 public abstract class Weapon {
 //    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
@@ -16,19 +21,18 @@ public abstract class Weapon {
     protected SimpleCharacter owner;
     protected float rangeWeapon = 1000f;
     protected TextureRegion texture;
-    public Weapon(SimpleCharacter owner) {
-        this(owner, "weapon/sword.png");
-    }
+    protected int damage;
+    protected int energyCost;
+    protected float criticalRate;
 
-    public Weapon(SimpleCharacter owner, String texturePath) {
-        this(owner, texturePath, 0.5f);
-    }
-
-    public Weapon(SimpleCharacter owner, String texturePath, float intervalSeconds) {
+    public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         this.texture = new TextureRegion(new Texture(texturePath));
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
-        this.owner = owner;
+        this.damage = damage;
+        this.energyCost = energyCost;
+        this.criticalRate = criticalRate;
+        this.rangeWeapon = rangeWeapon;
         weaponID = ID++;
     }
 
@@ -57,8 +61,18 @@ public abstract class Weapon {
     public abstract void flip(boolean x, boolean y);
     public abstract void draw(SpriteBatch batch);
 //    public abstract void draw(float deltaTime, SpriteBatch batch);
+    public void subOwnerMana() {
+        if (owner instanceof Player) {
+            ((Player) owner).setCurrentMana(((Player) owner).getCurrentMana() - energyCost);
+        }
+    }
 
     protected boolean isAllowedAttack() {
+        if (owner instanceof Player) {
+            if (((Player) owner).getCurrentMana() < energyCost) {
+                return false;
+            }
+        }
         if (elapsedSeconds >= intervalSeconds) {
             elapsedSeconds = 0;
             return true;
@@ -76,5 +90,50 @@ public abstract class Weapon {
 
     public TextureRegion getTextureRegion() {
         return texture;
+    }
+
+    public abstract void dealDamageMethod();
+
+    public static Weapon load(String weaponName) {
+        return load(weaponName, "info/weapon_info.json");
+    }
+    public static Weapon load(String weaponName, String infoPath) {
+        try {
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
+            JsonObject source = json.get(weaponName).getAsJsonObject();
+            JsonObject properties = source.get("properties").getAsJsonObject();
+            int damage = properties.get("damage").getAsInt();
+            int energyCost = properties.get("energy_cost").getAsInt();
+            float attackSpeed = properties.get("attack_speed").getAsFloat();
+            int range = properties.get("range").getAsInt();
+            float criticalRate = properties.get("critical_rate").getAsFloat();
+            System.out.println(weaponName);
+            System.out.println(range);
+
+            if (source.get("type").getAsString().equals("Gun")) {
+                String bulletTexturePath = source.get("bullet_texture").getAsString();
+                float bulletSpeed = properties.get("bullet_speed").getAsFloat();
+                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
+                return gun;
+            }
+            else if (source.get("type").getAsString().equals("Sword")) {
+                Sword sword = new Sword(source.get("sword_texture").getAsString(), damage, energyCost, attackSpeed, range, criticalRate);
+                JsonObject effectTexture = source.get("effect_texture").getAsJsonObject();
+                Texture texture = new Texture(effectTexture.get("path").getAsString());
+                TextureRegion[][] frames = SpriteLoader.splitTexture(
+                        texture,
+                        effectTexture.get("imgWidth").getAsInt(), effectTexture.get("imgHeight").getAsInt(),
+                        effectTexture.get("gapWidth").getAsInt(), effectTexture.get("gapHeight").getAsInt(),
+                        effectTexture.get("paddingWidth").getAsInt(), effectTexture.get("paddingHeight").getAsInt(),
+                        effectTexture.get("frameCols").getAsInt(), effectTexture.get("frameRows").getAsInt(),
+                        effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
+                );
+                sword.setEffectFrames(frames);
+                return sword;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

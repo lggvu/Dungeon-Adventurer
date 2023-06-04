@@ -11,8 +11,6 @@ import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.screen.MainGameScreen;
-import com.mygdx.soulknight.util.WeaponLoader;
 
 import java.util.ArrayList;
 
@@ -22,19 +20,21 @@ public class Room {
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private Player player;
-    private boolean combat = false;
-    public Room(MapLayer roomLayer, MainGameScreen gameScreen) {
-        this.layer = roomLayer;
-        player = gameScreen.getPlayer();
-        ArrayList<Rectangle> rectangles = new ArrayList<>();
-        WeaponLoader weaponLoader = new WeaponLoader();
 
-        for (MapObject mapObject : gameScreen.getCollisionLayer().getObjects()) {
+    private ArrayList<Rectangle> roomArea;
+    private boolean combat = false;
+    public Room(MapLayer roomLayer, WorldMap map) {
+        this.layer = roomLayer;
+        player = map.getPlayer();
+        ArrayList<Rectangle> rectangles = new ArrayList<>();
+        roomArea = new ArrayList<>();
+
+        for (MapObject mapObject : map.getCollisionLayer().getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 rectangles.add(((RectangleMapObject) mapObject).getRectangle());
             }
         }
-        for (MapObject mapObject : gameScreen.getDoorCollision().getObjects()) {
+        for (MapObject mapObject : map.getDoorCollision().getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 rectangles.add(((RectangleMapObject) mapObject).getRectangle());
             }
@@ -45,18 +45,12 @@ public class Room {
             for (MapObject mapObject : layer.getObjects()) {
                 if (mapObject instanceof RectangleMapObject) {
                     Rectangle roomRectangle = ((RectangleMapObject) mapObject).getRectangle();
-
+                    roomArea.add(roomRectangle);
                     while (true) {
                         float x = MathUtils.random(roomRectangle.getX(), roomRectangle.getX() + roomRectangle.getWidth());
                         float y = MathUtils.random(roomRectangle.getY(), roomRectangle.getY() + roomRectangle.getHeight());
-                        Monster monster = new Monster(gameScreen);
-
-                        Gun gun = (Gun) weaponLoader.load(monster, "Gun 1");
-                        gun.setBulletSpeed(120f);
-                        gun.setIntervalSeconds(2f);
-                        monster.addWeapon(gun);
+                        Monster monster = new Monster("knight", map);
 //                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
-
                         monster.setPosition(x, y);
 
                         boolean noCollision = true;
@@ -129,7 +123,7 @@ public class Room {
                 }
                 // if monster position is N tiles far away from the player, call the update method
                 float distance = (float) Math.sqrt(Math.pow(player.getX() - monster.getX(), 2) + Math.pow(player.getY() - monster.getY(),2));
-                monster.update(deltaTime, player.getX(), player.getY());
+                monster.update(deltaTime);
 
             }
             monsterAlive.removeAll(monstersKilled);
@@ -172,5 +166,10 @@ public class Room {
     public void setCombat(boolean combat) {
         this.combat = combat;
     }
-//
+
+    public ArrayList<Rectangle> getRoomArea() {
+        return roomArea;
+    }
+
+    //
 }

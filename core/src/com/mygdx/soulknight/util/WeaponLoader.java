@@ -20,34 +20,38 @@ public class WeaponLoader {
         }
     }
 
-    public WeaponLoader() {
-        this("info/weapon_info.json");
-    }
-    public Weapon load(SimpleCharacter owner, String weaponName) {
-        try {
-            JsonObject source = json.get(weaponName).getAsJsonObject();
-            if (source.get("type").getAsString().equals("Gun")) {
-                Gun gun = new Gun(owner, source.get("gun_texture").getAsString());
-                gun.setBulletTexturePath(source.get("bullet_texture").getAsString());
-                return gun;
-            }
-            else if (source.get("type").getAsString().equals("Sword")) {
-                System.out.println("found sword");
-                Sword sword = new Sword(owner, "weapon/sword.png");
-                System.out.println("loaded texture");
-                Texture texture = new Texture(source.get("effect_texture").getAsString());
-                System.out.println(texture.getWidth() / 2 + " and " + texture.getHeight() / 3);
-                TextureRegion[][] frames = SpriteLoader.splitTexture(
-                        texture, 100, 100, 24, 50,
-                        16, 30, 2, 3, 0, 1
-                );
-                sword.setEffectFrames(frames);
-                System.out.println("loaded effect");
-                return sword;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public WeaponLoader() {
+//        this("info/weapon_info.json");
+//    }
+//    public static Weapon load(String weaponName) {
+//        load(weaponName, "info/weapon_info.json");
+//    }
+//    public static Weapon load(String weaponName, String infoPath) {
+//        try {
+//            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
+//            JsonObject source = json.get(weaponName).getAsJsonObject();
+//            if (source.get("type").getAsString().equals("Gun")) {
+//                Gun gun = new Gun(source.get("gun_texture").getAsString());
+//                gun.setBulletTexturePath(source.get("bullet_texture").getAsString());
+//                return gun;
+//            }
+//            else if (source.get("type").getAsString().equals("Sword")) {
+//                System.out.println("found sword");
+//                Sword sword = new Sword(source.get("sword_texture").getAsString());
+//                System.out.println("loaded texture");
+//                Texture texture = new Texture(source.get("effect_texture").getAsString());
+//                System.out.println(texture.getWidth() / 2 + " and " + texture.getHeight() / 3);
+//                TextureRegion[][] frames = SpriteLoader.splitTexture(
+//                        texture, 100, 100, 24, 50,
+//                        16, 30, 2, 3, 0, 1
+//                );
+//                sword.setEffectFrames(frames);
+//                System.out.println("loaded effect");
+//                return sword;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 }

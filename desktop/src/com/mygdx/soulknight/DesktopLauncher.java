@@ -11,7 +11,6 @@ public class DesktopLauncher {
         config.setTitle("My Game");
         config.setWindowedMode(1200, 670);
         new Lwjgl3Application(new SoulKnight(), config);
-//        new Lwjgl3Application(new MyGdxGame(), config);
     }
     
 }
