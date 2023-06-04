@@ -1,11 +1,12 @@
-package com.mygdx.soulknight.entity.Weapon;
+package com.mygdx.soulknight.specialskill;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.entity.Character.SpecialSkill;
+import com.mygdx.soulknight.entity.Map.DestroyableObject;
+import com.mygdx.soulknight.entity.Weapon.Bullet;
 
 public class Barrage extends SpecialSkill {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
@@ -65,13 +66,30 @@ public class Barrage extends SpecialSkill {
         dealDamageMethod();
     }
     public void handleBulletCollision() {
+        if (owner == null) {
+            return;
+        }
         ArrayList<Bullet> removeList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
-            if (owner.getMap().isMapCollision(bullet.getRectangle())) {
+            if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
                 removeList.add(bullet);
             }
         }
         bulletArrayList.removeAll(removeList);
+
+        ArrayList<DestroyableObject> objectsRemove = new ArrayList<>();
+        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+            removeList = new ArrayList<>();
+            for (Bullet bullet : bulletArrayList) {
+                if (bullet.getRectangle().overlaps(object.getRectangle())) {
+                    objectsRemove.add(object);
+                    removeList.add(bullet);
+                    break;
+                }
+            }
+            bulletArrayList.removeAll(removeList);
+        }
+        owner.getMap().removeDestroyableObject(objectsRemove);
     }
     public void dealDamageMethod() {
         if (owner == null) {

@@ -20,9 +20,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
-import com.mygdx.soulknight.entity.Character.SpecialSkill;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Barrage;
+import com.mygdx.soulknight.specialskill.Barrage;
+import com.mygdx.soulknight.specialskill.SpecialSkill;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -167,10 +167,6 @@ public class MainGameScreen extends ScreenAdapter {
         cooldownButton.setCooldownTimer(cooldownTime);
     }
 
-    @Override
-    public void hide() {
-        backgroundMusic.stop();
-    }
     public void resize(int width, int height) {
         stage1.getViewport().update(width, height, true);
         stage2.getViewport().update(width, height, true);

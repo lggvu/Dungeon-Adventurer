@@ -12,6 +12,7 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.specialskill.SpecialSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.badlogic.gdx.Input;
 
