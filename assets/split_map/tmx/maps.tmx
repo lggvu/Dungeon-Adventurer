@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="110" height="110" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="81">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="110" height="110" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="85">
  <tileset firstgid="1" source="../tsx/celianna_TileA5.tsx"/>
+ <tileset firstgid="513" source="../tsx/Object.tsx"/>
  <layer id="1" name="ground" width="110" height="110">
   <data encoding="csv">
 37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,37,38,
@@ -229,6 +230,12 @@
 113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114,113,114
 </data>
  </layer>
+ <objectgroup id="16" name="Object">
+  <object id="81" gid="517" x="175" y="1502" width="64" height="64"/>
+  <object id="82" gid="517" x="324" y="1462" width="64" height="64"/>
+  <object id="83" gid="517" x="290" y="1575" width="64" height="64"/>
+  <object id="84" gid="517" x="190" y="1619" width="64" height="64"/>
+ </objectgroup>
  <objectgroup id="3" name="collision_layer">
   <object id="6" x="464" y="15" width="191" height="145"/>
   <object id="11" x="464" y="320" width="193" height="480"/>
