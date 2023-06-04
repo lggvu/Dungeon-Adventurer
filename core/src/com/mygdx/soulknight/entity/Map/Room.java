@@ -26,75 +26,38 @@ public class Room {
     public Room(MapLayer roomLayer, WorldMap map) {
         this.layer = roomLayer;
         player = map.getPlayer();
-        ArrayList<Rectangle> rectangles = new ArrayList<>();
         roomArea = new ArrayList<>();
-
-        for (MapObject mapObject : map.getCollisionLayer().getObjects()) {
+        for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
-                rectangles.add(((RectangleMapObject) mapObject).getRectangle());
-            }
-        }
-        for (MapObject mapObject : map.getDoorCollision().getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                rectangles.add(((RectangleMapObject) mapObject).getRectangle());
+                Rectangle roomRectangle = ((RectangleMapObject) mapObject).getRectangle();
+                roomArea.add(roomRectangle);
             }
         }
 
         for (int i = 0; i < numOfMonsters; i++) {
-
-            for (MapObject mapObject : layer.getObjects()) {
-                if (mapObject instanceof RectangleMapObject) {
-                    Rectangle roomRectangle = ((RectangleMapObject) mapObject).getRectangle();
-                    roomArea.add(roomRectangle);
-                    while (true) {
-                        float x = MathUtils.random(roomRectangle.getX(), roomRectangle.getX() + roomRectangle.getWidth());
-                        float y = MathUtils.random(roomRectangle.getY(), roomRectangle.getY() + roomRectangle.getHeight());
-                        Monster monster = new Monster("knight", map);
-//                        monster.setWeapon(new Gun(monster, "weapon/weapon.png", 2f, 120f));
-                        monster.setPosition(x, y);
-
-                        boolean noCollision = true;
-                        for (Rectangle rectangle : rectangles) {
-                            if (monster.getRectangle().overlaps(rectangle)) {
-                                noCollision = false;
-                                break;
-                            }
-
-                        }
-
-                        for (Monster monster1 : monsterAlive) {
-                            if (monster1.getRectangle().overlaps(monster.getRectangle())) {
-                                noCollision = false;
-                                break;
-                            }
-                        }
-
-                        if (noCollision) {
-                            monsterAlive.add(monster);
-                            break;
-                        }
-                    }
-
-                    break;
+            Rectangle rectangle = roomArea.get(MathUtils.random(0, roomArea.size() - 1));
+            while (true) {
+                float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
+                float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
+                Monster monster = new Monster("knight", map);
+                monster.setPosition(x, y);
+                if (map.isMapCollision(monster.getRectangle())) {
+                    continue;
                 }
+                if (map.isInDoor(monster.getRectangle())) {
+                    continue;
+                }
+                boolean overlap = false;
+                for (Monster monster1 : monsterAlive) {
+                    overlap = monster.getRectangle().overlaps(monster1.getRectangle());
+                }
+                if (overlap) {
+                    continue;
+                }
+                monsterAlive.add(monster);
+                break;
             }
         }
-    }
-
-    public boolean isInRoom(Rectangle rectangle) {
-//        if (monsterAlive.size() == 0) {
-//            return false;
-//        }
-        for (MapObject mapObject : layer.getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                Rectangle roomRectangle = ((RectangleMapObject) mapObject).getRectangle();
-                if (rectangle.overlaps(roomRectangle)) {
-//                    System.out.println("Player in room with bottom-left coordinate: " + roomRectangle.getX() + " " + roomRectangle.getY());
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public void draw(SpriteBatch batch) {
@@ -121,10 +84,7 @@ public class Room {
                     monstersKilled.add(monster);
                     continue;
                 }
-                // if monster position is N tiles far away from the player, call the update method
-                float distance = (float) Math.sqrt(Math.pow(player.getX() - monster.getX(), 2) + Math.pow(player.getY() - monster.getY(),2));
                 monster.update(deltaTime);
-
             }
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);

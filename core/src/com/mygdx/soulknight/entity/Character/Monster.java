@@ -59,7 +59,7 @@ public class Monster extends SimpleCharacter {
         }
         else {
             // The monster will move randomly if the player is not in the attack radius
-            while (true) {
+            for (int i = 0; i < 40; i++) {
                 float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
                 float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
                 if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
@@ -67,7 +67,7 @@ public class Monster extends SimpleCharacter {
                     break;
                 }
                 this.setSpeedRun(this.speedWhenIdle);
-                lastMoveDirection = new Vector2(MathUtils.random(-10, 10), MathUtils.random(-10, 10)).nor();
+                lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
 
             }
         }

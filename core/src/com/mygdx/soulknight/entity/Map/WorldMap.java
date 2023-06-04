@@ -104,7 +104,6 @@ public class WorldMap {
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
         }
-
         player.draw(batch);
         for (Room room : rooms) {
             room.draw(batch);
@@ -150,15 +149,22 @@ public class WorldMap {
 
 //        In case player is fighting, player can not get out the room
         if (player.isFighting()) {
-            for (MapObject mapObject : getDoorCollision().getObjects()) {
-                if (mapObject instanceof RectangleMapObject) {
-                    if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                        return true;
-                    }
-                }
+            if (isInDoor(rectangle)) {
+                return true;
             }
         }
 
+        return false;
+    }
+
+    public boolean isInDoor(Rectangle rectangle) {
+        for (MapObject mapObject : getDoorCollision().getObjects()) {
+            if (mapObject instanceof RectangleMapObject) {
+                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -222,8 +228,10 @@ public class WorldMap {
     }
 
     public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
-//        System.out.println("BEFORE REMOVE: " + destroyableObjects.size());
         destroyableObjects.removeAll(objects);
-//        System.out.println("AFTER REMOVE: " + destroyableObjects.size());
+    }
+
+    public void removeDestroyableObject(DestroyableObject object) {
+        destroyableObjects.remove(object);
     }
 }
