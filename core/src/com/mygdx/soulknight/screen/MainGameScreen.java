@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -16,6 +17,7 @@ import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SpecialSkill;
@@ -26,12 +28,14 @@ public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
     private WorldMap map;
     private Player player;
-    private Stage stage;
+    private Stage stage1;
+    private Stage stage2;
     private Music backgroundMusic;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
     private CooldownButton cooldownButton;
     private float cooldownTime;
+    private TextButton pauseButton2;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -48,7 +52,7 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         
-        pauseButton = this.pauseButton();
+        pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
         cooldownButton = new CooldownButton(new Runnable() {
             @Override
             public void run() {
@@ -61,18 +65,22 @@ public class MainGameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-    	stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+    	stage1 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+    	stage2 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+    	InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    	inputMultiplexer.addProcessor(stage1);
+    	inputMultiplexer.addProcessor(stage2);
 
-        Gdx.input.setInputProcessor(stage);
-        stage.addActor(pauseButton);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         cooldownButton.setPosition(Gdx.graphics.getWidth() / 1.2f - cooldownButton.RADIUS, Gdx.graphics.getHeight() / 5f - cooldownButton.RADIUS); // Set the button position as per your requirements
 
         // Add the button to the stage
-        stage.addActor(cooldownButton);
-        stage.addActor(pauseButton);
+        stage1.addActor(pauseButton);
+        stage2.addActor(cooldownButton);
+        
 
-        stage.setKeyboardFocus(cooldownButton);
+        stage2.setKeyboardFocus(cooldownButton);
     }
 
     @Override
@@ -91,16 +99,19 @@ public class MainGameScreen extends ScreenAdapter {
 
         map.draw(game.getBatch());
         drawHealthBar();
-        stage.act(deltaTime);
-        stage.draw();
+        stage2.act(deltaTime);
+        stage2.draw();
+        stage1.act(deltaTime);
+        stage1.draw();
     }
 
     @Override
     public void dispose() {
         map.dispose();
-        stage.dispose();
+        stage1.dispose();
+        stage2.dispose();
         backgroundMusic.dispose();
-       
+        cooldownButton.disposeShapeRenderer();
 
     }
 
@@ -147,7 +158,6 @@ public class MainGameScreen extends ScreenAdapter {
         shapeRenderer.rect(barX, barArmorY, armorBarWidth, barHeight);
 
         shapeRenderer.end();
-        
     	
     }
 
@@ -162,18 +172,19 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.stop();
     }
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        stage1.getViewport().update(width, height, true);
+        stage2.getViewport().update(width, height, true);
 
         // Update the position of the pause button when the screen is resized
-        pauseButton.setPosition(stage.getWidth() - pauseButton.getWidth() - 10, stage.getHeight() - pauseButton.getHeight() - 10);
+        pauseButton.setPosition(stage1.getWidth() - pauseButton.getWidth() - 10, stage1.getHeight() - pauseButton.getHeight() - 10);
     }
 
-    public TextButton pauseButton() {
+    public TextButton pauseButton(float x, float y) {
         Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
 
         // Create the pause button
         TextButton pauseButton = new TextButton("Pause", skin);
-        pauseButton.setPosition(Gdx.graphics.getWidth() - pauseButton.getWidth() - 10, Gdx.graphics.getHeight() - pauseButton.getHeight() - 10);
+        pauseButton.setPosition(x,y);
         pauseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

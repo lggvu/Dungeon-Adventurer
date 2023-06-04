@@ -16,6 +16,7 @@ public class CooldownButton extends Actor {
     private boolean isCoolingDown;
     private float cooldownTimer;
     private Runnable task;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer(); 
 
 
     public boolean isCoolingDown() {
@@ -78,7 +79,6 @@ public class CooldownButton extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -91,6 +91,9 @@ public class CooldownButton extends Actor {
         }
 
         shapeRenderer.end();
-        shapeRenderer.dispose();
+    }
+
+    public void disposeShapeRenderer() {
+        shapeRenderer.dispose(); // Dispose ShapeRenderer
     }
 }
