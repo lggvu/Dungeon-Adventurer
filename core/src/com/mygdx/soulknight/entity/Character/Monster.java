@@ -8,12 +8,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
-import com.mygdx.soulknight.util.WeaponLoader;
 
 public class Monster extends SimpleCharacter {
     float attackRadius = 200;
