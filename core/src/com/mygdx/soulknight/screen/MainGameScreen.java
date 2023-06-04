@@ -14,8 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.SpecialSkill;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.entity.Weapon.Barrage;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -36,13 +41,21 @@ public class MainGameScreen extends ScreenAdapter {
         player = new Player("king", null);
         map = new WorldMap("split_map/tmx/maps.tmx", player);
         player.setMap(map);
+        Barrage barrage = new Barrage(player, "bullet/bullet1.png", 100, 1f, 100f, 5f);
+        player.setSkill((SpecialSkill)barrage);
         backgroundMusic = Settings.music;
         backgroundMusic.setVolume(0.5f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         
         pauseButton = this.pauseButton();
-        cooldownButton = new CooldownButton();
+        cooldownButton = new CooldownButton(new Runnable() {
+            @Override
+            public void run() {
+            	player.getSkill().setActivate(true);
+            }
+        });
+
                 
     }
 
@@ -53,10 +66,13 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
         stage.addActor(pauseButton);
 
-//        cooldownButton.setPosition(Gdx.graphics.getWidth() / 1.2f - cooldownButton.RADIUS, Gdx.graphics.getHeight() / 5f - cooldownButton.RADIUS); // Set the button position as per your requirements
-//        // Add the button to the stage
-//        stage.addActor(cooldownButton);
-//        stage.setKeyboardFocus(cooldownButton);
+        cooldownButton.setPosition(Gdx.graphics.getWidth() / 1.2f - cooldownButton.RADIUS, Gdx.graphics.getHeight() / 5f - cooldownButton.RADIUS); // Set the button position as per your requirements
+
+        // Add the button to the stage
+        stage.addActor(cooldownButton);
+        stage.addActor(pauseButton);
+
+        stage.setKeyboardFocus(cooldownButton);
     }
 
     @Override
