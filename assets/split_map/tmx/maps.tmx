@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="110" height="110" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="143">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="110" height="110" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="149">
  <tileset firstgid="1" source="../tsx/celianna_TileA5.tsx"/>
  <layer id="1" name="ground" width="110" height="110">
   <data encoding="csv">
@@ -230,33 +230,12 @@
 </data>
  </layer>
  <objectgroup id="16" name="destroyable_object">
-  <object id="116" gid="375" x="197" y="910" width="16" height="16"/>
-  <object id="117" gid="375" x="270" y="847" width="16" height="16"/>
-  <object id="118" gid="375" x="269" y="929" width="16" height="16"/>
-  <object id="119" gid="375" x="181" y="853" width="16" height="16"/>
-  <object id="120" gid="375" x="118" y="897" width="16" height="16"/>
-  <object id="121" gid="375" x="164" y="965" width="16" height="16"/>
-  <object id="122" gid="375" x="172" y="1023" width="16" height="16"/>
-  <object id="123" gid="375" x="309" y="1019" width="16" height="16"/>
-  <object id="124" gid="375" x="138" y="808" width="16" height="16"/>
-  <object id="125" gid="375" x="250" y="785" width="16" height="16"/>
-  <object id="126" gid="375" x="344" y="787" width="16" height="16"/>
-  <object id="127" gid="375" x="351" y="876" width="16" height="16"/>
-  <object id="128" gid="375" x="346" y="959" width="16" height="16"/>
-  <object id="129" gid="375" x="144" y="749" width="16" height="16"/>
-  <object id="130" gid="375" x="187" y="794" width="16" height="16"/>
-  <object id="131" gid="375" x="306" y="740" width="16" height="16"/>
-  <object id="132" gid="375" x="48" y="832" width="16" height="16"/>
-  <object id="133" gid="375" x="74" y="986" width="16" height="16"/>
-  <object id="134" gid="375" x="113" y="1024" width="16" height="16"/>
-  <object id="135" gid="375" x="163" y="207" width="16" height="16"/>
-  <object id="136" gid="375" x="275" y="202" width="16" height="16"/>
-  <object id="137" gid="375" x="258" y="275" width="16" height="16"/>
-  <object id="138" gid="375" x="194" y="347" width="16" height="16"/>
-  <object id="139" gid="375" x="91" y="256" width="16" height="16"/>
-  <object id="140" gid="375" x="259" y="132" width="16" height="16"/>
-  <object id="141" gid="375" x="338" y="190" width="16" height="16"/>
-  <object id="142" gid="375" x="359" y="324" width="16" height="16"/>
+  <object id="143" gid="34" x="121" y="885" width="16" height="16"/>
+  <object id="144" gid="34" x="237" y="982" width="16" height="16"/>
+  <object id="145" gid="34" x="126" y="1021" width="16" height="16"/>
+  <object id="146" gid="34" x="176" y="370" width="16" height="16"/>
+  <object id="147" gid="34" x="290" y="290" width="16" height="16"/>
+  <object id="148" gid="34" x="334" y="396" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="3" name="collision_layer">
   <object id="6" x="464" y="15" width="191" height="145"/>

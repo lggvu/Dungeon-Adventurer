@@ -1,19 +1,24 @@
 package com.mygdx.soulknight.entity.Map;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
 
 public class DestroyableObject {
-    private TiledMapTileMapObject object;
+    private TextureRegion region;
+    private float x, y;
     private float width = 16;
     private float height = 16;
     private static int count = 0;
     private int id;
     private Rectangle rectangle;
     public DestroyableObject(TiledMapTileMapObject object) {
-        this.object = object;
+        region = object.getTextureRegion();
+        x = object.getX();
+        y = object.getY();
         id = count++;
         rectangle = new Rectangle(object.getX(), object.getY(), width, height);
     }
@@ -31,6 +36,6 @@ public class DestroyableObject {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(object.getTextureRegion(), object.getX(), object.getY(), width, height);
+        batch.draw(region, x, y, width, height);
     }
 }
