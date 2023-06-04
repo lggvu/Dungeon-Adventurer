@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 
 import java.util.ArrayList;
@@ -89,11 +90,25 @@ public class Gun extends Weapon {
         }
         ArrayList<Bullet> removeList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
-            if (owner.getMap().isMapCollision(bullet.getRectangle())) {
+            if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
                 removeList.add(bullet);
             }
         }
         bulletArrayList.removeAll(removeList);
+
+        ArrayList<DestroyableObject> objectsRemove = new ArrayList<>();
+        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+            removeList = new ArrayList<>();
+            for (Bullet bullet : bulletArrayList) {
+                if (bullet.getRectangle().overlaps(object.getRectangle())) {
+                    objectsRemove.add(object);
+                    removeList.add(bullet);
+                    break;
+                }
+            }
+            bulletArrayList.removeAll(removeList);
+        }
+        owner.getMap().removeDestroyableObject(objectsRemove);
     }
 
     public ArrayList<Bullet> getBulletArrayList() {

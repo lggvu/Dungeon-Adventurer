@@ -10,9 +10,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -30,6 +30,7 @@ public class WorldMap {
     private Player player;
     private ArrayList<Room> rooms;
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
+    private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -42,6 +43,13 @@ public class WorldMap {
         rooms = new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
+        }
+
+        MapLayer destroyableLayer = tiledMap.getLayers().get("destroyable_object");
+        for (MapObject mapObject : destroyableLayer.getObjects()) {
+            if (mapObject instanceof TiledMapTileMapObject) {
+                destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
+            }
         }
 
 //        temp
@@ -93,6 +101,10 @@ public class WorldMap {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+        for (DestroyableObject object : destroyableObjects) {
+            object.draw(batch);
+        }
+
         player.draw(batch);
         for (Room room : rooms) {
             room.draw(batch);
@@ -116,6 +128,18 @@ public class WorldMap {
     }
 
     public boolean isMapCollision(Rectangle rectangle) {
+        return isMapCollision(rectangle, true);
+    }
+
+    public boolean isMapCollision(Rectangle rectangle, boolean checkWithDestroyableObject) {
+        if (checkWithDestroyableObject) {
+            for (DestroyableObject object : destroyableObjects) {
+                if (rectangle.overlaps(object.getRectangle())) {
+                    return true;
+                }
+            }
+        }
+
         for (MapObject mapObject : collisionLayer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
@@ -191,5 +215,15 @@ public class WorldMap {
             }
         }
         return true;
+    }
+
+    public ArrayList<DestroyableObject> getDestroyableObjects() {
+        return destroyableObjects;
+    }
+
+    public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
+//        System.out.println("BEFORE REMOVE: " + destroyableObjects.size());
+        destroyableObjects.removeAll(objects);
+//        System.out.println("AFTER REMOVE: " + destroyableObjects.size());
     }
 }
