@@ -39,17 +39,18 @@ public class WorldMap {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionLayer = tiledMap.getLayers().get("collision_layer");
         doorCollision = tiledMap.getLayers().get("door_layer");
-        MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
-        rooms = new ArrayList<>();
-        for (MapLayer roomLayer : roomLayers.getLayers()) {
-            rooms.add(new Room(roomLayer,this));
-        }
 
         MapLayer destroyableLayer = tiledMap.getLayers().get("destroyable_object");
         for (MapObject mapObject : destroyableLayer.getObjects()) {
             if (mapObject instanceof TiledMapTileMapObject) {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
             }
+        }
+
+        MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
+        rooms = new ArrayList<>();
+        for (MapLayer roomLayer : roomLayers.getLayers()) {
+            rooms.add(new Room(roomLayer,this));
         }
 
 //        temp
