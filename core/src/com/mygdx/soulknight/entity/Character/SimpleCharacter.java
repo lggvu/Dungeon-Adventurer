@@ -36,7 +36,6 @@ public abstract class SimpleCharacter {
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
-        load();
 //        spriteLoader = new SpriteLoader("character/img1.png", "king");
 //        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
     }

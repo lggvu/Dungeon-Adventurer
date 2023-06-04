@@ -1,0 +1,34 @@
+{
+    "HP Stone": {
+        "type": "Life Potion",
+        "texture_path": "item/hp_stone.png",
+        "width": 10,
+        "height": 10,
+        "auto_collect": true,
+        "hp": 1
+    },
+    "Life Potion": {
+        "type": "Life Potion",
+        "texture_path": "item/life_potion.png",
+        "width": 20,
+        "height": 20,
+        "auto_collect": false,
+        "hp": 2
+    },
+    "Mana Stone": {
+        "type": "Mana Potion",
+        "texture_path": "item/mana_stone.png",
+        "width": 10,
+        "height": 10,
+        "auto_collect": true,
+        "mana": 20
+    },
+    "Mana Potion": {
+        "type": "Mana Potion",
+        "texture_path": "item/mana_potion.png",
+        "width": 20,
+        "height": 20,
+        "auto_collect": false,
+        "mana": 40
+    }
+}

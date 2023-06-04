@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Item.Item;
+import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -15,6 +17,8 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.WeaponLoader;
 import com.badlogic.gdx.Input;
 
+import java.util.ArrayList;
+
 public class Player extends SimpleCharacter {
     private int maxArmor = 6;
     private int currentArmor = maxArmor;
@@ -24,9 +28,11 @@ public class Player extends SimpleCharacter {
     private float currentHealArmor = 0;
     private boolean fighting = false;
     private float visionRange = 1000f;
-
+    private float collectRange = 30f;
+    private int maxWeaponNumber = 2;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
+        this.load();
     }
 
 
@@ -41,7 +47,7 @@ public class Player extends SimpleCharacter {
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP;
+            currentHP = maxHP - 5;
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
@@ -50,7 +56,8 @@ public class Player extends SimpleCharacter {
             maxArmor = source.get("armor").getAsInt();
             currentArmor = maxArmor;
             maxMana = source.get("energy").getAsInt();
-            currentMana = maxMana;
+            setCurrentMana(maxMana - 100);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,6 +127,16 @@ public class Player extends SimpleCharacter {
             move(moveDirection.x, moveDirection.y, deltaTime);
         }
 
+        ArrayList<Pickable> collectItem = autoCollect();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            Pickable item = getNearestPickableInRange();
+            if (item != null) {
+                collectItem.add(item);
+                map.getItemsOnGround().remove(item);
+            }
+        }
+
         Room room = map.getRoomPlayerIn();
         fighting = false;
         if (room != null && room.getMonsterAlive().size() > 0) {
@@ -127,7 +144,7 @@ public class Player extends SimpleCharacter {
             room.setCombat(true);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || true) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             attack(getAttackDirection(room));
         }
 
@@ -156,6 +173,14 @@ public class Player extends SimpleCharacter {
                 }
             }
         }
+
+        for (Pickable item : collectItem) {
+            if (item instanceof Item) {
+                ((Item) item).use(this);
+            } else if (item instanceof Weapon) {
+                collectWeapon((Weapon) item);
+            }
+        }
     }
 
     public Vector2 getAttackDirection(Room roomPlayerIn) {
@@ -175,6 +200,39 @@ public class Player extends SimpleCharacter {
             }
         }
         return lastMoveDirection;
+    }
+
+    public void collectWeapon(Weapon weapon) {
+        weapon.setOwner(this);
+        weapon.setOnGround(false);
+        if (weapons.size() < maxWeaponNumber) {
+            weapons.add(weapon);
+        } else {
+            Weapon currentWeapon = getCurrentWeapon();
+            currentWeapon.setPosition(this.x, this.y);
+            weapons.remove(currentWeapon);
+            map.addWeaponOnGround(currentWeapon);
+            currentWeapon.setOnGround(true);
+            weapons.add(weapon);
+        }
+        currentWeaponId = weapons.size() - 1;
+    }
+
+    public ArrayList<Pickable> autoCollect() {
+        ArrayList<Pickable> removeList = new ArrayList<>();
+        ArrayList<Pickable> collectItem = new ArrayList<>();
+        Vector2 posPlayer = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
+        for (Pickable item : map.getItemsOnGround()) {
+            float dst = posPlayer.dst(item.getX() + item.getWidth() / 2, item.getY() + item.getHeight() / 2);
+            if (item instanceof Item) {
+                if (((Item) item).isAutoCollect() && dst <= collectRange) {
+                    collectItem.add(item);
+                    removeList.add(item);
+                }
+            }
+        }
+        map.getItemsOnGround().removeAll(removeList);
+        return collectItem;
     }
 
     public void switchWeapon() {
@@ -208,5 +266,20 @@ public class Player extends SimpleCharacter {
         this.currentMana = currentMana;
     }
 
-
+    public Pickable getNearestPickableInRange() {
+        Vector2 posPlayer = new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
+        float minDst = Float.MAX_VALUE;
+        Pickable nearestItem = null;
+        for (Pickable item : map.getItemsOnGround()) {
+            float dst = posPlayer.dst(item.getX() + item.getWidth() / 2, item.getY() + item.getHeight() / 2);
+            if (dst < minDst) {
+                minDst = dst;
+                nearestItem = item;
+            }
+        }
+        if (minDst <= collectRange) {
+            return nearestItem;
+        }
+        return null;
+    }
 }

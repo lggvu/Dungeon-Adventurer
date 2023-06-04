@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Item.Item;
+import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
@@ -26,6 +29,7 @@ public class WorldMap {
     private MapLayer doorCollision;
     private Player player;
     private ArrayList<Room> rooms;
+    private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -39,12 +43,44 @@ public class WorldMap {
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
+
+//        temp
+        Item item = Item.load("HP Stone");
+        item.setPosition(50, 400);
+        itemsOnGround.add(item);
+
+        item = Item.load("Life Potion");
+        item.setPosition(400, 50);
+        itemsOnGround.add(item);
+
+        item = Item.load("Mana Stone");
+        item.setPosition(200, 50);
+        itemsOnGround.add(item);
+
+        item = Item.load("Mana Potion");
+        item.setPosition(50, 200);
+        itemsOnGround.add(item);
+
+        Weapon weapon = Weapon.load("Gun 1");
+        weapon.setPosition(100, 100);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun 2");
+        weapon.setPosition(250, 250);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
     }
 
     public void update(float deltaTime) {
         player.update(deltaTime);
         for (Room room : rooms) {
             room.update(deltaTime);
+        }
+        for (Pickable item : itemsOnGround) {
+            if (item instanceof Gun) {
+                ((Gun) item).update(deltaTime);
+            }
         }
     }
 
@@ -60,6 +96,16 @@ public class WorldMap {
         player.draw(batch);
         for (Room room : rooms) {
             room.draw(batch);
+        }
+        for (Pickable item : itemsOnGround) {
+            item.draw(batch);
+        }
+        Pickable nearestItem = player.getNearestPickableInRange();
+        if (nearestItem != null) {
+            Texture texture = new Texture("ppp.png");
+            float widthConsider = 8;
+            float heightConsider = 8;
+            batch.draw(texture, nearestItem.getX() + nearestItem.getWidth() / 2 - widthConsider / 2, nearestItem.getY() + nearestItem.getWidth() + 2, widthConsider, heightConsider);
         }
         batch.end();
     }
@@ -125,5 +171,25 @@ public class WorldMap {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void addWeaponOnGround(Weapon weapon) {
+        itemsOnGround.add(weapon);
+    }
+
+    public ArrayList<Pickable> getItemsOnGround() {
+        return itemsOnGround;
+    }
+
+    public boolean isOver() {
+        if (player.getCurrentHP() <= 0) {
+            return true;
+        }
+        for (Room room : rooms) {
+            if (room.getMonsterAlive().size() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

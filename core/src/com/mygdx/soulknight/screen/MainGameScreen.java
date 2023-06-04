@@ -45,111 +45,17 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.update(deltaTime);
+
+        if (map.isOver()) {
+            game.setScreen(new MenuScreen(game));
+            game.resetBatch();
+            this.dispose();
+            return;
+        }
+
         map.draw(game.getBatch());
 
-//        Vector2 moveDirection = new Vector2(0, 0);
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-//            moveDirection = moveDirection.add(-1, 0);
-//        }
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-//            moveDirection = moveDirection.add(1, 0);
-//        }
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-//            moveDirection = moveDirection.add(0, 1);
-//        }
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-//            moveDirection = moveDirection.add(0, -1);
-//        }
-//
-//        if (moveDirection.x != 0 || moveDirection.y != 0) {
-//            moveDirection = moveDirection.nor();
-//            player.move(moveDirection.x, moveDirection.y);
-//        }
-//
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-//            player.switchWeapon();
-//        }
-//
-//        //        Update screen
-//        player.update(deltaTime);
-//
-//        isCombat = false;
-//        Room roomPlayerIn = null;
-//        if (!isPlayerInDoor(player.getRectangle())) {
-//            for (Room room : rooms) {
-//                if (room.isInRoom(player.getRectangle()) && room.getMonsterAlive().size() > 0) {
-//                    roomPlayerIn = room;
-//                    isCombat = true;
-//                    room.setCombat(true);
-//                }
-//                room.update(deltaTime);
-//            }
-//        }
-//
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && true) {
-//            if (roomPlayerIn != null) {
-//                float minDst = Float.MAX_VALUE;
-//                Vector2 minPos = null;
-//                for (Monster monster : roomPlayerIn.getMonsterAlive()) {
-//                    Vector2 monsterPos = new Vector2(monster.getX(), monster.getY());
-//                    float dst = monsterPos.dst(new Vector2(player.getX(), player.getY()));
-////                    System.out.println(dst);
-//                    if (dst < minDst) {
-//                        minDst = dst;
-//                        minPos = monsterPos;
-//                    }
-//                }
-////                System.out.println(minDst);
-//                if (minDst <= player.getCurrentWeapon().getRangeWeapon()) {
-//                    player.attack(minPos.sub(player.getX(), player.getY()).nor());
-//                } else {
-//                    player.attack(player.getLastMoveDirection());
-//                }
-//            } else {
-//                player.attack(player.getLastMoveDirection());
-//            }
-//        }
-//
-//        handleBulletCollision();
-//
-//        boolean noMonsterLeft = true;
-//        for (Room room : rooms) {
-//            if (room.getMonsterAlive().size() > 0) {
-//                noMonsterLeft = false;
-//            }
-//        }
-//        if (noMonsterLeft || player.getCurrentHP() <= 0) {
-//            game.setScreen(new MenuScreen(game));
-//            game.resetBatch();
-//            this.dispose();
-//            return;
-//        }
-//
-//        camera.position.x = player.getX() + player.getWidth() / 2;
-//        camera.position.y = player.getY() + player.getHeight() / 2;
-//
-//        camera.update();
-//        mapRenderer.setView(camera);
-//        mapRenderer.render();
-//        game.getBatch().setProjectionMatrix(camera.combined);
-//
-//        game.getBatch().begin();
-//
-//        player.draw(game.getBatch());
-//
-//        for (Room room : rooms) {
-//            room.draw(game.getBatch());
-//        }
-//
-//        game.getBatch().end();
         drawHealthBar();
-//        if (!noMonsterLeft) {
-//            drawHealthBar();
-//        }
     }
     @Override
     public void dispose() {

@@ -136,11 +136,12 @@ public class Room {
 
         for (Monster monster : monsterDie) {
             Weapon weapon = monster.getCurrentWeapon();
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.update(deltaTime);
-                }
-            }
+            weapon.update(deltaTime);
+//            if (weapon instanceof Gun) {
+//                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+//                    bullet.update(deltaTime);
+//                }
+//            }
         }
     }
 

@@ -21,6 +21,7 @@ public class Monster extends SimpleCharacter {
 
     public Monster(String characterName, WorldMap map) {
         super(characterName, map);
+        this.load();
     }
 
     @Override

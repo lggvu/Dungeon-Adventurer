@@ -98,3 +98,43 @@ dct_character = {
 json_object = json.dumps(dct_character, indent = 4) 
 with open('character_info.json', 'w') as f:
     f.write(json_object)
+
+
+dct_potion = {
+    'HP Stone': {
+        "type": "Life Potion",
+        "texture_path": "item/hp_stone.png",
+        "width": 50,
+        "height": 50,
+        "auto_collect": True,
+        "hp": 1
+    }, 
+    'Life Potion': {
+        "type": "Life Potion",
+        "texture_path": "item/life_potion.png",
+        "width": 80,
+        "height": 80,
+        "auto_collect": False,
+        "hp": 2
+    }, 
+    'Mana Stone': {
+        "type": "Mana Potion",
+        "texture_path": "item/mana_stone.png",
+        "width": 50,
+        "height": 50,
+        "auto_collect": True,
+        "mana": 8
+    }, 
+    'Mana Potion': {
+        "type": "Mana Potion",
+        "texture_path": "item/mana_potion.png",
+        "width": 80,
+        "height": 80,
+        "auto_collect": False,
+        "mana": 40
+    }, 
+}
+
+json_object = json.dumps(dct_potion, indent = 4) 
+with open('item_info.json', 'w') as f:
+    f.write(json_object)

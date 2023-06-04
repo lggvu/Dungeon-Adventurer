@@ -9,9 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.util.SpriteLoader;
 
-public abstract class Weapon {
+public abstract class Weapon implements Pickable {
 //    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     protected String name;
     private static int ID = 1;
@@ -24,8 +25,12 @@ public abstract class Weapon {
     protected int damage;
     protected int energyCost;
     protected float criticalRate;
+    protected float x, y, width, height;
+    protected boolean onGround = false;
+    protected String texturePath;
 
     public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
+        this.texturePath = texturePath;
         this.texture = new TextureRegion(new Texture(texturePath));
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
@@ -49,6 +54,10 @@ public abstract class Weapon {
     }
 
     public void setOwner(SimpleCharacter owner) {
+        texture = new TextureRegion(new Texture(texturePath));
+        if (owner.getCurrentHeadDirection().x == -1) {
+            texture.flip(false, true);
+        }
         this.owner = owner;
     }
 
@@ -107,8 +116,6 @@ public abstract class Weapon {
             float attackSpeed = properties.get("attack_speed").getAsFloat();
             int range = properties.get("range").getAsInt();
             float criticalRate = properties.get("critical_rate").getAsFloat();
-            System.out.println(weaponName);
-            System.out.println(range);
 
             if (source.get("type").getAsString().equals("Gun")) {
                 String bulletTexturePath = source.get("bullet_texture").getAsString();
@@ -135,5 +142,27 @@ public abstract class Weapon {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public float getX() {
+        return x;
+    };
+    public float getY() {
+        return y;
+    };
+    public float getWidth() {
+        return width;
+    };
+    public float getHeight() {
+        return height;
+    };
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
     }
 }

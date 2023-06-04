@@ -21,6 +21,8 @@ public class Sword extends Weapon {
 
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
+        width = 12;
+        height = 8;
     }
 
     public void setEffectFrames(TextureRegion[][] frames) {
@@ -57,10 +59,14 @@ public class Sword extends Weapon {
 
     @Override
     public void draw(SpriteBatch batch) {
+        if (onGround) {
+            batch.draw(texture, x, y, width, height);
+            return;
+        }
         // Draw the sword
         if (!isAttacking) {
             float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
-            batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f, 0, 4, 12, 8, 1, 1, degree);
+            batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f, 0, 4, width, height, 1, 1, degree);
         }
         // Draw effect when attacking
         if (isAttacking) {
