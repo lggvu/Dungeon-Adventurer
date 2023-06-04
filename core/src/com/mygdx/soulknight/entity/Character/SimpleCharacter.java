@@ -34,6 +34,17 @@ public abstract class SimpleCharacter {
     protected int currentWeaponId = 0;
     protected ArrayList<Weapon> weapons = new ArrayList<>();
 
+    protected boolean isStunned=false;
+
+    protected boolean isPushed=false;
+
+    protected float stunDuration=0.3f;
+
+    protected float stunTimer;
+
+
+    protected ArrayList<Bullet> hitBulletArrayList=new ArrayList<>();
+
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
@@ -70,6 +81,30 @@ public abstract class SimpleCharacter {
         if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
             this.x = testX;
             this.y = testY;
+        }
+    }
+    public void pushedByBullet(float deltaTime) {
+        if (!hitBulletArrayList.isEmpty()) {
+            float totalPushForceX = 0.0f;
+            float totalPushForceY = 0.0f;
+            ArrayList<Bullet> removeBulletList = new ArrayList<>();
+            for (Bullet bullet : hitBulletArrayList) {
+                bullet.setPushTimer(bullet.getPushTimer() - deltaTime);
+                if (bullet.getPushTimer() > 0) {
+                    totalPushForceX += bullet.getImpactForce() * bullet.getDirection().x;
+                    totalPushForceY += bullet.getImpactForce() * bullet.getDirection().y;
+                } else {
+                    removeBulletList.add(bullet);
+                }
+            }
+            hitBulletArrayList.removeAll(removeBulletList);
+            float testX = this.x + totalPushForceX;
+            float testY = this.y + totalPushForceY;
+
+            if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
+                this.x = testX;
+                this.y = testY;
+            }
         }
     }
 

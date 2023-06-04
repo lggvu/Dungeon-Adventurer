@@ -29,8 +29,8 @@ public class Explosion {
         this.y=initialY;
         this.affectedCharacter = affectedCharacter;
         this.bullet = bullet;
-        this.relativeHitX=bullet.getX()- affectedCharacter.getX()- Math.signum(bullet.getX()- affectedCharacter.getX())*affectedCharacter.getWidth()/3;
-        this.relativeHitX=bullet.getY()- affectedCharacter.getY()- Math.signum(bullet.getY()- affectedCharacter.getY())*affectedCharacter.getHeight()/3;
+        this.relativeHitX=bullet.getX()- affectedCharacter.getX()- Math.signum(bullet.getX()+ affectedCharacter.getX())*affectedCharacter.getWidth()/4;
+        this.relativeHitX=bullet.getY()- affectedCharacter.getY()- Math.signum(bullet.getY()+ affectedCharacter.getY())*affectedCharacter.getHeight()/4;
     }
 
     public void update(float deltaTime){
@@ -39,7 +39,8 @@ public class Explosion {
         setY(affectedCharacter.getY()+relativeHitY);
     }
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, this.initialX, this.initialY, 20, 20);
+        System.out.println("WHATt");
+        batch.draw(texture, this.x, this.y, 20, 20);
     }
 
     public float getX() {

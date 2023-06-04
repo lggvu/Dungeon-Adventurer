@@ -45,10 +45,15 @@ public class Gun extends Weapon {
         }
         handleBulletCollision();
         dealDamageMethod();
+        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
+        for (Explosion explosion : explosionArrayList) {
+            explosion.update(deltaTime);
+            if (explosion.getDurationTimeRemain()<0){
+                removeExplosionList.add(explosion);
 
-//        for (Explosion explosion : explosionArrayList) {
-//            explosion.update(deltaTime);
-//        }
+            }
+        }
+        explosionArrayList.removeAll(removeExplosionList);
     }
     @Override
     public void flip(boolean x, boolean y) {
@@ -60,14 +65,16 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
+        for (Explosion explosion: explosionArrayList){
+            explosion.draw(batch);
 
+        }
         if (onGround) {
             batch.draw(texture, x, y, width, height);
             return;
         }
 
         float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
-        System.out.println(owner.getX());
         batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f,0, 4, width, height, 1, 1, degree);
 //        batch.draw(texture, owner.getX() + owner.getWidth() * 0.6f, owner.getY() + owner.getHeight() * 0.25f, 12, 12);
 

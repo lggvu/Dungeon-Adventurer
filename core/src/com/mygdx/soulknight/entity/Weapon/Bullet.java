@@ -9,7 +9,7 @@ public class Bullet {
 
     private float pushTimer=0.5f;
 
-    private float impactForce=5f;
+    private float impactForce=3f;
 
     private Vector2 direction;
     private float speed = 1000f;

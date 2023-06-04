@@ -31,16 +31,7 @@ public class Player extends SimpleCharacter {
     private float collectRange = 30f;
     private int maxWeaponNumber = 2;
 
-    private boolean isStunned=false;
 
-    private boolean isPushed=false;
-
-    private float stunDuration=0.3f;
-
-    private float stunTimer;
-
-
-    private ArrayList<Bullet> hitBulletArrayList=new ArrayList<>();
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         this.load();
@@ -58,7 +49,8 @@ public class Player extends SimpleCharacter {
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP - 5;
+//            currentHP = maxHP - 5;
+            currentHP=1000;
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
@@ -108,10 +100,9 @@ public class Player extends SimpleCharacter {
                     for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                         bullet.draw(batch);
                     }
-//                    for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
-//                        System.out.println("WTFTFFF");
-//                        explosion.draw(batch);
-//                    }
+                    for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
+                        explosion.draw(batch);
+                    }
                 }
             }
         }
@@ -119,7 +110,6 @@ public class Player extends SimpleCharacter {
 
     @Override
     public void getHit(int damage) {
-        System.out.println("SIUUU");
     }
 
     @Override
@@ -214,30 +204,29 @@ public class Player extends SimpleCharacter {
                 isStunned=false;
             }
         }
-        if (!hitBulletArrayList.isEmpty()) {
-            float totalPushForceX = 0.0f;
-            float totalPushForceY = 0.0f;
-            ArrayList<Bullet> removeBulletList = new ArrayList<>();
-            for (Bullet bullet : hitBulletArrayList) {
-                bullet.setPushTimer(bullet.getPushTimer() - deltaTime);
-                if (bullet.getPushTimer() > 0) {
-                    totalPushForceX += bullet.getImpactForce() * bullet.getDirection().x;
-                    totalPushForceY += bullet.getImpactForce() * bullet.getDirection().y;
-                } else {
-                    removeBulletList.add(bullet);
-                }
-            }
-            hitBulletArrayList.removeAll(removeBulletList);
-            float testX = this.x + totalPushForceX;
-            float testY = this.y + totalPushForceY;
-
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
-                this.x = testX;
-                this.y = testY;
-            }
-
-
-            }
+        pushedByBullet(deltaTime);
+//        if (!hitBulletArrayList.isEmpty()) {
+//            float totalPushForceX = 0.0f;
+//            float totalPushForceY = 0.0f;
+//            ArrayList<Bullet> removeBulletList = new ArrayList<>();
+//            for (Bullet bullet : hitBulletArrayList) {
+//                bullet.setPushTimer(bullet.getPushTimer() - deltaTime);
+//                if (bullet.getPushTimer() > 0) {
+//                    totalPushForceX += bullet.getImpactForce() * bullet.getDirection().x;
+//                    totalPushForceY += bullet.getImpactForce() * bullet.getDirection().y;
+//                } else {
+//                    removeBulletList.add(bullet);
+//                }
+//            }
+//            hitBulletArrayList.removeAll(removeBulletList);
+//            float testX = this.x + totalPushForceX;
+//            float testY = this.y + totalPushForceY;
+//
+//            if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
+//                this.x = testX;
+//                this.y = testY;
+//                }
+//            }
         }
 
     public Vector2 getAttackDirection(Room roomPlayerIn) {
