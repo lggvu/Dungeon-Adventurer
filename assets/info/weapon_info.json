@@ -3,6 +3,7 @@
         "type": "Gun",
         "gun_texture": "weapon/weapon.png",
         "bullet_texture": "bullet/bullet1.png",
+        "explosion_texture": "boom/p1.png",
         "properties": {
             "damage": 3,
             "energy_cost": 1,
@@ -16,6 +17,7 @@
         "type": "Gun",
         "gun_texture": "weapon/weapon1.png",
         "bullet_texture": "bullet/bullet3.png",
+        "explosion_texture": "boom/p1.png",
         "properties": {
             "damage": 5,
             "energy_cost": 2,
@@ -29,6 +31,7 @@
         "type": "Gun",
         "gun_texture": "weapon/weapon.png",
         "bullet_texture": "bullet/bullet1.png",
+        "explosion_texture": "boom/p1.png",
         "properties": {
             "damage": 3,
             "energy_cost": 2,

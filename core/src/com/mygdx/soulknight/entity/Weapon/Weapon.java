@@ -119,8 +119,10 @@ public abstract class Weapon implements Pickable {
 
             if (source.get("type").getAsString().equals("Gun")) {
                 String bulletTexturePath = source.get("bullet_texture").getAsString();
+                String explosionTexturePath=source.get("explosion_texture").getAsString();
                 float bulletSpeed = properties.get("bullet_speed").getAsFloat();
-                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
+
+                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath,damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
                 return gun;
             }
             else if (source.get("type").getAsString().equals("Sword")) {

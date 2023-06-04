@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.util.SpriteLoader;
 
@@ -94,6 +95,11 @@ public class Monster extends SimpleCharacter {
     @Override
     public void attack(Vector2 direction) {
         getCurrentWeapon().attack(direction);
+    }
+
+    @Override
+    public void getHit(int damage, Vector2 direction, Bullet bullet) {
+
     }
 
 }
