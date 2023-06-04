@@ -32,6 +32,7 @@ public class WorldMap {
     private ArrayList<Room> rooms;
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
+    private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -45,6 +46,12 @@ public class WorldMap {
         for (MapObject mapObject : destroyableLayer.getObjects()) {
             if (mapObject instanceof TiledMapTileMapObject) {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
+            }
+        }
+
+        for (MapObject mapObject : doorCollision.getObjects()) {
+            if (mapObject instanceof TiledMapTileMapObject) {
+                doorTiledMapObject.add((TiledMapTileMapObject) mapObject);
             }
         }
         
@@ -114,6 +121,11 @@ public class WorldMap {
         batch.begin();
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
+        }
+        if (player.isFighting()) {
+            for (TiledMapTileMapObject object : doorTiledMapObject) {
+                batch.draw(object.getTextureRegion(), object.getX(), object.getY(), 16, 16);
+            }
         }
         player.draw(batch);
         for (Room room : rooms) {
