@@ -11,10 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class CooldownButton extends Actor {
     static final float RADIUS = 50f; // Adjust the radius to your liking
-    private static final float COOLDOWN_TIME = 15f; // Cooldown time in seconds
+    private static final float COOLDOWN_TIME = 5.5f; // Cooldown time in seconds
 
     private boolean isCoolingDown;
     private float cooldownTimer;
+    private Runnable task;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer(); 
+
 
     public boolean isCoolingDown() {
 		return isCoolingDown;
@@ -28,7 +31,9 @@ public class CooldownButton extends Actor {
 		this.cooldownTimer = cooldownTimer;
 	}
 
-	public CooldownButton() {
+	public CooldownButton(final Runnable task) {
+		this.task = task;
+
         setBounds(getX(), getY(), RADIUS * 2, RADIUS * 2);
 
         addListener(new InputListener() {
@@ -37,6 +42,7 @@ public class CooldownButton extends Actor {
                 if (!isCoolingDown) {
                     isCoolingDown = true;
                     cooldownTimer = COOLDOWN_TIME;
+                    task.run();
                     return true;
                 }
                 return false;
@@ -48,6 +54,7 @@ public class CooldownButton extends Actor {
                 if (keycode == Input.Keys.P && !isCoolingDown) {
                     isCoolingDown = true;
                     cooldownTimer = COOLDOWN_TIME;
+                    task.run();
                     return true;
                 }
                 return false;
@@ -72,7 +79,6 @@ public class CooldownButton extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -85,6 +91,9 @@ public class CooldownButton extends Actor {
         }
 
         shapeRenderer.end();
-        shapeRenderer.dispose();
+    }
+
+    public void disposeShapeRenderer() {
+        shapeRenderer.dispose(); // Dispose ShapeRenderer
     }
 }

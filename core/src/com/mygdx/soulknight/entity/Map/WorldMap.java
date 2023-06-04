@@ -47,13 +47,13 @@ public class WorldMap {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
             }
         }
-
+        
         MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
         rooms = new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
-        
+
 //        temp
         Item item = Item.load("HP Stone");
         item.setPosition(50, 400);
