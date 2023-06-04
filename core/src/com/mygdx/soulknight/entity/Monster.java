@@ -19,8 +19,9 @@ public class Monster extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage) {
+    public void getHit(int damage, Vector2 direction, Bullet bullet,Effect effect) {
         currentHP -= damage;
+
     }
 
     @Override

@@ -7,12 +7,40 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
     private Vector2 direction;
+    public float impactForce=2f;
+
+    public float pushTimer = 0.5f;
     private float speed = 1000f;
     private int dmg = 2;
     private float x, y;
     private float width = 17;
     private float height = 17;
     private Texture texture;
+
+    private float explosionDuration=17f;
+
+    public float getExplosionWidth() {
+        return explosionWidth;
+    }
+
+    public float getExplosionHeight() {
+        return explosionHeight;
+    }
+
+    private float explosionWidth=17f;
+
+    private float explosionHeight=17f;
+
+    private float explosionDurationRemain=explosionDuration;
+    public float getExplosionDuration(){
+        return this.explosionDuration;
+    }
+    public float getExplosionDurationRemain(){
+        return this.explosionDurationRemain;
+    }
+    public void setExplosionDurationRemain(float timeRemain){
+        this.explosionDurationRemain=timeRemain;
+    }
 
     public Bullet(String texturePath, float x, float y, Vector2 direction, float speed) {
         this.x = x;
@@ -36,7 +64,9 @@ public class Bullet {
     public void setDmg(int dmg) {
         this.dmg = dmg;
     }
-
+    public Vector2 getDirection(){
+        return this.direction;
+    }
     public int getDmg() {
         return dmg;
     }
@@ -48,5 +78,14 @@ public class Bullet {
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, this.x, this.y, width, height);
+    }
+
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
     }
 }

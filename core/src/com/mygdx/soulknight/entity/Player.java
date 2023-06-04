@@ -1,6 +1,9 @@
 package com.mygdx.soulknight.entity;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.screen.MainGameScreen;
 
 import java.util.ArrayList;
@@ -14,6 +17,11 @@ public class Player extends SimpleCharacter {
     private float currentHealArmor = 0;
     private ArrayList<Weapon> weapons = new ArrayList<>();
     private int currentWeaponId = 0;
+
+    private ArrayList<Bullet> bulletArray = new ArrayList<>();
+
+
+
 
     public Player(MainGameScreen gameScreen) {
         super(gameScreen);
@@ -40,7 +48,7 @@ public class Player extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage) {
+    public void getHit(int damage, Vector2 direction,Bullet bullet,Effect effect) {
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;
@@ -50,11 +58,16 @@ public class Player extends SimpleCharacter {
         if (currentHP < 0) {
             currentHP = 0;
         }
+        bulletArray.add(bullet);
+        isPushed=true;
+
+        stunTimer = stunDuration;
+        isStunned = true;
+
     }
 
     @Override
-    public void attack(Vector2 direction) {
-        getCurrentWeapon().attack(direction);
+    public void attack(Vector2 direction) {getCurrentWeapon().attack(direction);
     }
 
     @Override
@@ -73,6 +86,43 @@ public class Player extends SimpleCharacter {
         if (currentArmor > maxArmor) {
             currentArmor = maxArmor;
         }
+        if (isStunned) {
+            stunTimer -= this.deltaTime;
+
+
+            if (stunTimer <= 0) {
+                // Stun duration has ended, resume normal behavior
+                isStunned = false;
+            }
+
+        }
+        if (!bulletArray.isEmpty()) {
+            float totalPushForceX = 0.0f;
+            float totalPushForceY = 0.0f;
+            ArrayList<Bullet> removeBulletList=new ArrayList<>();
+            for (Bullet bullet : bulletArray) {
+                bullet.pushTimer-=deltaTime;
+                if (bullet.pushTimer>0) {
+                    totalPushForceX += bullet.impactForce * bullet.getDirection().x;
+                    totalPushForceY += bullet.impactForce * bullet.getDirection().y;
+                }
+                else{
+                    removeBulletList.add(bullet);
+                }
+            }
+            bulletArray.removeAll(removeBulletList);
+            float testX = this.x+totalPushForceX;
+            float testY = this.y+totalPushForceY ;
+
+            if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height))) {
+                this.x = testX;
+                this.y = testY;
+            }
+
+        }
+
+
+
 
     }
 

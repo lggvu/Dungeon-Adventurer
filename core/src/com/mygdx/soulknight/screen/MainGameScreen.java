@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.*;
@@ -34,6 +36,10 @@ public class MainGameScreen extends ScreenAdapter {
     private Player player;
     private ArrayList<Room> rooms;
     private boolean isCombat = false;
+
+
+    private ArrayList<Explosion> explosionArray;
+
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     public MainGameScreen(SoulKnight game) {
         this.game = game;
@@ -53,6 +59,7 @@ public class MainGameScreen extends ScreenAdapter {
         player.addWeapon(new Gun(player, "weapon/weapon1.png"));
 
         rooms = new ArrayList<>();
+        explosionArray= new ArrayList<>();
         for (MapLayer roomLayer : roomLayers.getLayers()) {
             rooms.add(new Room(roomLayer,this));
         }
@@ -61,6 +68,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     @Override
     public void render(float deltaTime) {
+        game.getBatch().begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -115,6 +123,9 @@ public class MainGameScreen extends ScreenAdapter {
             }
         }
 
+
+
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || true) {
             if (roomPlayerIn != null) {
                 float minDst = Float.MAX_VALUE;
@@ -162,7 +173,7 @@ public class MainGameScreen extends ScreenAdapter {
         mapRenderer.render();
         game.getBatch().setProjectionMatrix(camera.combined);
 
-        game.getBatch().begin();
+
 
         player.draw(game.getBatch());
         player.getCurrentWeapon().draw(game.getBatch());
@@ -179,6 +190,29 @@ public class MainGameScreen extends ScreenAdapter {
             room.draw(game.getBatch());
         }
 
+        Texture explosionTexture = new Texture("boom/p1.png");
+        ArrayList<Explosion> removeExplosionList= new ArrayList<>();
+        for (Explosion explosion: explosionArray) {
+
+            System.out.println(explosionArray.size());
+
+            explosion.update(deltaTime);
+//            explosion.draw(game.getBatch());
+            if (explosion.getDurationRemain() >= 0) {
+                explosion.setX(explosion.getCharacter().getX()+explosion.getRelativeCollisionX());
+                explosion.setY(explosion.getCharacter().getY()+explosion.getRelativeCollisionY());
+
+
+                game.getBatch().draw(explosionTexture, explosion.getX(), explosion.getY(),20,20);
+//            }
+
+            }
+            else{
+                removeExplosionList.add(explosion);
+            }
+        }
+        explosionArray.removeAll(removeExplosionList);
+
 
 
         game.getBatch().end();
@@ -190,6 +224,7 @@ public class MainGameScreen extends ScreenAdapter {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
+
     }
 
     public boolean isMapCollision(Rectangle rectangle) {
@@ -218,7 +253,7 @@ public class MainGameScreen extends ScreenAdapter {
         }
         return false;
     }
-
+    Effect effect= new Effect(player);
     public void handleBulletCollision() {
         ArrayList<Bullet> removeBulletList;
         ArrayList<Monster> removeMonsterList;
@@ -233,7 +268,12 @@ public class MainGameScreen extends ScreenAdapter {
                         if (isMapCollision(bullet.getRectangle())) {
                             removeBulletList.add(bullet);
                         } else if (bullet.getRectangle().overlaps(player.getRectangle())) {
-                            player.getHit(bullet.getDmg());
+                            player.getHit(bullet.getDmg(), bullet.getDirection(), bullet, effect );
+
+                            Explosion explosion=new Explosion(bullet.getX(), bullet.getY(),bullet,player);
+                            explosionArray.add(explosion);
+
+
                             removeBulletList.add(bullet);
                         }
                     }
@@ -255,7 +295,10 @@ public class MainGameScreen extends ScreenAdapter {
                                 removeBulletList.add(bullet);
                             }else if (monster.getRectangle().overlaps(bullet.getRectangle())) {
                                 removeBulletList.add(bullet);
-                                monster.getHit(bullet.getDmg());
+                                Explosion explosion=new Explosion(bullet.getX(), bullet.getY(),bullet,monster);
+                                explosionArray.add(explosion);
+                                monster.getHit(bullet.getDmg(), bullet.getDirection(), bullet,effect);
+
                             }
                         }
                     }

@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.screen.MainGameScreen;
 
+import java.util.ArrayList;
+
 public abstract class SimpleCharacter {
     protected TextureRegion texture;
     protected int maxHP = 10;
@@ -15,12 +17,20 @@ public abstract class SimpleCharacter {
     protected float x = 30;
     protected float y = 30;
     protected float width = 32;
+
     protected float height = 32;
+    protected boolean isStunned=false;
+
+    protected boolean isPushed=false;
+    protected float stunDuration=0.25f;
+    protected float stunTimer;
     protected float deltaTime;
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
     protected MainGameScreen gameScreen;
+
+    protected ArrayList<Bullet> hitBullets = new ArrayList<>();
     public SimpleCharacter (MainGameScreen gameScreen) {
         this(gameScreen, "heros/hero-1.png");
     }
@@ -51,28 +61,34 @@ public abstract class SimpleCharacter {
         setSpeedRun(speedRun);
     }
     public void update(float deltaTime) {
+
         this.deltaTime = deltaTime;
-    }
 
+    }
     public void move(float x, float y) {
-        lastMoveDirection = new Vector2(x, y).nor();
+        if (!isStunned) {
+            lastMoveDirection = new Vector2(x, y).nor();
 
-        float degree = lastMoveDirection.angleDeg(currentHeadDirection);
-        if (degree > 90 && degree < 270) {
-            texture.flip(true, false);
-            currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
-        }
+            float degree = lastMoveDirection.angleDeg(currentHeadDirection);
+            if (degree > 90 && degree < 270) {
+                texture.flip(true, false);
+                currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
+            }
 
 
-        x = lastMoveDirection.x;
-        y = lastMoveDirection.y;
-        float testX = this.x + x * deltaTime * speedRun;
-        float testY = this.y + y * deltaTime * speedRun;
-        if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height))) {
-            this.x = testX;
-            this.y = testY;
+
+            x = lastMoveDirection.x;
+            y = lastMoveDirection.y;
+            float testX = this.x + x * deltaTime * speedRun;
+            float testY = this.y + y * deltaTime * speedRun;
+            if (!gameScreen.isMapCollision(new Rectangle(testX, testY, width, height))) {
+                this.x = testX;
+                this.y = testY;
+            }
         }
     }
+
+
 
     public void draw(SpriteBatch batch) {
 
@@ -120,7 +136,7 @@ public abstract class SimpleCharacter {
         this.speedRun = speedRun;
     }
 
-    public abstract void getHit(int damage);
+    public abstract void getHit(int damage, Vector2 direction,Bullet bullet,Effect effect);
     public abstract void attack(Vector2 direction);
 
     public Vector2 getLastMoveDirection() {
