@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Item.Item;
@@ -234,5 +235,21 @@ public class WorldMap {
 
     public void removeDestroyableObject(DestroyableObject object) {
         destroyableObjects.remove(object);
+    }
+
+    public void addRandomPotion(float x, float y) {
+        int random = MathUtils.random(100);
+        Item item = null;
+        if (random < 2) {
+            item = Item.load("Life Potion");
+        } else if (random < 20) {
+            item = Item.load("HP Stone");
+        } else if (random < 50) {
+            item = Item.load("Mana Potion");
+        } else if (random <= 100) {
+            item = Item.load("Mana Stone");
+        }
+        item.setPosition(x, y);
+        itemsOnGround.add(item);
     }
 }

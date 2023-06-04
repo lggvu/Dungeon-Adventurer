@@ -20,10 +20,12 @@ public class Room {
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private Player player;
+    private WorldMap map;
 
     private ArrayList<Rectangle> roomArea;
     private boolean combat = false;
     public Room(MapLayer roomLayer, WorldMap map) {
+        this.map = map;
         this.layer = roomLayer;
         player = map.getPlayer();
         roomArea = new ArrayList<>();
@@ -82,6 +84,7 @@ public class Room {
             for (Monster monster : monsterAlive) {
                 if (monster.getCurrentHP() <= 0) {
                     monstersKilled.add(monster);
+                    map.addRandomPotion(monster.getX(), monster.getY());
                     continue;
                 }
                 monster.update(deltaTime);

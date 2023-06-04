@@ -90,6 +90,8 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
                 removeList.add(bullet);
+            } else if (owner.getMap().isInDoor(bullet.getRectangle())) {
+                removeList.add(bullet);
             }
         }
         bulletArrayList.removeAll(removeList);
