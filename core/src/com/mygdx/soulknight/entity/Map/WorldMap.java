@@ -50,9 +50,18 @@ public class WorldMap {
         
         MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
         rooms = new ArrayList<>();
-        for (MapLayer roomLayer : roomLayers.getLayers()) {
-            rooms.add(new Room(roomLayer,this));
+
+        int roomLayerCount = roomLayers.getLayers().size();
+        for (int i = 0; i < roomLayerCount; i++) {
+            MapLayer roomLayer = roomLayers.getLayers().get(i);
+        	if (i == roomLayerCount - 1) {
+        		rooms.add(new Room(roomLayer, this, 1));
+        	}
+        	else{
+	            rooms.add(new Room(roomLayer, this, 0));
+        	}
         }
+
 
 //        temp
         Item item = Item.load("HP Stone");

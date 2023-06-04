@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -24,7 +25,7 @@ public class Room {
 
     private ArrayList<Rectangle> roomArea;
     private boolean combat = false;
-    public Room(MapLayer roomLayer, WorldMap map) {
+    public Room(MapLayer roomLayer, WorldMap map, int numBoss) {
         this.map = map;
         this.layer = roomLayer;
         player = map.getPlayer();
@@ -35,7 +36,6 @@ public class Room {
                 roomArea.add(roomRectangle);
             }
         }
-
         for (int i = 0; i < numOfMonsters; i++) {
             Rectangle rectangle = roomArea.get(MathUtils.random(0, roomArea.size() - 1));
             while (true) {
@@ -57,6 +57,30 @@ public class Room {
                     continue;
                 }
                 monsterAlive.add(monster);
+                break;
+            }
+        }
+        for (int i = 0; i < numBoss; i++) {
+            Rectangle rectangle = roomArea.get(MathUtils.random(0, roomArea.size() - 1));
+            while (true) {
+                float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
+                float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
+                Boss boss = new Boss("teacher", map);
+                boss.setPosition(x, y);
+                if (map.isMapCollision(boss.getRectangle())) {
+                    continue;
+                }
+                if (map.isInDoor(boss.getRectangle())) {
+                    continue;
+                }
+                boolean overlap = false;
+                for (Monster monster1 : monsterAlive) {
+                    overlap = boss.getRectangle().overlaps(monster1.getRectangle());
+                }
+                if (overlap) {
+                    continue;
+                }
+                monsterAlive.add(boss);
                 break;
             }
         }
