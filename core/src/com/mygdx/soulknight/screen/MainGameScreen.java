@@ -54,6 +54,8 @@ public class MainGameScreen extends ScreenAdapter {
     private Music backgroundMusic;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
+    private CooldownButton cooldownButton;
+    private float cooldownTime;
 
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -86,13 +88,20 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.play();
         
         pauseButton = this.pauseButton();
+        cooldownButton = new CooldownButton();
         
         
     }
     @Override
     public void show() {
     	stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
         Gdx.input.setInputProcessor(stage);
+        cooldownButton.setPosition(Gdx.graphics.getWidth() / 1.2f - cooldownButton.RADIUS, Gdx.graphics.getHeight() / 5f - cooldownButton.RADIUS); // Set the button position as per your requirements
+
+        // Add the button to the stage
+        stage.addActor(cooldownButton);
+        stage.setKeyboardFocus(cooldownButton);
 
         stage.addActor(pauseButton);
     }
@@ -216,6 +225,7 @@ public class MainGameScreen extends ScreenAdapter {
         mapRenderer.dispose();
         stage.dispose();
         backgroundMusic.dispose();
+       
 
     }
 
@@ -354,6 +364,7 @@ public class MainGameScreen extends ScreenAdapter {
     public void resumeGame() {
         backgroundMusic.play();
         backgroundMusic.setPosition(musicPosition);
+        cooldownButton.setCooldownTimer(cooldownTime);
     }
 
     @Override
@@ -380,6 +391,9 @@ public class MainGameScreen extends ScreenAdapter {
                 if (backgroundMusic.isPlaying()) {
                     musicPosition = backgroundMusic.getPosition();
                     backgroundMusic.stop();
+                }
+                if (cooldownButton.isCoolingDown()) {
+                	cooldownTime = cooldownButton.getCooldownTimer();
                 }
                             }
         });
