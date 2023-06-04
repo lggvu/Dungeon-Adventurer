@@ -205,7 +205,6 @@ public class Player extends SimpleCharacter {
                 ((Item) item).use(this);
             } else if (item instanceof Weapon) {
                 collectWeapon((Weapon) item);
-                collectWeapon((Weapon) item);
             }
         }
 
