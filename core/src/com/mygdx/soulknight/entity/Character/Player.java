@@ -27,7 +27,7 @@ public class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
-    private int maxWeaponNumber = 1;
+    private int maxWeaponNumber = 2;
     private SpecialSkill skill = null;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
