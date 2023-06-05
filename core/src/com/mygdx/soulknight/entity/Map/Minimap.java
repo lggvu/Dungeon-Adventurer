@@ -14,7 +14,7 @@ public class Minimap {
     private OrthographicCamera camera = new OrthographicCamera();
     private Player player;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
-    private float unitScale = 1/20f;
+    private float unitScale = 1/15f;
     private float widthMap, heightMap;
     private float border = 3f;
     private float padding = 3f;
@@ -23,9 +23,12 @@ public class Minimap {
 
     public Minimap(TiledMap map, Player player) {
         this.player = player;
-        renderer = new OrthogonalTiledMapRenderer(map, unitScale);
+
         widthMap = Float.parseFloat(map.getProperties().get("width").toString()) * Float.parseFloat(map.getProperties().get("tilewidth").toString());
         heightMap = Float.parseFloat(map.getProperties().get("height").toString()) * Float.parseFloat(map.getProperties().get("tileheight").toString());;
+        unitScale = 120 / widthMap;
+
+        renderer = new OrthogonalTiledMapRenderer(map, unitScale);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
 
