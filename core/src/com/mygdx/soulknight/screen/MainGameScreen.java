@@ -46,7 +46,7 @@ public class MainGameScreen extends ScreenAdapter {
         this.game = game;
         player = new Player("adventurer", null);
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
-        minimap = new Minimap(map.getTiledMap());
+        minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
         Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
         player.setSkill((SpecialSkill)barrage);
