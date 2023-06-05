@@ -43,12 +43,12 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         player = new Player("adventurer", null);
-        map = new WorldMap("split_map/tmx/maps.tmx", player);
+        map = new WorldMap("split_map/tmx/map_2.tmx", player);
         player.setMap(map);
-        Barrage barrage = new Barrage(player, "bullet/bullet1.png", 100, 1f, 100f, 5f);
+        Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
         player.setSkill((SpecialSkill)barrage);
         backgroundMusic = Settings.music;
-        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setVolume(0.2f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         

@@ -32,6 +32,7 @@ public class WorldMap {
     private ArrayList<Room> rooms;
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
+    private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -47,12 +48,27 @@ public class WorldMap {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
             }
         }
+
+        for (MapObject mapObject : doorCollision.getObjects()) {
+            if (mapObject instanceof TiledMapTileMapObject) {
+                doorTiledMapObject.add((TiledMapTileMapObject) mapObject);
+            }
+        }
         
         MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
         rooms = new ArrayList<>();
-        for (MapLayer roomLayer : roomLayers.getLayers()) {
-            rooms.add(new Room(roomLayer,this));
+
+        int roomLayerCount = roomLayers.getLayers().size();
+        for (int i = 0; i < roomLayerCount; i++) {
+            MapLayer roomLayer = roomLayers.getLayers().get(i);
+        	if (i == roomLayerCount - 1) {
+        		rooms.add(new Room(roomLayer, this, 1));
+        	}
+        	else{
+	            rooms.add(new Room(roomLayer, this, 0));
+        	}
         }
+
 
 //        temp
         Item item = Item.load("HP Stone");
@@ -105,6 +121,11 @@ public class WorldMap {
         batch.begin();
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
+        }
+        if (player.isFighting()) {
+            for (TiledMapTileMapObject object : doorTiledMapObject) {
+                batch.draw(object.getTextureRegion(), object.getX(), object.getY(), 16, 16);
+            }
         }
         player.draw(batch);
         for (Room room : rooms) {
@@ -230,11 +251,18 @@ public class WorldMap {
     }
 
     public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
-        destroyableObjects.removeAll(objects);
+        for (DestroyableObject object : objects) {
+            removeDestroyableObject(object);
+        }
     }
 
     public void removeDestroyableObject(DestroyableObject object) {
-        destroyableObjects.remove(object);
+        if (destroyableObjects.contains(object)) {
+            destroyableObjects.remove(object);
+            if (object.getName().equals("ark")) {
+                addRandomPotion(object.getX(), object.getY());
+            }
+        }
     }
 
     public void addRandomPotion(float x, float y) {
