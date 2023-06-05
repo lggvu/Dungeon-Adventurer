@@ -40,7 +40,7 @@ public class Minimap {
 //      Draw minimap boundary
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rect(0, 0, widthMap * unitScale * 1.5f + (marginWidth + border + padding) * 2, heightMap * unitScale * 1.5f + (marginHeight + border + padding) * 2);
+        shapeRenderer.rect(marginWidth, marginHeight, widthMap * unitScale * 1.5f + (border + padding) * 2, heightMap * unitScale * 1.5f + (border + padding) * 2);
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.rect(marginWidth + border, marginHeight + border, widthMap * unitScale * 1.5f + padding * 2, heightMap * unitScale * 1.5f + padding * 2);
         shapeRenderer.end();
