@@ -280,4 +280,8 @@ public class WorldMap {
         item.setPosition(x, y);
         itemsOnGround.add(item);
     }
+
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
 }

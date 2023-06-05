@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.specialskill.Barrage;
 import com.mygdx.soulknight.specialskill.SpecialSkill;
@@ -38,12 +39,14 @@ public class MainGameScreen extends ScreenAdapter {
     private TextButton pauseButton2;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
+    Minimap minimap;
 
 
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         player = new Player("adventurer", null);
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
+        minimap = new Minimap(map.getTiledMap());
         player.setMap(map);
         Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
         player.setSkill((SpecialSkill)barrage);
@@ -89,7 +92,6 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.update(deltaTime);
-
         if (map.isOver()) {
             game.setScreen(new MenuScreen(game));
             game.resetBatch();
@@ -98,6 +100,7 @@ public class MainGameScreen extends ScreenAdapter {
         }
 
         map.draw(game.getBatch());
+        minimap.render();
         drawHealthBar();
         stage2.act(deltaTime);
         stage2.draw();
