@@ -15,12 +15,29 @@ public class DestroyableObject {
     private static int count = 0;
     private int id;
     private Rectangle rectangle;
+    private String name;
     public DestroyableObject(TiledMapTileMapObject object) {
         region = object.getTextureRegion();
+        name = object.getName();
+        if (name == null) {
+            name = "";
+        }
         x = object.getX();
         y = object.getY();
         id = count++;
         rectangle = new Rectangle(object.getX(), object.getY(), width, height);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
     }
 
     @Override

@@ -251,11 +251,18 @@ public class WorldMap {
     }
 
     public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
-        destroyableObjects.removeAll(objects);
+        for (DestroyableObject object : objects) {
+            removeDestroyableObject(object);
+        }
     }
 
     public void removeDestroyableObject(DestroyableObject object) {
-        destroyableObjects.remove(object);
+        if (destroyableObjects.contains(object)) {
+            destroyableObjects.remove(object);
+            if (object.getName().equals("ark")) {
+                addRandomPotion(object.getX(), object.getY());
+            }
+        }
     }
 
     public void addRandomPotion(float x, float y) {
