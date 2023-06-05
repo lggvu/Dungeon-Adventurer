@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Effect;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -29,14 +30,21 @@ public class Explosion {
         float characterCenterY=affectedCharacter.getY()+affectedCharacter.getWidth()/2;
         float bulletCenterX= bullet.getX()+bullet.getWidth()/2;
         float bulletCenterY= bullet.getY()+bullet.getHeight()/2;
-        Vector2 direction=bullet.getDirection().nor();
+//        Vector2 direction=bullet.getDirection().nor();
         this.initialY = initialY;
         this.y=initialY;
         this.affectedCharacter = affectedCharacter;
         this.bullet = bullet;
-        float scale=affectedCharacter.getWidth()/2;
-        this.relativeHitX=bulletCenterX+direction.x*scale-characterCenterX;
-        this.relativeHitY=bulletCenterY+direction.y*scale-characterCenterY;
+        float scale=0.6f;
+        Vector2 direction=new Vector2(bulletCenterX-characterCenterX,bulletCenterY-characterCenterY);
+        direction=direction.nor();
+        float scaleX=affectedCharacter.getWidth()/4;
+        float scaleY=affectedCharacter.getHeight()/4;
+
+
+
+        this.relativeHitX=scaleX*direction.x;
+        this.relativeHitY=scaleY*direction.y;
     }
 
     public void update(float deltaTime){
