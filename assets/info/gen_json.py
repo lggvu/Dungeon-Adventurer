@@ -96,6 +96,13 @@ dct_character = {
         "hp": 7,
         "speed_run": 90,
         "default_weapon": "Gun Monster 1"
+    },
+    "teacher": {
+        "type": "boss",
+        "texture_path": "character/img1.png",
+        "hp": 20,
+        "speed_run": 30,
+	"default_weapon": "Gun Monster 1"
     }
 }
 json_object = json.dumps(dct_character, indent = 4) 

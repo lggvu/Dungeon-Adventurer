@@ -14,6 +14,7 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.specialskill.SpecialSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.badlogic.gdx.Input;
 
@@ -32,6 +33,7 @@ public class Player extends SimpleCharacter {
     private int maxWeaponNumber = 2;
 
 
+    private SpecialSkill skill = null;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         this.load();
@@ -49,8 +51,7 @@ public class Player extends SimpleCharacter {
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();
-//            currentHP = maxHP - 5;
-            currentHP=1000;
+            currentHP = maxHP - 5;
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
@@ -105,6 +106,9 @@ public class Player extends SimpleCharacter {
                     }
                 }
             }
+        }
+        if (this.skill != null) {
+        	this.skill.draw(batch);
         }
     }
 
@@ -189,6 +193,11 @@ public class Player extends SimpleCharacter {
                 }
             }
         }
+
+        if (this.skill.isActivate()) {
+        	this.skill.activate();
+        }
+        this.skill.update(deltaTime);
 
         for (Pickable item : collectItem) {
             if (item instanceof Item) {
@@ -327,5 +336,11 @@ public class Player extends SimpleCharacter {
             return nearestItem;
         }
         return null;
+    }
+    public void setSkill(SpecialSkill skill) {
+    	this.skill = skill;
+    }
+    public SpecialSkill getSkill() {
+    	return this.skill;
     }
 }
