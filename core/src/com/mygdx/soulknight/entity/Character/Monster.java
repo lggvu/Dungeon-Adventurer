@@ -100,6 +100,7 @@ public class Monster extends SimpleCharacter {
 
     @Override
     public void getHit(int damage, Vector2 direction, Bullet bullet) {
+        currentHP -= damage;
 
     }
 
