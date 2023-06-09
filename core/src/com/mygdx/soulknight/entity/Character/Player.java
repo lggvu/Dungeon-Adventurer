@@ -2,9 +2,11 @@ package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.Room;
@@ -19,7 +21,7 @@ import com.badlogic.gdx.Input;
 import java.util.ArrayList;
 
 public class Player extends SimpleCharacter {
-    private int maxArmor = 6;
+    private int maxArmor = 100;
     private int currentArmor = maxArmor;
     private int currentMana = 200;
     private int maxMana = 200;
@@ -29,6 +31,8 @@ public class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private int maxWeaponNumber = 2;
+
+
     private SpecialSkill skill = null;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
@@ -63,8 +67,8 @@ public class Player extends SimpleCharacter {
         }
     }
 
-    @Override
-    public void getHit(int damage) {
+//    @Override
+    public void getHit(int damage, Vector2 direction, Bullet bullet) {
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;
@@ -74,6 +78,11 @@ public class Player extends SimpleCharacter {
         if (currentHP < 0) {
             currentHP = 0;
         }
+        hitBulletArrayList.add(bullet);
+        isPushed=true;
+        isStunned=true;
+        stunTimer=stunDuration;
+
     }
 
     @Override
@@ -92,6 +101,9 @@ public class Player extends SimpleCharacter {
                     for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                         bullet.draw(batch);
                     }
+                    for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
+                        explosion.draw(batch);
+                    }
                 }
             }
         }
@@ -101,35 +113,39 @@ public class Player extends SimpleCharacter {
     }
 
     @Override
+    public void getHit(int damage) {
+    }
+
+    @Override
     public void update(float deltaTime) {
+        if (!isStunned) {
+            Vector2 moveDirection = new Vector2(0, 0);
 
-        Vector2 moveDirection = new Vector2(0, 0);
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+                moveDirection = moveDirection.add(-1, 0);
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            moveDirection = moveDirection.add(-1, 0);
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+                moveDirection = moveDirection.add(1, 0);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+                moveDirection = moveDirection.add(0, 1);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+                moveDirection = moveDirection.add(0, -1);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+                switchWeapon();
+            }
+
+            if (moveDirection.x != 0 || moveDirection.y != 0) {
+                moveDirection = moveDirection.nor();
+                move(moveDirection.x, moveDirection.y, deltaTime);
+            }
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            moveDirection = moveDirection.add(1, 0);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            moveDirection = moveDirection.add(0, 1);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            moveDirection = moveDirection.add(0, -1);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-            switchWeapon();
-        }
-
-        if (moveDirection.x != 0 || moveDirection.y != 0) {
-            moveDirection = moveDirection.nor();
-            move(moveDirection.x, moveDirection.y, deltaTime);
-        }
-
         ArrayList<Pickable> collectItem = autoCollect();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
@@ -172,11 +188,12 @@ public class Player extends SimpleCharacter {
                 if (weapon instanceof Gun) {
                     for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                         bullet.update(deltaTime);
+
                     }
                 }
             }
         }
-        
+
         if (this.skill.isActivate()) {
         	this.skill.activate();
         }
@@ -189,7 +206,37 @@ public class Player extends SimpleCharacter {
                 collectWeapon((Weapon) item);
             }
         }
-    }
+
+        if (isStunned){
+            stunTimer-=deltaTime;
+            if (stunTimer<=0){
+                isStunned=false;
+            }
+        }
+        pushedByBullet(deltaTime);
+//        if (!hitBulletArrayList.isEmpty()) {
+//            float totalPushForceX = 0.0f;
+//            float totalPushForceY = 0.0f;
+//            ArrayList<Bullet> removeBulletList = new ArrayList<>();
+//            for (Bullet bullet : hitBulletArrayList) {
+//                bullet.setPushTimer(bullet.getPushTimer() - deltaTime);
+//                if (bullet.getPushTimer() > 0) {
+//                    totalPushForceX += bullet.getImpactForce() * bullet.getDirection().x;
+//                    totalPushForceY += bullet.getImpactForce() * bullet.getDirection().y;
+//                } else {
+//                    removeBulletList.add(bullet);
+//                }
+//            }
+//            hitBulletArrayList.removeAll(removeBulletList);
+//            float testX = this.x + totalPushForceX;
+//            float testY = this.y + totalPushForceY;
+//
+//            if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
+//                this.x = testX;
+//                this.y = testY;
+//                }
+//            }
+        }
 
     public Vector2 getAttackDirection(Room roomPlayerIn) {
         if (roomPlayerIn != null) {

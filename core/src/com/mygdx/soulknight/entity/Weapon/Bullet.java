@@ -6,11 +6,42 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
+
+    private float pushTimer=0.5f;
+
+    private float impactForce=3f;
+
     private Vector2 direction;
     private float speed = 1000f;
     private int dmg = 2;
     private float x, y;
     private float width = 17;
+
+
+    public Vector2 getDirection() {
+        return direction;
+    }
+
+    public float getImpactForce() {
+        return impactForce;
+    }
+
+    public void setPushTimer(float pushTimer) {
+        this.pushTimer = pushTimer;
+    }
+
+    public float getPushTimer() {
+        return pushTimer;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
     private float height = 17;
     private Texture texture;
 
@@ -44,6 +75,14 @@ public class Bullet {
     public void setSize(float width, float height) {
         this.width = width;
         this.height = height;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
     }
 
     public void draw(SpriteBatch batch) {
