@@ -27,29 +27,13 @@ public class Explosion {
     private Texture texture;
     private float stateTime;
 
-    public Explosion(String texturePath,float initialX, float initialY, SimpleCharacter affectedCharacter, Bullet bullet) {
+    public Explosion(String texturePath,float x, float y, SimpleCharacter affectedCharacter, Bullet bullet) {
         texture = new Texture(texturePath);
-        this.initialX = initialX;
-        this.x=initialX;
-        float characterCenterX=affectedCharacter.getX()+affectedCharacter.getWidth()/2;
-        float characterCenterY=affectedCharacter.getY()+affectedCharacter.getWidth()/2;
-        float bulletCenterX= bullet.getX()+bullet.getWidth()/2;
-        float bulletCenterY= bullet.getY()+bullet.getHeight()/2;
-//        Vector2 direction=bullet.getDirection().nor();
-        this.initialY = initialY;
-        this.y=initialY;
-        this.affectedCharacter = affectedCharacter;
-        this.bullet = bullet;
-        float scale=0.6f;
-        Vector2 direction=new Vector2(bulletCenterX-characterCenterX,bulletCenterY-characterCenterY);
-        direction=direction.nor();
-        float scaleX=affectedCharacter.getWidth()/4;
-        float scaleY=affectedCharacter.getHeight()/4;
+        this.x = affectedCharacter.getX();
+        this.y= affectedCharacter.getY();
 
 
 //        animation
-        this.relativeHitX=scaleX*direction.x;
-        this.relativeHitY=scaleY*direction.y;
 
         Texture explosionSheet = new Texture(Gdx.files.internal("explosion/pngwing.com.png"));
         int frameCols = 8;
@@ -70,12 +54,7 @@ public class Explosion {
     }
 
     public void update(float deltaTime){
-        durationTimeRemain-=deltaTime;
-        float characterCenterX=affectedCharacter.getX()+affectedCharacter.getWidth()/2;
-        float characterCenterY=affectedCharacter.getY()+affectedCharacter.getWidth()/2;
-
-        setX(characterCenterX+this.relativeHitX);
-        setY(characterCenterY+this.relativeHitY);
+//        durationTimeRemain-=deltaTime;
     }
     public void draw(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
@@ -84,7 +63,7 @@ public class Explosion {
     }
 
     public float getX() {
-        return x;
+        return this.x;
     }
 
     public void setX(float x) {
@@ -92,7 +71,7 @@ public class Explosion {
     }
 
     public float getY() {
-        return y;
+        return this.y;
     }
 
     public void setY(float y) {
@@ -117,7 +96,7 @@ public class Explosion {
     }
 
     public void setDurationTimeRemain(float durationTimeRemain) {
-        durationTimeRemain = durationTimeRemain;
+        this.durationTimeRemain = durationTimeRemain;
     }
 
     public SimpleCharacter getAffectedCharacter() {
