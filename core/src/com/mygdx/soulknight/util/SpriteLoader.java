@@ -63,7 +63,7 @@ public class SpriteLoader {
     }
 
     public SpriteLoader(String sourceImage, String characterName) {
-        this(sourceImage, characterName, "character/info.json");
+        this(sourceImage, characterName, "info/character_sprite_sheet_info.json");
 
     }
 

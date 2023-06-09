@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
 import java.util.ArrayList;
 
@@ -99,7 +100,6 @@ public class Sword extends Weapon {
 
     @Override
     public void dealDamageMethod() {
-        System.out.println(rangeWeapon);
         ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
         Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
         for (SimpleCharacter character : listEnemy) {
@@ -107,5 +107,13 @@ public class Sword extends Weapon {
                 character.getHit(damage);
             }
         }
+
+        ArrayList<DestroyableObject> arr = new ArrayList<>();
+        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+            if (rectangle.overlaps(object.getRectangle())) {
+                arr.add(object);
+            }
+        }
+        owner.getMap().removeDestroyableObject(arr);
     }
 }
