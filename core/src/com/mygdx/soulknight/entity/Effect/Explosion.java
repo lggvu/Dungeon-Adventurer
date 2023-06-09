@@ -1,7 +1,10 @@
 package com.mygdx.soulknight.entity.Effect;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
@@ -10,7 +13,8 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 public class Explosion {
     private float initialX;
     private float initialY;
-
+    private TextureRegion[] explosionFrames;
+    private Animation<TextureRegion> explosionAnimation;
     private float x;
     private float y;
     private float duration=1f;
@@ -21,6 +25,7 @@ public class Explosion {
     private Bullet bullet;
 
     private Texture texture;
+    private float stateTime;
 
     public Explosion(String texturePath,float initialX, float initialY, SimpleCharacter affectedCharacter, Bullet bullet) {
         texture = new Texture(texturePath);
@@ -42,9 +47,26 @@ public class Explosion {
         float scaleY=affectedCharacter.getHeight()/4;
 
 
-
+//        animation
         this.relativeHitX=scaleX*direction.x;
         this.relativeHitY=scaleY*direction.y;
+
+        Texture explosionSheet = new Texture(Gdx.files.internal("explosion/pngwing.com.png"));
+        int frameCols = 8;
+        int frameRows = 6;
+        int frameWidth = explosionSheet.getWidth() / frameCols;
+        int frameHeight = explosionSheet.getHeight() / frameRows;
+        TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
+        explosionFrames = new TextureRegion[frameCols * frameRows];
+        int index = 0;
+        for (int row = 0; row < frameRows; row++) {
+            for (int col = 0; col < frameCols; col++) {
+                explosionFrames[index++] = temp[row][col];
+            }
+        }
+        explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
+        stateTime = 0f;
+
     }
 
     public void update(float deltaTime){
@@ -56,7 +78,9 @@ public class Explosion {
         setY(characterCenterY+this.relativeHitY);
     }
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, this.x, this.y, 20, 20);
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = explosionAnimation.getKeyFrame(stateTime, false);
+        batch.draw(currentFrame, this.x, this.y, 20, 20);
     }
 
     public float getX() {
