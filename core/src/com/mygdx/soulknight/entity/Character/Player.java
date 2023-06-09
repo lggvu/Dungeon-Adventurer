@@ -12,6 +12,7 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.specialskill.SpecialSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.badlogic.gdx.Input;
 
@@ -28,6 +29,7 @@ public class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private int maxWeaponNumber = 2;
+    private SpecialSkill skill = null;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         this.load();
@@ -92,6 +94,9 @@ public class Player extends SimpleCharacter {
                     }
                 }
             }
+        }
+        if (this.skill != null) {
+        	this.skill.draw(batch);
         }
     }
 
@@ -171,6 +176,11 @@ public class Player extends SimpleCharacter {
                 }
             }
         }
+        
+        if (this.skill.isActivate()) {
+        	this.skill.activate();
+        }
+        this.skill.update(deltaTime);
 
         for (Pickable item : collectItem) {
             if (item instanceof Item) {
@@ -279,5 +289,11 @@ public class Player extends SimpleCharacter {
             return nearestItem;
         }
         return null;
+    }
+    public void setSkill(SpecialSkill skill) {
+    	this.skill = skill;
+    }
+    public SpecialSkill getSkill() {
+    	return this.skill;
     }
 }

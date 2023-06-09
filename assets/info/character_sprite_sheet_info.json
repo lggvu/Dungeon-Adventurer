@@ -69,7 +69,6 @@
                     "90": 3
                 }
             }
-            
         }
     },
     "character/img2.png": {
@@ -96,6 +95,28 @@
                     "315": 5,
                     "135": 6,
                     "45": 7
+                }
+            }
+        }
+    },
+    "character/adventurer.png": {
+        "paddingWidth": 0,
+        "paddingHeight": 0,
+        "gapWidth": 10,
+        "gapHeight": 0,
+        "imgCharacterWidth": 24,
+        "imgCharacterHeight": 34,
+        "totalCols": 12,
+        "totalRows": 8,
+        "character": {
+            "adventurer": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 7,
+                "frameRows": 2,
+                "direction": {
+                    "180": 1,
+                    "0": 0
                 }
             }
         }

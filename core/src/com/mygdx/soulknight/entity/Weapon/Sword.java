@@ -100,7 +100,6 @@ public class Sword extends Weapon {
 
     @Override
     public void dealDamageMethod() {
-        System.out.println(rangeWeapon);
         ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
         Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
         for (SimpleCharacter character : listEnemy) {

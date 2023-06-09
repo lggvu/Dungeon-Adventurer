@@ -1,6 +1,5 @@
 package com.mygdx.soulknight.entity.Character;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,24 +9,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.specialskill.Barrage;
+import com.mygdx.soulknight.specialskill.SpecialSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 
-public class Monster extends SimpleCharacter {
-    float attackRadius = 200;
-    float speedWhenIdle; // The speed that monster will move when cannot approach the player
-
-    public Monster(String characterName, WorldMap map) {
-        super(characterName, map);
-        this.load();
-    }
+public class Boss extends Monster {
+	private SpecialSkill skill;
+	public Boss(String characterName, WorldMap map) {
+		super(characterName, map);
+	}
 
     @Override
     public void load() {
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
             JsonObject source = json.get(characterName).getAsJsonObject();
-            if (!source.get("type").getAsString().equals("monster")) {
-                throw new Exception("Monster must load character type monster");
+            if (!source.get("type").getAsString().equals("boss")) {
+                throw new Exception("Boss must load character type boss");
             }
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
@@ -36,6 +34,9 @@ public class Monster extends SimpleCharacter {
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
+
+            Barrage barrage = new Barrage(Boss.this, "bullet/bullet5.png", 5, 3f, 100f, 999999f);
+            this.setSkill((SpecialSkill)barrage);
             speedRun = source.get("speed_run").getAsFloat();
             speedWhenIdle = speedRun / 2;
         } catch (Exception e) {
@@ -43,7 +44,12 @@ public class Monster extends SimpleCharacter {
         }
     }
 
-    @Override
+    private void setSkill(SpecialSkill skill) {
+		this.skill = skill;
+		
+	}
+
+	@Override
     public void update(float deltaTime) {
         getCurrentWeapon().update(deltaTime);
         float playerX = map.getPlayer().getX();
@@ -54,7 +60,7 @@ public class Monster extends SimpleCharacter {
             if (direction.x != 0 || direction.y != 0) {
                 move(direction.x, direction.y, deltaTime);
             }
-            this.attack(direction);
+            this.skill.activate();
 
         }
         else {
@@ -71,29 +77,22 @@ public class Monster extends SimpleCharacter {
 
             }
         }
+        this.skill.update(deltaTime);
     }
-
-    public float getAttackRadius() {
-        return attackRadius;
-    }
-
-    public void setAttackRadius(float attackRadius) {
-        this.attackRadius = attackRadius;
-    }
-
-    @Override
-    public void getHit(int damage) {
-        currentHP -= damage;
-    }
-
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
-        getCurrentWeapon().draw(batch);
+        this.skill.draw(batch);
+        
     }
     @Override
     public void attack(Vector2 direction) {
-        getCurrentWeapon().attack(direction);
+        
+    }
+    
+    public SpecialSkill getSkill() {
+    	return this.skill;
     }
 
+	
 }

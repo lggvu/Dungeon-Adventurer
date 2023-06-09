@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Item.Item;
@@ -31,6 +32,7 @@ public class WorldMap {
     private ArrayList<Room> rooms;
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
+    private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -39,11 +41,6 @@ public class WorldMap {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionLayer = tiledMap.getLayers().get("collision_layer");
         doorCollision = tiledMap.getLayers().get("door_layer");
-        MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
-        rooms = new ArrayList<>();
-        for (MapLayer roomLayer : roomLayers.getLayers()) {
-            rooms.add(new Room(roomLayer,this));
-        }
 
         MapLayer destroyableLayer = tiledMap.getLayers().get("destroyable_object");
         for (MapObject mapObject : destroyableLayer.getObjects()) {
@@ -51,6 +48,27 @@ public class WorldMap {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
             }
         }
+
+        for (MapObject mapObject : doorCollision.getObjects()) {
+            if (mapObject instanceof TiledMapTileMapObject) {
+                doorTiledMapObject.add((TiledMapTileMapObject) mapObject);
+            }
+        }
+        
+        MapGroupLayer roomLayers = (MapGroupLayer) tiledMap.getLayers().get("room");
+        rooms = new ArrayList<>();
+
+        int roomLayerCount = roomLayers.getLayers().size();
+        for (int i = 0; i < roomLayerCount; i++) {
+            MapLayer roomLayer = roomLayers.getLayers().get(i);
+        	if (i == roomLayerCount - 1) {
+        		rooms.add(new Room(roomLayer, this, 1));
+        	}
+        	else{
+	            rooms.add(new Room(roomLayer, this, 0));
+        	}
+        }
+
 
 //        temp
         Item item = Item.load("HP Stone");
@@ -104,7 +122,11 @@ public class WorldMap {
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
         }
-
+        if (player.isFighting()) {
+            for (TiledMapTileMapObject object : doorTiledMapObject) {
+                batch.draw(object.getTextureRegion(), object.getX(), object.getY(), 16, 16);
+            }
+        }
         player.draw(batch);
         for (Room room : rooms) {
             room.draw(batch);
@@ -150,15 +172,22 @@ public class WorldMap {
 
 //        In case player is fighting, player can not get out the room
         if (player.isFighting()) {
-            for (MapObject mapObject : getDoorCollision().getObjects()) {
-                if (mapObject instanceof RectangleMapObject) {
-                    if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                        return true;
-                    }
-                }
+            if (isInDoor(rectangle)) {
+                return true;
             }
         }
 
+        return false;
+    }
+
+    public boolean isInDoor(Rectangle rectangle) {
+        for (MapObject mapObject : getDoorCollision().getObjects()) {
+            if (mapObject instanceof RectangleMapObject) {
+                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -222,8 +251,37 @@ public class WorldMap {
     }
 
     public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
-//        System.out.println("BEFORE REMOVE: " + destroyableObjects.size());
-        destroyableObjects.removeAll(objects);
-//        System.out.println("AFTER REMOVE: " + destroyableObjects.size());
+        for (DestroyableObject object : objects) {
+            removeDestroyableObject(object);
+        }
+    }
+
+    public void removeDestroyableObject(DestroyableObject object) {
+        if (destroyableObjects.contains(object)) {
+            destroyableObjects.remove(object);
+            if (object.getName().equals("ark")) {
+                addRandomPotion(object.getX(), object.getY());
+            }
+        }
+    }
+
+    public void addRandomPotion(float x, float y) {
+        int random = MathUtils.random(100);
+        Item item = null;
+        if (random < 2) {
+            item = Item.load("Life Potion");
+        } else if (random < 20) {
+            item = Item.load("HP Stone");
+        } else if (random < 50) {
+            item = Item.load("Mana Potion");
+        } else if (random <= 100) {
+            item = Item.load("Mana Stone");
+        }
+        item.setPosition(x, y);
+        itemsOnGround.add(item);
+    }
+
+    public TiledMap getTiledMap() {
+        return tiledMap;
     }
 }
