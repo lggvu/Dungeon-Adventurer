@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="1163">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="1165">
  <tileset firstgid="1" name="Floor" tilewidth="16" tileheight="16" tilecount="4" columns="2">
   <image source="Mini_Dungeon_v1.0/Tilesets/Floor.png" width="32" height="32"/>
  </tileset>
@@ -1687,10 +1687,8 @@
   <object id="1160" gid="26" x="2272" y="704" width="16" height="16"/>
   <object id="1162" gid="17" x="2272" y="688" width="16" height="16"/>
  </objectgroup>
- <group id="9" name="room" visible="0">
+ <group id="9" name="room">
   <objectgroup id="8" name="1">
-   <object id="207" x="0" y="2048" width="560" height="288"/>
-   <object id="208" x="0" y="2336" width="272" height="48"/>
    <object id="210" x="384" y="2336" width="176" height="48"/>
   </objectgroup>
   <objectgroup id="10" name="2">
@@ -1727,9 +1725,7 @@
   <objectgroup id="15" name="7">
    <object id="236" x="1392" y="640" width="992" height="560"/>
    <object id="237" x="1392" y="1200" width="816" height="128"/>
-   <object id="248" x="1824" y="2080" width="80" height="17.875">
-    <text wrap="1">Hello World</text>
-   </object>
+   <object id="1164" x="80" y="2064" width="480" height="272"/>
   </objectgroup>
   <objectgroup id="16" name="8">
    <object id="238" x="1360" y="160" width="1008" height="240"/>
