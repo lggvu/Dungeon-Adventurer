@@ -15,7 +15,7 @@ public class SpriteLoader {
     private int frameCols, frameRows;
     private HashMap<Integer, Integer> degree2AnimationID;
     private TextureRegion[][] textureRegions;
-    public static final float ANIMATION_SPEED = 0.1f;
+    public static final float ANIMATION_SPEED = 0.15f;
     public SpriteLoader(String sourceImage, String characterName, String infoPath) {
         this.degree2AnimationID = new HashMap<>();
         try {

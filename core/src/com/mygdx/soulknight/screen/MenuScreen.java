@@ -16,7 +16,7 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(SoulKnight game) {
         this.game = game;
-        background = new Texture("menu.png");
+        background = new Texture("hire-designer.png");
         startGameTexture = new Texture("start_game.png");
     }
 

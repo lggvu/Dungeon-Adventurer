@@ -106,13 +106,13 @@
         "gapHeight": 0,
         "imgCharacterWidth": 24,
         "imgCharacterHeight": 34,
-        "totalCols": 12,
-        "totalRows": 8,
+        "totalCols": 3,
+        "totalRows": 2,
         "character": {
             "adventurer": {
                 "startCol": 0,
                 "startRow": 0,
-                "frameCols": 7,
+                "frameCols": 3,
                 "frameRows": 2,
                 "direction": {
                     "180": 1,
