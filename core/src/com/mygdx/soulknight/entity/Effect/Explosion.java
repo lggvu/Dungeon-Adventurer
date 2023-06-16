@@ -13,105 +13,46 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 public class Explosion {
     private float initialX;
     private float initialY;
-    private TextureRegion[] explosionFrames;
-    private Animation<TextureRegion> explosionAnimation;
+
     private float x;
     private float y;
-    private float duration=1f;
-    private float durationTimeRemain=duration;
+
     private SimpleCharacter affectedCharacter;
-    private float relativeHitX;
-    private float relativeHitY;
     private Bullet bullet;
 
-    private Texture texture;
     private float stateTime;
-
-    public Explosion(String texturePath,float x, float y, SimpleCharacter affectedCharacter, Bullet bullet) {
-        texture = new Texture(texturePath);
-        this.x = affectedCharacter.getX();
-        this.y= affectedCharacter.getY();
+    private float durationTimeRemain=2f;
+    private Animation<TextureRegion> explosionAnimation;
+    public Explosion(String texturePath,float x, float y, Animation<TextureRegion> explosionAnimation) {
+        this.x = x;
+        this.y= y;
 
 
 //        animation
 
-        Texture explosionSheet = new Texture(Gdx.files.internal("explosion/pngwing.com.png"));
-        int frameCols = 8;
-        int frameRows = 6;
-        int frameWidth = explosionSheet.getWidth() / frameCols;
-        int frameHeight = explosionSheet.getHeight() / frameRows;
-        TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
-        explosionFrames = new TextureRegion[frameCols * frameRows];
-        int index = 0;
-        for (int row = 0; row < frameRows; row++) {
-            for (int col = 0; col < frameCols; col++) {
-                explosionFrames[index++] = temp[row][col];
-            }
-        }
-        explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
+//        Texture explosionSheet = new Texture(Gdx.files.internal("explosion/pngwing.com.png"));
+        this.explosionAnimation=explosionAnimation;
         stateTime = 0f;
 
     }
-
+    private float deltaTime;
     public void update(float deltaTime){
-//        durationTimeRemain-=deltaTime;
+        this.deltaTime=deltaTime;
+        durationTimeRemain-=deltaTime;
     }
     public void draw(SpriteBatch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = explosionAnimation.getKeyFrame(stateTime, false);
-        batch.draw(currentFrame, this.x, this.y, 20, 20);
+        stateTime += this.deltaTime;
+        TextureRegion currentFrame = this.explosionAnimation.getKeyFrame(stateTime, false);
+        batch.draw(currentFrame, this.x, this.y, 40, 40);
     }
-
-    public float getX() {
-        return this.x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return this.y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getInitialX() {
-        return initialX;
-    }
-
-    public void setInitialX(float initialX) {
-        this.initialX = initialX;
-    }
-
-    public float getInitialY() {
-        return initialY;
-    }
-
 
     public float getDurationTimeRemain() {
+
         return durationTimeRemain;
-    }
-
-    public void setDurationTimeRemain(float durationTimeRemain) {
-        this.durationTimeRemain = durationTimeRemain;
-    }
-
-    public SimpleCharacter getAffectedCharacter() {
-        return affectedCharacter;
-    }
-
-    public void setAffectedCharacter(SimpleCharacter affectedCharacter) {
-        this.affectedCharacter = affectedCharacter;
     }
 
     public Bullet getBullet() {
         return bullet;
     }
 
-    public void setBullet(Bullet bullet) {
-        this.bullet = bullet;
-    }
 }

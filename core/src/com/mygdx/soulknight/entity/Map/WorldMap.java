@@ -132,6 +132,7 @@ public class WorldMap {
             room.draw(batch);
         }
         player.draw(batch);
+
         for (Pickable item : itemsOnGround) {
             item.draw(batch);
         }

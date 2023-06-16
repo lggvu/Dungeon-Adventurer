@@ -72,7 +72,6 @@ public class Monster extends SimpleCharacter {
 
             }
         }
-        pushedByBullet(deltaTime);
     }
 
     public float getAttackRadius() {

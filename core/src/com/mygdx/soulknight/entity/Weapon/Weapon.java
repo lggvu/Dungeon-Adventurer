@@ -69,7 +69,6 @@ public abstract class Weapon implements Pickable {
     public abstract void attack(Vector2 direction);
     public abstract void flip(boolean x, boolean y);
     public abstract void draw(SpriteBatch batch);
-//    public abstract void draw(float deltaTime, SpriteBatch batch);
     public void subOwnerMana() {
         if (owner instanceof Player) {
             ((Player) owner).setCurrentMana(((Player) owner).getCurrentMana() - energyCost);
