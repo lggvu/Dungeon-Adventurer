@@ -43,6 +43,7 @@ public class Player extends SimpleCharacter {
         super(characterName, map);
         this.load();
     }
+    private Room room;
 
 
     @Override
@@ -85,7 +86,7 @@ public class Player extends SimpleCharacter {
         }
         hitBulletArrayList.add(bullet);
         isPushed=true;
-//        isStunned=true;
+        isStunned=true;
         stunTimer=stunDuration;
 
     }
@@ -191,7 +192,7 @@ public class Player extends SimpleCharacter {
             }
         }
 
-        Room room = map.getRoomPlayerIn();
+        this.room = map.getRoomPlayerIn();
         fighting = false;
         if (room != null && room.getMonsterAlive().size() > 0) {
             fighting = true;
@@ -350,5 +351,8 @@ public class Player extends SimpleCharacter {
     }
     public SpecialSkill getSkill() {
     	return this.skill;
+    }
+    public Room getRoom() {
+        return this.room;
     }
 }

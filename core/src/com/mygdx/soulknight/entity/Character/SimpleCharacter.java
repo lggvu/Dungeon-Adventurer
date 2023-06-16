@@ -19,6 +19,7 @@ public abstract class SimpleCharacter {
     public static final String CHARACTER_INFO_PATH = "info/character_info.json";
     protected TextureRegion texture;
     protected WorldMap map;
+    protected Room room;
     protected String characterName;
     protected SpriteLoader spriteLoader;
     protected int maxHP = 10;
@@ -45,6 +46,8 @@ public abstract class SimpleCharacter {
     }
 
     public abstract void load();
+
+    public abstract Room getRoom();
 
     public abstract void update(float deltaTime);
 

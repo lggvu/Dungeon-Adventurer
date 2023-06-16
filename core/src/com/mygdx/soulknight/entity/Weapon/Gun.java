@@ -28,6 +28,16 @@ public class Gun extends Weapon {
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
+        int underscoreIndex1 = explosionTexturePath.indexOf('_');
+        int underscoreIndex2 = explosionTexturePath.lastIndexOf('_');
+
+        // Extract the x and y substrings
+        String xSubstring = explosionTexturePath.substring(underscoreIndex1 + 1, underscoreIndex2);
+        String ySubstring = explosionTexturePath.substring(underscoreIndex2 + 1, explosionTexturePath.lastIndexOf('.'));
+
+        // Parse the x and y values as integers
+        int frameRows = Integer.parseInt(xSubstring);
+        int frameCols = Integer.parseInt(ySubstring);
         this.bulletTexturePath = bulletTexturePath;
         this.bulletSpeed = bulletSpeed;
         width = 12;
@@ -36,10 +46,6 @@ public class Gun extends Weapon {
 
 
         Texture explosionSheet = new Texture(explosionTexturePath);
-
-        int frameRows = 4;
-        int frameCols = 5;
-
 
         int frameWidth = explosionSheet.getWidth() / frameCols;
         int frameHeight = explosionSheet.getHeight() / frameRows;
@@ -71,15 +77,7 @@ public class Gun extends Weapon {
         }
         handleBulletCollision();
         dealDamageMethod();
-        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
-        for (Explosion explosion : explosionArrayList) {
-            explosion.update(deltaTime);
-            if (explosion.getDurationTimeRemain()<0){
-                removeExplosionList.add(explosion);
 
-            }
-        }
-        explosionArrayList.removeAll(removeExplosionList);
     }
     @Override
     public void flip(boolean x, boolean y) {
@@ -99,9 +97,7 @@ public class Gun extends Weapon {
         float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
         batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f,0, 4, width, height, 1, 1, degree);
 //        batch.draw(texture, owner.getX() + owner.getWidth() * 0.6f, owner.getY() + owner.getHeight() * 0.25f, 12, 12);
-        for (Explosion explosion: explosionArrayList){
-            explosion.draw(batch);
-        }
+
     }
 
     @Override
@@ -119,7 +115,7 @@ public class Gun extends Weapon {
                     character.getHit(damage, bullet.getDirection(), bullet);
 
                     Explosion explosion=new Explosion(explosionTexturePath, character.getX(), character.getY(), this.explosionAnimation);
-                    explosionArrayList.add(explosion);
+                    character.getRoom().explosionArrayList.add(explosion);
 
                     removeList.add(bullet);
                 }

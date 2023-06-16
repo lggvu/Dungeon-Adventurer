@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -21,6 +22,10 @@ public class Room {
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private Player player;
+
+
+
+    public ArrayList<Explosion> explosionArrayList = new ArrayList<>();
     private WorldMap map;
 
     private ArrayList<Rectangle> roomArea;
@@ -41,7 +46,7 @@ public class Room {
             while (true) {
                 float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
                 float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
-                Monster monster = new Monster("knight", map);
+                Monster monster = new Monster("knight", map, this);
                 monster.setPosition(x, y);
                 if (map.isMapCollision(monster.getRectangle())) {
                     continue;
@@ -65,7 +70,7 @@ public class Room {
             while (true) {
                 float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
                 float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
-                Boss boss = new Boss("teacher", map);
+                Boss boss = new Boss("teacher", map,this);
                 boss.setPosition(x, y);
                 if (map.isMapCollision(boss.getRectangle())) {
                     continue;
@@ -99,9 +104,22 @@ public class Room {
                 }
             }
         }
+        for (Explosion explosion: explosionArrayList){
+            explosion.draw(batch);
+        }
     }
 
     public void update(float deltaTime) {
+
+        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
+        for (Explosion explosion : explosionArrayList) {
+            explosion.update(deltaTime);
+            if (explosion.getDurationTimeRemain()<0){
+                removeExplosionList.add(explosion);
+
+            }
+        }
+        explosionArrayList.removeAll(removeExplosionList);
 
         if (combat) {
             ArrayList<Monster> monstersKilled = new ArrayList<>();
@@ -124,14 +142,13 @@ public class Room {
         for (Monster monster : monsterDie) {
             Weapon weapon = monster.getCurrentWeapon();
             weapon.update(deltaTime);
-//            if (weapon instanceof Gun) {
-//                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-//                    bullet.update(deltaTime);
-//                }
-//            }
+            if (weapon instanceof Gun) {
+                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+                    bullet.update(deltaTime);
+                }
+            }
         }
     }
-
     public ArrayList<Monster> getMonsterAlive() {
         return monsterAlive;
     }
