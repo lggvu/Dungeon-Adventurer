@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.specialskill.Barrage;
@@ -15,8 +16,8 @@ import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Boss extends Monster {
 	private SpecialSkill skill;
-	public Boss(String characterName, WorldMap map) {
-		super(characterName, map);
+	public Boss(String characterName, WorldMap map, Room room) {
+		super(characterName, map,room);
 	}
 
     @Override

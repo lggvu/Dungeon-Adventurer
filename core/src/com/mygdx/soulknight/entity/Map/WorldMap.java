@@ -127,11 +127,12 @@ public class WorldMap {
                 batch.draw(object.getTextureRegion(), object.getX(), object.getY(), 16, 16);
             }
         }
-
+        player.draw(batch);
         for (Room room : rooms) {
             room.draw(batch);
         }
-        player.draw(batch);
+
+
         for (Pickable item : itemsOnGround) {
             item.draw(batch);
         }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -16,9 +17,10 @@ import com.mygdx.soulknight.util.SpriteLoader;
 public class Monster extends SimpleCharacter {
     float attackRadius = 200;
     float speedWhenIdle; // The speed that monster will move when cannot approach the player
-
-    public Monster(String characterName, WorldMap map) {
+    private Room room;
+    public Monster(String characterName, WorldMap map, Room room) {
         super(characterName, map);
+        this.room=room;
         this.load();
     }
 
@@ -72,7 +74,6 @@ public class Monster extends SimpleCharacter {
 
             }
         }
-        pushedByBullet(deltaTime);
     }
 
     public float getAttackRadius() {
@@ -102,6 +103,9 @@ public class Monster extends SimpleCharacter {
     public void getHit(int damage, Vector2 direction, Bullet bullet) {
         currentHP -= damage;
 
+    }
+    public Room getRoom(){
+        return this.room;
     }
 
 }

@@ -1,6 +1,9 @@
 package com.mygdx.soulknight.entity.Weapon;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
@@ -18,15 +21,43 @@ public class Gun extends Weapon {
     private ArrayList<Explosion> explosionArrayList = new ArrayList<>();
     private String bulletTexturePath = "bullet/bullet1.png";
 
-    private String explosionTexturePath="boom/p1.png";
+    private String explosionTexturePath;
+
+    private TextureRegion[] explosionFrames;
+    private Animation<TextureRegion> explosionAnimation;
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
+        int underscoreIndex1 = explosionTexturePath.indexOf('_');
+        int underscoreIndex2 = explosionTexturePath.lastIndexOf('_');
+
+        // Extract the x and y substrings
+        String xSubstring = explosionTexturePath.substring(underscoreIndex1 + 1, underscoreIndex2);
+        String ySubstring = explosionTexturePath.substring(underscoreIndex2 + 1, explosionTexturePath.lastIndexOf('.'));
+
+        // Parse the x and y values as integers
+        int frameRows = Integer.parseInt(xSubstring);
+        int frameCols = Integer.parseInt(ySubstring);
         this.bulletTexturePath = bulletTexturePath;
-        this.explosionTexturePath=explosionTexturePath;
         this.bulletSpeed = bulletSpeed;
         width = 12;
         height = 8;
+
+
+
+        Texture explosionSheet = new Texture(explosionTexturePath);
+
+        int frameWidth = explosionSheet.getWidth() / frameCols;
+        int frameHeight = explosionSheet.getHeight() / frameRows;
+        TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
+        explosionFrames = new TextureRegion[frameCols * frameRows];
+        int index = 0;
+        for (int row = 0; row < frameRows; row++) {
+            for (int col = 0; col < frameCols; col++) {
+                explosionFrames[index++] = temp[row][col];
+            }
+        }
+        this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
     }
 
 
@@ -46,15 +77,7 @@ public class Gun extends Weapon {
         }
         handleBulletCollision();
         dealDamageMethod();
-        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
-        for (Explosion explosion : explosionArrayList) {
-            explosion.update(deltaTime);
-            if (explosion.getDurationTimeRemain()<0){
-                removeExplosionList.add(explosion);
 
-            }
-        }
-        explosionArrayList.removeAll(removeExplosionList);
     }
     @Override
     public void flip(boolean x, boolean y) {
@@ -71,14 +94,10 @@ public class Gun extends Weapon {
             batch.draw(texture, x, y, width, height);
             return;
         }
-
         float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
         batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f,0, 4, width, height, 1, 1, degree);
 //        batch.draw(texture, owner.getX() + owner.getWidth() * 0.6f, owner.getY() + owner.getHeight() * 0.25f, 12, 12);
-        for (Explosion explosion: explosionArrayList){
-            explosion.draw(batch);
 
-        }
     }
 
     @Override
@@ -95,8 +114,8 @@ public class Gun extends Weapon {
 
                     character.getHit(damage, bullet.getDirection(), bullet);
 
-                    Explosion explosion=new Explosion(explosionTexturePath,bullet.getX(), bullet.getY(), character, bullet);
-                    explosionArrayList.add(explosion);
+                    Explosion explosion=new Explosion(explosionTexturePath, character.getX(), character.getY(), this.explosionAnimation);
+                    character.getRoom().explosionArrayList.add(explosion);
 
                     removeList.add(bullet);
                 }
