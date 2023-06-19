@@ -92,7 +92,7 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.update(deltaTime);
-        if (map.isOver()) {
+        if (map.isOver(deltaTime)) {
             game.setScreen(new MenuScreen(game));
             game.resetBatch();
             this.dispose();

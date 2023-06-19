@@ -33,6 +33,7 @@ public class WorldMap {
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
     private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
+    private float fallDuration=5f;
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -236,9 +237,13 @@ public class WorldMap {
         return itemsOnGround;
     }
 
-    public boolean isOver() {
+    public boolean isOver(float deltaTime) {
         if (player.getCurrentHP() <= 0) {
-            return true;
+            fallDuration-=deltaTime;
+            if (fallDuration<=0){
+
+
+            return true;}
         }
         for (Room room : rooms) {
             if (room.getMonsterAlive().size() > 0) {

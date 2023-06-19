@@ -1,7 +1,10 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
@@ -45,6 +48,8 @@ public class Player extends SimpleCharacter {
     }
     private Room room;
 
+    private boolean isDied;
+
 
     @Override
     public void load() {
@@ -68,6 +73,23 @@ public class Player extends SimpleCharacter {
             maxMana = source.get("energy").getAsInt();
             setCurrentMana(maxMana - 100);
 
+
+            int frameRows = 1;
+            int frameCols =6;
+            Texture fallSheet = new Texture("hero/blue_hero/falling.png");
+
+            int frameWidth = fallSheet.getWidth() / frameCols;
+            int frameHeight = fallSheet.getHeight() / frameRows;
+            TextureRegion[][] temp = TextureRegion.split(fallSheet, frameWidth, frameHeight);
+            TextureRegion[] fallFrames = new TextureRegion[frameCols * frameRows];
+            int index = 0;
+            for (int row = 0; row < frameRows; row++) {
+                for (int col = 0; col < frameCols; col++) {
+                    fallFrames[index++] = temp[row][col];
+                }
+            }
+            this.fallAnimation = new Animation<TextureRegion>(0.8f, fallFrames);
+            this.fallStateTime=0f;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,23 +143,30 @@ public class Player extends SimpleCharacter {
 
     @Override
     public void draw(SpriteBatch batch) {
-        super.draw(batch);
-        for (Weapon weapon : weapons) {
-            if (weapon.equals(getCurrentWeapon())) {
-                weapon.draw(batch);
-            } else {
-                if (weapon instanceof Gun) {
-                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                        bullet.draw(batch);
-                    }
-                    for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
-                        explosion.draw(batch);
+        if (isDied==false) {
+            super.draw(batch);
+            for (Weapon weapon : weapons) {
+                if (weapon.equals(getCurrentWeapon())) {
+                    weapon.draw(batch);
+                } else {
+                    if (weapon instanceof Gun) {
+                        for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+                            bullet.draw(batch);
+                        }
+                        for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
+                            explosion.draw(batch);
+                        }
                     }
                 }
             }
+            if (this.skill != null) {
+                this.skill.draw(batch);
+            }
         }
-        if (this.skill != null) {
-        	this.skill.draw(batch);
+        else{
+
+            TextureRegion currentFrame = this.fallAnimation.getKeyFrame(this.fallStateTime, false);
+            batch.draw(currentFrame, this.x, this.y, 40, 40);
         }
     }
 
@@ -148,6 +177,11 @@ public class Player extends SimpleCharacter {
     @Override
     public void update(float deltaTime) {
         pushedByBullet(deltaTime);
+        System.out.println(getCurrentHP());
+        if (getCurrentHP()<=0){
+            this.fallStateTime += deltaTime;
+            isDied=true;
+        }
         if (isStunned){
             stunTimer-=deltaTime;
             if (stunTimer<=0){
@@ -346,6 +380,7 @@ public class Player extends SimpleCharacter {
         }
         return null;
     }
+
     public void setSkill(SpecialSkill skill) {
     	this.skill = skill;
     }

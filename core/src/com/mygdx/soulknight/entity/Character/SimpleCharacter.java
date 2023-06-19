@@ -1,5 +1,6 @@
 package com.mygdx.soulknight.entity.Character;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -37,6 +38,8 @@ public abstract class SimpleCharacter {
 
 
     protected ArrayList<Bullet> hitBulletArrayList=new ArrayList<>();
+    protected Animation<TextureRegion> fallAnimation;
+    protected float fallStateTime;
 
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
