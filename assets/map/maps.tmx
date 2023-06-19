@@ -1232,7 +1232,7 @@
   <objectgroup id="30" name="15">
    <object id="279" x="624" y="784" width="160" height="80"/>
   </objectgroup>
-  <objectgroup id="31" name="16">
+  <objectgroup id="31" name="0">
    <object id="280" x="368" y="704" width="224" height="144"/>
    <object id="282" x="224" y="752" width="144" height="80"/>
    <object id="283" x="80" y="800" width="144" height="32"/>
