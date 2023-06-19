@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="1175">
- <tileset firstgid="1" name="Floor" tilewidth="16" tileheight="16" tilecount="4" columns="2">
-  <image source="Mini_Dungeon_v1.0/Tilesets/Floor.png" width="32" height="32"/>
- </tileset>
- <tileset firstgid="5" name="Decor" tilewidth="16" tileheight="16" tilecount="81" columns="9">
-  <image source="Mini_Dungeon_v1.0/Tilesets/Decor.png" width="144" height="144"/>
- </tileset>
- <tileset firstgid="86" name="DoubleDoor" tilewidth="16" tileheight="16" tilecount="8" columns="4">
-  <image source="Mini_Dungeon_v1.0/Tilesets/DoubleDoor.png" width="64" height="32"/>
- </tileset>
- <tileset firstgid="94" name="Door_1" tilewidth="16" tileheight="16" tilecount="4" columns="2">
-  <image source="Mini_Dungeon_v1.0/Tilesets/Door_1.png" width="32" height="32"/>
- </tileset>
- <tileset firstgid="98" name="Walls" tilewidth="16" tileheight="16" tilecount="117" columns="9">
-  <image source="Mini_Dungeon_v1.0/Tilesets/Walls.png" width="144" height="208"/>
- </tileset>
- <tileset firstgid="215" source="16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
- <tileset firstgid="407" source="../split_map/tsx/dungeontileset-extended.tsx"/>
- <tileset firstgid="4503" name="Dungeon_Tileset" tilewidth="16" tileheight="16" tilecount="100" columns="10">
-  <image source="character and tileset/Dungeon_Tileset.png" width="160" height="160"/>
- </tileset>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="1177">
+ <tileset firstgid="1" source="../tsx/Floor.tsx"/>
+ <tileset firstgid="5" source="../tsx/Decor.tsx"/>
+ <tileset firstgid="86" source="../tsx/DoubleDoor.tsx"/>
+ <tileset firstgid="94" source="../tsx/Door_1.tsx"/>
+ <tileset firstgid="98" source="../tsx/Walls.tsx"/>
+ <tileset firstgid="215" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
+ <tileset firstgid="407" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="base" width="150" height="150" locked="1">
   <data encoding="csv">
 275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,275,
@@ -1551,6 +1538,8 @@
   <objectgroup id="15" name="1">
    <object id="236" x="1392" y="640" width="992" height="560"/>
    <object id="237" x="1392" y="1200" width="816" height="128"/>
+   <object id="1175" x="1152" y="-608"/>
+   <object id="1176" x="2672" y="784"/>
   </objectgroup>
   <objectgroup id="10" name="2">
    <object id="211" x="816" y="1936" width="624" height="448"/>

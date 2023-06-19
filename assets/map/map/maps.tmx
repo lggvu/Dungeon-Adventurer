@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="32" nextobjectid="288">
  <tileset firstgid="1" name="16x16 dungeon ii wall reconfig v04 spritesheet" tilewidth="16" tileheight="16" tilecount="192" columns="16">
-  <image source="16x16 dungeon ii wall reconfig v04 spritesheet.png" width="256" height="192"/>
+  <image source="../img/16x16 dungeon ii wall reconfig v04 spritesheet.png" width="256" height="192"/>
  </tileset>
  <tileset firstgid="193" name="dungeontileset-extended" tilewidth="16" tileheight="16" tilecount="4096" columns="64">
-  <image source="dungeontileset-extended.png" width="1024" height="1024"/>
+  <image source="../img/dungeontileset-extended.png" width="1024" height="1024"/>
  </tileset>
- <tileset firstgid="4289" source="16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
- <tileset firstgid="4481" source="dungeontileset-extended.tsx"/>
+ <tileset firstgid="4289" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
+ <tileset firstgid="4481" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="Base" width="120" height="100" locked="1">
   <data encoding="csv">
 61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,
