@@ -27,7 +27,7 @@ public abstract class SimpleCharacter {
     protected int currentHP = 10;
     protected float x = 30;
     protected float y = 30;
-    protected float width = 32;
+    protected float width = 20;
     protected float height = 32;
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
