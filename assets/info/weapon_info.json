@@ -30,7 +30,7 @@
     "Gun Red S": {
         "type": "Gun",
         "gun_texture": "weapon/red-gun-S.png",
-        "bullet_texture": "bullet-effects/Shot4/shot4_asset.png",
+        "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "properties": {
             "damage": 3,
@@ -44,7 +44,7 @@
     "Gun Red M": {
         "type": "Gun",
         "gun_texture": "weapon/red-gun-M.png",
-        "bullet_texture": "bullet-effects/Shot4/shot4_asset.png",
+        "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "properties": {
             "damage": 4,
@@ -58,7 +58,7 @@
     "Gun Red L": {
         "type": "Gun",
         "gun_texture": "weapon/red-gun-L.png",
-        "bullet_texture": "bullet-effects/Shot3/shot3_asset.png",
+        "bullet_texture": "bullet-effects/Shot3/shot3-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot3-sheet_1_8.png",
         "properties": {
             "damage": 6,
@@ -72,7 +72,7 @@
     "Gun Red XL": {
         "type": "Gun",
         "gun_texture": "weapon/red-gun-XL.png",
-        "bullet_texture": "bullet-effects/Shot6/shot6_asset.png",
+        "bullet_texture": "bullet-effects/Shot6/shot6-bullet.png",
         "explosion_texture": "bullet-effects/Shot6/shot6-sheet_1_12.png",
         "properties": {
             "damage": 12,
