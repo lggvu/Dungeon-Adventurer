@@ -99,7 +99,7 @@
             }
         }
     },
-    "character/adventurer.png": {
+    "character/adventurer/adventurer.png": {
         "paddingWidth": 0,
         "paddingHeight": 0,
         "gapWidth": 10,
@@ -120,5 +120,28 @@
                 }
             }
         }
+    },
+    "character/jungler/jungler.png": {
+        "paddingWidth": 0,
+        "paddingHeight": 0,
+        "gapWidth": 0,
+        "gapHeight": 0,
+        "imgCharacterWidth": 22,
+        "imgCharacterHeight": 34,
+        "totalCols": 10,
+        "totalRows": 2,
+        "character": {
+            "jungler": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 10,
+                "frameRows": 2,
+                "direction": {
+                    "180": 1,
+                    "0": 0
+                }
+            }
+        }
     }
+
 }

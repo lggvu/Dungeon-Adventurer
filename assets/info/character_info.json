@@ -10,12 +10,30 @@
     },
     "adventurer": {
         "type": "hero",
-        "texture_path": "character/adventurer.png",
-        "hp": 7,
-        "armor": 6,
-        "energy": 200,
-        "speed_run": 180,
+        "texture_path": "character/adventurer/adventurer.png",
+        "hp": 5,
+        "armor": 5,
+        "energy": 150,
+        "speed_run": 200,
         "default_weapon": "Sword 1"
+    },
+    "jungler": {
+        "type": "hero",
+        "texture_path": "character/jungler.png",
+        "hp": 8,
+        "armor": 8,
+        "energy": 100,
+        "speed_run": 180,
+        "default_weapon": "Gun Red S"
+    },
+    "assassin": {
+        "type": "hero",
+        "texture_path": "character/assassin.png",
+        "hp": 3,
+        "armor": 7,
+        "energy": 200,
+        "speed_run": 250,
+        "default_weapon": "Sword"
     },
     "knight": {
         "type": "monster",
