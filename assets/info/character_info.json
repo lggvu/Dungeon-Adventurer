@@ -21,7 +21,7 @@
         "type": "monster",
         "texture_path": "character/img1.png",
         "hp": 7,
-        "speed_run": 90,
+        "speed_run": 30,
         "default_weapon": "Gun Monster 1"
     },
     "teacher": {

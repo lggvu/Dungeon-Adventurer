@@ -19,13 +19,17 @@ public class Explosion {
 
     private SimpleCharacter affectedCharacter;
     private Bullet bullet;
-
+    private float width;
+    private float height;
     private float stateTime;
     private float durationTimeRemain=2f;
     private Animation<TextureRegion> explosionAnimation;
     public Explosion(String texturePath,float x, float y, Animation<TextureRegion> explosionAnimation) {
-        this.x = x;
-        this.y= y;
+
+        this.width=60;
+        this.height=60;
+        this.x = x-this.width/2;
+        this.y= y-this.height/2;
 
 
 //        animation
@@ -43,7 +47,7 @@ public class Explosion {
     public void draw(SpriteBatch batch) {
         stateTime += this.deltaTime;
         TextureRegion currentFrame = this.explosionAnimation.getKeyFrame(stateTime, false);
-        batch.draw(currentFrame, this.x, this.y, 40, 40);
+        batch.draw(currentFrame, this.x, this.y, this.width, this.height);
     }
 
     public float getDurationTimeRemain() {

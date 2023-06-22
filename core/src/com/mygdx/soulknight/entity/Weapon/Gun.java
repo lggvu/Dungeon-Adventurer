@@ -43,8 +43,6 @@ public class Gun extends Weapon {
         width = 12;
         height = 8;
 
-
-
         Texture explosionSheet = new Texture(explosionTexturePath);
 
         int frameWidth = explosionSheet.getWidth() / frameCols;
@@ -57,7 +55,7 @@ public class Gun extends Weapon {
                 explosionFrames[index++] = temp[row][col];
             }
         }
-        this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
+        this.explosionAnimation = new Animation<TextureRegion>(0.15f, explosionFrames);
     }
 
 

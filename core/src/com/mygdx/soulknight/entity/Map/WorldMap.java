@@ -87,12 +87,12 @@ public class WorldMap {
         item.setPosition(50, 200);
         itemsOnGround.add(item);
 
-        Weapon weapon = Weapon.load("Gun 1");
+        Weapon weapon = Weapon.load("Gun Red M");
         weapon.setPosition(100, 100);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun 2");
+        weapon = Weapon.load("Gun Red XL");
         weapon.setPosition(250, 250);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
