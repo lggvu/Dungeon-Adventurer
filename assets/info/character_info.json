@@ -28,12 +28,12 @@
     },
     "assassin": {
         "type": "hero",
-        "texture_path": "character/assassin.png",
+        "texture_path": "character/assassin/animation.png",
         "hp": 3,
         "armor": 7,
         "energy": 200,
         "speed_run": 250,
-        "default_weapon": "Sword"
+        "default_weapon": "Sword 1"
     },
     "knight": {
         "type": "monster",
