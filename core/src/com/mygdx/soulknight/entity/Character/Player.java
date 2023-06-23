@@ -57,7 +57,7 @@ public class Player extends SimpleCharacter {
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP - 5;
+            currentHP = maxHP;
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
@@ -66,7 +66,7 @@ public class Player extends SimpleCharacter {
             maxArmor = source.get("armor").getAsInt();
             currentArmor = maxArmor;
             maxMana = source.get("energy").getAsInt();
-            setCurrentMana(maxMana - 100);
+            setCurrentMana(maxMana);
 
         } catch (Exception e) {
             e.printStackTrace();

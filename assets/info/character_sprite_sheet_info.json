@@ -99,7 +99,7 @@
             }
         }
     },
-    "character/adventurer/adventurer.png": {
+    "character/adventurer/animation.png": {
         "paddingWidth": 0,
         "paddingHeight": 0,
         "gapWidth": 10,
@@ -121,7 +121,7 @@
             }
         }
     },
-    "character/jungler/jungler.png": {
+    "character/jungler/animation.png": {
         "paddingWidth": 0,
         "paddingHeight": 0,
         "gapWidth": 0,
