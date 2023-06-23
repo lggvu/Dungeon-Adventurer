@@ -180,6 +180,9 @@ public class Player extends SimpleCharacter {
 
                 moveDirection = moveDirection.nor();
                 move(moveDirection.x, moveDirection.y, deltaTime);
+            } else {
+                stateTime = 0;
+                texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             }
 
         ArrayList<Pickable> collectItem = autoCollect();
