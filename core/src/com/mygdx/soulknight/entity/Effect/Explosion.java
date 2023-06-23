@@ -35,13 +35,11 @@ public class Explosion {
         stateTime = 0f;
 
     }
-    private float deltaTime;
     public void update(float deltaTime){
-        this.deltaTime=deltaTime;
-        durationTimeRemain-=deltaTime;
+        durationTimeRemain -= deltaTime;
+        stateTime += deltaTime;
     }
     public void draw(SpriteBatch batch) {
-        stateTime += this.deltaTime;
         TextureRegion currentFrame = this.explosionAnimation.getKeyFrame(stateTime, false);
         batch.draw(currentFrame, this.x, this.y, 40, 40);
     }
