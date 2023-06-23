@@ -99,7 +99,7 @@
             }
         }
     },
-    "character/adventurer.png": {
+    "character/adventurer/animation.png": {
         "paddingWidth": 0,
         "paddingHeight": 0,
         "gapWidth": 10,
@@ -120,5 +120,50 @@
                 }
             }
         }
+    },
+    "character/jungler/animation.png": {
+        "paddingWidth": 0,
+        "paddingHeight": 0,
+        "gapWidth": 0,
+        "gapHeight": 0,
+        "imgCharacterWidth": 22,
+        "imgCharacterHeight": 34,
+        "totalCols": 10,
+        "totalRows": 2,
+        "character": {
+            "jungler": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 10,
+                "frameRows": 2,
+                "direction": {
+                    "180": 1,
+                    "0": 0
+                }
+            }
+        }
+    },
+    "character/assassin/animation.png": {
+        "paddingWidth": 0,
+        "paddingHeight": 0,
+        "gapWidth": 14,
+        "gapHeight": 0,
+        "imgCharacterWidth": 18,
+        "imgCharacterHeight": 21,
+        "totalCols": 8,
+        "totalRows": 2,
+        "character": {
+                "assassin": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 8,
+                "frameRows": 2,
+                "direction": {
+                    "180": 1,
+                    "0": 0
+                }
+            }
+        }
     }
+
 }
