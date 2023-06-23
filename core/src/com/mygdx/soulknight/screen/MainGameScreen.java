@@ -51,7 +51,7 @@ public class MainGameScreen extends ScreenAdapter {
         Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
         player.setSkill((SpecialSkill)barrage);
         backgroundMusic = Settings.music;
-        backgroundMusic.setVolume(0.2f);
+        backgroundMusic.setVolume(0.0f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         

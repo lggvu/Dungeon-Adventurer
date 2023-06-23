@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Weapon;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -16,7 +17,8 @@ public class Bullet {
     private int dmg = 2;
     private float x, y;
     private float width = 17;
-
+    private float height = 17;
+    private TextureRegion textureRegion;
 
     public Vector2 getDirection() {
         return direction;
@@ -42,14 +44,11 @@ public class Bullet {
         return y;
     }
 
-    private float height = 17;
-    private Texture texture;
-
     public Bullet(String texturePath, float x, float y, Vector2 direction, float speed) {
         this.x = x;
         this.y = y;
         this.direction = direction.nor();
-        texture = new Texture(texturePath);
+        textureRegion = new TextureRegion(new Texture(texturePath));
         this.speed = speed;
     }
 
@@ -86,6 +85,7 @@ public class Bullet {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, this.x, this.y, width, height);
+        float degree = direction.angleDeg(new Vector2(1, 0));
+        batch.draw(textureRegion, this.x, this.y,width/2,height/2, width, height,1,1 , degree);
     }
 }
