@@ -233,7 +233,6 @@ public class Player extends SimpleCharacter {
                 if (weapon instanceof Gun) {
                     for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                         bullet.update(deltaTime);
-
                     }
                 }
             }
