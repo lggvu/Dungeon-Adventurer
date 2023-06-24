@@ -11,7 +11,12 @@
             "range": 400,
             "critical_rate": 0.25,
             "bullet_speed": 600.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun 2": {
         "type": "Gun",
@@ -25,11 +30,16 @@
             "range": 600,
             "critical_rate": 0.4,
             "bullet_speed": 1000.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun Red S": {
         "type": "Gun",
-        "gun_texture": "weapon/red-gun-S.png",
+        "gun_texture": "weapon/red-gun-S-black.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "properties": {
@@ -39,11 +49,16 @@
             "range": 500,
             "critical_rate": 0.2,
             "bullet_speed": 1000.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun Red M": {
         "type": "Gun",
-        "gun_texture": "weapon/red-gun-M.png",
+        "gun_texture": "weapon/red-gun-M-black.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "properties": {
@@ -53,11 +68,16 @@
             "range": 550,
             "critical_rate": 0.4,
             "bullet_speed": 900.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun Red L": {
         "type": "Gun",
-        "gun_texture": "weapon/red-gun-L.png",
+        "gun_texture": "weapon/red-gun-L-black.png",
         "bullet_texture": "bullet-effects/Shot3/shot3-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot3-sheet_1_8.png",
         "properties": {
@@ -67,11 +87,16 @@
             "range": 550,
             "critical_rate": 0.6,
             "bullet_speed": 850.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot3-sheet_1_8.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun Red XL": {
         "type": "Gun",
-        "gun_texture": "weapon/red-gun-XL.png",
+        "gun_texture": "weapon/red-gun-XL-black.png",
         "bullet_texture": "bullet-effects/Shot6/shot6-bullet.png",
         "explosion_texture": "bullet-effects/Shot6/shot6-sheet_1_12.png",
         "properties": {
@@ -81,7 +106,12 @@
             "range": 650,
             "critical_rate": 1.0,
             "bullet_speed": 800.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot6/shot6-sheet_1_12.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Gun Monster 1": {
         "type": "Gun",
@@ -95,7 +125,12 @@
             "range": 600,
             "critical_rate": 0.4,
             "bullet_speed": 90.0
-        }
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     },
     "Sword 1": {
         "type": "Sword",
@@ -119,6 +154,10 @@
             "attack_speed": 2.0,
             "range": 100,
             "critical_rate": 2.0
-        }
+        },
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 14
     }
 }

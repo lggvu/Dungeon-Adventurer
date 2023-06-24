@@ -22,8 +22,6 @@ public class Sword extends Weapon {
 
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
-        width = 12;
-        height = 8;
     }
 
     public void setEffectFrames(TextureRegion[][] frames) {
@@ -33,6 +31,14 @@ public class Sword extends Weapon {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if (owner != null && owner.isFlipX() != texture.isFlipY()) {
+            texture.flip(false, true);
+            for (int i = 0; i < frames.length; i++) {
+                for (int j = 0; j < frames[i].length; j++) {
+                    frames[i][j].flip(false, true);
+                }
+            }
+        }
         // Add any additional update logic for the sword here
     }
 
@@ -48,15 +54,15 @@ public class Sword extends Weapon {
         }
     }
 
-    @Override
-    public void flip(boolean x, boolean y) {
-        texture.flip(x, y);
-        for (int i = 0; i < frames.length; i++) {
-            for (int j = 0; j < frames[i].length; j++) {
-                frames[i][j].flip(x, y);
-            }
-        }
-    }
+//    @Override
+//    public void flip(boolean x, boolean y) {
+//        texture.flip(x, y);
+//        for (int i = 0; i < frames.length; i++) {
+//            for (int j = 0; j < frames[i].length; j++) {
+//                frames[i][j].flip(x, y);
+//            }
+//        }
+//    }
 
     @Override
     public void draw(SpriteBatch batch) {

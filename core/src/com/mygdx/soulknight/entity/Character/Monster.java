@@ -32,6 +32,10 @@ public class Monster extends SimpleCharacter {
             if (!source.get("type").getAsString().equals("monster")) {
                 throw new Exception("Monster must load character type monster");
             }
+            width = source.get("width").getAsFloat();
+            height = source.get("height").getAsFloat();
+            weaponX = source.get("weapon_x").getAsFloat();
+            weaponY = source.get("weapon_y").getAsFloat();
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();

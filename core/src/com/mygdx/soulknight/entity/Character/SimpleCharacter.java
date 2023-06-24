@@ -29,6 +29,7 @@ public abstract class SimpleCharacter {
     protected float y = 30;
     protected float width = 20;
     protected float height = 32;
+    protected float weaponX, weaponY;
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
@@ -62,9 +63,6 @@ public abstract class SimpleCharacter {
         float degree = lastMoveDirection.angleDeg(currentHeadDirection);
         if (degree > 90 && degree < 270) {
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
-            for (Weapon weapon : weapons) {
-                weapon.flip(false, true);
-            }
         }
 
         texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
@@ -73,12 +71,17 @@ public abstract class SimpleCharacter {
         y = lastMoveDirection.y;
         float testX = this.x + x * deltaTime * speedRun;
         float testY = this.y + y * deltaTime * speedRun;
-        if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
-            this.x = testX;
+        if (!map.isMapCollision(new Rectangle(this.x, testY, width, height))) {
             this.y = testY;
+        }
+        if (!map.isMapCollision(new Rectangle(testX, this.y, width, height))) {
+            this.x = testX;
         }
     }
 
+    public boolean isFlipX() {
+        return currentHeadDirection.x == -1;
+    }
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
@@ -107,6 +110,7 @@ public abstract class SimpleCharacter {
         return y;
     }
 
+
     public int getMaxHP() {
         return maxHP;
     }
@@ -118,6 +122,14 @@ public abstract class SimpleCharacter {
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public float getWeaponX() {
+        return weaponX;
+    }
+
+    public float getWeaponY() {
+        return weaponY;
     }
 
     public void setSize(float width, float height) {

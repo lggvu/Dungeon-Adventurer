@@ -25,7 +25,7 @@ public abstract class Weapon implements Pickable {
     protected int damage;
     protected int energyCost;
     protected float criticalRate;
-    protected float x, y, width, height;
+    protected float x, y, width, height, origin_x, origin_y;
     protected boolean onGround = false;
     protected String texturePath;
 
@@ -41,6 +41,14 @@ public abstract class Weapon implements Pickable {
         weaponID = ID++;
     }
 
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
+    public void setRotateCenter(float origin_x, float origin_y) {
+        this.origin_x = origin_x;
+        this.origin_y = origin_y;
+    }
     public void reset() {
         elapsedSeconds = intervalSeconds + 1;
     }
@@ -67,7 +75,6 @@ public abstract class Weapon implements Pickable {
 
     //    When we have more weapon, we set attack function to an abstract class
     public abstract void attack(Vector2 direction);
-    public abstract void flip(boolean x, boolean y);
     public abstract void draw(SpriteBatch batch);
     public void subOwnerMana() {
         if (owner instanceof Player) {
@@ -115,13 +122,19 @@ public abstract class Weapon implements Pickable {
             float attackSpeed = properties.get("attack_speed").getAsFloat();
             int range = properties.get("range").getAsInt();
             float criticalRate = properties.get("critical_rate").getAsFloat();
+            float width = source.get("width").getAsFloat();
+            float height = source.get("height").getAsFloat();
+            float origin_x = source.get("origin_x").getAsFloat();
+            float origin_y = source.get("origin_y").getAsFloat();
 
             if (source.get("type").getAsString().equals("Gun")) {
                 String bulletTexturePath = source.get("bullet_texture").getAsString();
-                String explosionTexturePath=source.get("explosion_texture").getAsString();
+                String explosionTexturePath = source.get("explosion_texture").getAsString();
+                String shotExplosionTexturePath = source.get("shot_explosion_texture").getAsString();
                 float bulletSpeed = properties.get("bullet_speed").getAsFloat();
-
                 Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath,damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
+                gun.setSize(width, height);
+                gun.setRotateCenter(origin_x, origin_y);
                 return gun;
             }
             else if (source.get("type").getAsString().equals("Sword")) {
@@ -137,6 +150,8 @@ public abstract class Weapon implements Pickable {
                         effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
                 );
                 sword.setEffectFrames(frames);
+                sword.setSize(width, height);
+                sword.setRotateCenter(origin_x, origin_y);
                 return sword;
             }
         } catch (Exception e) {

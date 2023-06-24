@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.entity.Character.Monster;
-import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
-import com.mygdx.soulknight.entity.Map.Room;
 
 import java.util.ArrayList;
 
@@ -40,8 +37,6 @@ public class Gun extends Weapon {
         int frameCols = Integer.parseInt(ySubstring);
         this.bulletTexturePath = bulletTexturePath;
         this.bulletSpeed = bulletSpeed;
-        width = 14;
-        height = 10;
 
         Texture explosionSheet = new Texture(explosionTexturePath);
 
@@ -55,7 +50,9 @@ public class Gun extends Weapon {
                 explosionFrames[index++] = temp[row][col];
             }
         }
+
         this.explosionAnimation = new Animation<TextureRegion>(0.15f, explosionFrames);
+
     }
 
 
@@ -70,6 +67,9 @@ public class Gun extends Weapon {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if (owner != null && owner.isFlipX() != texture.isFlipY()) {
+            texture.flip(false, true);
+        }
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
         }
@@ -77,11 +77,6 @@ public class Gun extends Weapon {
         dealDamageMethod();
 
     }
-    @Override
-    public void flip(boolean x, boolean y) {
-        texture.flip(x, y);
-    }
-
     @Override
     public void draw(SpriteBatch batch) {
         for (Bullet bullet : bulletArrayList) {
