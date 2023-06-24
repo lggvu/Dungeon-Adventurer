@@ -45,8 +45,8 @@ public class Bullet {
     }
 
     public Bullet(String texturePath, float x, float y, Vector2 direction, float speed) {
-        this.x = x;
-        this.y = y;
+        this.x = x - width / 2;
+        this.y = y - height / 2;
         this.direction = direction.nor();
         textureRegion = new TextureRegion(new Texture(texturePath));
         this.speed = speed;

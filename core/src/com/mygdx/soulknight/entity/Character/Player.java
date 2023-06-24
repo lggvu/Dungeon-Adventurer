@@ -133,14 +133,11 @@ public class Player extends SimpleCharacter {
                     for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
                         bullet.draw(batch);
                     }
-                    for (Explosion explosion : ((Gun) weapon).getExplosionArrayList()) {
-                        explosion.draw(batch);
-                    }
                 }
             }
         }
         if (this.skill != null) {
-        	this.skill.draw(batch);
+            this.skill.draw(batch);
         }
     }
 
@@ -151,12 +148,12 @@ public class Player extends SimpleCharacter {
     @Override
     public void update(float deltaTime) {
         pushedByBullet(deltaTime);
-        if (isStunned){
-            stunTimer-=deltaTime;
-            if (stunTimer<=0){
+        if (isStunned) {
+            stunTimer -= deltaTime;
+            if (stunTimer <= 0) {
                 isStunned=false;
-                }}
-        else{
+            }
+        } else {
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -200,13 +197,16 @@ public class Player extends SimpleCharacter {
 
         this.room = map.getRoomPlayerIn();
         fighting = false;
+
+        Vector2 attackDirection = getAttackDirection(room);
         if (room != null && room.getMonsterAlive().size() > 0) {
             fighting = true;
             room.setCombat(true);
+            setLastMoveDirection(attackDirection.x, attackDirection.y);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            attack(getAttackDirection(room));
+            attack(attackDirection);
         }
 
 //        Armor auto heal
@@ -237,7 +237,7 @@ public class Player extends SimpleCharacter {
         }
 
         if (this.skill.isActivate()) {
-        	this.skill.activate();
+            this.skill.activate();
         }
         this.skill.update(deltaTime);
 
@@ -251,7 +251,7 @@ public class Player extends SimpleCharacter {
 
 
         }
-        }
+    }
 
     public Vector2 getAttackDirection(Room roomPlayerIn) {
         if (roomPlayerIn != null) {
@@ -353,10 +353,10 @@ public class Player extends SimpleCharacter {
         return null;
     }
     public void setSkill(SpecialSkill skill) {
-    	this.skill = skill;
+        this.skill = skill;
     }
     public SpecialSkill getSkill() {
-    	return this.skill;
+        return this.skill;
     }
     public Room getRoom() {
         return this.room;

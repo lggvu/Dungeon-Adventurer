@@ -4,55 +4,32 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
+import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 
 public class Gun extends Weapon {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-
-    private ArrayList<Explosion> explosionArrayList = new ArrayList<>();
     private String bulletTexturePath = "bullet/bullet1.png";
-
     private String explosionTexturePath;
-
-    private TextureRegion[] explosionFrames;
     private Animation<TextureRegion> explosionAnimation;
+    private Animation<TextureRegion> shotExplosionAnimation;
 
-    public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
+    public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
-        int underscoreIndex1 = explosionTexturePath.indexOf('_');
-        int underscoreIndex2 = explosionTexturePath.lastIndexOf('_');
-
-        // Extract the x and y substrings
-        String xSubstring = explosionTexturePath.substring(underscoreIndex1 + 1, underscoreIndex2);
-        String ySubstring = explosionTexturePath.substring(underscoreIndex2 + 1, explosionTexturePath.lastIndexOf('.'));
-
-        // Parse the x and y values as integers
-        int frameRows = Integer.parseInt(xSubstring);
-        int frameCols = Integer.parseInt(ySubstring);
         this.bulletTexturePath = bulletTexturePath;
         this.bulletSpeed = bulletSpeed;
-
-        Texture explosionSheet = new Texture(explosionTexturePath);
-
-        int frameWidth = explosionSheet.getWidth() / frameCols;
-        int frameHeight = explosionSheet.getHeight() / frameRows;
-        TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
-        explosionFrames = new TextureRegion[frameCols * frameRows];
-        int index = 0;
-        for (int row = 0; row < frameRows; row++) {
-            for (int col = 0; col < frameCols; col++) {
-                explosionFrames[index++] = temp[row][col];
-            }
-        }
-
+        TextureRegion[] explosionFrames = SpriteLoader.loadTextureByFileName(explosionTexturePath);
+        TextureRegion[] shotExplosionFrames = SpriteLoader.loadTextureByFileName(shotExplosionTexturePath);
         this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
-
+        this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
     }
 
 
@@ -60,7 +37,21 @@ public class Gun extends Weapon {
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
             subOwnerMana();
-            bulletArrayList.add(new Bullet(bulletTexturePath, owner.getX(), owner.getY(), direction, bulletSpeed));
+            float degree = direction.angleDeg(new Vector2(1, 0));
+            float gunBarrelX, gunBarrelY;
+            gunBarrelX = gunBarrelY = 0;
+            if (texture.isFlipY()) {
+                gunBarrelX += owner.getX() + owner.getWidth() - owner.getWeaponX();
+                gunBarrelY += owner.getY() + owner.getHeight() - owner.getWeaponY();
+            } else {
+                gunBarrelX += owner.getX() + owner.getWeaponX();
+                gunBarrelY += owner.getY() + owner.getWeaponY();
+            }
+            gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
+            gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
+            Explosion explosion = new Explosion(explosionTexturePath, gunBarrelX, gunBarrelY, this.shotExplosionAnimation);
+            WorldMap.EXPLOSION_ARRAY_LIST.add(explosion);
+            bulletArrayList.add(new Bullet(bulletTexturePath, gunBarrelX, gunBarrelY, direction, bulletSpeed));
         }
     }
 
@@ -111,12 +102,9 @@ public class Gun extends Weapon {
             removeList = new ArrayList<>();
             for (Bullet bullet : bulletArrayList) {
                 if (bullet.getRectangle().overlaps(character.getRectangle())) {
-
                     character.getHit(damage, bullet.getDirection(), bullet);
-
                     Explosion explosion=new Explosion(explosionTexturePath, character.getX(), character.getY(), this.explosionAnimation);
-                    character.getRoom().explosionArrayList.add(explosion);
-
+                    WorldMap.EXPLOSION_ARRAY_LIST.add(explosion);
                     removeList.add(bullet);
                 }
             }
@@ -163,9 +151,5 @@ public class Gun extends Weapon {
 
     public void setBulletTexturePath(String bulletTexturePath) {
         this.bulletTexturePath = bulletTexturePath;
-    }
-
-    public ArrayList<Explosion> getExplosionArrayList() {
-        return explosionArrayList;
     }
 }

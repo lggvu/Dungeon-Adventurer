@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
-import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -22,12 +21,7 @@ public class Room {
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private Player player;
-
-
-
-    public ArrayList<Explosion> explosionArrayList = new ArrayList<>();
     private WorldMap map;
-
     private ArrayList<Rectangle> roomArea;
     private boolean combat = false;
     public Room(MapLayer roomLayer, WorldMap map, int numBoss) {
@@ -104,22 +98,9 @@ public class Room {
                 }
             }
         }
-        for (Explosion explosion: explosionArrayList){
-            explosion.draw(batch);
-        }
     }
 
     public void update(float deltaTime) {
-
-        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
-        for (Explosion explosion : explosionArrayList) {
-            explosion.update(deltaTime);
-            if (explosion.isExplosionFinish()){
-                removeExplosionList.add(explosion);
-            }
-        }
-        explosionArrayList.removeAll(removeExplosionList);
-
         if (combat) {
             ArrayList<Monster> monstersKilled = new ArrayList<>();
             for (Monster monster : monsterAlive) {

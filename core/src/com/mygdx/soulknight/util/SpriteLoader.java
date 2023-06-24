@@ -58,6 +58,34 @@ public class SpriteLoader {
         return result;
     }
 
+    public static TextureRegion[] loadTextureByFileName(String path) {
+        int underscoreIndex1 = path.indexOf('_');
+        int underscoreIndex2 = path.lastIndexOf('_');
+
+        // Extract the x and y substrings
+        String xSubstring = path.substring(underscoreIndex1 + 1, underscoreIndex2);
+        String ySubstring = path.substring(underscoreIndex2 + 1, path.lastIndexOf('.'));
+
+        // Parse the x and y values as integers
+        int frameRows = Integer.parseInt(xSubstring);
+        int frameCols = Integer.parseInt(ySubstring);
+
+        Texture explosionSheet = new Texture(path);
+
+        int frameWidth = explosionSheet.getWidth() / frameCols;
+        int frameHeight = explosionSheet.getHeight() / frameRows;
+        TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
+        TextureRegion[] explosionFrames = new TextureRegion[frameCols * frameRows];
+        int index = 0;
+        for (int row = 0; row < frameRows; row++) {
+            for (int col = 0; col < frameCols; col++) {
+                explosionFrames[index++] = temp[row][col];
+            }
+        }
+
+        return explosionFrames;
+    }
+
     public static ArrayList<String> getCharacterNameFromImage(String sourceImage) {
         return getCharacterNameFromImage(sourceImage, "character/info.json");
     }

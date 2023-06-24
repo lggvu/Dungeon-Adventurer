@@ -132,7 +132,7 @@ public abstract class Weapon implements Pickable {
                 String explosionTexturePath = source.get("explosion_texture").getAsString();
                 String shotExplosionTexturePath = source.get("shot_explosion_texture").getAsString();
                 float bulletSpeed = properties.get("bullet_speed").getAsFloat();
-                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath,damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
+                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
                 gun.setSize(width, height);
                 gun.setRotateCenter(origin_x, origin_y);
                 return gun;

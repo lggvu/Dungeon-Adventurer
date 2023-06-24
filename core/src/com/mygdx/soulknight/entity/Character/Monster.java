@@ -17,6 +17,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 public class Monster extends SimpleCharacter {
     float attackRadius = 200;
     float speedWhenIdle; // The speed that monster will move when cannot approach the player
+    float speedInRangeAttack;
     private Room room;
     public Monster(String characterName, WorldMap map, Room room) {
         super(characterName, map);
@@ -43,8 +44,8 @@ public class Monster extends SimpleCharacter {
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
             addWeapon(weapon);
-            speedRun = source.get("speed_run").getAsFloat();
-            speedWhenIdle = speedRun / 2;
+            speedInRangeAttack = speedRun = source.get("speed_run").getAsFloat();
+            speedWhenIdle = speedInRangeAttack / 2;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,6 +58,7 @@ public class Monster extends SimpleCharacter {
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
         if (distance <= this.attackRadius) {
+            setSpeedRun(speedInRangeAttack);
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
                 move(direction.x, direction.y, deltaTime);
@@ -66,16 +68,13 @@ public class Monster extends SimpleCharacter {
         }
         else {
             // The monster will move randomly if the player is not in the attack radius
-            for (int i = 0; i < 40; i++) {
-                float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
-                float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-                if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
-                    move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
-                    break;
-                }
-                this.setSpeedRun(this.speedWhenIdle);
+            setSpeedRun(speedWhenIdle);
+            float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
+            float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
+            if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
+            } else {
                 lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
-
             }
         }
     }

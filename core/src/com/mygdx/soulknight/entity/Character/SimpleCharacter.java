@@ -57,26 +57,27 @@ public abstract class SimpleCharacter {
     }
 
     public void move(float x, float y, float deltaTime) {
-        lastMoveDirection = new Vector2(x, y).nor();
         stateTime += deltaTime;
-
-        float degree = lastMoveDirection.angleDeg(currentHeadDirection);
-        if (degree > 90 && degree < 270) {
-            currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
-        }
-
-        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
-
+        setLastMoveDirection(x, y);
         x = lastMoveDirection.x;
         y = lastMoveDirection.y;
         float testX = this.x + x * deltaTime * speedRun;
         float testY = this.y + y * deltaTime * speedRun;
-        if (!map.isMapCollision(new Rectangle(this.x, testY, width, height))) {
+        if (y != 0 && !map.isMapCollision(new Rectangle(this.x, testY, width, height))) {
             this.y = testY;
         }
-        if (!map.isMapCollision(new Rectangle(testX, this.y, width, height))) {
+        if (x != 0 && !map.isMapCollision(new Rectangle(testX, this.y, width, height))) {
             this.x = testX;
         }
+    }
+
+    protected void setLastMoveDirection(float x, float y) {
+        lastMoveDirection = new Vector2(x, y).nor();
+        float degree = lastMoveDirection.angleDeg(currentHeadDirection);
+        if (degree > 90 && degree < 270) {
+            currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
+        }
+        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
     }
 
     public boolean isFlipX() {

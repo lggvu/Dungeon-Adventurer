@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 
 public class WorldMap {
     private OrthographicCamera camera;
+    public final static ArrayList<Explosion> EXPLOSION_ARRAY_LIST = new ArrayList<>();
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private MapLayer collisionLayer;
@@ -100,6 +102,14 @@ public class WorldMap {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
+        for (Explosion explosion : EXPLOSION_ARRAY_LIST) {
+            explosion.update(deltaTime);
+            if (explosion.isExplosionFinish()){
+                removeExplosionList.add(explosion);
+            }
+        }
+        EXPLOSION_ARRAY_LIST.removeAll(removeExplosionList);
         for (Room room : rooms) {
             room.update(deltaTime);
         }
@@ -136,6 +146,7 @@ public class WorldMap {
         for (Pickable item : itemsOnGround) {
             item.draw(batch);
         }
+
         Pickable nearestItem = player.getNearestPickableInRange();
         if (nearestItem != null) {
             Texture texture = new Texture("ppp.png");
@@ -143,6 +154,11 @@ public class WorldMap {
             float heightConsider = 8;
             batch.draw(texture, nearestItem.getX() + nearestItem.getWidth() / 2 - widthConsider / 2, nearestItem.getY() + nearestItem.getWidth() + 2, widthConsider, heightConsider);
         }
+
+        for (Explosion explosion: EXPLOSION_ARRAY_LIST){
+            explosion.draw(batch);
+        }
+
         batch.end();
     }
 
