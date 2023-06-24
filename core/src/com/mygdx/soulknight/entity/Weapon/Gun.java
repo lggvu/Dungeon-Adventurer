@@ -67,7 +67,7 @@ public class Gun extends Weapon {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (owner != null && owner.isFlipX() != texture.isFlipY()) {
+        if (!onGround && owner.isFlipX() != texture.isFlipY()) {
             texture.flip(false, true);
         }
         for (Bullet bullet : bulletArrayList) {
@@ -88,9 +88,16 @@ public class Gun extends Weapon {
             return;
         }
         float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
-        batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f,0,height / 2, width, height, 1, 1, degree);
-//        batch.draw(texture, owner.getX() + owner.getWidth() * 0.6f, owner.getY() + owner.getHeight() * 0.25f, 12, 12);
-
+        float dlX = 0;
+        float dlY = 0;
+        if (texture.isFlipY()) {
+            dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
+            dlY = owner.getY() + owner.getWeaponY() - origin_y;
+        } else {
+            dlX = owner.getX() + owner.getWeaponX() - origin_x;
+            dlY = owner.getY() + owner.getWeaponY() - origin_y;
+        }
+        batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
     }
 
     @Override

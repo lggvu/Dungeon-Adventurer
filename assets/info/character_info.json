@@ -46,10 +46,10 @@
         "energy": 200,
         "speed_run": 250,
         "default_weapon": "Sword 1",
-        "width": 32,
-        "height": 32,
+        "width": 20,
+        "height": 28,
         "weapon_x": 16,
-        "weapon_y": 16
+        "weapon_y": 12
     },
     "knight": {
         "type": "monster",

@@ -180,5 +180,8 @@ public abstract class Weapon implements Pickable {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
+        if (onGround && texture.isFlipY()) {
+            texture.flip(false, true);
+        }
     }
 }

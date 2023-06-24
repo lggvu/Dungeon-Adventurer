@@ -73,7 +73,16 @@ public class Sword extends Weapon {
         // Draw the sword
         if (!isAttacking) {
             float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
-            batch.draw(texture, owner.getX() + owner.getWidth() * 0.5f, owner.getY() + owner.getHeight() * 0.25f, 0, 4, width, height, 1, 1, degree);
+            float dlX = 0;
+            float dlY = 0;
+            if (texture.isFlipY()) {
+                dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
+                dlY = owner.getY() + owner.getWeaponY() - origin_y;
+            } else {
+                dlX = owner.getX() + owner.getWeaponX() - origin_x;
+                dlY = owner.getY() + owner.getWeaponY() - origin_y;
+            }
+            batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
         }
         // Draw effect when attacking
         if (isAttacking) {
