@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
+import com.mygdx.soulknight.entity.Item.LifePotion;
+import com.mygdx.soulknight.entity.Item.ManaPotion;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
@@ -237,9 +239,11 @@ public class Player extends SimpleCharacter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             Pickable item = getNearestPickableInRange();
             if (item != null) {
-                this.itemAnimationTimer=1f;
-                this.itemTexture=item.getAnimation();
-                pickingItem=true;
+                if (item instanceof LifePotion | item instanceof ManaPotion){
+                    this.itemAnimationTimer=1f;
+                    this.itemTexture=item.getAnimation();
+                    pickingItem=true;
+                }
                 collectItem.add(item);
                 map.getItemsOnGround().remove(item);
             }
