@@ -60,9 +60,14 @@ public class Gun extends Weapon {
         if (!onGround && owner.isFlipX() != texture.isFlipY()) {
             texture.flip(false, true);
         }
+        ArrayList<Bullet> removeArrayList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
+            if (bullet.getDistanceGoThrough() > rangeWeapon) {
+                removeArrayList.add(bullet);
+            }
         }
+        bulletArrayList.removeAll(removeArrayList);
         handleBulletCollision();
         dealDamageMethod();
 

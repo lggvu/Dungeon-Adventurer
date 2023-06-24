@@ -15,7 +15,7 @@ public class Bullet {
     private Vector2 direction;
     private float speed = 1000f;
     private int dmg = 2;
-    private float x, y;
+    private float x, y, startX, startY;
     private float width = 17;
     private float height = 17;
     private TextureRegion textureRegion;
@@ -45,11 +45,15 @@ public class Bullet {
     }
 
     public Bullet(TextureRegion textureRegion, float x, float y, Vector2 direction, float speed) {
-        this.x = x - width / 2;
-        this.y = y - height / 2;
+        this.x = this.startX = x - width / 2;
+        this.y = this.startY = y - height / 2;
         this.direction = direction.nor();
         this.textureRegion = textureRegion;
         this.speed = speed;
+    }
+
+    public float getDistanceGoThrough() {
+        return new Vector2(x, y).dst(startX, startY);
     }
 
     public void update(float deltaTime) {
