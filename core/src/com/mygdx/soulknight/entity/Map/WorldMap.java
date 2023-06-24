@@ -129,8 +129,10 @@ public class WorldMap {
             }
         }
         player.draw(batch);
-        for (Room room : rooms) {
-            room.draw(batch);
+        if (player.getCurrentHP()>0) {
+            for (Room room : rooms) {
+                room.draw(batch);
+            }
         }
 
 

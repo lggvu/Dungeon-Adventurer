@@ -88,7 +88,7 @@ public class Player extends SimpleCharacter {
                     fallFrames[index++] = temp[row][col];
                 }
             }
-            this.fallAnimation = new Animation<TextureRegion>(0.8f, fallFrames);
+            this.fallAnimation = new Animation<TextureRegion>(0.4f, fallFrames);
             this.fallStateTime=0f;
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,14 +180,15 @@ public class Player extends SimpleCharacter {
         System.out.println(getCurrentHP());
         if (getCurrentHP()<=0){
             this.fallStateTime += deltaTime;
-            isDied=true;
+            this.isDied=true;
         }
-        if (isStunned){
+        System.out.println(this.isDied);
+        if (this.isStunned & this.isDied){
             stunTimer-=deltaTime;
             if (stunTimer<=0){
                 isStunned=false;
                 }}
-        else{
+        else if (this.isDied==false){
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
