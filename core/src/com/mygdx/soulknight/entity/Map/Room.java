@@ -114,9 +114,8 @@ public class Room {
         ArrayList<Explosion> removeExplosionList=new ArrayList<>();
         for (Explosion explosion : explosionArrayList) {
             explosion.update(deltaTime);
-            if (explosion.getDurationTimeRemain()<0){
+            if (explosion.isExplosionFinish()){
                 removeExplosionList.add(explosion);
-
             }
         }
         explosionArrayList.removeAll(removeExplosionList);

@@ -22,25 +22,17 @@ public class Explosion {
     private float width;
     private float height;
     private float stateTime;
-    private float durationTimeRemain=2f;
     private Animation<TextureRegion> explosionAnimation;
     public Explosion(String texturePath,float x, float y, Animation<TextureRegion> explosionAnimation) {
-
-        this.width=60;
-        this.height=60;
-        this.x = x-this.width/2;
-        this.y= y-this.height/2;
-
-
+        this.width = 60;
+        this.height = 60;
+        this.x = x - this.width/2;
+        this.y = y - this.height/2;
 //        animation
-
-//        Texture explosionSheet = new Texture(Gdx.files.internal("explosion/pngwing.com.png"));
         this.explosionAnimation=explosionAnimation;
         stateTime = 0f;
-
     }
     public void update(float deltaTime){
-        durationTimeRemain -= deltaTime;
         stateTime += deltaTime;
     }
     public void draw(SpriteBatch batch) {
@@ -48,9 +40,8 @@ public class Explosion {
         batch.draw(currentFrame, this.x, this.y, this.width, this.height);
     }
 
-    public float getDurationTimeRemain() {
-
-        return durationTimeRemain;
+    public boolean isExplosionFinish() {
+        return this.explosionAnimation.isAnimationFinished(stateTime);
     }
 
     public Bullet getBullet() {

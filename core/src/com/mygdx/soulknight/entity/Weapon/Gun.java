@@ -51,7 +51,7 @@ public class Gun extends Weapon {
             }
         }
 
-        this.explosionAnimation = new Animation<TextureRegion>(0.15f, explosionFrames);
+        this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
 
     }
 
