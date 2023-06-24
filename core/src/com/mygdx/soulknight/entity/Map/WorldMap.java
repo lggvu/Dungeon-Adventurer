@@ -3,10 +3,13 @@ package com.mygdx.soulknight.entity.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -20,6 +23,7 @@ import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 
@@ -30,19 +34,28 @@ public class WorldMap {
     private OrthogonalTiledMapRenderer mapRenderer;
     private MapLayer collisionLayer;
     private MapLayer doorCollision;
+    private Animation<TextureRegion> normalBoom;
+    private Animation<TextureRegion> teleGate;
     private Player player;
     private ArrayList<Room> rooms;
+    private float gateX, gateY;
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
     private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
+    private float stateTime = 0;
+    private boolean clearFinalRoom = false;
+    private boolean isOver = false;
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
+        normalBoom = new Animation<>(0.05f, SpriteLoader.loadTextureByFileName("explosion/explosion_4_5.png"));
+        teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
         tiledMap = new TmxMapLoader().load(tmxPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionLayer = tiledMap.getLayers().get("collision_layer");
         doorCollision = tiledMap.getLayers().get("door_layer");
+
 
         MapLayer destroyableLayer = tiledMap.getLayers().get("destroyable_object");
         for (MapObject mapObject : destroyableLayer.getObjects()) {
@@ -63,12 +76,27 @@ public class WorldMap {
         int roomLayerCount = roomLayers.getLayers().size();
         for (int i = 0; i < roomLayerCount; i++) {
             MapLayer roomLayer = roomLayers.getLayers().get(i);
-        	if (i == roomLayerCount - 1) {
-        		rooms.add(new Room(roomLayer, this, 1));
-        	}
-        	else{
-	            rooms.add(new Room(roomLayer, this, 0));
-        	}
+            if (!roomLayer.getName().equals("start_room")) {
+                if (roomLayer.getName().equals("final_room")) {
+                    rooms.add(new Room(roomLayer, this, 1));
+                } else{
+                    rooms.add(new Room(roomLayer, this, 0));
+                }
+            } else {
+                boolean foundStartPoint = false;
+                for (MapObject object : roomLayer.getObjects()) {
+                    String name = object.getName();
+                    if (name != null && name.equals("start_point") && object instanceof RectangleMapObject) {
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                        player.setPosition(rectangle.x, rectangle.y);
+                        foundStartPoint = true;
+                    }
+                }
+                if (!foundStartPoint) {
+                    System.out.println("Start room must specific start point");
+                    System.exit(0);
+                }
+            }
         }
 
 
@@ -118,6 +146,9 @@ public class WorldMap {
                 ((Gun) item).update(deltaTime);
             }
         }
+        if (clearFinalRoom) {
+            stateTime += deltaTime;
+        }
     }
 
     public void draw(SpriteBatch batch) {
@@ -159,6 +190,11 @@ public class WorldMap {
             explosion.draw(batch);
         }
 
+        if (clearFinalRoom) {
+            TextureRegion texture = teleGate.getKeyFrame(stateTime, true);
+            float teleSize = 96;
+            batch.draw(texture, gateX-teleSize/2, gateY-teleSize/2, teleSize, teleSize);
+        }
         batch.end();
     }
 
@@ -254,14 +290,14 @@ public class WorldMap {
 
     public boolean isOver() {
         if (player.getCurrentHP() <= 0) {
-            return true;
+            isOver = true;
         }
-        for (Room room : rooms) {
-            if (room.getMonsterAlive().size() > 0) {
-                return false;
-            }
-        }
-        return true;
+        return isOver;
+//        for (Room room : rooms) {
+//            if (room.getMonsterAlive().size() > 0) {
+//                return false;
+//            }
+//        }
     }
 
     public ArrayList<DestroyableObject> getDestroyableObjects() {
@@ -279,6 +315,8 @@ public class WorldMap {
             destroyableObjects.remove(object);
             if (object.getName().equals("ark")) {
                 addRandomPotion(object.getX(), object.getY());
+            } else if (object.getName().equals("boom")) {
+                EXPLOSION_ARRAY_LIST.add(new Explosion(object.getX(), object.getY(), normalBoom));
             }
         }
     }
@@ -301,5 +339,37 @@ public class WorldMap {
 
     public TiledMap getTiledMap() {
         return tiledMap;
+    }
+
+    public void setClearFinalRoom(boolean clearFinalRoom) {
+        this.clearFinalRoom = clearFinalRoom;
+    }
+
+    public boolean isClearFinalRoom() {
+        return clearFinalRoom;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public float getGateX() {
+        return gateX;
+    }
+
+    public float getGateY() {
+        return gateY;
+    }
+
+    public void setGateX(float gateX) {
+        this.gateX = gateX;
+    }
+
+    public void setGateY(float gateY) {
+        this.gateY = gateY;
+    }
+
+    public void setOver(boolean over) {
+        isOver = over;
     }
 }

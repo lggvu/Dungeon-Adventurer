@@ -193,6 +193,9 @@ public class Player extends SimpleCharacter {
                 collectItem.add(item);
                 map.getItemsOnGround().remove(item);
             }
+            if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange) {
+                map.setOver(true);
+            }
         }
 
         this.room = map.getRoomPlayerIn();

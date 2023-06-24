@@ -14,6 +14,7 @@ import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Room {
     private int numOfMonsters=4;
@@ -23,64 +24,35 @@ public class Room {
     private Player player;
     private WorldMap map;
     private ArrayList<Rectangle> roomArea;
+    private String roomName;
     private boolean combat = false;
     public Room(MapLayer roomLayer, WorldMap map, int numBoss) {
         this.map = map;
+        roomName = roomLayer.getName();
         this.layer = roomLayer;
         player = map.getPlayer();
         roomArea = new ArrayList<>();
         for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
                 Rectangle roomRectangle = ((RectangleMapObject) mapObject).getRectangle();
-                roomArea.add(roomRectangle);
-            }
-        }
-        for (int i = 0; i < numOfMonsters; i++) {
-            Rectangle rectangle = roomArea.get(MathUtils.random(0, roomArea.size() - 1));
-            while (true) {
-                float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
-                float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
-                Monster monster = new Monster("knight", map, this);
-                monster.setPosition(x, y);
-                if (map.isMapCollision(monster.getRectangle())) {
-                    continue;
+                if (roomRectangle.height != 0 || roomRectangle.width != 0) {
+                    roomArea.add(roomRectangle);
+                } else {
+                    if (mapObject.getName().equals("gate_position")) {
+                        System.out.println("Gate position: " + roomRectangle.x + " " + roomRectangle.y);
+                        map.setGateX(roomRectangle.x);
+                        map.setGateY(roomRectangle.y);
+                    } else if (!mapObject.getProperties().containsKey("monster_type")) {
+                        Monster monster = new Monster(mapObject.getName(), map, this);
+                        monster.setPosition(roomRectangle.x, roomRectangle.y);
+                        monsterAlive.add(monster);
+                    } else {
+                        System.out.println("ADD BOSS SUCCESS");
+                        Boss boss = new Boss(mapObject.getName(), map,this);
+                        boss.setPosition(roomRectangle.x, roomRectangle.y);
+                        monsterAlive.add(boss);
+                    }
                 }
-                if (map.isInDoor(monster.getRectangle())) {
-                    continue;
-                }
-                boolean overlap = false;
-                for (Monster monster1 : monsterAlive) {
-                    overlap = monster.getRectangle().overlaps(monster1.getRectangle());
-                }
-                if (overlap) {
-                    continue;
-                }
-                monsterAlive.add(monster);
-                break;
-            }
-        }
-        for (int i = 0; i < numBoss; i++) {
-            Rectangle rectangle = roomArea.get(MathUtils.random(0, roomArea.size() - 1));
-            while (true) {
-                float x = MathUtils.random(rectangle.getX(), rectangle.getX() + rectangle.getWidth());
-                float y = MathUtils.random(rectangle.getY(), rectangle.getY() + rectangle.getHeight());
-                Boss boss = new Boss("teacher", map,this);
-                boss.setPosition(x, y);
-                if (map.isMapCollision(boss.getRectangle())) {
-                    continue;
-                }
-                if (map.isInDoor(boss.getRectangle())) {
-                    continue;
-                }
-                boolean overlap = false;
-                for (Monster monster1 : monsterAlive) {
-                    overlap = boss.getRectangle().overlaps(monster1.getRectangle());
-                }
-                if (overlap) {
-                    continue;
-                }
-                monsterAlive.add(boss);
-                break;
             }
         }
     }
@@ -101,6 +73,9 @@ public class Room {
     }
 
     public void update(float deltaTime) {
+        if (roomName.equals("final_room") && monsterAlive.size() == 0) {
+            map.setClearFinalRoom(true);
+        }
         if (combat) {
             ArrayList<Monster> monstersKilled = new ArrayList<>();
             for (Monster monster : monsterAlive) {
