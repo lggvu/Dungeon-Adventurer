@@ -36,7 +36,6 @@ public class MainGameScreen extends ScreenAdapter {
     private TextButton pauseButton;
     private CooldownButton cooldownButton;
     private float cooldownTime;
-    private TextButton pauseButton2;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
@@ -45,7 +44,7 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         player = new Player("assassin", null);
-        map = new WorldMap("split_map/tmx/map_2.tmx", player);
+        map = new WorldMap("map/map/map2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
         Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
