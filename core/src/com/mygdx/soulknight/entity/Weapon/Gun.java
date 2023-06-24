@@ -17,14 +17,13 @@ import java.util.ArrayList;
 public class Gun extends Weapon {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-    private String bulletTexturePath = "bullet/bullet1.png";
-    private String explosionTexturePath;
+    private TextureRegion bulletTextureRegion;
     private Animation<TextureRegion> explosionAnimation;
     private Animation<TextureRegion> shotExplosionAnimation;
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
-        this.bulletTexturePath = bulletTexturePath;
+        this.bulletTextureRegion = new TextureRegion(new Texture(bulletTexturePath));
         this.bulletSpeed = bulletSpeed;
         TextureRegion[] explosionFrames = SpriteLoader.loadTextureByFileName(explosionTexturePath);
         TextureRegion[] shotExplosionFrames = SpriteLoader.loadTextureByFileName(shotExplosionTexturePath);
@@ -49,9 +48,9 @@ public class Gun extends Weapon {
             }
             gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
             gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
-            Explosion explosion = new Explosion(explosionTexturePath, gunBarrelX, gunBarrelY, this.shotExplosionAnimation);
+            Explosion explosion = new Explosion(gunBarrelX, gunBarrelY, this.shotExplosionAnimation);
             WorldMap.EXPLOSION_ARRAY_LIST.add(explosion);
-            bulletArrayList.add(new Bullet(bulletTexturePath, gunBarrelX, gunBarrelY, direction, bulletSpeed));
+            bulletArrayList.add(new Bullet(bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed));
         }
     }
 
@@ -103,7 +102,7 @@ public class Gun extends Weapon {
             for (Bullet bullet : bulletArrayList) {
                 if (bullet.getRectangle().overlaps(character.getRectangle())) {
                     character.getHit(damage, bullet.getDirection(), bullet);
-                    Explosion explosion=new Explosion(explosionTexturePath, character.getX(), character.getY(), this.explosionAnimation);
+                    Explosion explosion=new Explosion(character.getX(), character.getY(), this.explosionAnimation);
                     WorldMap.EXPLOSION_ARRAY_LIST.add(explosion);
                     removeList.add(bullet);
                 }
@@ -147,9 +146,5 @@ public class Gun extends Weapon {
 
     public void setBulletSpeed(float bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
-    }
-
-    public void setBulletTexturePath(String bulletTexturePath) {
-        this.bulletTexturePath = bulletTexturePath;
     }
 }

@@ -23,7 +23,7 @@ public class Explosion {
     private float height;
     private float stateTime;
     private Animation<TextureRegion> explosionAnimation;
-    public Explosion(String texturePath,float x, float y, Animation<TextureRegion> explosionAnimation) {
+    public Explosion(float x, float y, Animation<TextureRegion> explosionAnimation) {
         this.width = 60;
         this.height = 60;
         this.x = x - this.width/2;

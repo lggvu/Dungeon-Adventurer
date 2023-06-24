@@ -44,11 +44,11 @@ public class Bullet {
         return y;
     }
 
-    public Bullet(String texturePath, float x, float y, Vector2 direction, float speed) {
+    public Bullet(TextureRegion textureRegion, float x, float y, Vector2 direction, float speed) {
         this.x = x - width / 2;
         this.y = y - height / 2;
         this.direction = direction.nor();
-        textureRegion = new TextureRegion(new Texture(texturePath));
+        this.textureRegion = textureRegion;
         this.speed = speed;
     }
 

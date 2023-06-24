@@ -2,7 +2,9 @@ package com.mygdx.soulknight.specialskill;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
@@ -11,7 +13,7 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 public class Barrage extends SpecialSkill {
     private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-    private String bulletTexturePath = "bullet/bullet1.png";
+    private TextureRegion bulletTextureRegion;
     private float intervalSeconds;
     private int damage;
 	private float elapsedSeconds =1;
@@ -20,7 +22,7 @@ public class Barrage extends SpecialSkill {
 	private float executedTime;
     public Barrage(SimpleCharacter owner,String bulletTexturePath, int damage, float intervalSeconds, float bulletSpeed, float duration) {
         this.owner = owner;
-    	this.bulletTexturePath = bulletTexturePath;
+        this.bulletTextureRegion = new TextureRegion(new Texture(bulletTexturePath));
         this.bulletSpeed = bulletSpeed;
         this.damage = damage;
         this.intervalSeconds = intervalSeconds;
@@ -47,7 +49,7 @@ public class Barrage extends SpecialSkill {
                 );
             }
             for (Vector2 vector : vectors) {
-            	bulletArrayList.add(new Bullet(bulletTexturePath, owner.getX() + owner.getWidth()/3, owner.getY() + owner.getHeight()/3, vector, bulletSpeed));
+            	bulletArrayList.add(new Bullet(bulletTextureRegion, owner.getX() + owner.getWidth()/3, owner.getY() + owner.getHeight()/3, vector, bulletSpeed));
             }
             
             if (duration < executedTime) {
