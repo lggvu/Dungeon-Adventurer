@@ -1,7 +1,10 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
@@ -38,7 +41,14 @@ public class Player extends SimpleCharacter {
     protected float stunDuration=0.3f;
 
     protected float stunTimer;
+
+    private Texture itemTexture;
     private SpecialSkill skill = null;
+
+    private boolean isDied;
+    private float itemAnimationTimer=1f;
+
+    private boolean pickingItem=false;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         this.load();
@@ -70,6 +80,23 @@ public class Player extends SimpleCharacter {
             currentArmor = maxArmor;
             maxMana = source.get("energy").getAsInt();
             setCurrentMana(maxMana);
+
+            int frameRows = 1;
+            int frameCols =9;
+            Texture fallSheet = new Texture(source.get("dying").getAsString());
+
+            int frameWidth = fallSheet.getWidth() / frameCols;
+            int frameHeight = fallSheet.getHeight() / frameRows;
+            TextureRegion[][] temp = TextureRegion.split(fallSheet, frameWidth, frameHeight);
+            TextureRegion[] fallFrames = new TextureRegion[frameCols * frameRows];
+            int index = 0;
+            for (int row = 0; row < frameRows; row++) {
+                for (int col = 0; col < frameCols; col++) {
+                    fallFrames[index++] = temp[row][col];
+                }
+            }
+            this.fallAnimation = new Animation<TextureRegion>(0.4f, fallFrames);
+            this.fallStateTime=0f;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,21 +151,36 @@ public class Player extends SimpleCharacter {
 
     @Override
     public void draw(SpriteBatch batch) {
-        super.draw(batch);
-        for (Weapon weapon : weapons) {
-            if (weapon.equals(getCurrentWeapon())) {
-                weapon.draw(batch);
-            } else {
-                if (weapon instanceof Gun) {
-                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                        bullet.draw(batch);
+        if (isDied){
+            TextureRegion currentFrame = this.fallAnimation.getKeyFrame(this.fallStateTime, false);
+            batch.draw(currentFrame, this.x, this.y, this.width, this.height);
+        }
+        else {
+            super.draw(batch);
+            for (Weapon weapon : weapons) {
+                if (weapon.equals(getCurrentWeapon())) {
+                    weapon.draw(batch);
+                } else {
+                    if (weapon instanceof Gun) {
+                        for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
+                            bullet.draw(batch);
+                        }
                     }
                 }
             }
+            if (this.skill != null) {
+                this.skill.draw(batch);
+            }
+            if (itemAnimationTimer>0 & pickingItem) {
+                itemAnimationTimer-=Gdx.graphics.getDeltaTime();
+                batch.draw(this.itemTexture, this.x,this.y, 50,50);
+            }
+            if (itemAnimationTimer<0){
+                this.pickingItem=false;
+
+            }
         }
-        if (this.skill != null) {
-            this.skill.draw(batch);
-        }
+
     }
 
     @Override
@@ -148,7 +190,12 @@ public class Player extends SimpleCharacter {
     @Override
     public void update(float deltaTime) {
         pushedByBullet(deltaTime);
-        if (isStunned) {
+        if (getCurrentHP()<=0){
+            this.fallStateTime += deltaTime;
+            this.isDied=true;
+        }
+
+        else if (isStunned) {
             stunTimer -= deltaTime;
             if (stunTimer <= 0) {
                 isStunned=false;
@@ -190,6 +237,9 @@ public class Player extends SimpleCharacter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             Pickable item = getNearestPickableInRange();
             if (item != null) {
+                this.itemAnimationTimer=1f;
+                this.itemTexture=item.getAnimation();
+                pickingItem=true;
                 collectItem.add(item);
                 map.getItemsOnGround().remove(item);
             }

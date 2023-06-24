@@ -10,6 +10,7 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public abstract class SimpleCharacter {
 
 
     protected ArrayList<Bullet> hitBulletArrayList=new ArrayList<>();
+    protected Animation<TextureRegion> fallAnimation;
+    protected float fallStateTime;
 
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;

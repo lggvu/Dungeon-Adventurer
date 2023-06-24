@@ -65,6 +65,11 @@ public class Sword extends Weapon {
 //    }
 
     @Override
+    public Texture getAnimation() {
+        return null;
+    }
+
+    @Override
     public void draw(SpriteBatch batch) {
         if (onGround) {
             batch.draw(texture, x, y, width, height);

@@ -35,6 +35,9 @@ public class WorldMap {
     private ArrayList<Pickable> itemsOnGround = new ArrayList<>();
     private ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
     private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
+    private float dieTimer=5f;
+    private boolean isDied=false;
+
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
         camera = new OrthographicCamera();
@@ -111,7 +114,9 @@ public class WorldMap {
         }
         EXPLOSION_ARRAY_LIST.removeAll(removeExplosionList);
         for (Room room : rooms) {
-            room.update(deltaTime);
+            if (this.isDied==false) {
+                room.update(deltaTime);
+            }
         }
         for (Pickable item : itemsOnGround) {
             if (item instanceof Gun) {
@@ -254,7 +259,12 @@ public class WorldMap {
 
     public boolean isOver() {
         if (player.getCurrentHP() <= 0) {
-            return true;
+            this.isDied=true;
+            this.dieTimer -= Gdx.graphics.getDeltaTime();
+            if (this.dieTimer<0){
+                return true;
+            }
+
         }
         for (Room room : rooms) {
             if (room.getMonsterAlive().size() > 0) {

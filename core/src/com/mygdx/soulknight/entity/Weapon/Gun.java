@@ -67,6 +67,12 @@ public class Gun extends Weapon {
         dealDamageMethod();
 
     }
+
+    @Override
+    public Texture getAnimation() {
+        return null;
+    }
+
     @Override
     public void draw(SpriteBatch batch) {
         for (Bullet bullet : bulletArrayList) {

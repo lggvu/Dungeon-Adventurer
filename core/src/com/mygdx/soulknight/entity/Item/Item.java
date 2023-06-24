@@ -79,4 +79,5 @@ public abstract class Item implements Pickable {
     public boolean isAutoCollect() {
         return autoCollect;
     }
+    public abstract Texture getAnimation();
 }
