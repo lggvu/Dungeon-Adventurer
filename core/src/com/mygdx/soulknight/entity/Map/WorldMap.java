@@ -192,7 +192,7 @@ public class WorldMap {
 
         if (clearFinalRoom) {
             TextureRegion texture = teleGate.getKeyFrame(stateTime, true);
-            float teleSize = 96;
+            float teleSize = 156;
             batch.draw(texture, gateX-teleSize/2, gateY-teleSize/2, teleSize, teleSize);
         }
         batch.end();
