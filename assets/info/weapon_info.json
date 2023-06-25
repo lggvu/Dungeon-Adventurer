@@ -16,7 +16,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun 2": {
         "type": "Gun",
@@ -35,7 +39,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun Red S": {
         "type": "Gun",
@@ -54,7 +62,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun Red M": {
         "type": "Gun",
@@ -73,7 +85,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun Red L": {
         "type": "Gun",
@@ -92,7 +108,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun Red XL": {
         "type": "Gun",
@@ -111,7 +131,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Gun Monster 1": {
         "type": "Gun",
@@ -130,7 +154,11 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     },
     "Sword 1": {
         "type": "Sword",
@@ -158,6 +186,10 @@
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5
+        "origin_y": 5,
+        "effect": [
+            "stun",
+            "push"
+        ]
     }
 }

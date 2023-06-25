@@ -44,7 +44,7 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         player = new Player("assassin", null);
-        map = new WorldMap("map/map/map2.tmx", player);
+        map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
         Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
