@@ -18,6 +18,7 @@ import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Character.Adventurer;
 import com.mygdx.soulknight.entity.Character.Assassin;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
@@ -44,7 +45,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     public MainGameScreen(SoulKnight game) {
         this.game = game;
-        player = new Assassin();
+        player = new Adventurer();
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);

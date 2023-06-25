@@ -18,11 +18,11 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import java.util.ArrayList;
 
 public class Gun extends Weapon {
-    private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
+    protected ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-    private TextureRegion bulletTextureRegion;
-    private Animation<TextureRegion> explosionAnimation;
-    private Animation<TextureRegion> shotExplosionAnimation;
+    protected TextureRegion bulletTextureRegion;
+    protected Animation<TextureRegion> explosionAnimation;
+    protected Animation<TextureRegion> shotExplosionAnimation;
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
@@ -34,10 +34,14 @@ public class Gun extends Weapon {
         this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
     }
 
+    public Gun() {
+        super();
+    }
 
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
+            elapsedSeconds = 0;
             subOwnerMana();
             float degree = direction.angleDeg(new Vector2(1, 0));
             float gunBarrelX, gunBarrelY;

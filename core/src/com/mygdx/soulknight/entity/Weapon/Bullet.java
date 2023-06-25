@@ -7,11 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
-
-    private float pushTimer=0.5f;
-
-    private float impactForce=1.5f;
-
     private Vector2 direction;
     private float speed = 1000f;
     private int dmg = 2;
@@ -22,18 +17,6 @@ public class Bullet {
 
     public Vector2 getDirection() {
         return direction;
-    }
-
-    public float getImpactForce() {
-        return impactForce;
-    }
-
-    public void setPushTimer(float pushTimer) {
-        this.pushTimer = pushTimer;
-    }
-
-    public float getPushTimer() {
-        return pushTimer;
     }
 
     public float getX() {

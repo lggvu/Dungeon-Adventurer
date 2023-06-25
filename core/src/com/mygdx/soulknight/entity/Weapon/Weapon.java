@@ -30,8 +30,8 @@ public abstract class Weapon implements Pickable {
     protected TextureRegion texture;
     protected int damage;
     protected ArrayList<String> effectsName = new ArrayList<>();
-    protected int energyCost;
-    protected float criticalRate;
+    protected int energyCost=0;
+    protected float criticalRate=0;
     protected float x, y, width, height, origin_x, origin_y;
     protected boolean onGround = false;
     protected String texturePath;
@@ -45,6 +45,11 @@ public abstract class Weapon implements Pickable {
         this.energyCost = energyCost;
         this.criticalRate = criticalRate;
         this.rangeWeapon = rangeWeapon;
+        weaponID = ID++;
+    }
+
+    public Weapon() {
+//        default constructor
         weaponID = ID++;
     }
 
@@ -69,10 +74,6 @@ public abstract class Weapon implements Pickable {
     }
 
     public void setOwner(SimpleCharacter owner) {
-        texture = new TextureRegion(new Texture(texturePath));
-        if (owner.getCurrentHeadDirection().x == -1) {
-            texture.flip(false, true);
-        }
         this.owner = owner;
     }
 
@@ -96,7 +97,6 @@ public abstract class Weapon implements Pickable {
             }
         }
         if (elapsedSeconds >= intervalSeconds) {
-            elapsedSeconds = 0;
             return true;
         }
         return false;

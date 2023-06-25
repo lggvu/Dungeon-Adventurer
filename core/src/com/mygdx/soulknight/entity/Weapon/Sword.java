@@ -45,6 +45,7 @@ public class Sword extends Weapon {
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
+            elapsedSeconds = 0;
             subOwnerMana();
             // Initialize state time
             attackDirection = direction;
