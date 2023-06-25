@@ -21,7 +21,7 @@ public class SoulKnight extends Game {
     @Override
     public void create () {
         batch = new SpriteBatch();
-        this.setScreen(new MainGameScreen(this));
+        this.setScreen(new MenuScreen(this));
     }
     @Override
     public void render () {
