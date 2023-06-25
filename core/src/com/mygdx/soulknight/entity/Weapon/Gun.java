@@ -146,6 +146,7 @@ public class Gun extends Weapon {
                     bulletArrayList.remove(bullet);
                     owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(),30, this.explosionAnimation, false);
                     owner.getMap().removeDestroyableObject(object);
+                    RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
                     return true;
                 }
             }

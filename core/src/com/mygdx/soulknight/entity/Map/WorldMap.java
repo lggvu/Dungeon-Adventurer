@@ -146,7 +146,7 @@ public class WorldMap {
                 removeRegionEffectList.add(regionEffect);
             }
         }
-        
+
         removeDestroyableObject(rmObject);
         regionEffectArrayList.removeAll(removeRegionEffectList);
         for (Pickable item : itemsOnGround) {
