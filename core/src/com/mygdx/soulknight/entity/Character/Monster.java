@@ -50,9 +50,12 @@ public class Monster extends SimpleCharacter {
             e.printStackTrace();
         }
     }
-
     @Override
     public void update(float deltaTime) {
+        applyEffect(deltaTime);
+        if (isStunned) {
+            return;
+        }
         getCurrentWeapon().update(deltaTime);
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
@@ -78,20 +81,16 @@ public class Monster extends SimpleCharacter {
             }
         }
     }
-
     public float getAttackRadius() {
         return attackRadius;
     }
-
     public void setAttackRadius(float attackRadius) {
         this.attackRadius = attackRadius;
     }
-
     @Override
     public void getHit(int damage) {
         currentHP -= damage;
     }
-
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
@@ -101,14 +100,7 @@ public class Monster extends SimpleCharacter {
     public void attack(Vector2 direction) {
         getCurrentWeapon().attack(direction);
     }
-
-    @Override
-    public void getHit(int damage, Vector2 direction, Bullet bullet) {
-        currentHP -= damage;
-
-    }
     public Room getRoom(){
         return this.room;
     }
-
 }

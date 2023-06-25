@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -29,12 +30,11 @@ import java.util.ArrayList;
 
 public class WorldMap {
     private OrthographicCamera camera;
-    public final static ArrayList<Explosion> EXPLOSION_ARRAY_LIST = new ArrayList<>();
+    private final static ArrayList<Explosion> EXPLOSION_ARRAY_LIST = new ArrayList<>();
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private MapLayer collisionLayer;
     private MapLayer doorCollision;
-    private Animation<TextureRegion> normalBoom;
     private Animation<TextureRegion> teleGate;
     private Player player;
     private ArrayList<Room> rooms;
@@ -47,7 +47,6 @@ public class WorldMap {
     private boolean isOver = false;
     public WorldMap(String tmxPath, Player player) {
         this.player = player;
-        normalBoom = new Animation<>(0.05f, SpriteLoader.loadTextureByFileName("explosion/explosion_4_5.png"));
         teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
@@ -130,17 +129,17 @@ public class WorldMap {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        for (Room room : rooms) {
+            room.update(deltaTime);
+        }
         ArrayList<Explosion> removeExplosionList=new ArrayList<>();
         for (Explosion explosion : EXPLOSION_ARRAY_LIST) {
-            explosion.update(deltaTime);
-            if (explosion.isExplosionFinish()){
+            explosion.update(deltaTime, this);
+            if (explosion.isFinish()){
                 removeExplosionList.add(explosion);
             }
         }
         EXPLOSION_ARRAY_LIST.removeAll(removeExplosionList);
-        for (Room room : rooms) {
-            room.update(deltaTime);
-        }
         for (Pickable item : itemsOnGround) {
             if (item instanceof Gun) {
                 ((Gun) item).update(deltaTime);
@@ -316,7 +315,7 @@ public class WorldMap {
             if (object.getName().equals("ark")) {
                 addRandomPotion(object.getX(), object.getY());
             } else if (object.getName().equals("boom")) {
-                EXPLOSION_ARRAY_LIST.add(new Explosion(object.getX(), object.getY(), normalBoom));
+                createAnExplosion(null, object.getX(), object.getY(),128,true);
             }
         }
     }
@@ -371,5 +370,17 @@ public class WorldMap {
 
     public void setOver(boolean over) {
         isOver = over;
+    }
+
+    public static void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, Animation<TextureRegion> animation, boolean dealDame) {
+        EXPLOSION_ARRAY_LIST.add(new Explosion(owner, x, y, radius, animation, dealDame));
+    }
+
+    public static void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
+        EXPLOSION_ARRAY_LIST.add(new Explosion(owner, x, y, radius, dealDame));
+    }
+
+    public ArrayList<Room> getRooms() {
+        return rooms;
     }
 }

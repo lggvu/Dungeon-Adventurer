@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -15,11 +16,12 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import java.util.ArrayList;
 
 public abstract class SimpleCharacter {
-
     public static final String CHARACTER_INFO_PATH = "info/character_info.json";
     protected TextureRegion texture;
     protected WorldMap map;
     protected Room room;
+    private static int ID = 0;
+    protected boolean isStunned = false;
     protected String characterName;
     protected SpriteLoader spriteLoader;
     protected int maxHP = 10;
@@ -35,15 +37,36 @@ public abstract class SimpleCharacter {
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
     protected int currentWeaponId = 0;
     protected ArrayList<Weapon> weapons = new ArrayList<>();
-
-
-    protected ArrayList<Bullet> hitBulletArrayList=new ArrayList<>();
-
+    protected ArrayList<Effect> effectArrayList = new ArrayList<>();
+    private int id;
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
-//        spriteLoader = new SpriteLoader("character/img1.png", "king");
-//        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+        id = ID++;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof SimpleCharacter) {
+            return this.id == ((SimpleCharacter) object).id;
+        }
+        return false;
+    }
+
+    protected void applyEffect(float deltaTime) {
+        this.isStunned = false;
+        ArrayList<Effect> removeList = new ArrayList<>();
+        for (Effect effect : effectArrayList) {
+            effect.update(deltaTime);
+            if (effect.isFinish()) {
+                removeList.add(effect);
+            }
+        }
+        effectArrayList.removeAll(removeList);
+    }
+
+    public void addEffects(ArrayList<Effect> effects) {
+        effectArrayList.addAll(effects);
     }
 
     public abstract void load();
@@ -57,12 +80,16 @@ public abstract class SimpleCharacter {
     }
 
     public void move(float x, float y, float deltaTime) {
+        move(x, y, deltaTime, speedRun);
+    }
+
+    public void move(float x, float y, float deltaTime, float speed) {
         stateTime += deltaTime;
         setLastMoveDirection(x, y);
         x = lastMoveDirection.x;
         y = lastMoveDirection.y;
-        float testX = this.x + x * deltaTime * speedRun;
-        float testY = this.y + y * deltaTime * speedRun;
+        float testX = this.x + x * deltaTime * speed;
+        float testY = this.y + y * deltaTime * speed;
         if (y != 0 && !map.isMapCollision(new Rectangle(this.x, testY, width, height))) {
             this.y = testY;
         }
@@ -190,6 +217,7 @@ public abstract class SimpleCharacter {
         }
         return listEnemy;
     }
-
-    public abstract void getHit(int damage, Vector2 direction, Bullet bullet);
+    public void setStunned(boolean stunned) {
+        isStunned = stunned;
+    }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -31,10 +32,6 @@ public class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private int maxWeaponNumber = 2;
-
-    private boolean isStunned=false;
-    protected boolean isPushed=false;
-
     protected float stunDuration=0.3f;
 
     protected float stunTimer;
@@ -76,8 +73,8 @@ public class Player extends SimpleCharacter {
         }
     }
 
-//    @Override
-    public void getHit(int damage, Vector2 direction, Bullet bullet) {
+    @Override
+    public void getHit(int damage) {
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;
@@ -86,35 +83,6 @@ public class Player extends SimpleCharacter {
         }
         if (currentHP < 0) {
             currentHP = 0;
-        }
-        hitBulletArrayList.add(bullet);
-        isPushed=true;
-        isStunned=true;
-        stunTimer=stunDuration;
-
-    }
-    public void pushedByBullet(float deltaTime) {
-        if (!hitBulletArrayList.isEmpty()) {
-            float totalPushForceX = 0.0f;
-            float totalPushForceY = 0.0f;
-            ArrayList<Bullet> removeBulletList = new ArrayList<>();
-            for (Bullet bullet : hitBulletArrayList) {
-                bullet.setPushTimer(bullet.getPushTimer() - deltaTime);
-                if (bullet.getPushTimer() > 0) {
-                    totalPushForceX += bullet.getImpactForce() * bullet.getDirection().x;
-                    totalPushForceY += bullet.getImpactForce() * bullet.getDirection().y;
-                } else {
-                    removeBulletList.add(bullet);
-                }
-            }
-            hitBulletArrayList.removeAll(removeBulletList);
-            float testX = this.x + totalPushForceX;
-            float testY = this.y + totalPushForceY;
-
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height))) {
-                this.x = testX;
-                this.y = testY;
-            }
         }
     }
     @Override
@@ -142,18 +110,9 @@ public class Player extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage) {
-    }
-
-    @Override
     public void update(float deltaTime) {
-        pushedByBullet(deltaTime);
-        if (isStunned) {
-            stunTimer -= deltaTime;
-            if (stunTimer <= 0) {
-                isStunned=false;
-            }
-        } else {
+        applyEffect(deltaTime);
+        if (!isStunned) {
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
