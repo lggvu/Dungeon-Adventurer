@@ -133,13 +133,21 @@ public class WorldMap {
         for (Room room : rooms) {
             room.update(deltaTime);
         }
+
         ArrayList<RegionEffect> removeRegionEffectList = new ArrayList<>();
+        ArrayList<DestroyableObject> rmObject = new ArrayList<>();
+
         for (RegionEffect regionEffect : regionEffectArrayList) {
             regionEffect.update(deltaTime, this);
+            if (regionEffect instanceof Explosion) {
+                rmObject.addAll(((Explosion) regionEffect).getDestroyableObjectRemoveList());
+            }
             if (regionEffect.isFinish()){
                 removeRegionEffectList.add(regionEffect);
             }
         }
+        
+        removeDestroyableObject(rmObject);
         regionEffectArrayList.removeAll(removeRegionEffectList);
         for (Pickable item : itemsOnGround) {
             if (item instanceof Gun) {
@@ -293,11 +301,6 @@ public class WorldMap {
             isOver = true;
         }
         return isOver;
-//        for (Room room : rooms) {
-//            if (room.getMonsterAlive().size() > 0) {
-//                return false;
-//            }
-//        }
     }
 
     public ArrayList<DestroyableObject> getDestroyableObjects() {
@@ -383,5 +386,11 @@ public class WorldMap {
 
     public ArrayList<Room> getRooms() {
         return rooms;
+    }
+    public void addRegionEffect(RegionEffect regionEffect) {
+        regionEffectArrayList.add(regionEffect);
+    }
+    public void addRegionEffect(ArrayList<RegionEffect> regionEffects) {
+        regionEffectArrayList.addAll(regionEffects);
     }
 }

@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Effect.Explosion;
+import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
@@ -107,7 +109,8 @@ public class Gun extends Weapon {
             for (Bullet bullet : bulletArrayList) {
                 if (bullet.getRectangle().overlaps(character.getRectangle())) {
                     character.getHit(damage);
-                    character.addEffects(Effect.loadEffect(effectsName, bullet.getDirection()));
+                    character.addEffects(CharacterEffect.loadEffect(effectsName, bullet.getDirection()));
+                    RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
                     owner.getMap().createAnExplosion(owner, character.getX(), character.getY(), 30, this.explosionAnimation, false);
                     removeList.add(bullet);
                 }
@@ -124,9 +127,11 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
                 owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
+                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
                 removeList.add(bullet);
             } else if (owner.getMap().isInDoor(bullet.getRectangle())) {
                 owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
+                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
                 removeList.add(bullet);
             }
         }

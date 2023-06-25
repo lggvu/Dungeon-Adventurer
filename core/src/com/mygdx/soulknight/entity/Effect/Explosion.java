@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -21,19 +22,13 @@ import java.util.Arrays;
 
 public class Explosion extends RegionEffect {
     public final static Animation<TextureRegion> NORMAL_BOOM = new Animation<>(0.05f, SpriteLoader.loadTextureByFileName("explosion/explosion_4_5.png"));
-    private float initialX;
-    private float initialY;
-
     private float x;
     private float y;
-
-    private SimpleCharacter affectedCharacter;
-    private Bullet bullet;
     private float radius;
     private float stateTime;
     private boolean dealDame;
-    private WorldMap map;
     private final static ArrayList<String> effects = new ArrayList<>(Arrays. asList("push", "stun"));
+    private ArrayList<DestroyableObject> destroyableObjectRemoveList = new ArrayList<>();
     private SimpleCharacter owner = null;
     private Animation<TextureRegion> explosionAnimation;
     private ArrayList<SimpleCharacter> allAffected = new ArrayList<>();
@@ -67,7 +62,7 @@ public class Explosion extends RegionEffect {
                     if (centerPos.dst(centerMonster) <= radius) {
                         allAffected.add(monster);
                         monster.getHit(2);
-                        monster.addEffects(Effect.loadEffect(effects, centerMonster.sub(centerPos)));
+                        monster.addEffects(CharacterEffect.loadEffect(effects, centerMonster.sub(centerPos)));
                     }
                 }
             }
@@ -81,7 +76,13 @@ public class Explosion extends RegionEffect {
             if (centerPos.dst(playerPos) <= radius) {
                 allAffected.add(player);
                 player.getHit(2);
-                player.addEffects(Effect.loadEffect(effects, playerPos.sub(centerPos)));
+                player.addEffects(CharacterEffect.loadEffect(effects, playerPos.sub(centerPos)));
+            }
+        }
+
+        for (DestroyableObject destroyableObject : map.getDestroyableObjects()) {
+            if (centerPos.dst(destroyableObject.getX(), destroyableObject.getY()) <= radius) {
+                destroyableObjectRemoveList.add(destroyableObject);
             }
         }
     }
@@ -94,8 +95,7 @@ public class Explosion extends RegionEffect {
         return this.explosionAnimation.isAnimationFinished(stateTime);
     }
 
-    public Bullet getBullet() {
-        return bullet;
+    public ArrayList<DestroyableObject> getDestroyableObjectRemoveList() {
+        return destroyableObjectRemoveList;
     }
-
 }
