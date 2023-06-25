@@ -38,39 +38,17 @@ public class Player extends SimpleCharacter {
     private SpecialSkill skill = null;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
-        this.load();
     }
     private Room room;
 
-
     @Override
-    public void load() {
-        try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
-            JsonObject source = json.get(characterName).getAsJsonObject();
-            if (!source.get("type").getAsString().equals("hero")) {
-                throw new Exception("Player must load character type hero");
-            }
-            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
-            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
-            maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP;
-            width = source.get("width").getAsFloat();
-            height = source.get("height").getAsFloat();
-            weaponX = source.get("weapon_x").getAsFloat();
-            weaponY = source.get("weapon_y").getAsFloat();
-            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
-            weapon.setOwner(this);
-            addWeapon(weapon);
-            speedRun = source.get("speed_run").getAsFloat();
-            maxArmor = source.get("armor").getAsInt();
-            currentArmor = maxArmor;
-            maxMana = source.get("energy").getAsInt();
-            setCurrentMana(maxMana);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public JsonObject load() {
+        JsonObject source = super.load();
+        maxArmor = source.get("armor").getAsInt();
+        currentArmor = maxArmor;
+        maxMana = source.get("energy").getAsInt();
+        setCurrentMana(maxMana);
+        return source;
     }
 
     @Override

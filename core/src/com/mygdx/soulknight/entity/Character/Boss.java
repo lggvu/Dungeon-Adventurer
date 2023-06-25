@@ -21,28 +21,11 @@ public class Boss extends Monster {
 	}
 
     @Override
-    public void load() {
-        try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
-            JsonObject source = json.get(characterName).getAsJsonObject();
-            if (!source.get("type").getAsString().equals("boss")) {
-                throw new Exception("Boss must load character type boss");
-            }
-            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
-            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
-            maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP;
-            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
-            weapon.setOwner(this);
-            addWeapon(weapon);
-
-            Barrage barrage = new Barrage(Boss.this, "bullet/bullet5.png", 5, 3f, 100f, 999999f);
-            this.setSkill((SpecialSkill)barrage);
-            speedRun = source.get("speed_run").getAsFloat();
-            speedWhenIdle = speedRun / 2;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public JsonObject load() {
+        JsonObject source = super.load();
+        Barrage barrage = new Barrage(Boss.this, "bullet/bullet5.png", 5, 3f, 100f, 999999f);
+        this.setSkill((SpecialSkill)barrage);
+        return source;
     }
 
     private void setSkill(SpecialSkill skill) {

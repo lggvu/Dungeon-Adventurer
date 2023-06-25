@@ -1,9 +1,12 @@
 package com.mygdx.soulknight.entity.Character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Map.Room;
@@ -43,6 +46,7 @@ public abstract class SimpleCharacter {
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
+        this.load();
         id = ID++;
     }
 
@@ -70,7 +74,28 @@ public abstract class SimpleCharacter {
         effectArrayList.addAll(effects);
     }
 
-    public abstract void load();
+    public JsonObject load() {
+        try {
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
+            JsonObject source = json.get(characterName).getAsJsonObject();
+            width = source.get("width").getAsFloat();
+            height = source.get("height").getAsFloat();
+            weaponX = source.get("weapon_x").getAsFloat();
+            weaponY = source.get("weapon_y").getAsFloat();
+            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
+            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+            maxHP = source.get("hp").getAsInt();
+            currentHP = maxHP;
+            speedRun = source.get("speed_run").getAsFloat();
+            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
+            weapon.setOwner(this);
+            addWeapon(weapon);
+            return source;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    };
 
     public abstract Room getRoom();
 

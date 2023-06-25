@@ -21,35 +21,17 @@ public class Monster extends SimpleCharacter {
     private Room room;
     public Monster(String characterName, WorldMap map, Room room) {
         super(characterName, map);
-        this.room=room;
-        this.load();
+        this.room = room;
     }
 
     @Override
-    public void load() {
-        try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
-            JsonObject source = json.get(characterName).getAsJsonObject();
-            if (!source.get("type").getAsString().equals("monster")) {
-                throw new Exception("Monster must load character type monster");
-            }
-            width = source.get("width").getAsFloat();
-            height = source.get("height").getAsFloat();
-            weaponX = source.get("weapon_x").getAsFloat();
-            weaponY = source.get("weapon_y").getAsFloat();
-            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
-            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
-            maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP;
-            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
-            weapon.setOwner(this);
-            addWeapon(weapon);
-            speedInRangeAttack = speedRun = source.get("speed_run").getAsFloat();
-            speedWhenIdle = speedInRangeAttack / 2;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public JsonObject load() {
+        JsonObject source = super.load();
+        speedInRangeAttack = speedRun;
+        speedWhenIdle = speedInRangeAttack / 2;
+        return source;
     }
+
     @Override
     public void update(float deltaTime) {
         applyEffect(deltaTime);
