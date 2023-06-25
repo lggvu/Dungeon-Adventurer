@@ -8,41 +8,29 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.mygdx.soulknight.entity.Character.Player;
 
 public class CooldownButton extends Actor {
     static final float RADIUS = 50f; // Adjust the radius to your liking
-    private static final float COOLDOWN_TIME = 5.5f; // Cooldown time in seconds
+    private Player player;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    private boolean isCoolingDown;
-    private float cooldownTimer;
-    private Runnable task;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer(); 
+    public float getCooldownTimer() {
+        return player.getCoolDownTimer();
+    }
 
+    public void setCooldownTimer(float coolDownTimer) {
+        player.setCoolDownTimer(coolDownTimer);
+    }
 
-    public boolean isCoolingDown() {
-		return isCoolingDown;
-	}
-
-	public float getCooldownTimer() {
-		return cooldownTimer;
-	}
-
-	public void setCooldownTimer(float cooldownTimer) {
-		this.cooldownTimer = cooldownTimer;
-	}
-
-	public CooldownButton(final Runnable task) {
-		this.task = task;
-
+    public CooldownButton(final Player player) {
+        this.player = player;
         setBounds(getX(), getY(), RADIUS * 2, RADIUS * 2);
-
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isCoolingDown) {
-                    isCoolingDown = true;
-                    cooldownTimer = COOLDOWN_TIME;
-                    task.run();
+                if (!player.isCoolingDown()) {
+                    player.activateSpecialSkill();
                     return true;
                 }
                 return false;
@@ -51,28 +39,13 @@ public class CooldownButton extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.P && !isCoolingDown) {
-                    isCoolingDown = true;
-                    cooldownTimer = COOLDOWN_TIME;
-                    task.run();
+                if (keycode == Input.Keys.P && !player.isCoolingDown()) {
+                    player.activateSpecialSkill();
                     return true;
                 }
                 return false;
             }
         });
-
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        if (isCoolingDown) {
-            cooldownTimer -= delta;
-            if (cooldownTimer <= 0) {
-                isCoolingDown = false;
-            }
-        }
     }
 
     @Override
@@ -85,9 +58,9 @@ public class CooldownButton extends Actor {
         shapeRenderer.setColor(Color.BLUE);
         shapeRenderer.circle(getX() + RADIUS, getY() + RADIUS, RADIUS);
 
-        if (isCoolingDown) {
+        if (player.isCoolingDown()) {
             shapeRenderer.setColor(Color.RED);
-            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS, 90, cooldownTimer / COOLDOWN_TIME * 360, 30);
+            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS, 90, player.getCoolDownTimer() / player.getSpecialSkillCoolDown() * 360, 30);
         }
 
         shapeRenderer.end();

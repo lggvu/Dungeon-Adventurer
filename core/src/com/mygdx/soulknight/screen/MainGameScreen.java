@@ -18,6 +18,7 @@ import com.mygdx.soulknight.SoulKnight;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Character.Assassin;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
@@ -43,7 +44,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     public MainGameScreen(SoulKnight game) {
         this.game = game;
-        player = new Player("assassin", null);
+        player = new Assassin();
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
@@ -53,16 +54,8 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.setVolume(0.0f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-        
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
-        cooldownButton = new CooldownButton(new Runnable() {
-            @Override
-            public void run() {
-            	player.getSkill().setActivate(true);
-            }
-        });
-
-                
+        cooldownButton = new CooldownButton(player);
     }
 
     @Override
@@ -186,14 +179,14 @@ public class MainGameScreen extends ScreenAdapter {
         pauseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PauseGameScreen(game, MainGameScreen.this));
-                if (backgroundMusic.isPlaying()) {
-                    musicPosition = backgroundMusic.getPosition();
-                    backgroundMusic.stop();
-                }
-                if (cooldownButton.isCoolingDown()) {
-                	cooldownTime = cooldownButton.getCooldownTimer();
-                }
+            game.setScreen(new PauseGameScreen(game, MainGameScreen.this));
+            if (backgroundMusic.isPlaying()) {
+                musicPosition = backgroundMusic.getPosition();
+                backgroundMusic.stop();
+            }
+            if (player.isCoolingDown()) {
+                cooldownTime = cooldownButton.getCooldownTimer();
+            }
                             }
         });
         return pauseButton;

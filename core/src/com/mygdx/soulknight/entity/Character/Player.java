@@ -21,7 +21,7 @@ import com.badlogic.gdx.Input;
 
 import java.util.ArrayList;
 
-public class Player extends SimpleCharacter {
+public abstract class Player extends SimpleCharacter {
     private int maxArmor = 100;
     private int currentArmor = maxArmor;
     private int currentMana = 200;
@@ -32,7 +32,9 @@ public class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private int maxWeaponNumber = 2;
-    protected float stunDuration=0.3f;
+    protected float specialSkillCoolDown = 5;
+    protected boolean isCoolingDown = false;
+    protected float coolDownTimer = 5;
 
     protected float stunTimer;
     private SpecialSkill skill = null;
@@ -86,10 +88,29 @@ public class Player extends SimpleCharacter {
             this.skill.draw(batch);
         }
     }
-
+    public abstract void applySpecialSkill(float deltaTime);
+    public void activateSpecialSkill() {
+        isCoolingDown = true;
+        coolDownTimer = specialSkillCoolDown;
+    }
+    public boolean isCoolingDown() {
+        return isCoolingDown;
+    }
+    public float getCoolDownTimer() {
+        return coolDownTimer;
+    }
+    public float getSpecialSkillCoolDown() {
+        return specialSkillCoolDown;
+    }
     @Override
     public void update(float deltaTime) {
         applyEffect(deltaTime);
+        if (isCoolingDown) {
+            coolDownTimer -= deltaTime;
+            if (coolDownTimer <= 0) {
+                isCoolingDown = false;
+            }
+        }
         if (!isStunned) {
             Vector2 moveDirection = new Vector2(0, 0);
 
@@ -122,6 +143,21 @@ public class Player extends SimpleCharacter {
                 texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             }
 
+            this.room = map.getRoomPlayerIn();
+            fighting = false;
+
+            Vector2 attackDirection = getAttackDirection(room);
+            if (room != null && room.getMonsterAlive().size() > 0) {
+                fighting = true;
+                room.setCombat(true);
+                setLastMoveDirection(attackDirection.x, attackDirection.y);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                attack(attackDirection);
+            }
+        }
+
         ArrayList<Pickable> collectItem = autoCollect();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
@@ -133,20 +169,6 @@ public class Player extends SimpleCharacter {
             if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange) {
                 map.setOver(true);
             }
-        }
-
-        this.room = map.getRoomPlayerIn();
-        fighting = false;
-
-        Vector2 attackDirection = getAttackDirection(room);
-        if (room != null && room.getMonsterAlive().size() > 0) {
-            fighting = true;
-            room.setCombat(true);
-            setLastMoveDirection(attackDirection.x, attackDirection.y);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            attack(attackDirection);
         }
 
 //        Armor auto heal
@@ -175,20 +197,13 @@ public class Player extends SimpleCharacter {
             }
         }
 
-        if (this.skill.isActivate()) {
-            this.skill.activate();
-        }
-        this.skill.update(deltaTime);
-
+        applySpecialSkill(deltaTime);
         for (Pickable item : collectItem) {
             if (item instanceof Item) {
                 ((Item) item).use(this);
             } else if (item instanceof Weapon) {
                 collectWeapon((Weapon) item);
             }
-        }
-
-
         }
     }
 
@@ -299,5 +314,9 @@ public class Player extends SimpleCharacter {
     }
     public Room getRoom() {
         return this.room;
+    }
+
+    public void setCoolDownTimer(float coolDownTimer) {
+        this.coolDownTimer = coolDownTimer;
     }
 }
