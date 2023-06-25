@@ -49,7 +49,7 @@ public class Gun extends Weapon {
             }
             gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
             gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
-            WorldMap.createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
+            owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
             bulletArrayList.add(new Bullet(bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed));
         }
     }
@@ -107,8 +107,8 @@ public class Gun extends Weapon {
             for (Bullet bullet : bulletArrayList) {
                 if (bullet.getRectangle().overlaps(character.getRectangle())) {
                     character.getHit(damage);
-                    character.addEffects(Effect.loadEffect(effectsName, character, bullet.getDirection()));
-                    WorldMap.createAnExplosion(owner, character.getX(), character.getY(), 30, this.explosionAnimation, false);
+                    character.addEffects(Effect.loadEffect(effectsName, bullet.getDirection()));
+                    owner.getMap().createAnExplosion(owner, character.getX(), character.getY(), 30, this.explosionAnimation, false);
                     removeList.add(bullet);
                 }
             }
@@ -123,10 +123,10 @@ public class Gun extends Weapon {
         ArrayList<Bullet> removeList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
             if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
-                WorldMap.createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
+                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
                 removeList.add(bullet);
             } else if (owner.getMap().isInDoor(bullet.getRectangle())) {
-                WorldMap.createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
+                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
                 removeList.add(bullet);
             }
         }
@@ -139,7 +139,7 @@ public class Gun extends Weapon {
             for (Bullet bullet : bulletArrayList) {
                 if (bullet.getRectangle().overlaps(object.getRectangle())) {
                     bulletArrayList.remove(bullet);
-                    WorldMap.createAnExplosion(owner, bullet.getX(), bullet.getY(),30, this.explosionAnimation, false);
+                    owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(),30, this.explosionAnimation, false);
                     owner.getMap().removeDestroyableObject(object);
                     return true;
                 }

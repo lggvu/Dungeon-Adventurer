@@ -19,7 +19,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Explosion extends Effect {
+public class Explosion extends RegionEffect {
     public final static Animation<TextureRegion> NORMAL_BOOM = new Animation<>(0.05f, SpriteLoader.loadTextureByFileName("explosion/explosion_4_5.png"));
     private float initialX;
     private float initialY;
@@ -53,12 +53,8 @@ public class Explosion extends Effect {
     }
 
     @Override
-    public void update(float deltaTime){
-        stateTime += deltaTime;
-    }
-
     public void update(float deltaTime, WorldMap map) {
-        update(deltaTime);
+        stateTime += deltaTime;
         if (!dealDame) {return;}
         Vector2 centerPos = new Vector2(x, y);
         if (owner == null || owner instanceof Player) {
@@ -71,7 +67,7 @@ public class Explosion extends Effect {
                     if (centerPos.dst(centerMonster) <= radius) {
                         allAffected.add(monster);
                         monster.getHit(2);
-                        monster.addEffects(Effect.loadEffect(effects, monster, centerMonster.sub(centerPos)));
+                        monster.addEffects(Effect.loadEffect(effects, centerMonster.sub(centerPos)));
                     }
                 }
             }
@@ -85,7 +81,7 @@ public class Explosion extends Effect {
             if (centerPos.dst(playerPos) <= radius) {
                 allAffected.add(player);
                 player.getHit(2);
-                player.addEffects(Effect.loadEffect(effects, player, playerPos.sub(centerPos)));
+                player.addEffects(Effect.loadEffect(effects, playerPos.sub(centerPos)));
             }
         }
     }

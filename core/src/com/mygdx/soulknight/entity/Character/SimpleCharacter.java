@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
@@ -37,7 +38,7 @@ public abstract class SimpleCharacter {
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
     protected int currentWeaponId = 0;
     protected ArrayList<Weapon> weapons = new ArrayList<>();
-    protected ArrayList<Effect> effectArrayList = new ArrayList<>();
+    protected ArrayList<CharacterEffect> effectArrayList = new ArrayList<>();
     private int id;
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
@@ -55,9 +56,9 @@ public abstract class SimpleCharacter {
 
     protected void applyEffect(float deltaTime) {
         this.isStunned = false;
-        ArrayList<Effect> removeList = new ArrayList<>();
-        for (Effect effect : effectArrayList) {
-            effect.update(deltaTime);
+        ArrayList<CharacterEffect> removeList = new ArrayList<>();
+        for (CharacterEffect effect : effectArrayList) {
+            effect.update(deltaTime, this);
             if (effect.isFinish()) {
                 removeList.add(effect);
             }
@@ -65,7 +66,7 @@ public abstract class SimpleCharacter {
         effectArrayList.removeAll(removeList);
     }
 
-    public void addEffects(ArrayList<Effect> effects) {
+    public void addEffects(ArrayList<CharacterEffect> effects) {
         effectArrayList.addAll(effects);
     }
 

@@ -6,15 +6,14 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import java.util.ArrayList;
 
 public abstract class Effect {
-    public abstract void update(float deltaTime);
     public abstract boolean isFinish();
-    public static ArrayList<Effect> loadEffect(ArrayList<String> effectsName, SimpleCharacter affectedCharacter, Vector2 pushDirection) {
-        ArrayList<Effect> effects = new ArrayList<>();
+    public static ArrayList<CharacterEffect> loadEffect(ArrayList<String> effectsName, Vector2 pushDirection) {
+        ArrayList<CharacterEffect> effects = new ArrayList<>();
         if (effectsName.contains("push")) {
-            effects.add(new Push(affectedCharacter, pushDirection));
+            effects.add(new Push(pushDirection));
         }
         if (effectsName.contains("stun")) {
-            effects.add(new Stun(affectedCharacter));
+            effects.add(new Stun());
         }
         return effects;
     }

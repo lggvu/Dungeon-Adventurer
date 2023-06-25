@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
+import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 public class WorldMap {
     private OrthographicCamera camera;
-    private final static ArrayList<Explosion> EXPLOSION_ARRAY_LIST = new ArrayList<>();
+    private ArrayList<RegionEffect> regionEffectArrayList = new ArrayList<>();
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private MapLayer collisionLayer;
@@ -132,14 +133,14 @@ public class WorldMap {
         for (Room room : rooms) {
             room.update(deltaTime);
         }
-        ArrayList<Explosion> removeExplosionList=new ArrayList<>();
-        for (Explosion explosion : EXPLOSION_ARRAY_LIST) {
-            explosion.update(deltaTime, this);
-            if (explosion.isFinish()){
-                removeExplosionList.add(explosion);
+        ArrayList<RegionEffect> removeRegionEffectList = new ArrayList<>();
+        for (RegionEffect regionEffect : regionEffectArrayList) {
+            regionEffect.update(deltaTime, this);
+            if (regionEffect.isFinish()){
+                removeRegionEffectList.add(regionEffect);
             }
         }
-        EXPLOSION_ARRAY_LIST.removeAll(removeExplosionList);
+        regionEffectArrayList.removeAll(removeRegionEffectList);
         for (Pickable item : itemsOnGround) {
             if (item instanceof Gun) {
                 ((Gun) item).update(deltaTime);
@@ -185,8 +186,8 @@ public class WorldMap {
             batch.draw(texture, nearestItem.getX() + nearestItem.getWidth() / 2 - widthConsider / 2, nearestItem.getY() + nearestItem.getWidth() + 2, widthConsider, heightConsider);
         }
 
-        for (Explosion explosion: EXPLOSION_ARRAY_LIST){
-            explosion.draw(batch);
+        for (RegionEffect regionEffect: regionEffectArrayList){
+            regionEffect.draw(batch);
         }
 
         if (clearFinalRoom) {
@@ -372,12 +373,12 @@ public class WorldMap {
         isOver = over;
     }
 
-    public static void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, Animation<TextureRegion> animation, boolean dealDame) {
-        EXPLOSION_ARRAY_LIST.add(new Explosion(owner, x, y, radius, animation, dealDame));
+    public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, Animation<TextureRegion> animation, boolean dealDame) {
+        regionEffectArrayList.add(new Explosion(owner, x, y, radius, animation, dealDame));
     }
 
-    public static void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
-        EXPLOSION_ARRAY_LIST.add(new Explosion(owner, x, y, radius, dealDame));
+    public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
+        regionEffectArrayList.add(new Explosion(owner, x, y, radius, dealDame));
     }
 
     public ArrayList<Room> getRooms() {
