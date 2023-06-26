@@ -32,7 +32,7 @@ public class TextItem {
         return this.position;
     }
 
-    public CharSequence getText() {
+    public String getText() {
         return this.text;
     }
     public void setSelected(boolean selected){

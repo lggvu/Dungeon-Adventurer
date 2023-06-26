@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.entity.Character.Adventurer;
+import com.mygdx.soulknight.entity.Character.Assassin;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.util.TextItem;
 
@@ -67,8 +69,15 @@ public class SelectCharacterScreen extends ScreenAdapter {
                 Gdx.input.getY() -30 >= Gdx.graphics.getHeight() - playText.getPosition().y - playText.getLayout().height &&
                 Gdx.input.getY() -30 <= Gdx.graphics.getHeight() - playText.getPosition().y) {
             playText.setHovered(true);
-            if (Gdx.input.isTouched()) {
-                game.setScreen(new MainGameScreen(game));
+            if (Gdx.input.isTouched() && selectedText != null) {
+                String txt = selectedText.getText();
+                if (txt.equals("Assassin")) {
+                    game.setScreen(new MainGameScreen(game, new Assassin()));
+                } else if (txt.equals("Adventurer")) {
+                    game.setScreen(new MainGameScreen(game, new Adventurer()));
+                } else {
+                    game.setScreen(new MainGameScreen(game, new Assassin()));
+                }
                 this.dispose();
             }
         }else{

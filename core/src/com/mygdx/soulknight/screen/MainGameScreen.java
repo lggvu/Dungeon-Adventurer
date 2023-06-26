@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
-import com.mygdx.soulknight.entity.Character.Assassin;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
@@ -39,9 +38,9 @@ public class MainGameScreen extends ScreenAdapter {
     Minimap minimap;
 
 
-    public MainGameScreen(SoulKnight game) {
+    public MainGameScreen(SoulKnight game, Player player) {
         this.game = game;
-        player = new Assassin();
+        this.player = player;
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
@@ -57,11 +56,11 @@ public class MainGameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-    	stage1 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-    	stage2 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-    	InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    	inputMultiplexer.addProcessor(stage1);
-    	inputMultiplexer.addProcessor(stage2);
+        stage1 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage2 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage1);
+        inputMultiplexer.addProcessor(stage2);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -109,7 +108,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     
     private void drawHealthBar() {
-    	
+
         float barWidth = 200;
         float barHeight = 20;
         float boardWidth = 250;
@@ -150,7 +149,7 @@ public class MainGameScreen extends ScreenAdapter {
         shapeRenderer.rect(barX, barArmorY, armorBarWidth, barHeight);
 
         shapeRenderer.end();
-    	
+
     }
 
     public void resumeGame() {
