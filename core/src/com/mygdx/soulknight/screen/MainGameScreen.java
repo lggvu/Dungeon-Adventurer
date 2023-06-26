@@ -18,8 +18,6 @@ import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.specialskill.Barrage;
-import com.mygdx.soulknight.specialskill.SpecialSkill;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -31,7 +29,6 @@ public class MainGameScreen extends ScreenAdapter {
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
     private CooldownButton cooldownButton;
-    private float cooldownTime;
     private int difficultMode;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -153,7 +150,6 @@ public class MainGameScreen extends ScreenAdapter {
     public void resumeGame() {
         backgroundMusic.play();
         backgroundMusic.setPosition(musicPosition);
-        cooldownButton.setCooldownTimer(cooldownTime);
     }
 
     public void resize(int width, int height) {
@@ -177,9 +173,6 @@ public class MainGameScreen extends ScreenAdapter {
             if (backgroundMusic.isPlaying()) {
                 musicPosition = backgroundMusic.getPosition();
                 backgroundMusic.stop();
-            }
-            if (player.isCoolingDown()) {
-                cooldownTime = cooldownButton.getCooldownTimer();
             }
                             }
         });

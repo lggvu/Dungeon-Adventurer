@@ -304,10 +304,6 @@ public abstract class Player extends SimpleCharacter {
         return null;
     }
 
-    public void setCoolDownTimer(float coolDownTimer) {
-        this.coolDownTimer = coolDownTimer;
-    }
-
     public float getTotalTimeImplement() {
         return totalTimeImplement;
     }

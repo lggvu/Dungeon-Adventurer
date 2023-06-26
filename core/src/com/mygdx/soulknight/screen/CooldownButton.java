@@ -25,10 +25,6 @@ public class CooldownButton extends Actor {
         return player.getCoolDownTimer();
     }
 
-    public void setCooldownTimer(float coolDownTimer) {
-        player.setCoolDownTimer(coolDownTimer);
-    }
-
     public CooldownButton(final Player player) {
         this.player = player;
         textureRegion = new TextureRegion(new Texture("cooldown_circle.png"),1,388, 256, 256);
