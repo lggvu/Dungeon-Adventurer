@@ -45,7 +45,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     public MainGameScreen(SoulKnight game) {
         this.game = game;
-        player = new Adventurer();
+        player = new Assassin();
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
