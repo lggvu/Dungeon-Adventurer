@@ -35,9 +35,9 @@ public abstract class Player extends SimpleCharacter {
     protected float specialSkillCoolDown = 5;
     protected boolean isCoolingDown = false;
     protected float coolDownTimer = 5;
-
-    protected float stunTimer;
-    private SpecialSkill skill = null;
+    protected float totalTimeImplement = 0;
+    protected float timeImplementLeft = 0;
+    protected boolean isImplement = false;
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
     }
@@ -84,14 +84,11 @@ public abstract class Player extends SimpleCharacter {
                 }
             }
         }
-        if (this.skill != null) {
-            this.skill.draw(batch);
-        }
     }
     public abstract void applySpecialSkill(float deltaTime);
     public void activateSpecialSkill() {
-        isCoolingDown = true;
-        coolDownTimer = specialSkillCoolDown;
+        isImplement = true;
+        timeImplementLeft = totalTimeImplement;
     }
     public boolean isCoolingDown() {
         return isCoolingDown;
@@ -306,17 +303,20 @@ public abstract class Player extends SimpleCharacter {
         }
         return null;
     }
-    public void setSkill(SpecialSkill skill) {
-        this.skill = skill;
-    }
-    public SpecialSkill getSkill() {
-        return this.skill;
-    }
-    public Room getRoom() {
-        return this.room;
-    }
 
     public void setCoolDownTimer(float coolDownTimer) {
         this.coolDownTimer = coolDownTimer;
+    }
+
+    public float getTotalTimeImplement() {
+        return totalTimeImplement;
+    }
+
+    public float getTimeImplementLeft() {
+        return timeImplementLeft;
+    }
+
+    public boolean isImplement() {
+        return isImplement;
     }
 }

@@ -97,8 +97,6 @@ public abstract class SimpleCharacter {
         return null;
     };
 
-    public abstract Room getRoom();
-
     public abstract void update(float deltaTime);
 
     public void setMap(WorldMap map) {

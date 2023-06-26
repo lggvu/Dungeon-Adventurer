@@ -44,8 +44,6 @@ public class MainGameScreen extends ScreenAdapter {
         map = new WorldMap("split_map/tmx/map_2.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
-        Barrage barrage = new Barrage(player, "bullet/bullet4.png", 5, 1f, 100f, 5f);
-        player.setSkill((SpecialSkill)barrage);
         backgroundMusic = Settings.music;
         backgroundMusic.setVolume(0.0f);
         backgroundMusic.setLooping(true);

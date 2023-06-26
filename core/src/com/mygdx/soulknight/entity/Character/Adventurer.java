@@ -10,19 +10,12 @@ import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Adventurer extends Player {
-    private float specialSkillTime = specialSkillCoolDown / 2;
-    private float timeSpecialSkillLeft = 0;
     private SpecialGun specialGun;
     public Adventurer() {
         super("adventurer", null);
         specialGun = new SpecialGun();
         specialGun.setOwner(this);
-    }
-
-    @Override
-    public void activateSpecialSkill() {
-        super.activateSpecialSkill();
-        timeSpecialSkillLeft = specialSkillTime;
+        totalTimeImplement = specialSkillCoolDown / 2;
     }
 
     private class SpecialGun extends Gun {
@@ -72,9 +65,14 @@ public class Adventurer extends Player {
     @Override
     public void applySpecialSkill(float deltaTime) {
         specialGun.update(deltaTime);
-        if (timeSpecialSkillLeft > 0) {
-            timeSpecialSkillLeft -= deltaTime;
+        if (timeImplementLeft > 0) {
+            timeImplementLeft -= deltaTime;
             specialGun.attack(null);
+            if (timeImplementLeft <= 0) {
+                isImplement = false;
+                isCoolingDown = true;
+                coolDownTimer = specialSkillCoolDown;
+            }
         }
     }
 
