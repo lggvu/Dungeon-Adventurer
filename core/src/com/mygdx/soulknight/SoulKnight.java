@@ -1,6 +1,7 @@
 package com.mygdx.soulknight;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -20,6 +21,7 @@ public class SoulKnight extends Game {
 
     @Override
     public void create () {
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         batch = new SpriteBatch();
         this.setScreen(new MainGameScreen(this));
     }
