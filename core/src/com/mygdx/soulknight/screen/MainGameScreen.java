@@ -33,6 +33,7 @@ public class MainGameScreen extends ScreenAdapter {
     private TextButton pauseButton;
     private CooldownButton cooldownButton;
     private float cooldownTime;
+    private int difficultMode;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
