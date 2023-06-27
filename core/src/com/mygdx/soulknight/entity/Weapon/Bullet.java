@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
@@ -27,6 +28,8 @@ public class Bullet {
     private float distanceLeft = 500f;
     private ArrayList<String> effectsName;
     private SimpleCharacter lastEnemyHit = null;
+    private SimpleCharacter target = null;
+    private float degreeChangePerSec = 10f;
     public Vector2 getDirection() {
         return direction;
     }
@@ -66,6 +69,31 @@ public class Bullet {
     }
 
     public void update(float deltaTime) {
+        if (degreeChangePerSec != 0) {
+            Vector2 currentPos = new Vector2(x + width / 2, y + height / 2);
+            if (target == null) {
+                float smallestDst = Float.MAX_VALUE;
+                for (SimpleCharacter character : owner.getEnemyList()) {
+                    float dst = currentPos.dst(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
+                    if (dst < smallestDst && dst < 300f) {
+                        smallestDst = dst;
+                        target = character;
+                    }
+                }
+            }
+            if (target != null) {
+                Vector2 Ox = new Vector2(1, 0);
+                float currentDegree = direction.angleDeg(Ox);
+                float targetDegree = new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2).sub(currentPos).angleDeg(Ox);
+                if (targetDegree > currentDegree) {
+                    currentDegree += degreeChangePerSec * deltaTime;
+                    direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
+                } else if (targetDegree < currentDegree) {
+                    currentDegree -= degreeChangePerSec * deltaTime;
+                    direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
+                }
+            }
+        }
         float testX = this.x + direction.x * speed * deltaTime;
         float testY = this.y + direction.y * speed * deltaTime;
         Rectangle rectangle = new Rectangle(testX, testY, width, height);
