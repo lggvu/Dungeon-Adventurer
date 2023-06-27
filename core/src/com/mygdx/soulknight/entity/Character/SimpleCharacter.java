@@ -244,6 +244,10 @@ public abstract class SimpleCharacter {
     public WorldMap getMap() {
         return map;
     }
+    @Override
+    public String toString() {
+        return ""+id;
+    }
 
     public ArrayList<SimpleCharacter> getEnemyList() {
         ArrayList<SimpleCharacter> listEnemy = new ArrayList<>();

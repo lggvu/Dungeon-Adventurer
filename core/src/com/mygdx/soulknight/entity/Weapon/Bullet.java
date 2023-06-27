@@ -64,10 +64,7 @@ public class Bullet {
         this.owner = owner;
     }
     public void update(float deltaTime) {
-        update(deltaTime, false);
-    }
-    public void update(float deltaTime, boolean nested) {
-        if (degreeChangePerSec != 0 && !nested) {
+        if (degreeChangePerSec != 0) {
             Vector2 currentPos = new Vector2(x + width / 2, y + height / 2);
             if (target == null) {
                 float smallestDst = Float.MAX_VALUE;
@@ -92,30 +89,42 @@ public class Bullet {
                 }
             }
         }
-        float testX = this.x + direction.x * speed * deltaTime;
-        float testY = this.y + direction.y * speed * deltaTime;
-        Rectangle rectangle = new Rectangle(testX, testY, width, height);
-        if (owner.getMap().isMapCollision(rectangle) || owner.getMap().isInDoor(rectangle)) {
-            if (!nested) {
-                numWallCollide -= 1;
-            }
-            if (numWallCollide > 0) {
-                // this script will implement bouncing bullet
-                Rectangle rectangle1 = new Rectangle(testX, this.y, width, height);
-                if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
+
+        float testX = this.x, testY = this.y;
+        Rectangle rectangle = null;
+        boolean foundNewDirection = false;
+
+        for (int i = 0; i < 3; i++) {
+            testX = this.x + direction.x * speed * deltaTime;
+            testY = this.y + direction.y * speed * deltaTime;
+            rectangle = new Rectangle(testX, testY, width, height);
+            if (owner.getMap().isMapCollision(rectangle) || owner.getMap().isInDoor(rectangle)) {
+                if (i == 0) {
+                    numWallCollide -= 1;
+                }
+                if (numWallCollide > 0) {
+                    // this script will implement bouncing bullet
+                    Rectangle rectangle1 = new Rectangle(testX, this.y, width, height);
+                    if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
 //                    only update x but still collision
-                    direction = new Vector2(-direction.x, direction.y);
-                    update(deltaTime, true);
-                    return;
-                }
-                rectangle1 = new Rectangle(this.x, testY, width, height);
-                if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
+                        direction = new Vector2(-direction.x, direction.y);
+                        update(deltaTime);
+                        continue;
+                    }
+                    rectangle1 = new Rectangle(this.x, testY, width, height);
+                    if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
 //                    only update y but still collision
-                    direction = new Vector2(direction.x, -direction.y);
-                    update(deltaTime, true);
-                    return;
+                        direction = new Vector2(direction.x, -direction.y);
+                        update(deltaTime);
+                        continue;
+                    }
                 }
             }
+            foundNewDirection = true;
+        }
+
+        if (!foundNewDirection) {
+            return;
         }
 
         for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {

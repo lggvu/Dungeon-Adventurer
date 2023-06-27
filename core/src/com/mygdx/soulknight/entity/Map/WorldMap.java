@@ -38,8 +38,8 @@ public class WorldMap {
     private ArrayList<RegionEffect> regionEffectArrayList = new ArrayList<>();
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private MapLayer collisionLayer;
-    private MapLayer doorCollision;
+    private ArrayList<Rectangle> collisionRect = new ArrayList<>();
+    private ArrayList<Rectangle> doorCollisionRect = new ArrayList<>();
     private Animation<TextureRegion> teleGate;
     private Player player;
     private ArrayList<Room> rooms;
@@ -57,11 +57,15 @@ public class WorldMap {
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
         tiledMap = new TmxMapLoader().load(tmxPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        collisionLayer = tiledMap.getLayers().get("collision_layer");
-        doorCollision = tiledMap.getLayers().get("door_layer");
-
-
+        MapLayer collisionLayer = tiledMap.getLayers().get("collision_layer");
+        MapLayer doorCollision = tiledMap.getLayers().get("door_layer");
         MapLayer destroyableLayer = tiledMap.getLayers().get("destroyable_object");
+
+        for (MapObject mapObject : collisionLayer.getObjects()) {
+            if (mapObject instanceof RectangleMapObject) {
+                collisionRect.add(((RectangleMapObject) mapObject).getRectangle());
+            }
+        }
         for (MapObject mapObject : destroyableLayer.getObjects()) {
             if (mapObject instanceof TiledMapTileMapObject) {
                 destroyableObjects.add(new DestroyableObject((TiledMapTileMapObject) mapObject));
@@ -71,6 +75,8 @@ public class WorldMap {
         for (MapObject mapObject : doorCollision.getObjects()) {
             if (mapObject instanceof TiledMapTileMapObject) {
                 doorTiledMapObject.add((TiledMapTileMapObject) mapObject);
+            } else if (mapObject instanceof RectangleMapObject) {
+                doorCollisionRect.add(((RectangleMapObject) mapObject).getRectangle());
             }
         }
         
@@ -232,11 +238,9 @@ public class WorldMap {
             }
         }
 
-        for (MapObject mapObject : collisionLayer.getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                    return true;
-                }
+        for (Rectangle rectangle1 : collisionRect) {
+            if (rectangle.overlaps(rectangle1)) {
+                return true;
             }
         }
 
@@ -251,23 +255,24 @@ public class WorldMap {
     }
 
     public boolean isInDoor(Rectangle rectangle) {
-        for (MapObject mapObject : getDoorCollision().getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                    return true;
-                }
+        for (Rectangle rectangle1 : doorCollisionRect) {
+            if (rectangle.overlaps(rectangle1)) {
+                return true;
             }
         }
+//        for (MapObject mapObject : getDoorCollision().getObjects()) {
+//            if (mapObject instanceof RectangleMapObject) {
+//                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
+//                    return true;
+//                }
+//            }
+//        }
         return false;
     }
 
     public Room getRoomPlayerIn() {
-        for (MapObject mapObject : getDoorCollision().getObjects()) {
-            if (mapObject instanceof RectangleMapObject) {
-                if (player.getRectangle().overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-                    return null;
-                }
-            }
+        if (isInDoor(player.getRectangle())) {
+            return null;
         }
 
         for (Room room : rooms) {
@@ -277,17 +282,9 @@ public class WorldMap {
                 }
             }
         }
+
         return null;
     }
-
-    public MapLayer getCollisionLayer() {
-        return collisionLayer;
-    }
-
-    public MapLayer getDoorCollision() {
-        return doorCollision;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -411,5 +408,9 @@ public class WorldMap {
             }
         }
         return res;
+    }
+
+    public ArrayList<Rectangle> getCollisionRect() {
+        return collisionRect;
     }
 }

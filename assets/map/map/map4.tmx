@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="20" nextobjectid="555">
  <tileset firstgid="1" source="../tsx/dungeontileset-extended.tsx"/>
  <tileset firstgid="4097" name="Dungeon_Tileset" tilewidth="16" tileheight="16" tilecount="100" columns="10">
-  <image source="../img/character and tileset/Dungeon_Tileset.png" width="160" height="160"/>
+  <image source="../img/Dungeon_Tileset.png" width="160" height="160"/>
  </tileset>
  <layer id="1" name="base" width="150" height="150">
   <data encoding="csv">
