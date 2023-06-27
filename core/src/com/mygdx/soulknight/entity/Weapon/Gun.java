@@ -55,7 +55,7 @@ public class Gun extends Weapon {
         gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
         gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-        bulletArrayList.add(new Bullet(bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed));
+        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed, effectsName));
     }
     @Override
     public void attack(Vector2 direction) {
@@ -76,17 +76,17 @@ public class Gun extends Weapon {
         if (!onGround && owner.isFlipX() != texture.isFlipY()) {
             texture.flip(false, true);
         }
+
         ArrayList<Bullet> removeArrayList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
-            if (bullet.getDistanceGoThrough() > rangeWeapon) {
+            if (bullet.isStop()) {
                 removeArrayList.add(bullet);
+                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
+                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
             }
         }
         bulletArrayList.removeAll(removeArrayList);
-        handleBulletCollision();
-        dealDamageMethod();
-
     }
     public void addDirectionAttack(float... degrees) {
         for (float degree : degrees) {
@@ -120,60 +120,9 @@ public class Gun extends Weapon {
 
     @Override
     public void dealDamageMethod() {
-        if (owner == null) {
-            return;
-        }
-        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
-        ArrayList<Bullet> removeList;
-        for (SimpleCharacter character : listEnemy) {
-            removeList = new ArrayList<>();
-            for (Bullet bullet : bulletArrayList) {
-                if (bullet.getRectangle().overlaps(character.getRectangle())) {
-                    character.getHit(damage);
-                    character.addEffects(CharacterEffect.loadEffect(effectsName, bullet.getDirection()));
-                    RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
-                    owner.getMap().createAnExplosion(owner, character.getX(), character.getY(), 30, this.explosionAnimation, false);
-                    removeList.add(bullet);
-                }
-            }
-            bulletArrayList.removeAll(removeList);
-        }
+
     }
 
-    public void handleBulletCollision() {
-        if (owner == null) {
-            return;
-        }
-        ArrayList<Bullet> removeList = new ArrayList<>();
-        for (Bullet bullet : bulletArrayList) {
-            if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
-                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
-                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
-                removeList.add(bullet);
-            } else if (owner.getMap().isInDoor(bullet.getRectangle())) {
-                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
-                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
-                removeList.add(bullet);
-            }
-        }
-        bulletArrayList.removeAll(removeList);
-        while (findCollisionAndDelete()) {}
-    }
-
-    public boolean findCollisionAndDelete() {
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            for (Bullet bullet : bulletArrayList) {
-                if (bullet.getRectangle().overlaps(object.getRectangle())) {
-                    bulletArrayList.remove(bullet);
-                    owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(),30, this.explosionAnimation, false);
-                    owner.getMap().removeDestroyableObject(object);
-                    RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;

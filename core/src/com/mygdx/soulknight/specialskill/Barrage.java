@@ -48,9 +48,9 @@ public class Barrage extends SpecialSkill {
                         (float) Math.sin(angle)
                 );
             }
-            for (Vector2 vector : vectors) {
-            	bulletArrayList.add(new Bullet(bulletTextureRegion, owner.getX() + owner.getWidth()/3, owner.getY() + owner.getHeight()/3, vector, bulletSpeed));
-            }
+//            for (Vector2 vector : vectors) {
+//            	bulletArrayList.add(new Bullet(bulletTextureRegion, owner.getX() + owner.getWidth()/3, owner.getY() + owner.getHeight()/3, vector, bulletSpeed));
+//            }
             
             if (duration < executedTime) {
             	this.setActivate(false);;
@@ -72,43 +72,43 @@ public class Barrage extends SpecialSkill {
             return;
         }
         ArrayList<Bullet> removeList = new ArrayList<>();
-        for (Bullet bullet : bulletArrayList) {
-            if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
-                removeList.add(bullet);
-            }
-        }
+//        for (Bullet bullet : bulletArrayList) {
+//            if (owner.getMap().isMapCollision(bullet.getRectangle(), false)) {
+//                removeList.add(bullet);
+//            }
+//        }
         bulletArrayList.removeAll(removeList);
-
-        ArrayList<DestroyableObject> objectsRemove = new ArrayList<>();
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            removeList = new ArrayList<>();
-            for (Bullet bullet : bulletArrayList) {
-                if (bullet.getRectangle().overlaps(object.getRectangle())) {
-                    objectsRemove.add(object);
-                    removeList.add(bullet);
-                    break;
-                }
-            }
-            bulletArrayList.removeAll(removeList);
-        }
-        owner.getMap().removeDestroyableObject(objectsRemove);
+//
+//        ArrayList<DestroyableObject> objectsRemove = new ArrayList<>();
+//        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+//            removeList = new ArrayList<>();
+//            for (Bullet bullet : bulletArrayList) {
+//                if (bullet.getRectangle().overlaps(object.getRectangle())) {
+//                    objectsRemove.add(object);
+//                    removeList.add(bullet);
+//                    break;
+//                }
+//            }
+//            bulletArrayList.removeAll(removeList);
+//        }
+//        owner.getMap().removeDestroyableObject(objectsRemove);
     }
     public void dealDamageMethod() {
         if (owner == null) {
             return;
         }
-        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
-        ArrayList<Bullet> removeList;
-        for (SimpleCharacter character : listEnemy) {
-            removeList = new ArrayList<>();
-            for (Bullet bullet : bulletArrayList) {
-                if (bullet.getRectangle().overlaps(character.getRectangle())) {
-                    character.getHit(damage);
-                    removeList.add(bullet);
-                }
-            }
-            bulletArrayList.removeAll(removeList);
-        }
+//        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
+//        ArrayList<Bullet> removeList;
+//        for (SimpleCharacter character : listEnemy) {
+//            removeList = new ArrayList<>();
+//            for (Bullet bullet : bulletArrayList) {
+//                if (bullet.getRectangle().overlaps(character.getRectangle())) {
+//                    character.getHit(damage);
+//                    removeList.add(bullet);
+//                }
+//            }
+//            bulletArrayList.removeAll(removeList);
+//        }
     }
     @Override
     public void draw(SpriteBatch batch) {
