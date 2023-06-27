@@ -18,7 +18,7 @@ public class Bullet {
     private Vector2 direction;
     private float speed = 1000f;
     private int dmg = 2;
-    private float x, y, startX, startY;
+    private float x, y;
     private float width = 17;
     private float height = 17;
     private TextureRegion bulletTexture;
@@ -29,7 +29,7 @@ public class Bullet {
     private ArrayList<String> effectsName;
     private SimpleCharacter lastEnemyHit = null;
     private SimpleCharacter target = null;
-    private float degreeChangePerSec = 10f;
+    private float degreeChangePerSec = 60f;
     public Vector2 getDirection() {
         return direction;
     }
@@ -55,21 +55,19 @@ public class Bullet {
     }
 
     public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, float x, float y, Vector2 direction, float speed, ArrayList<String> effectsName) {
-        this.x = this.startX = x - width / 2;
-        this.y = this.startY = y - height / 2;
+        this.x = x - width / 2;
+        this.y = y - height / 2;
         this.direction = direction.nor();
         this.bulletTexture = bulletTexture;
         this.speed = speed;
         this.effectsName = effectsName;
         this.owner = owner;
     }
-
-    public float getDistanceGoThrough() {
-        return new Vector2(x, y).dst(startX, startY);
-    }
-
     public void update(float deltaTime) {
-        if (degreeChangePerSec != 0) {
+        update(deltaTime, false);
+    }
+    public void update(float deltaTime, boolean nested) {
+        if (degreeChangePerSec != 0 && !nested) {
             Vector2 currentPos = new Vector2(x + width / 2, y + height / 2);
             if (target == null) {
                 float smallestDst = Float.MAX_VALUE;
@@ -98,21 +96,23 @@ public class Bullet {
         float testY = this.y + direction.y * speed * deltaTime;
         Rectangle rectangle = new Rectangle(testX, testY, width, height);
         if (owner.getMap().isMapCollision(rectangle) || owner.getMap().isInDoor(rectangle)) {
-            numWallCollide -= 1;
+            if (!nested) {
+                numWallCollide -= 1;
+            }
             if (numWallCollide > 0) {
                 // this script will implement bouncing bullet
                 Rectangle rectangle1 = new Rectangle(testX, this.y, width, height);
                 if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
 //                    only update x but still collision
                     direction = new Vector2(-direction.x, direction.y);
-                    update(deltaTime);
+                    update(deltaTime, true);
                     return;
                 }
                 rectangle1 = new Rectangle(this.x, testY, width, height);
                 if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
 //                    only update y but still collision
                     direction = new Vector2(direction.x, -direction.y);
-                    update(deltaTime);
+                    update(deltaTime, true);
                     return;
                 }
             }
