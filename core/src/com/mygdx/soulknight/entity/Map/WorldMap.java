@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
@@ -399,5 +400,16 @@ public class WorldMap {
     }
     public void addRegionEffect(ArrayList<RegionEffect> regionEffects) {
         regionEffectArrayList.addAll(regionEffects);
+    }
+
+    public ArrayList<SimpleCharacter> getAllCharacter() {
+        ArrayList<SimpleCharacter> res = new ArrayList<>();
+        res.add(player);
+        for (Room room : getRooms()) {
+            for (Monster monster : room.getMonsterAlive()) {
+                res.add(monster);
+            }
+        }
+        return res;
     }
 }

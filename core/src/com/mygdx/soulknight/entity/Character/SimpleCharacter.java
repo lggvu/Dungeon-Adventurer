@@ -114,12 +114,24 @@ public abstract class SimpleCharacter {
         y = lastMoveDirection.y;
         float testX = this.x + x * deltaTime * speed;
         float testY = this.y + y * deltaTime * speed;
-        if (y != 0 && !map.isMapCollision(new Rectangle(this.x, testY, width, height))) {
+        ArrayList<SimpleCharacter> allCharacter = map.getAllCharacter();
+        Rectangle rectangleTest = new Rectangle(this.x, testY, width, height);
+        if (y != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.y = testY;
         }
-        if (x != 0 && !map.isMapCollision(new Rectangle(testX, this.y, width, height))) {
+        rectangleTest = new Rectangle(testX, this.y, width, height);
+        if (x != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.x = testX;
         }
+    }
+
+    public boolean isCollisionWithOtherCharacter(Rectangle rectangle, ArrayList<SimpleCharacter> characters) {
+        for (SimpleCharacter character : characters) {
+            if (!character.equals(this) && rectangle.overlaps(character.getRectangle())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void setLastMoveDirection(float x, float y) {
