@@ -8,6 +8,7 @@ public class Assassin extends Player {
     public Assassin() {
         super("assassin", null);
         totalTimeImplement = specialSkillCoolDown / 2;
+        System.out.println(getMaxArmor());
     }
 
     @Override

@@ -22,10 +22,10 @@ import com.badlogic.gdx.Input;
 import java.util.ArrayList;
 
 public abstract class Player extends SimpleCharacter {
-    private int maxArmor = 100;
-    private int currentArmor = maxArmor;
-    private int currentMana = 200;
-    private int maxMana = 200;
+    private int maxArmor;
+    private int currentArmor;
+    private int currentMana;
+    private int maxMana;
     private float timeHealArmor = 1.5f;
     private float currentHealArmor = 0;
     private boolean fighting = false;
@@ -46,9 +46,11 @@ public abstract class Player extends SimpleCharacter {
     @Override
     public JsonObject load() {
         JsonObject source = super.load();
-        maxArmor = source.get("armor").getAsInt();
-        currentArmor = maxArmor;
-        maxMana = source.get("energy").getAsInt();
+        this.maxArmor = source.get("armor").getAsInt();
+        System.out.println("This is row 50 in player");
+        System.out.println(maxArmor);
+        this.currentArmor = this.maxArmor;
+        this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
     }
@@ -181,7 +183,6 @@ public abstract class Player extends SimpleCharacter {
         if (currentArmor > maxArmor) {
             currentArmor = maxArmor;
         }
-
         for (Weapon weapon : weapons) {
             if (weapon.equals(getCurrentWeapon())) {
                 weapon.update(deltaTime);

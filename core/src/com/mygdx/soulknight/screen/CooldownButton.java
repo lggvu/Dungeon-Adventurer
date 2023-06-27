@@ -57,7 +57,6 @@ public class CooldownButton extends Actor {
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 
-
         spriteBatch.begin();
 //        spriteBatch.draw(textureRegion,0,0);
         float margin = 4f;
@@ -72,13 +71,13 @@ public class CooldownButton extends Actor {
         if (player.isImplement() && player.getTotalTimeImplement() > 0) {
             shapeRenderer.setColor(173/255f, 232/255f, 244/255f, 0.5f);
             float degree = 360 - player.getTimeImplementLeft() / player.getTotalTimeImplement() * 360;
-            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90-degree,degree, 30);
+            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90,-degree, 30);
         }
 
         if (player.isCoolingDown()) {
             shapeRenderer.setColor(229/255f, 229/255f, 229/255f, 0.5f);
             float degree = player.getCoolDownTimer() / player.getSpecialSkillCoolDown() * 360;
-            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90-degree,degree,30);
+            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90,-degree,30);
         }
 
         shapeRenderer.end();

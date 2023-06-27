@@ -50,6 +50,7 @@ public class Explosion extends RegionEffect {
     @Override
     public void update(float deltaTime, WorldMap map) {
         stateTime += deltaTime;
+        destroyableObjectRemoveList.clear();
         if (!dealDame) {return;}
         Vector2 centerPos = new Vector2(x, y);
         if (owner == null || owner instanceof Player) {

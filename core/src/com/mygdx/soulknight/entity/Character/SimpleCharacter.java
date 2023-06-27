@@ -136,6 +136,12 @@ public abstract class SimpleCharacter {
     }
 
     public void draw(SpriteBatch batch) {
+        for (CharacterEffect effect : effectArrayList) {
+            if (effect.isDrawEffect()) {
+                effect.draw(batch, x + width / 2, y + height + 8);
+                break;
+            }
+        }
         batch.draw(texture, x, y, width, height);
     }
 

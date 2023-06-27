@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -20,6 +21,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Explosion;
+import com.mygdx.soulknight.entity.Effect.FireRegion;
+import com.mygdx.soulknight.entity.Effect.PoisonRegion;
 import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -126,6 +129,9 @@ public class WorldMap {
         weapon.setPosition(250, 250);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
+
+        regionEffectArrayList.add(new PoisonRegion(null, 100, 100));
+        regionEffectArrayList.add(new FireRegion(null, 200, 200));
     }
 
     public void update(float deltaTime) {
@@ -203,6 +209,7 @@ public class WorldMap {
             float teleSize = 156;
             batch.draw(texture, gateX-teleSize/2, gateY-teleSize/2, teleSize, teleSize);
         }
+
         batch.end();
     }
 
