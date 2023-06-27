@@ -138,6 +138,12 @@
         "effect": [
             "stun",
             "push"
+        ],
+        "attack_directions": [
+            15,
+            -15,
+            7.5,
+            -7.5
         ]
     },
     "Gun Monster 1": {

@@ -10,64 +10,21 @@ import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Adventurer extends Player {
-    private SpecialGun specialGun;
+    private Gun specialGun;
     public Adventurer() {
         super("adventurer", null);
-        specialGun = new SpecialGun();
+        specialGun = new Gun("weapon/sword.png", "bullet/bullet4.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 0.2f, 500, 0.3f, 500f);
+        specialGun.addDirectionAttack(45, 90, 135, 180, 235, 270, 315);
         specialGun.setOwner(this);
+        specialGun.setDrawGun(false);
         totalTimeImplement = specialSkillCoolDown / 2;
-    }
-
-    private class SpecialGun extends Gun {
-        private int numDirectionAttack = 8;
-        private int numAttackLeft = numDirectionAttack;
-        public SpecialGun() {
-            super();
-            damage = 2;
-            intervalSeconds = 0.2f;
-            texture = new TextureRegion(new Texture("weapon/sword.png"));
-            bulletTextureRegion = new TextureRegion(new Texture("bullet/bullet4.png"));
-            TextureRegion[] explosionFrames = SpriteLoader.loadTextureByFileName("bullet-effects/Shot3/shot3-sheet_1_8.png");
-            TextureRegion[] shotExplosionFrames = SpriteLoader.loadTextureByFileName("bullet-effects/Shot3/shot3-sheet_1_8.png");
-            this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
-            this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
-        }
-        @Override
-        public void update(float deltaTime) {
-            if (elapsedSeconds >= intervalSeconds) {
-                numAttackLeft = numDirectionAttack;
-            }
-            super.update(deltaTime);
-        }
-        @Override
-        public void attack(Vector2 direction) {
-            super.attack(new Vector2(1, 0));
-            super.attack(new Vector2(1, 1));
-            super.attack(new Vector2(0, 1));
-            super.attack(new Vector2(-1,1));
-            super.attack(new Vector2(-1,0));
-            super.attack(new Vector2(-1,-1));
-            super.attack(new Vector2(0,-1));
-            super.attack(new Vector2(1,-1));
-            numAttackLeft = 0;
-        }
-        @Override
-        public boolean isAllowedAttack() {
-            return numAttackLeft > 0;
-        }
-        @Override
-        public void draw(SpriteBatch batch) {
-            for (Bullet bullet : bulletArrayList) {
-                bullet.draw(batch);
-            }
-        }
     }
     @Override
     public void applySpecialSkill(float deltaTime) {
         specialGun.update(deltaTime);
         if (timeImplementLeft > 0) {
             timeImplementLeft -= deltaTime;
-            specialGun.attack(null);
+            specialGun.attack(lastMoveDirection);
             if (timeImplementLeft <= 0) {
                 isImplement = false;
                 isCoolingDown = true;

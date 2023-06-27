@@ -148,6 +148,13 @@ public abstract class Weapon implements Pickable {
                 gun.setSize(width, height);
                 gun.setRotateCenter(origin_x, origin_y);
                 gun.addEffects(effectsName);
+                JsonElement jsonElement = source.get("attack_directions");
+                if (jsonElement != null) {
+                    Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
+                    while (directions.hasNext()) {
+                        gun.addDirectionAttack(directions.next().getAsFloat());
+                    }
+                }
                 return gun;
             }
             else if (source.get("type").getAsString().equals("Sword")) {

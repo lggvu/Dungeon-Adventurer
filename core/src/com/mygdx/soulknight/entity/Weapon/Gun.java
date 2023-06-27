@@ -16,6 +16,7 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Gun extends Weapon {
     protected ArrayList<Bullet> bulletArrayList = new ArrayList<>();
@@ -23,6 +24,8 @@ public class Gun extends Weapon {
     protected TextureRegion bulletTextureRegion;
     protected Animation<TextureRegion> explosionAnimation;
     protected Animation<TextureRegion> shotExplosionAnimation;
+    protected ArrayList<Float> directionAttack = new ArrayList<>(Arrays.asList(0f));
+    protected boolean drawGun = true;
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
@@ -38,25 +41,32 @@ public class Gun extends Weapon {
         super();
     }
 
+    protected void shot(Vector2 direction) {
+        float degree = direction.angleDeg(new Vector2(1, 0));
+        float gunBarrelX, gunBarrelY;
+        gunBarrelX = gunBarrelY = 0;
+        if (texture.isFlipY()) {
+            gunBarrelX += owner.getX() + owner.getWidth() - owner.getWeaponX();
+            gunBarrelY += owner.getY() + owner.getHeight() - owner.getWeaponY();
+        } else {
+            gunBarrelX += owner.getX() + owner.getWeaponX();
+            gunBarrelY += owner.getY() + owner.getWeaponY();
+        }
+        gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
+        gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
+        owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
+        bulletArrayList.add(new Bullet(bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed));
+    }
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {
+            float degree = direction.angleDeg(new Vector2(1, 0));
+            for (Float deg : directionAttack) {
+                deg += degree;
+                shot(new Vector2(MathUtils.cosDeg(deg), MathUtils.sinDeg(deg)));
+            }
             elapsedSeconds = 0;
             subOwnerMana();
-            float degree = direction.angleDeg(new Vector2(1, 0));
-            float gunBarrelX, gunBarrelY;
-            gunBarrelX = gunBarrelY = 0;
-            if (texture.isFlipY()) {
-                gunBarrelX += owner.getX() + owner.getWidth() - owner.getWeaponX();
-                gunBarrelY += owner.getY() + owner.getHeight() - owner.getWeaponY();
-            } else {
-                gunBarrelX += owner.getX() + owner.getWeaponX();
-                gunBarrelY += owner.getY() + owner.getWeaponY();
-            }
-            gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
-            gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
-            owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-            bulletArrayList.add(new Bullet(bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed));
         }
     }
 
@@ -78,12 +88,19 @@ public class Gun extends Weapon {
         dealDamageMethod();
 
     }
+    public void addDirectionAttack(float... degrees) {
+        for (float degree : degrees) {
+            directionAttack.add(degree);
+        }
+    }
     @Override
     public void draw(SpriteBatch batch) {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
-
+        if (!drawGun) {
+            return;
+        }
         if (onGround) {
             batch.draw(texture, x, y, width, height);
             return;
@@ -164,5 +181,9 @@ public class Gun extends Weapon {
 
     public void setBulletSpeed(float bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
+    }
+
+    public void setDrawGun(boolean drawGun) {
+        this.drawGun = drawGun;
     }
 }
