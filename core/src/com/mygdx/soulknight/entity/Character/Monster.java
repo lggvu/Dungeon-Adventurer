@@ -15,7 +15,7 @@ import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Monster extends SimpleCharacter {
-    float attackRadius = 200;
+    protected float attackRadius = 200;
     float speedWhenIdle; // The speed that monster will move when cannot approach the player
     float speedInRangeAttack;
     private Room room;

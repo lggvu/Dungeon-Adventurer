@@ -16,7 +16,6 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.specialskill.SpecialSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.badlogic.gdx.Input;
 
@@ -50,6 +49,7 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
+        maxArmor = Integer.MAX_VALUE;
         this.currentArmor = this.maxArmor;
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
@@ -338,13 +338,6 @@ public abstract class Player extends SimpleCharacter {
         }
         map.getItemsOnGround().removeAll(removeList);
         return collectItem;
-    }
-
-    public void switchWeapon() {
-        currentWeaponId++;
-        if (currentWeaponId >= weapons.size()) {
-            currentWeaponId = 0;
-        }
     }
 
     public int getMaxArmor() {

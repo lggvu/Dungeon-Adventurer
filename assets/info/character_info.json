@@ -65,12 +65,12 @@
     "teacher": {
         "type": "boss",
         "texture_path": "character/img1.png",
-        "hp": 20,
+        "hp": 30,
         "speed_run": 30,
         "default_weapon": "Gun Monster 1",
-        "width": 32,
-        "height": 32,
-        "weapon_x": 16,
-        "weapon_y": 16
+        "width": 64,
+        "height": 64,
+        "weapon_x": 32,
+        "weapon_y": 32
     }
 }

@@ -58,6 +58,13 @@ public abstract class SimpleCharacter {
         return false;
     }
 
+    public void switchWeapon() {
+        currentWeaponId++;
+        if (currentWeaponId >= weapons.size()) {
+            currentWeaponId = 0;
+        }
+    }
+
     protected void applyEffect(float deltaTime) {
         this.isStunned = false;
         ArrayList<CharacterEffect> removeList = new ArrayList<>();

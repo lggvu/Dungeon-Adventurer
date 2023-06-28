@@ -24,6 +24,10 @@ public class Gun extends Weapon {
     protected TextureRegion bulletTextureRegion;
     protected Animation<TextureRegion> explosionAnimation;
     protected Animation<TextureRegion> shotExplosionAnimation;
+    private int numDestroyObject = 1;
+    private int numWallCollide = 1;
+    private int numEnemyHit = 1;
+    private float degreeChangePerSec = 0;
     protected ArrayList<Float> directionAttack = new ArrayList<>(Arrays.asList(0f));
     protected boolean drawGun = true;
 
@@ -55,8 +59,26 @@ public class Gun extends Weapon {
         gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
         gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, gunBarrelX, gunBarrelY, direction, bulletSpeed, effectsName));
+        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, gunBarrelX, gunBarrelY, direction,
+                bulletSpeed, effectsName, numDestroyObject, numEnemyHit, numWallCollide, degreeChangePerSec, rangeWeapon));
     }
+
+    public void setNumDestroyObject(int numDestroyObject) {
+        this.numDestroyObject = numDestroyObject;
+    }
+
+    public void setNumWallCollide(int numWallCollide) {
+        this.numWallCollide = numWallCollide;
+    }
+
+    public void setNumEnemyHit(int numEnemyHit) {
+        this.numEnemyHit = numEnemyHit;
+    }
+
+    public void setDegreeChangePerSec(float degreeChangePerSec) {
+        this.degreeChangePerSec = degreeChangePerSec;
+    }
+
     @Override
     public void attack(Vector2 direction) {
         if (isAllowedAttack()) {

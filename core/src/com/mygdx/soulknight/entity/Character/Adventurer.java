@@ -17,7 +17,8 @@ public class Adventurer extends Player {
         specialGun.addDirectionAttack(45, 90, 135, 180, 235, 270, 315);
         specialGun.setOwner(this);
         specialGun.setDrawGun(false);
-        totalTimeImplement = specialSkillCoolDown / 2;
+        specialSkillCoolDown = 1f;
+        totalTimeImplement = specialSkillCoolDown * 5;
     }
     @Override
     public void applySpecialSkill(float deltaTime) {

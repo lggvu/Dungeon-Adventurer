@@ -23,7 +23,7 @@ public class Bullet {
     private float height = 17;
     private TextureRegion bulletTexture;
     private int numDestroyObject = 1;
-    private int numWallCollide = 2;
+    private int numWallCollide = 1;
     private int numEnemyHit = 1;
     private float distanceLeft = 500f;
     private ArrayList<String> effectsName;
@@ -53,8 +53,9 @@ public class Bullet {
     public float getY() {
         return y;
     }
-
-    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, float x, float y, Vector2 direction, float speed, ArrayList<String> effectsName) {
+    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, float x, float y,
+                  Vector2 direction, float speed, ArrayList<String> effectsName, int numDestroyObject,
+                  int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
         this.x = x - width / 2;
         this.y = y - height / 2;
         this.direction = direction.nor();
@@ -62,6 +63,11 @@ public class Bullet {
         this.speed = speed;
         this.effectsName = effectsName;
         this.owner = owner;
+        this.numDestroyObject = numDestroyObject;
+        this.numWallCollide = numWallCollide;
+        this.numEnemyHit = numEnemyHit;
+        this.degreeChangePerSec = degreeChangePerSec;
+        this.distanceLeft = distanceLeft;
     }
     public void update(float deltaTime) {
         if (degreeChangePerSec != 0) {

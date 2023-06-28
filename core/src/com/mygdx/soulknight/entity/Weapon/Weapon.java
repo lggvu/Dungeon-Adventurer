@@ -146,8 +146,9 @@ public abstract class Weapon implements Pickable {
                 float bulletSpeed = properties.get("bullet_speed").getAsFloat();
                 Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
                 gun.setSize(width, height);
-                gun.setRotateCenter(origin_x, origin_y);
+//                gun.setRotateCenter(origin_x, origin_y);
                 gun.addEffects(effectsName);
+                gun.setRotateCenter(origin_x, height / 2);
                 JsonElement jsonElement = source.get("attack_directions");
                 if (jsonElement != null) {
                     Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
@@ -171,7 +172,8 @@ public abstract class Weapon implements Pickable {
                 );
                 sword.setEffectFrames(frames);
                 sword.setSize(width, height);
-                sword.setRotateCenter(origin_x, origin_y);
+                sword.setRotateCenter(origin_x, height / 2);
+//                sword.setRotateCenter(origin_x, origin_y);
                 sword.addEffects(effectsName);
                 return sword;
             }

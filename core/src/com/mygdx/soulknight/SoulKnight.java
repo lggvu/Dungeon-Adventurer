@@ -22,9 +22,9 @@ public class SoulKnight extends Game {
 
     @Override
     public void create () {
-//        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         batch = new SpriteBatch();
-        this.setScreen(new MainGameScreen(this, new Adventurer()));
+        this.setScreen(new MenuScreen(this));
     }
     @Override
     public void render () {
