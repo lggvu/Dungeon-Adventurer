@@ -1,7 +1,6 @@
 package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -21,10 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.entity.Effect.Explosion;
-import com.mygdx.soulknight.entity.Effect.FireRegion;
-import com.mygdx.soulknight.entity.Effect.PoisonRegion;
-import com.mygdx.soulknight.entity.Effect.RegionEffect;
+import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
@@ -108,7 +103,6 @@ public class WorldMap {
                 }
             }
         }
-
 
 //        temp
         Item item = Item.load("HP Stone");

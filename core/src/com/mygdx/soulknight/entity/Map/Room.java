@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;

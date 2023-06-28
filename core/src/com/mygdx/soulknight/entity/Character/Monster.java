@@ -42,7 +42,7 @@ public class Monster extends SimpleCharacter {
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
-        if (distance <= this.attackRadius) {
+        if (distance <= this.attackRadius && map.getPlayer().isInVision(this)) {
             setSpeedRun(speedInRangeAttack);
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
