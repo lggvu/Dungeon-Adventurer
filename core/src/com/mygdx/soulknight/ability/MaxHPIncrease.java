@@ -2,6 +2,7 @@ package com.mygdx.soulknight.ability;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 
 public class MaxHPIncrease extends Ability {
@@ -19,12 +20,16 @@ public class MaxHPIncrease extends Ability {
     }
 
     @Override
-    public void addAbility(SimpleCharacter user) {
-
+    public void addAbility(Player user) {
+        user.setMaxHP(user.getMaxHP() + 1);
+        user.setCurrentHP(user.getCurrentHP() + 1);
     }
 
     @Override
-    public void removeAbility(SimpleCharacter user) {
-
+    public void removeAbility(Player user) {
+        user.setMaxHP(user.getMaxHP() - 1);
+        if (user.getCurrentHP() > user.getMaxHP()) {
+            user.setCurrentHP(user.getMaxHP());
+        }
     }
 }

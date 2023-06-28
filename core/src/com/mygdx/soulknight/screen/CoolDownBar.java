@@ -6,14 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.ability.AbilityDrawer;
-import com.mygdx.soulknight.ability.FireImmunity;
 import com.mygdx.soulknight.ability.MaxHPIncrease;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -72,8 +71,10 @@ public class CoolDownBar {
         for (Weapon weapon : player.getWeapons()) {
             lstDraw.add(weapon);
         }
-        lstDraw.add(new FireImmunity());
-        lstDraw.add(new MaxHPIncrease());
+        for (Ability ability : player.getAbilityArrayList()) {
+            lstDraw.add(ability);
+        }
+
         Collections.sort(lstDraw, sorter);
 
         float heightBoard = 100, margin = 3;

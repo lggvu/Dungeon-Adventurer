@@ -145,6 +145,9 @@ public class Gun extends Weapon {
 
     }
 
+    public int getNumWallCollide() {
+        return numWallCollide;
+    }
 
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;

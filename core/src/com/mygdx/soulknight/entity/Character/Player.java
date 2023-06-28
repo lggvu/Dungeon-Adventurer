@@ -6,6 +6,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.ability.Ability;
+import com.mygdx.soulknight.ability.MaxHPIncrease;
+import com.mygdx.soulknight.ability.NumMaxWeaponIncrease;
+import com.mygdx.soulknight.ability.NumWallCollisionIncrease;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
@@ -40,10 +44,34 @@ public abstract class Player extends SimpleCharacter {
     protected float timeImplementLeft = 0;
     protected boolean isImplement = false;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
+    protected ArrayList<Ability> abilityArrayList = new ArrayList<>();
+    private Room room;
+
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
+        addAbility(new MaxHPIncrease());
+        addAbility(new NumWallCollisionIncrease());
+        addAbility(new NumMaxWeaponIncrease());
     }
-    private Room room;
+
+    public ArrayList<Ability> getAbilityArrayList() {
+        return abilityArrayList;
+    }
+
+    public void addAbility(Ability ability) {
+        for (Ability ability1 : abilityArrayList) {
+            if (ability1.getClass().getName().equals(ability.getClass().getName())) {
+                return;
+            }
+        }
+        ability.addAbility(this);
+        abilityArrayList.add(ability);
+    }
+
+    public void removeAbility(Ability ability) {
+        ability.removeAbility(this);
+        abilityArrayList.remove(ability);
+    }
 
     @Override
     public JsonObject load() {
@@ -264,15 +292,7 @@ public abstract class Player extends SimpleCharacter {
             currentArmor = maxArmor;
         }
         for (Weapon weapon : weapons) {
-            if (weapon.equals(getCurrentWeapon())) {
-                weapon.update(deltaTime);
-            } else {
-                if (weapon instanceof Gun) {
-                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                        bullet.update(deltaTime);
-                    }
-                }
-            }
+            weapon.update(deltaTime);
         }
 
         applySpecialSkill(deltaTime);
@@ -311,10 +331,23 @@ public abstract class Player extends SimpleCharacter {
         weapon.setOwner(this);
         weapon.setOnGround(false);
         if (weapons.size() < maxWeaponNumber) {
+            for (Ability ability : abilityArrayList) {
+                if (ability instanceof NumWallCollisionIncrease) {
+                    weapon = ((NumWallCollisionIncrease) ability).collectGun(weapon);
+                    break;
+                }
+            }
             weapons.add(weapon);
         } else {
             Weapon currentWeapon = getCurrentWeapon();
             currentWeapon.setPosition(this.x, this.y);
+            for (Ability ability : abilityArrayList) {
+                if (ability instanceof NumWallCollisionIncrease) {
+                    weapon = ((NumWallCollisionIncrease) ability).collectGun(weapon);
+                    currentWeapon = ((NumWallCollisionIncrease) ability).dropGun(currentWeapon);
+                    break;
+                }
+            }
             weapons.remove(currentWeapon);
             map.addWeaponOnGround(currentWeapon);
             currentWeapon.setOnGround(true);
@@ -391,5 +424,13 @@ public abstract class Player extends SimpleCharacter {
 
     public boolean isImplement() {
         return isImplement;
+    }
+
+    public int getMaxWeaponNumber() {
+        return maxWeaponNumber;
+    }
+
+    public void setMaxWeaponNumber(int maxWeaponNumber) {
+        this.maxWeaponNumber = maxWeaponNumber;
     }
 }

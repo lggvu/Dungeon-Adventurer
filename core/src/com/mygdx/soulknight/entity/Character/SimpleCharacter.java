@@ -201,7 +201,7 @@ public abstract class SimpleCharacter {
         return maxHP;
     }
 
-    public void setHP(int maxHP) {
+    public void setMaxHP(int maxHP) {
         this.maxHP = maxHP;
     }
 
@@ -282,4 +282,5 @@ public abstract class SimpleCharacter {
     public void setStunned(boolean stunned) {
         isStunned = stunned;
     }
+
 }
