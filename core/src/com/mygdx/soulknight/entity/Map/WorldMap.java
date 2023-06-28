@@ -131,6 +131,17 @@ public class WorldMap {
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
 
+        weapon = Weapon.load("Gun Red S");
+        weapon.setPosition(110, 100);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Red L");
+        weapon.setPosition(190, 250);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+
         regionEffectArrayList.add(new PoisonRegion(null, 100, 100));
         regionEffectArrayList.add(new FireRegion(null, 200, 200));
     }
