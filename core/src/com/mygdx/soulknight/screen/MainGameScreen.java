@@ -30,6 +30,7 @@ public class MainGameScreen extends ScreenAdapter {
     private TextButton pauseButton;
     private CooldownButton cooldownButton;
     private int difficultMode;
+    private CoolDownBar coolDownBar;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
@@ -47,6 +48,7 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
         cooldownButton = new CooldownButton(player);
+        coolDownBar = new CoolDownBar(player);
     }
 
     @Override
@@ -89,6 +91,7 @@ public class MainGameScreen extends ScreenAdapter {
         stage2.draw();
         stage1.act(deltaTime);
         stage1.draw();
+        coolDownBar.draw();
     }
 
     @Override

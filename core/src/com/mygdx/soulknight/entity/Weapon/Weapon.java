@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.ability.AbilityDrawer;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Effect;
@@ -19,7 +20,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public abstract class Weapon implements Pickable {
+public abstract class Weapon implements Pickable, AbilityDrawer {
 //    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
     protected String name;
     private static int ID = 1;
@@ -36,10 +37,12 @@ public abstract class Weapon implements Pickable {
     protected float x, y, width, height, origin_x, origin_y;
     protected boolean onGround = false;
     protected String texturePath;
+    private TextureRegion textureForDrawer;
 
     public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         this.texturePath = texturePath;
         this.texture = new TextureRegion(new Texture(texturePath));
+        textureForDrawer = new TextureRegion(new Texture(texturePath));
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
         this.damage = damage;
@@ -49,6 +52,10 @@ public abstract class Weapon implements Pickable {
         weaponID = ID++;
     }
 
+    @Override
+    public String toString() {
+        return "Weapon " + weaponID;
+    }
     public Weapon() {
 //        default constructor
         weaponID = ID++;
@@ -80,6 +87,9 @@ public abstract class Weapon implements Pickable {
 
     public void update(float deltaTime) {
         this.elapsedSeconds += deltaTime;
+        if (elapsedSeconds > intervalSeconds) {
+            elapsedSeconds = intervalSeconds;
+        }
     }
 
     //    When we have more weapon, we set attack function to an abstract class
@@ -212,4 +222,18 @@ public abstract class Weapon implements Pickable {
     public void addEffects(ArrayList<EffectEnum> effectsEnum) {
         this.effectsEnum.addAll(effectsEnum);
     }
+
+    public SimpleCharacter getOwner() {
+        return owner;
+    }
+
+    public TextureRegion getTextureCoolDown() {
+        return textureForDrawer;
+    }
+    public float getTotalTimeCoolDown() {
+        return intervalSeconds;
+    };
+    public float getCurrentTimeCoolDown() {
+        return elapsedSeconds;
+    };
 }
