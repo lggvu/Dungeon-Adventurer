@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
 import java.util.ArrayList;
@@ -54,16 +55,6 @@ public class Sword extends Weapon {
             dealDamageMethod();
         }
     }
-
-//    @Override
-//    public void flip(boolean x, boolean y) {
-//        texture.flip(x, y);
-//        for (int i = 0; i < frames.length; i++) {
-//            for (int j = 0; j < frames[i].length; j++) {
-//                frames[i][j].flip(x, y);
-//            }
-//        }
-//    }
 
     @Override
     public void draw(SpriteBatch batch) {
@@ -121,6 +112,9 @@ public class Sword extends Weapon {
         for (SimpleCharacter character : listEnemy) {
             if (rectangle.overlaps(character.getRectangle())) {
                 character.getHit(damage);
+                Vector2 ownerPos = new Vector2(owner.getX() + owner.getWidth() / 2, owner.getY() + owner.getHeight() / 2);
+                Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
+                character.addEffects(CharacterEffect.loadEffect(effectsName, monsterPos.sub(ownerPos)));
             }
         }
 
