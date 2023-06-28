@@ -83,13 +83,14 @@ public class Bullet {
                 }
             }
             if (target != null) {
+                Vector2 targetDirection = new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2).sub(currentPos);
                 Vector2 Ox = new Vector2(1, 0);
                 float currentDegree = direction.angleDeg(Ox);
-                float targetDegree = new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2).sub(currentPos).angleDeg(Ox);
-                if (targetDegree > currentDegree) {
+                if (targetDirection.angleDeg(direction) <= 180) {
+//                    nghĩa là góc target direction đang ở bên phải góc current direction
                     currentDegree += degreeChangePerSec * deltaTime;
                     direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
-                } else if (targetDegree < currentDegree) {
+                } else {
                     currentDegree -= degreeChangePerSec * deltaTime;
                     direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
                 }
