@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.soulknight.entity.Character.Adventurer;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.screen.MenuScreen;
@@ -21,9 +22,9 @@ public class SoulKnight extends Game {
 
     @Override
     public void create () {
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+//        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         batch = new SpriteBatch();
-        this.setScreen(new MenuScreen(this));
+        this.setScreen(new MainGameScreen(this, new Adventurer()));
     }
     @Override
     public void render () {
