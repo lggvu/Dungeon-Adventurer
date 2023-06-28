@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
+import com.mygdx.soulknight.entity.Effect.EffectEnum;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Bullet {
     private int numWallCollide = 1;
     private int numEnemyHit = 1;
     private float distanceLeft = 500f;
-    private ArrayList<String> effectsName;
+    private ArrayList<EffectEnum> effectsEnum;
     private SimpleCharacter lastEnemyHit = null;
     private SimpleCharacter target = null;
     private float degreeChangePerSec = 60f;
@@ -54,14 +55,14 @@ public class Bullet {
         return y;
     }
     public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, float x, float y,
-                  Vector2 direction, float speed, ArrayList<String> effectsName, int numDestroyObject,
+                  Vector2 direction, float speed, ArrayList<EffectEnum> effectsEnum, int numDestroyObject,
                   int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
         this.x = x - width / 2;
         this.y = y - height / 2;
         this.direction = direction.nor();
         this.bulletTexture = bulletTexture;
         this.speed = speed;
-        this.effectsName = effectsName;
+        this.effectsEnum = effectsEnum;
         this.owner = owner;
         this.numDestroyObject = numDestroyObject;
         this.numWallCollide = numWallCollide;
@@ -144,7 +145,7 @@ public class Bullet {
 
         for (SimpleCharacter character : owner.getEnemyList()) {
             if (character.getRectangle().overlaps(rectangle) && (lastEnemyHit == null || !character.equals(lastEnemyHit))) {
-                character.addEffects(CharacterEffect.loadEffect(effectsName, getDirection()));
+                character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
                 numEnemyHit--;
                 character.getHit(dmg);
                 lastEnemyHit = character;

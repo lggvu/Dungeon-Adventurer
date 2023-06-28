@@ -12,22 +12,30 @@ public abstract class CharacterEffect extends Effect {
     protected TextureRegion textureRegion = null;
     public abstract void update(float deltaTime, SimpleCharacter affectedCharacter);
 
-    public static ArrayList<CharacterEffect> loadEffect(ArrayList<String> effectsName, Vector2 pushDirection) {
+    public static ArrayList<CharacterEffect> loadEffect(ArrayList<EffectEnum> effectsEnum, Vector2 pushDirection) {
         ArrayList<CharacterEffect> effects = new ArrayList<>();
-//        Stupid design, fix it later
-        if (effectsName.contains("push")) {
-            effects.add(new Push(pushDirection));
-        }
-        if (effectsName.contains("stun")) {
-            effects.add(new Stun());
-        }
-        if (effectsName.contains("poison")) {
-            effects.add(new Poison());
-        }
-        if (effectsName.contains("fire")) {
-            effects.add(new Fire());
+        for (EffectEnum effectEnum : effectsEnum) {
+            CharacterEffect effect = loadEffect(effectEnum, pushDirection);
+            if (effect != null) {
+                effects.add(effect);
+            }
         }
         return effects;
+    }
+
+    public static CharacterEffect loadEffect(EffectEnum effectEnum, Vector2 pushDirection){
+        switch (effectEnum) {
+            case PUSH:
+                return new Push(pushDirection);
+            case STUN:
+                return new Stun();
+            case POISON:
+                return new Poison();
+            case FIRE:
+                return new Fire();
+            default:
+                return null;
+        }
     }
 
     public boolean isDrawEffect() {

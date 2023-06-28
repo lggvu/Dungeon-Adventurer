@@ -9,11 +9,17 @@ import java.util.ArrayList;
 public abstract class RegionEffect extends Effect {
     public abstract void update(float deltaTime, WorldMap map);
     public abstract void draw(SpriteBatch batch);
-    public static void loadRegionEffect(SimpleCharacter owner, WorldMap map, ArrayList<String> effectsName, float x, float y) {
-        ArrayList<RegionEffect> effects = new ArrayList<>();
-        if (effectsName.contains("explosion")) {
-            effects.add(new Explosion(owner, x, y, 60, true));
+    public static void loadRegionEffect(SimpleCharacter owner, WorldMap map, ArrayList<EffectEnum> effectsEnum, float x, float y) {
+        for (EffectEnum effectEnum : effectsEnum) {
+            loadRegionEffect(owner, map, effectEnum, x, y);
         }
-        map.addRegionEffect(effects);
+    }
+
+    public static void loadRegionEffect(SimpleCharacter owner, WorldMap map, EffectEnum effectEnum, float x, float y) {
+        switch (effectEnum) {
+            case EXPLOSION:
+                map.addRegionEffect(new Explosion(owner, x, y, 60, true));
+                return;
+        }
     }
 }

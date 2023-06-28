@@ -114,7 +114,7 @@ public class Sword extends Weapon {
                 character.getHit(damage);
                 Vector2 ownerPos = new Vector2(owner.getX() + owner.getWidth() / 2, owner.getY() + owner.getHeight() / 2);
                 Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
-                character.addEffects(CharacterEffect.loadEffect(effectsName, monsterPos.sub(ownerPos)));
+                character.addEffects(CharacterEffect.loadEffect(effectsEnum, monsterPos.sub(ownerPos)));
             }
         }
 

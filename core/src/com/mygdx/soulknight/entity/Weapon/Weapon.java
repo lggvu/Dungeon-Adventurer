@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.Effect;
+import com.mygdx.soulknight.entity.Effect.EffectEnum;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.util.SpriteLoader;
 
@@ -29,7 +30,7 @@ public abstract class Weapon implements Pickable {
     protected float rangeWeapon = 1000f;
     protected TextureRegion texture;
     protected int damage;
-    protected ArrayList<String> effectsName = new ArrayList<>();
+    protected ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
     protected int energyCost=0;
     protected float criticalRate=0;
     protected float x, y, width, height, origin_x, origin_y;
@@ -134,9 +135,9 @@ public abstract class Weapon implements Pickable {
             float origin_x = source.get("origin_x").getAsFloat();
             float origin_y = source.get("origin_y").getAsFloat();
             Iterator<JsonElement> effects = source.get("effect").getAsJsonArray().iterator();
-            ArrayList<String> effectsName = new ArrayList<>();
+            ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
             while (effects.hasNext()) {
-                effectsName.add(effects.next().getAsString());
+                effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
             }
 
             if (source.get("type").getAsString().equals("Gun")) {
@@ -147,7 +148,7 @@ public abstract class Weapon implements Pickable {
                 Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
                 gun.setSize(width, height);
 //                gun.setRotateCenter(origin_x, origin_y);
-                gun.addEffects(effectsName);
+                gun.addEffects(effectsEnum);
                 gun.setRotateCenter(origin_x, height / 2);
                 JsonElement jsonElement = source.get("attack_directions");
                 if (jsonElement != null) {
@@ -174,7 +175,7 @@ public abstract class Weapon implements Pickable {
                 sword.setSize(width, height);
                 sword.setRotateCenter(origin_x, height / 2);
 //                sword.setRotateCenter(origin_x, origin_y);
-                sword.addEffects(effectsName);
+                sword.addEffects(effectsEnum);
                 return sword;
             }
         } catch (Exception e) {
@@ -208,7 +209,7 @@ public abstract class Weapon implements Pickable {
         }
     }
 
-    public void addEffects(ArrayList<String> effectsName) {
-        this.effectsName.addAll(effectsName);
+    public void addEffects(ArrayList<EffectEnum> effectsEnum) {
+        this.effectsEnum.addAll(effectsEnum);
     }
 }

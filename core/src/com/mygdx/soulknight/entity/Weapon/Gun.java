@@ -60,7 +60,7 @@ public class Gun extends Weapon {
         gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
         bulletArrayList.add(new Bullet(owner, bulletTextureRegion, gunBarrelX, gunBarrelY, direction,
-                bulletSpeed, effectsName, numDestroyObject, numEnemyHit, numWallCollide, degreeChangePerSec, rangeWeapon));
+                bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, numWallCollide, degreeChangePerSec, rangeWeapon));
     }
 
     public void setNumDestroyObject(int numDestroyObject) {
@@ -105,7 +105,7 @@ public class Gun extends Weapon {
             if (bullet.isStop()) {
                 removeArrayList.add(bullet);
                 owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
-                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsName, bullet.getX(), bullet.getY());
+                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsEnum, bullet.getX(), bullet.getY());
             }
         }
         bulletArrayList.removeAll(removeArrayList);

@@ -18,8 +18,8 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push"
+            "STUN",
+            "PUSH"
         ]
     },
     "Gun 2": {
@@ -41,8 +41,8 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push"
+            "STUN",
+            "PUSH"
         ]
     },
     "Gun Red S": {
@@ -64,8 +64,8 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push"
+            "STUN",
+            "PUSH"
         ]
     },
     "Gun Red M": {
@@ -87,10 +87,10 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push",
-            "fire",
-            "explosion"
+            "STUN",
+            "PUSH",
+            "FIRE",
+            "EXPLOSION"
         ]
     },
     "Gun Red L": {
@@ -112,9 +112,9 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push",
-            "poison"
+            "STUN",
+            "PUSH",
+            "POISON"
         ]
     },
     "Gun Red XL": {
@@ -136,8 +136,8 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push"
+            "STUN",
+            "PUSH"
         ],
         "attack_directions": [
             15,
@@ -165,9 +165,9 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push",
-            "fire"
+            "STUN",
+            "PUSH",
+            "FIRE"
         ]
     },
     "Sword 1": {
@@ -198,8 +198,8 @@
         "origin_x": 1,
         "origin_y": 5,
         "effect": [
-            "stun",
-            "push"
+            "STUN",
+            "PUSH"
         ]
     }
 }

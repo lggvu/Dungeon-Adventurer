@@ -27,7 +27,7 @@ public class Explosion extends RegionEffect {
     private float radius;
     private float stateTime;
     private boolean dealDame;
-    private final static ArrayList<String> effects = new ArrayList<>(Arrays. asList("push", "stun"));
+    private final static ArrayList<EffectEnum> effects = new ArrayList<>(Arrays. asList(EffectEnum.PUSH, EffectEnum.STUN));
     private ArrayList<DestroyableObject> destroyableObjectRemoveList = new ArrayList<>();
     private SimpleCharacter owner = null;
     private Animation<TextureRegion> explosionAnimation;
