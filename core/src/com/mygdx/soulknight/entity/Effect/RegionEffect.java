@@ -20,6 +20,15 @@ public abstract class RegionEffect extends Effect {
             case EXPLOSION:
                 map.addRegionEffect(new Explosion(owner, x, y, 60, true));
                 return;
+            case FIRE_REGION:
+                map.addRegionEffect(new FireRegion(owner, x, y));
+                return;
+            case POISON_REGION:
+                map.addRegionEffect(new PoisonRegion(owner, x, y));
+                return;
+            case LIGHTNING_REGION:
+                map.addRegionEffect(new LightningRegion(owner, x, y));
+                return;
         }
     }
 }

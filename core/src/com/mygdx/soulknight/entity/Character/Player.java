@@ -45,7 +45,7 @@ public abstract class Player extends SimpleCharacter {
         getAbility().addAbility(this, Ability.AbilityEnum.MAX_HP_INCREASE);
         getAbility().addAbility(this, Ability.AbilityEnum.NUM_WALL_COLLIDE_INCREASE);
         getAbility().addAbility(this, Ability.AbilityEnum.MAX_WEAPON_INCREASE);
-        getAbility().addAbility(this, Ability.AbilityEnum.FIRE_IMMUNITY);
+        getAbility().addAbility(this, Ability.AbilityEnum.STUN_IMMUNITY);
     }
 
 
@@ -197,7 +197,7 @@ public abstract class Player extends SimpleCharacter {
                 isCoolingDown = false;
             }
         }
-        if (!isStunned) {
+        if (!isStunned || getAbility().isStunImmunity()) {
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {

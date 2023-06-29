@@ -16,6 +16,7 @@ public class Ability  {
         POISON_IMMUNITY("hire-designer.png", 0, 0),
         FIRE_IMMUNITY("hire-designer.png", 0, 0),
         LIGHTNING_IMMUNITY("hire-designer.png", 0, 0),
+        STUN_IMMUNITY("hire-designer.png", 0, 0),
         MAX_WEAPON_INCREASE("start_game.png", 0, 0),
         MAX_MANA_INCREASE("start_game.png", 0, 0);
         private TextureRegion texture;
@@ -44,6 +45,7 @@ public class Ability  {
     private boolean isFireImmunity = false;
     private boolean isPoisonImmunity = false;
     private boolean isLightningImmunity = false;
+    private boolean isStunImmunity = false;
     private int damageIncrease = 0;
     private int hpIncrease = 0;
     private int armorIncrease = 0;
@@ -65,6 +67,9 @@ public class Ability  {
                 return;
             case LIGHTNING_IMMUNITY:
                 isLightningImmunity = true;
+                return;
+            case STUN_IMMUNITY:
+                isStunImmunity = true;
                 return;
             case DAMAGE_INCREASE:
                 damageIncrease += 1;
@@ -116,6 +121,9 @@ public class Ability  {
                 return;
             case LIGHTNING_IMMUNITY:
                 isLightningImmunity = false;
+                return;
+            case STUN_IMMUNITY:
+                isStunImmunity = false;
                 return;
             case MAX_ARMOR_INCREASE:
                 if (character instanceof Player) {
@@ -180,5 +188,9 @@ public class Ability  {
 
     public ArrayList<AbilityEnum> getAbilityEnumArrayList() {
         return abilityEnumArrayList;
+    }
+
+    public boolean isStunImmunity() {
+        return isStunImmunity;
     }
 }

@@ -84,14 +84,18 @@ public abstract class SimpleCharacter {
     public void addEffects(ArrayList<CharacterEffect> effects) {
 //        Reset effect exist not accumulate it
         for (CharacterEffect effect : effects) {
-            for (CharacterEffect effect1 : effectArrayList) {
-                if (effect1.getClass().getName().equals(effect.getClass().getName())) {
-                    effectArrayList.remove(effect1);
-                    break;
-                }
-            }
-            effectArrayList.add(effect);
+            addEffect(effect);
         }
+    }
+
+    public void addEffect(CharacterEffect effect) {
+        for (CharacterEffect effect1 : effectArrayList) {
+            if (effect1.getClass().getName().equals(effect.getClass().getName())) {
+                effectArrayList.remove(effect1);
+                break;
+            }
+        }
+        effectArrayList.add(effect);
     }
 
     public JsonObject load() {
