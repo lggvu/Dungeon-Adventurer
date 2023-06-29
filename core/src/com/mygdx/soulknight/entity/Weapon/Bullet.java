@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
@@ -148,7 +149,7 @@ public class Bullet {
             if (character.getRectangle().overlaps(rectangle) && (lastEnemyHit == null || !character.equals(lastEnemyHit))) {
                 character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
                 numEnemyHit--;
-                character.getHit(damage);
+                character.getHit(damage, DamageType.PHYSIC);
                 lastEnemyHit = character;
                 break;
             }

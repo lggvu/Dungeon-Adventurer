@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
@@ -44,6 +45,7 @@ public abstract class Player extends SimpleCharacter {
         getAbility().addAbility(this, Ability.AbilityEnum.MAX_HP_INCREASE);
         getAbility().addAbility(this, Ability.AbilityEnum.NUM_WALL_COLLIDE_INCREASE);
         getAbility().addAbility(this, Ability.AbilityEnum.MAX_WEAPON_INCREASE);
+        getAbility().addAbility(this, Ability.AbilityEnum.FIRE_IMMUNITY);
     }
 
 
@@ -51,7 +53,7 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-        maxArmor = Integer.MAX_VALUE - 100;
+//        maxArmor = Integer.MAX_VALUE - 100;
         this.currentArmor = getCurrentMaxArmor();
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
@@ -129,7 +131,10 @@ public abstract class Player extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage) {
+    public void getHit(int damage, DamageType damageType) {
+        if (isImmunityWithDamage(damageType)) {
+            return;
+        }
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;

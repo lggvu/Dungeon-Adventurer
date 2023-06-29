@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -71,7 +72,7 @@ public class Monster extends SimpleCharacter {
         this.attackRadius = attackRadius;
     }
     @Override
-    public void getHit(int damage) {
+    public void getHit(int damage, DamageType damageType) {
         currentHP -= damage;
     }
     @Override

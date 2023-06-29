@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 
@@ -57,7 +58,7 @@ public class FireRegion extends RegionEffect {
                     Vector2 centerMonster = new Vector2(monster.getX() + monster.getWidth()/2, monster.getY() + monster.getHeight()/2);
                     if (centerPos.dst(centerMonster) <= radius) {
                         affectedCharacter.put(monster, timeEffectAgain);
-                        monster.getHit(damage);
+                        monster.getHit(damage, DamageType.FIRE);
                     }
                 }
             }
@@ -70,7 +71,7 @@ public class FireRegion extends RegionEffect {
             Vector2 playerPos = new Vector2(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2);
             if (centerPos.dst(playerPos) <= radius) {
                 affectedCharacter.put(player, timeEffectAgain);
-                player.getHit(damage);
+                player.getHit(damage, DamageType.FIRE);
             }
         }
     }

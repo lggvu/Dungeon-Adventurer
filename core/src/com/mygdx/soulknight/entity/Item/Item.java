@@ -75,6 +75,7 @@ public class Item implements Pickable {
                 } else {
                     player.setCurrentHP(hp);
                 }
+                return;
             case MANA:
                 int mana = player.getCurrentMana() + item.numHeal;
                 if (mana > player.getCurrentMaxMana()) {
@@ -82,6 +83,7 @@ public class Item implements Pickable {
                 } else {
                     player.setCurrentMana(mana);
                 }
+                return;
         }
     }
 

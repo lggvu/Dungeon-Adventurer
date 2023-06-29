@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.DamageType;
 
 public class Poison extends CharacterEffect {
     private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/poison_region.png"));
@@ -18,7 +19,7 @@ public class Poison extends CharacterEffect {
         timeLeft -= deltaTime;
         if (timeCount >= timeEffectAgain) {
             timeCount = 0;
-            affectedCharacter.getHit(damage);
+            affectedCharacter.getHit(damage, DamageType.POISON);
         }
     }
     @Override

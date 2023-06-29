@@ -1,5 +1,6 @@
 package com.mygdx.soulknight.entity.Character;
 
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
 
@@ -34,9 +35,9 @@ public class Assassin extends Player {
     }
 
     @Override
-    public void getHit(int damage) {
+    public void getHit(int damage, DamageType damageType) {
         if (timeImplementLeft <= 0) {
-            super.getHit(damage);
+            super.getHit(damage, damageType);
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.mygdx.soulknight.entity;
 
-public enum Damage {
+public enum DamageType {
     POISON,
     FIRE,
-    NORMAL,
+    PHYSIC,
     LIGHTNING
 }

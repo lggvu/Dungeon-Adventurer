@@ -55,53 +55,68 @@ public class Ability  {
         if (abilityEnumArrayList.contains(abilityEnum)) {
             return;
         }
+        abilityEnumArrayList.add(abilityEnum);
         switch (abilityEnum) {
             case FIRE_IMMUNITY:
                 isFireImmunity = true;
+                return;
             case POISON_IMMUNITY:
                 isPoisonImmunity = true;
+                return;
             case LIGHTNING_IMMUNITY:
                 isLightningImmunity = true;
+                return;
             case DAMAGE_INCREASE:
                 damageIncrease += 1;
+                return;
             case MAX_WEAPON_INCREASE:
                 numWeaponIncrease += 1;
+                return;
             case MAX_HP_INCREASE:
                 hpIncrease += 1;
                 character.setCurrentHP(character.getCurrentHP() + 1);
+                return;
             case MAX_ARMOR_INCREASE:
                 if (character instanceof Player) {
                     armorIncrease += 1;
                     ((Player) character).setCurrentArmor(((Player) character).getCurrentArmor() + 1);
                 }
+                return;
             case NUM_WALL_COLLIDE_INCREASE:
                 wallCollideIncrease += 1;
+                return;
             case MAX_MANA_INCREASE:
                 if (character instanceof Player) {
                     manaIncrease += 100;
                     ((Player) character).setCurrentMana(((Player) character).getCurrentMana() + 100);
                 }
+                return;
         }
-        abilityEnumArrayList.add(abilityEnum);
     };
     public void removeAbility(SimpleCharacter character, AbilityEnum abilityEnum) {
         if (!abilityEnumArrayList.contains(abilityEnum)) {
             return;
         }
+        abilityEnumArrayList.remove(abilityEnum);
         switch (abilityEnum) {
             case FIRE_IMMUNITY:
                 isFireImmunity = false;
+                return;
             case DAMAGE_INCREASE:
                 damageIncrease -= 1;
+                return;
             case MAX_HP_INCREASE:
                 hpIncrease -= 1;
                 if (character.getCurrentMaxHP() < character.getCurrentHP()) {
                     character.setCurrentHP(character.getCurrentMaxHP());
                 }
+                return;
             case POISON_IMMUNITY:
                 isPoisonImmunity = false;
+                return;
             case LIGHTNING_IMMUNITY:
                 isLightningImmunity = false;
+                return;
             case MAX_ARMOR_INCREASE:
                 if (character instanceof Player) {
                     armorIncrease -= 1;
@@ -109,10 +124,13 @@ public class Ability  {
                         ((Player) character).setCurrentArmor(((Player) character).getCurrentMaxArmor());
                     }
                 }
+                return;
             case MAX_WEAPON_INCREASE:
                 numWeaponIncrease -= 1;
+                return;
             case NUM_WALL_COLLIDE_INCREASE:
                 wallCollideIncrease -= 1;
+                return;
             case MAX_MANA_INCREASE:
                 if (character instanceof Player) {
                     manaIncrease -= 100;
@@ -120,8 +138,8 @@ public class Ability  {
                         ((Player) character).setCurrentMana(((Player) character).getCurrentMaxMana());
                     }
                 }
+                return;
         }
-        abilityEnumArrayList.remove(abilityEnum);
     }
 
     public int getManaIncrease() {

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
@@ -62,7 +63,7 @@ public class Explosion extends RegionEffect {
                     Vector2 centerMonster = new Vector2(monster.getX() + monster.getWidth()/2, monster.getY() + monster.getHeight()/2);
                     if (centerPos.dst(centerMonster) <= radius) {
                         allAffected.add(monster);
-                        monster.getHit(2);
+                        monster.getHit(2, DamageType.PHYSIC);
                         monster.addEffects(CharacterEffect.loadEffect(effects, centerMonster.sub(centerPos)));
                     }
                 }
@@ -76,7 +77,7 @@ public class Explosion extends RegionEffect {
             Vector2 playerPos = new Vector2(player.getX() + player.getWidth()/2, player.getY() + player.getHeight()/2);
             if (centerPos.dst(playerPos) <= radius) {
                 allAffected.add(player);
-                player.getHit(2);
+                player.getHit(2, DamageType.PHYSIC);
                 player.addEffects(CharacterEffect.loadEffect(effects, playerPos.sub(centerPos)));
             }
         }

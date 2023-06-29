@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Map.Room;
@@ -244,7 +245,7 @@ public abstract class SimpleCharacter {
         this.speedRun = speedRun;
     }
 
-    public abstract void getHit(int damage);
+    public abstract void getHit(int damage, DamageType damageType);
     public abstract void attack(Vector2 direction);
 
     public Vector2 getLastMoveDirection() {
@@ -273,6 +274,17 @@ public abstract class SimpleCharacter {
     @Override
     public String toString() {
         return ""+id;
+    }
+
+    public boolean isImmunityWithDamage(DamageType damageType) {
+        if (damageType == DamageType.FIRE && getAbility().isFireImmunity()) {
+            return true;
+        } else if (damageType == DamageType.LIGHTNING && getAbility().isLightningImmunity()) {
+            return true;
+        } else if (damageType == DamageType.POISON && getAbility().isPoisonImmunity()) {
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<SimpleCharacter> getEnemyList() {
