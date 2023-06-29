@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Rectangle;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.GameElement;
 
 
-public class DestroyableObject {
+public class DestroyableObject implements GameElement {
     private TextureRegion region;
     private float x, y;
     private float width = 16;
@@ -22,6 +24,7 @@ public class DestroyableObject {
         if (name == null) {
             name = "";
         }
+        name = name.toUpperCase();
         x = object.getX();
         y = object.getY();
         id = count++;
@@ -54,5 +57,15 @@ public class DestroyableObject {
 
     public void draw(SpriteBatch batch) {
         batch.draw(region, x, y, width, height);
+    }
+
+    @Override
+    public JsonObject stateDict() {
+        return null;
+    }
+
+    @Override
+    public void loadStateDict(JsonObject jsonObject) {
+
     }
 }

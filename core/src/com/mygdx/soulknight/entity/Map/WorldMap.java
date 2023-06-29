@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
@@ -45,7 +46,9 @@ public class WorldMap {
     private float stateTime = 0;
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
+    private Level level;
     public WorldMap(String tmxPath, Player player) {
+        level = Level.MEDIUM;
         this.player = player;
         teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
         camera = new OrthographicCamera();
@@ -80,28 +83,8 @@ public class WorldMap {
 
         int roomLayerCount = roomLayers.getLayers().size();
         for (int i = 0; i < roomLayerCount; i++) {
-            MapLayer roomLayer = roomLayers.getLayers().get(i);
-            if (!roomLayer.getName().equals("start_room")) {
-                if (roomLayer.getName().equals("final_room")) {
-                    rooms.add(new Room(roomLayer, this, 1));
-                } else{
-                    rooms.add(new Room(roomLayer, this, 0));
-                }
-            } else {
-                boolean foundStartPoint = false;
-                for (MapObject object : roomLayer.getObjects()) {
-                    String name = object.getName();
-                    if (name != null && name.equals("start_point") && object instanceof RectangleMapObject) {
-                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                        player.setPosition(rectangle.x, rectangle.y);
-                        foundStartPoint = true;
-                    }
-                }
-                if (!foundStartPoint) {
-                    System.out.println("Start room must specific start point");
-                    System.exit(0);
-                }
-            }
+            MapGroupLayer groupLayer = (MapGroupLayer) roomLayers.getLayers().get(i);
+            rooms.add(new Room(groupLayer, this));
         }
 
 //        temp
@@ -137,9 +120,10 @@ public class WorldMap {
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
 
-        RegionEffect.loadRegionEffect(null, this, EffectEnum.POISON_REGION, 100, 100);
-        RegionEffect.loadRegionEffect(null, this, EffectEnum.FIRE_REGION, 200, 100);
-        RegionEffect.loadRegionEffect(null, this, EffectEnum.LIGHTNING_REGION, 100, 200);
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     public void update(float deltaTime) {
@@ -315,10 +299,10 @@ public class WorldMap {
     public void removeDestroyableObject(DestroyableObject object) {
         if (destroyableObjects.contains(object)) {
             destroyableObjects.remove(object);
-            if (object.getName().equals("ark")) {
+            if (object.getName().equals("ARK")) {
                 addRandomPotion(object.getX(), object.getY());
-            } else if (object.getName().equals("boom")) {
-                createAnExplosion(null, object.getX(), object.getY(),128,true);
+            } else if (!object.getName().equals("")) {
+                RegionEffect.loadRegionEffect(null, this, EffectEnum.valueOf(object.getName()), object.getX(), object.getY());
             }
         }
     }

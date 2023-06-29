@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
@@ -28,7 +29,6 @@ public class MenuScreen extends ScreenAdapter {
     private float startBtnWidth = 250;
     private float startBtnHeight = 250;
     private float startBtnY = 50;
-    private int difficultMode = 0;
     private BitmapFont normalFont ;
     private BitmapFont hoverFont;
     private Array<TextItem> textItems;
@@ -71,8 +71,8 @@ public class MenuScreen extends ScreenAdapter {
             (Gdx.graphics.getHeight() - Gdx.input.getY() > startBtnY) &&
             (Gdx.graphics.getHeight() - Gdx.input.getY() < startBtnHeight + startBtnY )
         ) {
-            if (Gdx.input.isTouched()) {
-                game.setScreen(new SelectCharacterScreen(game));
+            if (Gdx.input.isTouched() && selectedText != null) {
+                game.setScreen(new SelectCharacterScreen(game, Level.valueOf(selectedText.getText().toUpperCase())));
                 this.dispose();
             }
         }

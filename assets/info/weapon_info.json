@@ -90,7 +90,7 @@
             "STUN",
             "PUSH",
             "FIRE",
-            "EXPLOSION"
+            "MEDIUM_EXPLOSION"
         ]
     },
     "Gun Red L": {

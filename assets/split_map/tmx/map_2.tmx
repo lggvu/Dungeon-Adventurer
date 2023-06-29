@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="638">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="62" nextobjectid="761">
  <tileset firstgid="1" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
  <tileset firstgid="193" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="ground" width="150" height="150">
@@ -680,7 +680,7 @@
   <object id="636" x="225.333" y="14.6667" width="13.3333" height="340"/>
   <object id="637" x="97.3333" y="352" width="270.667" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="destroyable_object" visible="0">
+ <objectgroup id="6" name="destroyable_object">
   <object id="253" gid="1481" x="2064" y="1200" width="16" height="16"/>
   <object id="254" gid="1481" x="2080" y="1200" width="16" height="16"/>
   <object id="255" gid="1481" x="2096" y="1200" width="16" height="16"/>
@@ -902,157 +902,608 @@
   <object id="504" name="ark" gid="1556" x="320" y="2127" width="16" height="16"/>
   <object id="505" name="ark" gid="1556" x="320" y="2191" width="16" height="16"/>
   <object id="506" name="ark" gid="1556" x="320" y="2191" width="16" height="16"/>
-  <object id="508" name="boom" gid="580" x="220" y="2209" width="16" height="16"/>
-  <object id="509" name="boom" gid="580" x="175" y="2159" width="16" height="16"/>
-  <object id="619" name="boom" gid="580" x="230" y="1136" width="16" height="16"/>
-  <object id="620" name="boom" gid="580" x="203" y="1221" width="16" height="16"/>
-  <object id="621" name="boom" gid="580" x="373" y="1145" width="16" height="16"/>
-  <object id="622" name="boom" gid="580" x="374" y="1247" width="16" height="16"/>
-  <object id="623" name="boom" gid="580" x="145" y="1322" width="16" height="16"/>
-  <object id="624" name="boom" gid="580" x="71" y="1180" width="16" height="16"/>
-  <object id="625" name="boom" gid="580" x="78" y="1080" width="16" height="16"/>
-  <object id="626" name="boom" gid="580" x="314" y="1067" width="16" height="16"/>
-  <object id="627" name="boom" gid="580" x="401" y="1072" width="16" height="16"/>
-  <object id="628" name="boom" gid="580" x="1242" y="1057" width="16" height="16"/>
-  <object id="629" name="boom" gid="580" x="1109" y="1096" width="16" height="16"/>
-  <object id="630" name="boom" gid="580" x="1155" y="1312" width="16" height="16"/>
-  <object id="631" name="boom" gid="580" x="1346" y="1280" width="16" height="16"/>
-  <object id="632" name="boom" gid="580" x="1384" y="1113" width="16" height="16"/>
-  <object id="633" name="boom" gid="580" x="1230" y="1248" width="16" height="16"/>
-  <object id="634" name="boom" gid="580" x="1223" y="1305" width="16" height="16"/>
+  <object id="508" name="MEDIUM_EXPLOSION" gid="580" x="220" y="2209" width="16" height="16"/>
+  <object id="509" name="MEDIUM_EXPLOSION" gid="580" x="175" y="2159" width="16" height="16"/>
+  <object id="619" name="MEDIUM_EXPLOSION" gid="580" x="230" y="1136" width="16" height="16"/>
+  <object id="620" name="MEDIUM_EXPLOSION" gid="580" x="203" y="1221" width="16" height="16"/>
+  <object id="621" name="MEDIUM_EXPLOSION" gid="580" x="373" y="1145" width="16" height="16"/>
+  <object id="622" name="MEDIUM_EXPLOSION" gid="580" x="374" y="1247" width="16" height="16"/>
+  <object id="623" name="MEDIUM_EXPLOSION" gid="580" x="145" y="1322" width="16" height="16"/>
+  <object id="624" name="LARGE_EXPLOSION" gid="580" x="71" y="1180" width="16" height="16"/>
+  <object id="625" name="LARGE_EXPLOSION" gid="580" x="78" y="1080" width="16" height="16"/>
+  <object id="626" name="LARGE_EXPLOSION" gid="580" x="314" y="1067" width="16" height="16"/>
+  <object id="627" name="LARGE_EXPLOSION" gid="580" x="401" y="1072" width="16" height="16"/>
+  <object id="628" name="LARGE_EXPLOSION" gid="580" x="1242" y="1057" width="16" height="16"/>
+  <object id="629" name="LARGE_EXPLOSION" gid="580" x="1109" y="1096" width="16" height="16"/>
+  <object id="630" name="LARGE_EXPLOSION" gid="580" x="1155" y="1312" width="16" height="16"/>
+  <object id="631" name="LARGE_EXPLOSION" gid="580" x="1346" y="1280" width="16" height="16"/>
+  <object id="632" name="LARGE_EXPLOSION" gid="580" x="1384" y="1113" width="16" height="16"/>
+  <object id="633" name="LARGE_EXPLOSION" gid="580" x="1230" y="1248" width="16" height="16"/>
+  <object id="634" name="LARGE_EXPLOSION" gid="580" x="1223" y="1305" width="16" height="16"/>
+  <object id="758" name="LIGHTNING_REGION" gid="142" x="84" y="2125.33" width="16" height="16"/>
+  <object id="759" name="FIRE_REGION" gid="141" x="250.667" y="2281.33" width="16" height="16"/>
+  <object id="760" name="POISON_REGION" gid="174" x="358.667" y="2245.33" width="16" height="16"/>
  </objectgroup>
- <group id="7" name="room" visible="0">
-  <objectgroup id="17" name="start_room" visible="0">
-   <object id="507" x="17" y="1970" width="461" height="414"/>
-   <object id="580" name="start_point" x="108" y="2299">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="16" name="0" visible="0">
-   <object id="483" x="15" y="976" width="464" height="416"/>
-   <object id="572" name="knight" x="148" y="1075">
-    <point/>
-   </object>
-   <object id="573" name="knight" x="76" y="1252">
-    <point/>
-   </object>
-   <object id="574" name="knight" x="231" y="1301">
-    <point/>
-   </object>
-   <object id="575" name="knight" x="416" y="1198">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="8" name="1" visible="0">
-   <object id="489" x="16" y="15" width="463" height="419"/>
-   <object id="568" name="knight" x="389" y="157">
-    <point/>
-   </object>
-   <object id="569" name="knight" x="400" y="276">
-    <point/>
-   </object>
-   <object id="570" name="knight" x="74" y="201">
-    <point/>
-   </object>
-   <object id="571" name="knight" x="65" y="339">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="9" name="2" visible="0">
-   <object id="490" x="992" y="20" width="465" height="412"/>
-   <object id="564" name="knight" x="1226" y="116">
-    <point/>
-   </object>
-   <object id="565" name="knight" x="1215" y="278">
-    <point/>
-   </object>
-   <object id="566" name="knight" x="1092" y="222">
-    <point/>
-   </object>
-   <object id="567" name="knight" x="1361" y="210">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="10" name="3" visible="0">
-   <object id="491" x="1920" y="19" width="465" height="416"/>
-   <object id="560" name="knight" x="1972" y="194">
-    <point/>
-   </object>
-   <object id="561" name="knight" x="1963" y="350">
-    <point/>
-   </object>
-   <object id="562" name="knight" x="2292" y="284">
-    <point/>
-   </object>
-   <object id="563" name="knight" x="2307" y="185">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="11" name="4" visible="0">
-   <object id="492" x="1920" y="977" width="464" height="418"/>
-   <object id="556" name="knight" x="2235" y="1070">
-    <point/>
-   </object>
-   <object id="557" name="knight" x="2293" y="1222">
-    <point/>
-   </object>
-   <object id="558" name="knight" x="1998" y="1134">
-    <point/>
-   </object>
-   <object id="559" name="knight" x="1992" y="1283">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="12" name="final_room" visible="0">
-   <object id="493" x="1920" y="1969" width="466" height="417"/>
-   <object id="576" name="teacher" x="2037" y="2036">
-    <properties>
-     <property name="monster_type" value="boss"/>
-    </properties>
-    <point/>
-   </object>
-   <object id="577" name="knight" x="2038" y="2209">
-    <point/>
-   </object>
-   <object id="578" name="knight" x="2303" y="2053">
-    <point/>
-   </object>
-   <object id="579" name="knight" x="2308" y="2280">
-    <point/>
-   </object>
-   <object id="581" name="gate_position" x="2139" y="2304">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="13" name="5" visible="0">
-   <object id="494" x="992" y="1968" width="464" height="417"/>
-   <object id="548" name="knight" x="1093" y="2158">
-    <point/>
-   </object>
-   <object id="549" name="knight" x="1144" y="2291">
-    <point/>
-   </object>
-   <object id="550" name="knight" x="1364" y="2284">
-    <point/>
-   </object>
-   <object id="551" name="knight" x="1368" y="2132">
-    <point/>
-   </object>
-  </objectgroup>
-  <objectgroup id="14" name="7">
-   <object id="495" x="988" y="977" width="469" height="418"/>
-   <object id="552" name="knight" x="1326" y="1064">
-    <point/>
-   </object>
-   <object id="553" name="knight" x="1088" y="1341">
-    <point/>
-   </object>
-   <object id="554" name="knight" x="1331" y="1345">
-    <point/>
-   </object>
-   <object id="555" name="knight" x="1190" y="1363">
-    <point/>
-   </object>
-  </objectgroup>
+ <group id="7" name="room">
+  <group id="26" name="4">
+   <objectgroup id="30" name="EASY" visible="0">
+    <object id="556" name="knight" x="2235" y="1070">
+     <point/>
+    </object>
+    <object id="557" name="knight" x="2293" y="1222">
+     <point/>
+    </object>
+    <object id="558" name="knight" x="1998" y="1134">
+     <point/>
+    </object>
+    <object id="559" name="knight" x="1992" y="1283">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="41" name="MEDIUM">
+    <object id="650" name="knight" x="2235" y="1070">
+     <point/>
+    </object>
+    <object id="651" name="knight" x="2293" y="1222">
+     <point/>
+    </object>
+    <object id="652" name="knight" x="1998" y="1134">
+     <point/>
+    </object>
+    <object id="653" name="knight" x="1992" y="1283">
+     <point/>
+    </object>
+    <object id="757" name="knight" x="2118.67" y="1162.67">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="60" name="HARD" visible="0">
+    <object id="726" name="knight" x="2235" y="1070">
+     <point/>
+    </object>
+    <object id="727" name="knight" x="2293" y="1222">
+     <point/>
+    </object>
+    <object id="728" name="knight" x="1998" y="1134">
+     <point/>
+    </object>
+    <object id="729" name="knight" x="1992" y="1283">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="61" name="NIGHTMARE" visible="0">
+    <object id="730" name="knight" x="2235" y="1070">
+     <point/>
+    </object>
+    <object id="731" name="knight" x="2293" y="1222">
+     <point/>
+    </object>
+    <object id="732" name="knight" x="1998" y="1134">
+     <point/>
+    </object>
+    <object id="733" name="knight" x="1992" y="1283">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="11" name="area" visible="0">
+    <object id="492" x="1920" y="977" width="464" height="418"/>
+   </objectgroup>
+  </group>
+  <group id="25" name="3">
+   <objectgroup id="31" name="EASY">
+    <object id="560" name="knight" x="1972" y="194">
+     <point/>
+    </object>
+    <object id="561" name="knight" x="1963" y="350">
+     <point/>
+    </object>
+    <object id="562" name="knight" x="2292" y="284">
+     <point/>
+    </object>
+    <object id="563" name="knight" x="2307" y="185">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="40" name="MEDIUM">
+    <object id="646" name="knight" x="1972" y="194">
+     <point/>
+    </object>
+    <object id="647" name="knight" x="1963" y="350">
+     <point/>
+    </object>
+    <object id="648" name="knight" x="2292" y="284">
+     <point/>
+    </object>
+    <object id="649" name="knight" x="2307" y="185">
+     <point/>
+    </object>
+    <object id="756" name="knight" x="2146.67" y="92">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="58" name="HARD">
+    <object id="718" name="knight" x="1972" y="194">
+     <point/>
+    </object>
+    <object id="719" name="knight" x="1963" y="350">
+     <point/>
+    </object>
+    <object id="720" name="knight" x="2292" y="284">
+     <point/>
+    </object>
+    <object id="721" name="knight" x="2307" y="185">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="59" name="NIGHTMARE">
+    <object id="722" name="knight" x="1972" y="194">
+     <point/>
+    </object>
+    <object id="723" name="knight" x="1963" y="350">
+     <point/>
+    </object>
+    <object id="724" name="knight" x="2292" y="284">
+     <point/>
+    </object>
+    <object id="725" name="knight" x="2307" y="185">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="10" name="area" visible="0">
+    <object id="491" x="1920" y="19" width="465" height="416"/>
+   </objectgroup>
+  </group>
+  <group id="23" name="1">
+   <objectgroup id="32" name="EASY">
+    <object id="571" name="knight" x="65" y="339">
+     <point/>
+    </object>
+    <object id="570" name="knight" x="74" y="201">
+     <point/>
+    </object>
+    <object id="569" name="knight" x="400" y="276">
+     <point/>
+    </object>
+    <object id="568" name="knight" x="389" y="157">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="39" name="MEDIUM">
+    <object id="642" name="knight" x="65" y="339">
+     <point/>
+    </object>
+    <object id="643" name="knight" x="74" y="201">
+     <point/>
+    </object>
+    <object id="644" name="knight" x="400" y="276">
+     <point/>
+    </object>
+    <object id="645" name="knight" x="389" y="157">
+     <point/>
+    </object>
+    <object id="755" name="knight" x="298.667" y="244">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="54" name="HARD">
+    <object id="702" name="knight" x="65" y="339">
+     <point/>
+    </object>
+    <object id="703" name="knight" x="74" y="201">
+     <point/>
+    </object>
+    <object id="704" name="knight" x="400" y="276">
+     <point/>
+    </object>
+    <object id="705" name="knight" x="389" y="157">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="55" name="NIGHTMARE">
+    <object id="706" name="knight" x="65" y="339">
+     <point/>
+    </object>
+    <object id="707" name="knight" x="74" y="201">
+     <point/>
+    </object>
+    <object id="708" name="knight" x="400" y="276">
+     <point/>
+    </object>
+    <object id="709" name="knight" x="389" y="157">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="8" name="area">
+    <object id="489" x="16" y="15" width="463" height="419"/>
+   </objectgroup>
+  </group>
+  <group id="24" name="2">
+   <objectgroup id="33" name="EASY" visible="0">
+    <object id="567" name="knight" x="1361" y="210">
+     <point/>
+    </object>
+    <object id="566" name="knight" x="1092" y="222">
+     <point/>
+    </object>
+    <object id="564" name="knight" x="1226" y="116">
+     <point/>
+    </object>
+    <object id="565" name="knight" x="1215" y="278">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="38" name="MEDIUM" visible="0">
+    <object id="638" name="knight" x="1361" y="210">
+     <point/>
+    </object>
+    <object id="639" name="knight" x="1092" y="222">
+     <point/>
+    </object>
+    <object id="640" name="knight" x="1226" y="116">
+     <point/>
+    </object>
+    <object id="641" name="knight" x="1215" y="278">
+     <point/>
+    </object>
+    <object id="754" name="knight" x="1312" y="301.333">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="56" name="HARD" visible="0">
+    <object id="710" name="knight" x="1361" y="210">
+     <point/>
+    </object>
+    <object id="711" name="knight" x="1092" y="222">
+     <point/>
+    </object>
+    <object id="712" name="knight" x="1226" y="116">
+     <point/>
+    </object>
+    <object id="713" name="knight" x="1215" y="278">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="57" name="NIGHTMARE" visible="0">
+    <object id="714" name="knight" x="1361" y="210">
+     <point/>
+    </object>
+    <object id="715" name="knight" x="1092" y="222">
+     <point/>
+    </object>
+    <object id="716" name="knight" x="1226" y="116">
+     <point/>
+    </object>
+    <object id="717" name="knight" x="1215" y="278">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="9" name="area" visible="0">
+    <object id="490" x="992" y="20" width="465" height="412"/>
+   </objectgroup>
+  </group>
+  <group id="22" name="0">
+   <objectgroup id="34" name="EASY">
+    <object id="575" name="knight" x="416" y="1198">
+     <point/>
+    </object>
+    <object id="572" name="knight" x="148" y="1075">
+     <point/>
+    </object>
+    <object id="573" name="knight" x="76" y="1252">
+     <point/>
+    </object>
+    <object id="574" name="knight" x="231" y="1301">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="42" name="MEDIUM">
+    <object id="654" name="knight" x="416" y="1198">
+     <point/>
+    </object>
+    <object id="655" name="knight" x="148" y="1075">
+     <point/>
+    </object>
+    <object id="656" name="knight" x="76" y="1252">
+     <point/>
+    </object>
+    <object id="657" name="knight" x="231" y="1301">
+     <point/>
+    </object>
+    <object id="753" name="knight" x="290.667" y="1105.33">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="52" name="HARD">
+    <object id="694" name="knight" x="416" y="1198">
+     <point/>
+    </object>
+    <object id="695" name="knight" x="148" y="1075">
+     <point/>
+    </object>
+    <object id="696" name="knight" x="76" y="1252">
+     <point/>
+    </object>
+    <object id="697" name="knight" x="231" y="1301">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="53" name="NIGHTMARE">
+    <object id="698" name="knight" x="416" y="1198">
+     <point/>
+    </object>
+    <object id="699" name="knight" x="148" y="1075">
+     <point/>
+    </object>
+    <object id="700" name="knight" x="76" y="1252">
+     <point/>
+    </object>
+    <object id="701" name="knight" x="231" y="1301">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="16" name="area" visible="0">
+    <object id="483" x="15" y="976" width="464" height="416"/>
+   </objectgroup>
+  </group>
+  <group id="29" name="final_room">
+   <objectgroup id="35" name="EASY" visible="0">
+    <object id="576" name="teacher" x="2037" y="2036">
+     <properties>
+      <property name="monster_type" value="boss"/>
+     </properties>
+     <point/>
+    </object>
+    <object id="577" name="knight" x="2038" y="2209">
+     <point/>
+    </object>
+    <object id="578" name="knight" x="2303" y="2053">
+     <point/>
+    </object>
+    <object id="579" name="knight" x="2308" y="2280">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="43" name="MEDIUM" visible="0">
+    <object id="658" name="teacher" x="2037" y="2036">
+     <properties>
+      <property name="monster_type" value="boss"/>
+     </properties>
+     <point/>
+    </object>
+    <object id="659" name="knight" x="2038" y="2209">
+     <point/>
+    </object>
+    <object id="660" name="knight" x="2303" y="2053">
+     <point/>
+    </object>
+    <object id="661" name="knight" x="2308" y="2280">
+     <point/>
+    </object>
+    <object id="747" name="knight" x="2149.33" y="2116">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="50" name="HARD" visible="0">
+    <object id="686" name="teacher" x="2037" y="2036">
+     <properties>
+      <property name="monster_type" value="boss"/>
+     </properties>
+     <point/>
+    </object>
+    <object id="687" name="knight" x="2038" y="2209">
+     <point/>
+    </object>
+    <object id="688" name="knight" x="2303" y="2053">
+     <point/>
+    </object>
+    <object id="689" name="knight" x="2308" y="2280">
+     <point/>
+    </object>
+    <object id="748" name="knight" x="2144" y="2108">
+     <point/>
+    </object>
+    <object id="749" name="knight" x="2164" y="2258.67">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="51" name="NIGHTMARE" visible="0">
+    <object id="690" name="teacher" x="2037" y="2036">
+     <properties>
+      <property name="monster_type" value="boss"/>
+     </properties>
+     <point/>
+    </object>
+    <object id="691" name="knight" x="2038" y="2209">
+     <point/>
+    </object>
+    <object id="692" name="knight" x="2303" y="2053">
+     <point/>
+    </object>
+    <object id="693" name="knight" x="2308" y="2280">
+     <point/>
+    </object>
+    <object id="750" name="knight" x="2168" y="2093.33">
+     <point/>
+    </object>
+    <object id="751" name="knight" x="2084" y="2288">
+     <point/>
+    </object>
+    <object id="752" name="knight" x="2200" y="2234.67">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="12" name="area" visible="0">
+    <object id="493" x="1920" y="1969" width="466" height="417"/>
+    <object id="581" name="gate_position" x="2139" y="2304">
+     <point/>
+    </object>
+   </objectgroup>
+  </group>
+  <group id="21" name="start_room">
+   <objectgroup id="17" name="area" visible="0">
+    <object id="507" x="17" y="1970" width="461" height="414"/>
+    <object id="580" name="start_point" x="108" y="2299">
+     <point/>
+    </object>
+   </objectgroup>
+  </group>
+  <group id="28" name="6">
+   <objectgroup id="36" name="EASY" visible="0">
+    <object id="552" name="knight" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="553" name="knight" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="554" name="knight" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="555" name="knight" x="1190" y="1363">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="44" name="MEDIUM" visible="0">
+    <object id="662" name="knight" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="663" name="knight" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="664" name="knight" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="665" name="knight" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="741" name="knight" x="1101.33" y="1140">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="48" name="HARD" visible="0">
+    <object id="678" name="knight" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="679" name="knight" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="680" name="knight" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="681" name="knight" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="742" name="knight" x="1337.33" y="1138.67">
+     <point/>
+    </object>
+    <object id="743" name="knight" x="1289.33" y="1217.33">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="49" name="NIGHTMARE">
+    <object id="682" name="knight" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="683" name="knight" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="684" name="knight" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="685" name="knight" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="744" name="knight" x="1134.67" y="1093.33">
+     <point/>
+    </object>
+    <object id="745" name="knight" x="1162.67" y="1200">
+     <point/>
+    </object>
+    <object id="746" name="knight" x="1325.33" y="1156">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="14" name="area">
+    <object id="495" x="988" y="977" width="469" height="418"/>
+   </objectgroup>
+  </group>
+  <group id="27" name="5" visible="0">
+   <objectgroup id="37" name="EASY">
+    <object id="548" name="knight" x="1093" y="2158">
+     <point/>
+    </object>
+    <object id="549" name="knight" x="1144" y="2291">
+     <point/>
+    </object>
+    <object id="550" name="knight" x="1364" y="2284">
+     <point/>
+    </object>
+    <object id="551" name="knight" x="1368" y="2132">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="46" name="MEDIUM">
+    <object id="670" name="knight" x="1093" y="2158">
+     <point/>
+    </object>
+    <object id="671" name="knight" x="1144" y="2291">
+     <point/>
+    </object>
+    <object id="672" name="knight" x="1364" y="2284">
+     <point/>
+    </object>
+    <object id="673" name="knight" x="1368" y="2132">
+     <point/>
+    </object>
+    <object id="735" name="knight" x="1216" y="2076">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="47" name="HARD">
+    <object id="674" name="knight" x="1093" y="2158">
+     <point/>
+    </object>
+    <object id="675" name="knight" x="1144" y="2291">
+     <point/>
+    </object>
+    <object id="676" name="knight" x="1364" y="2284">
+     <point/>
+    </object>
+    <object id="677" name="knight" x="1368" y="2132">
+     <point/>
+    </object>
+    <object id="736" name="knight" x="1249.33" y="2200">
+     <point/>
+    </object>
+    <object id="737" name="knight" x="1237.33" y="2314.67">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="45" name="NIGHTMARE">
+    <object id="666" name="knight" x="1093" y="2158">
+     <point/>
+    </object>
+    <object id="667" name="knight" x="1144" y="2291">
+     <point/>
+    </object>
+    <object id="668" name="knight" x="1364" y="2284">
+     <point/>
+    </object>
+    <object id="669" name="knight" x="1368" y="2132">
+     <point/>
+    </object>
+    <object id="738" name="knight" x="1236" y="2101.33">
+     <point/>
+    </object>
+    <object id="739" name="knight" x="1244" y="2221.33">
+     <point/>
+    </object>
+    <object id="740" name="knight" x="1136" y="2042.67">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="13" name="area">
+    <object id="494" x="992" y="1968" width="464" height="417"/>
+   </objectgroup>
+  </group>
  </group>
 </map>

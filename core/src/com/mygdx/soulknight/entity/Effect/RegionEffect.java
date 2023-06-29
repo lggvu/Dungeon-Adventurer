@@ -17,8 +17,11 @@ public abstract class RegionEffect extends Effect {
 
     public static void loadRegionEffect(SimpleCharacter owner, WorldMap map, EffectEnum effectEnum, float x, float y) {
         switch (effectEnum) {
-            case EXPLOSION:
+            case MEDIUM_EXPLOSION:
                 map.addRegionEffect(new Explosion(owner, x, y, 60, true));
+                return;
+            case LARGE_EXPLOSION:
+                map.addRegionEffect(new Explosion(owner, x, y, 128, true));
                 return;
             case FIRE_REGION:
                 map.addRegionEffect(new FireRegion(owner, x, y));

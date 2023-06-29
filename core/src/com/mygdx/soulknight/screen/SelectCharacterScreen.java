@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Adventurer;
 import com.mygdx.soulknight.entity.Character.Assassin;
@@ -25,9 +26,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private TextureRegion character1Texture;
     private TextureRegion character2Texture;
     private TextureRegion character3Texture;
+    private Level level;
 
 
-    public SelectCharacterScreen(SoulKnight game){
+    public SelectCharacterScreen(SoulKnight game, Level level){
+        this.level = level;
         this.game = game;
         background = new Texture("select-character.png");
         normalFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));

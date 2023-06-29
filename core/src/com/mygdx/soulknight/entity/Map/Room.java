@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -18,20 +19,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Room {
-    private int numOfMonsters=4;
     private MapLayer layer;
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
-    private Player player;
     private WorldMap map;
     private ArrayList<Rectangle> roomArea;
     private String roomName;
     private boolean combat = false;
-    public Room(MapLayer roomLayer, WorldMap map, int numBoss) {
+    public Room(MapGroupLayer roomLayers, WorldMap map) {
         this.map = map;
-        roomName = roomLayer.getName();
-        this.layer = roomLayer;
-        player = map.getPlayer();
+
+        roomName = roomLayers.getName();
+        MapLayer layer = roomLayers.getLayers().get("area");
+        MapLayer monsterPositionLayer = roomLayers.getLayers().get(map.getLevel().name());
+
         roomArea = new ArrayList<>();
         for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
@@ -43,17 +44,28 @@ public class Room {
                         System.out.println("Gate position: " + roomRectangle.x + " " + roomRectangle.y);
                         map.setGateX(roomRectangle.x);
                         map.setGateY(roomRectangle.y);
-                    } else if (!mapObject.getProperties().containsKey("monster_type")) {
-                        Monster monster = new Monster(mapObject.getName(), map, this);
-                        monster.setPosition(roomRectangle.x, roomRectangle.y);
-                        monsterAlive.add(monster);
-                    } else {
-                        System.out.println("ADD BOSS SUCCESS");
-                        Boss boss = new Boss(mapObject.getName(), map,this);
-                        boss.setPosition(roomRectangle.x, roomRectangle.y);
-                        monsterAlive.add(boss);
+                    } else if (mapObject.getName().equals("start_point")) {
+                        map.getPlayer().setPosition(roomRectangle.x, roomRectangle.y);
                     }
                 }
+            }
+        }
+
+        if (monsterPositionLayer == null && roomName.equals("start_room")) {
+            return;
+        }
+
+        for (MapObject mapObject : monsterPositionLayer.getObjects()) {
+            Rectangle monsterPos = ((RectangleMapObject) mapObject).getRectangle();
+            if (!mapObject.getProperties().containsKey("monster_type")) {
+                Monster monster = new Monster(mapObject.getName(), map, this);
+                monster.setPosition(monsterPos.x, monsterPos.y);
+                monsterAlive.add(monster);
+            } else {
+                System.out.println("ADD BOSS SUCCESS");
+                Boss boss = new Boss(mapObject.getName(), map,this);
+                boss.setPosition(monsterPos.x, monsterPos.y);
+                monsterAlive.add(boss);
             }
         }
     }

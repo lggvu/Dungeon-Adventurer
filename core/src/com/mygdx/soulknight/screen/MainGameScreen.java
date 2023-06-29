@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
@@ -13,11 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+
+import java.io.FileWriter;
+import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -31,6 +38,7 @@ public class MainGameScreen extends ScreenAdapter {
     private CooldownButton cooldownButton;
     private int difficultMode;
     private CoolDownBar coolDownBar;
+    private float countTime = 0;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
@@ -49,6 +57,7 @@ public class MainGameScreen extends ScreenAdapter {
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
         cooldownButton = new CooldownButton(player);
         coolDownBar = new CoolDownBar(player);
+//        System.out.println(Level.EASY.name());
     }
 
     @Override
@@ -73,6 +82,20 @@ public class MainGameScreen extends ScreenAdapter {
 
     @Override
     public void render(float deltaTime) {
+        countTime += deltaTime;
+        if (countTime > 1) {
+            countTime = 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Y) && countTime >= 1) {
+            countTime = 0;
+            try {
+                Gson gson = new Gson();
+                System.out.println(Paths.get(Gdx.files.getLocalStoragePath(),"assets", "state_dict.json").toString());
+//                gson.toJson(map, );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         Gdx.gl.glClearColor(28/255f,17/255f,23/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

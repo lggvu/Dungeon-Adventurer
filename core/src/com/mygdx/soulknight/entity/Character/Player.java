@@ -53,7 +53,7 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-//        maxArmor = Integer.MAX_VALUE - 100;
+        maxArmor = Integer.MAX_VALUE - 100;
         this.currentArmor = getCurrentMaxArmor();
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);

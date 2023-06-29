@@ -9,5 +9,6 @@ public enum EffectEnum {
     FIRE_REGION,
     POISON_REGION,
     LIGHTNING_REGION,
-    EXPLOSION
+    MEDIUM_EXPLOSION,
+    LARGE_EXPLOSION
 }
