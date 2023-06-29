@@ -4,14 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
-import com.mygdx.soulknight.ability.MaxHPIncrease;
-import com.mygdx.soulknight.ability.NumMaxWeaponIncrease;
-import com.mygdx.soulknight.ability.NumWallCollisionIncrease;
-import com.mygdx.soulknight.entity.Effect.Effect;
-import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
@@ -20,7 +14,6 @@ import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.util.SpriteLoader;
 import com.badlogic.gdx.Input;
 
 import java.util.ArrayList;
@@ -36,7 +29,6 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
-    private int maxWeaponNumber = 2;
     protected float specialSkillCoolDown = 5;
     protected boolean isCoolingDown = false;
     protected float coolDownTimer = 5;
@@ -44,41 +36,23 @@ public abstract class Player extends SimpleCharacter {
     protected float timeImplementLeft = 0;
     protected boolean isImplement = false;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
-    protected ArrayList<Ability> abilityArrayList = new ArrayList<>();
     private Room room;
 
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
-        addAbility(new MaxHPIncrease());
-        addAbility(new NumWallCollisionIncrease());
-        addAbility(new NumMaxWeaponIncrease());
+        setMaxWeaponNumber(2);
+        getAbility().addAbility(this, Ability.AbilityEnum.MAX_HP_INCREASE);
+        getAbility().addAbility(this, Ability.AbilityEnum.NUM_WALL_COLLIDE_INCREASE);
+        getAbility().addAbility(this, Ability.AbilityEnum.MAX_WEAPON_INCREASE);
     }
 
-    public ArrayList<Ability> getAbilityArrayList() {
-        return abilityArrayList;
-    }
-
-    public void addAbility(Ability ability) {
-        for (Ability ability1 : abilityArrayList) {
-            if (ability1.getClass().getName().equals(ability.getClass().getName())) {
-                return;
-            }
-        }
-        ability.addAbility(this);
-        abilityArrayList.add(ability);
-    }
-
-    public void removeAbility(Ability ability) {
-        ability.removeAbility(this);
-        abilityArrayList.remove(ability);
-    }
 
     @Override
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-        maxArmor = Integer.MAX_VALUE;
-        this.currentArmor = this.maxArmor;
+        maxArmor = Integer.MAX_VALUE - 100;
+        this.currentArmor = getCurrentMaxArmor();
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
@@ -280,7 +254,8 @@ public abstract class Player extends SimpleCharacter {
 
 //        Armor auto heal
         currentHealArmor += deltaTime;
-        if (currentArmor == maxArmor) {
+        int currentMaxArmor = getCurrentMaxArmor();
+        if (currentArmor == currentMaxArmor) {
             currentHealArmor = 0;
         }
 
@@ -288,8 +263,8 @@ public abstract class Player extends SimpleCharacter {
             currentHealArmor = 0;
             currentArmor++;
         }
-        if (currentArmor > maxArmor) {
-            currentArmor = maxArmor;
+        if (currentArmor > currentMaxArmor) {
+            currentArmor = currentMaxArmor;
         }
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
@@ -327,34 +302,7 @@ public abstract class Player extends SimpleCharacter {
         return lastMoveDirection;
     }
 
-    public void collectWeapon(Weapon weapon) {
-        weapon.setOwner(this);
-        weapon.setOnGround(false);
-        if (weapons.size() < maxWeaponNumber) {
-            for (Ability ability : abilityArrayList) {
-                if (ability instanceof NumWallCollisionIncrease) {
-                    weapon = ((NumWallCollisionIncrease) ability).collectGun(weapon);
-                    break;
-                }
-            }
-            weapons.add(weapon);
-        } else {
-            Weapon currentWeapon = getCurrentWeapon();
-            currentWeapon.setPosition(this.x, this.y);
-            for (Ability ability : abilityArrayList) {
-                if (ability instanceof NumWallCollisionIncrease) {
-                    weapon = ((NumWallCollisionIncrease) ability).collectGun(weapon);
-                    currentWeapon = ((NumWallCollisionIncrease) ability).dropGun(currentWeapon);
-                    break;
-                }
-            }
-            weapons.remove(currentWeapon);
-            map.addWeaponOnGround(currentWeapon);
-            currentWeapon.setOnGround(true);
-            weapons.add(weapon);
-        }
-        currentWeaponId = weapons.size() - 1;
-    }
+
 
     public ArrayList<Pickable> autoCollect() {
         ArrayList<Pickable> removeList = new ArrayList<>();
@@ -373,8 +321,8 @@ public abstract class Player extends SimpleCharacter {
         return collectItem;
     }
 
-    public int getMaxArmor() {
-        return maxArmor;
+    public int getCurrentMaxArmor() {
+        return maxArmor + getAbility().getArmorIncrease();
     }
 
     public int getCurrentArmor() {
@@ -385,8 +333,8 @@ public abstract class Player extends SimpleCharacter {
         return currentMana;
     }
 
-    public int getMaxMana() {
-        return maxMana;
+    public int getCurrentMaxMana() {
+        return maxMana + getAbility().getManaIncrease();
     }
 
     public boolean isFighting() {
@@ -426,11 +374,7 @@ public abstract class Player extends SimpleCharacter {
         return isImplement;
     }
 
-    public int getMaxWeaponNumber() {
-        return maxWeaponNumber;
-    }
-
-    public void setMaxWeaponNumber(int maxWeaponNumber) {
-        this.maxWeaponNumber = maxWeaponNumber;
+    public void setCurrentArmor(int currentArmor) {
+        this.currentArmor = currentArmor;
     }
 }

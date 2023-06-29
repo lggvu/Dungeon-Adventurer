@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.ability.AbilityDrawer;
-import com.mygdx.soulknight.ability.MaxHPIncrease;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
@@ -71,7 +70,7 @@ public class CoolDownBar {
         for (Weapon weapon : player.getWeapons()) {
             lstDraw.add(weapon);
         }
-        for (Ability ability : player.getAbilityArrayList()) {
+        for (Ability.AbilityEnum ability : player.getAbility().getAbilityEnumArrayList()) {
             lstDraw.add(ability);
         }
 

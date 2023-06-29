@@ -18,7 +18,7 @@ public class Bullet {
     private SimpleCharacter owner; //who shot ?
     private Vector2 direction;
     private float speed = 1000f;
-    private int dmg = 2;
+    private int damage = 2;
     private float x, y;
     private float width = 17;
     private float height = 17;
@@ -54,7 +54,7 @@ public class Bullet {
     public float getY() {
         return y;
     }
-    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, float x, float y,
+    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, int damage, float x, float y,
                   Vector2 direction, float speed, ArrayList<EffectEnum> effectsEnum, int numDestroyObject,
                   int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
         this.x = x - width / 2;
@@ -69,6 +69,7 @@ public class Bullet {
         this.numEnemyHit = numEnemyHit;
         this.degreeChangePerSec = degreeChangePerSec;
         this.distanceLeft = distanceLeft;
+        this.damage = damage;
     }
     public void update(float deltaTime) {
         if (degreeChangePerSec != 0) {
@@ -147,7 +148,7 @@ public class Bullet {
             if (character.getRectangle().overlaps(rectangle) && (lastEnemyHit == null || !character.equals(lastEnemyHit))) {
                 character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
                 numEnemyHit--;
-                character.getHit(dmg);
+                character.getHit(damage);
                 lastEnemyHit = character;
                 break;
             }

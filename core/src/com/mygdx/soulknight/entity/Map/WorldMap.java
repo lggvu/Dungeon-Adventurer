@@ -105,20 +105,16 @@ public class WorldMap {
         }
 
 //        temp
-        Item item = Item.load("HP Stone");
-        item.setPosition(50, 400);
+        Item item = new Item(Item.ItemEnum.HP_STONE, 50, 400);
         itemsOnGround.add(item);
 
-        item = Item.load("Life Potion");
-        item.setPosition(400, 50);
+        item = new Item(Item.ItemEnum.LIFE_POTION,400, 50);
         itemsOnGround.add(item);
 
-        item = Item.load("Mana Stone");
-        item.setPosition(200, 50);
+        item = new Item(Item.ItemEnum.MANA_STONE,200, 50);
         itemsOnGround.add(item);
 
-        item = Item.load("Mana Potion");
-        item.setPosition(50, 200);
+        item = new Item(Item.ItemEnum.MANA_POTION,50, 200);
         itemsOnGround.add(item);
 
         Weapon weapon = Weapon.load("Gun Red M");
@@ -265,13 +261,6 @@ public class WorldMap {
                 return true;
             }
         }
-//        for (MapObject mapObject : getDoorCollision().getObjects()) {
-//            if (mapObject instanceof RectangleMapObject) {
-//                if (rectangle.overlaps(((RectangleMapObject) mapObject).getRectangle())) {
-//                    return true;
-//                }
-//            }
-//        }
         return false;
     }
 
@@ -338,15 +327,14 @@ public class WorldMap {
         int random = MathUtils.random(100);
         Item item = null;
         if (random < 2) {
-            item = Item.load("Life Potion");
+            item = new Item(Item.ItemEnum.LIFE_POTION, x, y);
         } else if (random < 20) {
-            item = Item.load("HP Stone");
+            item = new Item(Item.ItemEnum.HP_STONE, x, y);
         } else if (random < 50) {
-            item = Item.load("Mana Potion");
+            item = new Item(Item.ItemEnum.MANA_POTION, x, y);
         } else if (random <= 100) {
-            item = Item.load("Mana Stone");
+            item = new Item(Item.ItemEnum.MANA_STONE, x, y);
         }
-        item.setPosition(x, y);
         itemsOnGround.add(item);
     }
 

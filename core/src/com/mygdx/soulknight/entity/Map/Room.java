@@ -91,7 +91,7 @@ public class Room {
             monsterDie.addAll(monstersKilled);
         } else {
             for (Monster monster : monsterAlive) {
-                monster.setCurrentHP(monster.getMaxHP());
+                monster.setCurrentHP(monster.getCurrentMaxHP());
             }
         }
 

@@ -30,7 +30,7 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     protected SimpleCharacter owner;
     protected float rangeWeapon = 1000f;
     protected TextureRegion texture;
-    protected int damage;
+    private int damage;
     protected ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
     protected int energyCost=0;
     protected float criticalRate=0;
@@ -236,4 +236,11 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     public float getCurrentTimeCoolDown() {
         return elapsedSeconds;
     };
+
+    public int getCurrentDamage() {
+        if (owner != null) {
+            return damage + owner.getAbility().getDamageIncrease();
+        }
+        return damage;
+    }
 }

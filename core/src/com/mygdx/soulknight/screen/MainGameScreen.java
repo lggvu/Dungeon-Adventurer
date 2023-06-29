@@ -120,9 +120,9 @@ public class MainGameScreen extends ScreenAdapter {
         float boardY = Gdx.graphics.getHeight() - boardHeight;
 
         // Calculate the width of current health
-        float healthBarWidth = barWidth * ((float) player.getCurrentHP() / player.getMaxHP());
-        float armorBarWidth = barWidth * ((float) player.getCurrentArmor() / player.getMaxArmor());
-        float manaBarWidth = barWidth * ((float) player.getCurrentMana() / player.getMaxMana());
+        float healthBarWidth = barWidth * ((float) player.getCurrentHP() / player.getCurrentMaxHP());
+        float armorBarWidth = barWidth * ((float) player.getCurrentArmor() / player.getCurrentMaxArmor());
+        float manaBarWidth = barWidth * ((float) player.getCurrentMana() / player.getCurrentMaxMana());
 
         // Start the shape rendering
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

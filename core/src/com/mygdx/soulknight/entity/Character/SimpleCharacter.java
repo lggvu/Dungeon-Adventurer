@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Map.Room;
@@ -28,7 +29,7 @@ public abstract class SimpleCharacter {
     protected boolean isStunned = false;
     protected String characterName;
     protected SpriteLoader spriteLoader;
-    protected int maxHP = 10;
+    private int maxHP = 10;
     protected float stateTime = 0f;
     protected int currentHP = 10;
     protected float x = 30;
@@ -41,8 +42,10 @@ public abstract class SimpleCharacter {
     protected Vector2 currentHeadDirection = new Vector2(1, 0);
     protected int currentWeaponId = 0;
     protected ArrayList<Weapon> weapons = new ArrayList<>();
+    private int maxWeaponNumber = 1;
     protected ArrayList<CharacterEffect> effectArrayList = new ArrayList<>();
     private int id;
+    private Ability ability = new Ability();
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
@@ -101,11 +104,11 @@ public abstract class SimpleCharacter {
             spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
             texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             maxHP = source.get("hp").getAsInt();
-            currentHP = maxHP;
+            currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
             Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
             weapon.setOwner(this);
-            addWeapon(weapon);
+            collectWeapon(weapon);
             return source;
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,8 +176,20 @@ public abstract class SimpleCharacter {
         batch.draw(texture, x, y, width, height);
     }
 
-    public void addWeapon(Weapon weapon) {
-        weapons.add(weapon);
+    public void collectWeapon(Weapon weapon) {
+        weapon.setOwner(this);
+        weapon.setOnGround(false);
+        if (weapons.size() < getCurrentMaxWeaponNumber()) {
+            weapons.add(weapon);
+        } else {
+            Weapon currentWeapon = getCurrentWeapon();
+            currentWeapon.setPosition(this.x, this.y);
+            weapons.remove(currentWeapon);
+            map.addWeaponOnGround(currentWeapon);
+            currentWeapon.setOnGround(true);
+            weapons.add(weapon);
+        }
+        currentWeaponId = weapons.size() - 1;
     }
 
     public Rectangle getRectangle() {
@@ -196,13 +211,8 @@ public abstract class SimpleCharacter {
         return y;
     }
 
-
-    public int getMaxHP() {
-        return maxHP;
-    }
-
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
+    public int getCurrentMaxHP() {
+        return maxHP + getAbility().getHpIncrease();
     }
 
     public void setPosition(float x, float y) {
@@ -283,4 +293,15 @@ public abstract class SimpleCharacter {
         isStunned = stunned;
     }
 
+    public Ability getAbility() {
+        return ability;
+    }
+
+    public int getCurrentMaxWeaponNumber() {
+        return maxWeaponNumber + getAbility().getNumWeaponIncrease();
+    }
+
+    public void setMaxWeaponNumber(int maxWeaponNumber) {
+        this.maxWeaponNumber = maxWeaponNumber;
+    }
 }

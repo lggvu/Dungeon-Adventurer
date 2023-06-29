@@ -59,8 +59,8 @@ public class Gun extends Weapon {
         gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
         gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, gunBarrelX, gunBarrelY, direction,
-                bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, numWallCollide, degreeChangePerSec, rangeWeapon));
+        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
+                bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon));
     }
 
     public void setNumDestroyObject(int numDestroyObject) {
@@ -145,7 +145,10 @@ public class Gun extends Weapon {
 
     }
 
-    public int getNumWallCollide() {
+    public int getCurrentNumWallCollide() {
+        if (owner != null) {
+            return numWallCollide + owner.getAbility().getWallCollideIncrease();
+        }
         return numWallCollide;
     }
 

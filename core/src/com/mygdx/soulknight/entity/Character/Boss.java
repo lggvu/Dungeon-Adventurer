@@ -15,6 +15,7 @@ public class Boss extends Monster {
     private float currentTimeCount = 1f;
     public Boss(String characterName, WorldMap map, Room room) {
         super(characterName, map, room);
+        setMaxWeaponNumber(3);
         weapons.clear();
 //        gun_1 chase (đạn chậm 100f)
 //        gun_2 bắn xung quanh (đạn trung bình 300f)
@@ -41,12 +42,9 @@ public class Boss extends Monster {
         for (int i = -90; i >= -150; i-=5) {
             gun_2.addDirectionAttack(i);
         }
-        weapons.add(gun_1);
-        weapons.add(gun_2);
-        weapons.add(gun_3);
-        for (Weapon weapon : weapons) {
-            weapon.setOwner(this);
-        }
+        collectWeapon(gun_1);
+        collectWeapon(gun_2);
+        collectWeapon(gun_3);
     }
 
     @Override

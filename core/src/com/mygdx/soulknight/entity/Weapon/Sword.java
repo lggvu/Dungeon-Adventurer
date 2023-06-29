@@ -111,7 +111,7 @@ public class Sword extends Weapon {
         Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
         for (SimpleCharacter character : listEnemy) {
             if (rectangle.overlaps(character.getRectangle())) {
-                character.getHit(damage);
+                character.getHit(getCurrentDamage());
                 Vector2 ownerPos = new Vector2(owner.getX() + owner.getWidth() / 2, owner.getY() + owner.getHeight() / 2);
                 Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
                 character.addEffects(CharacterEffect.loadEffect(effectsEnum, monsterPos.sub(ownerPos)));
