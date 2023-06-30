@@ -1,14 +1,22 @@
 package com.mygdx.soulknight.entity.Character;
 
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Assassin extends Player {
-    private SpriteLoader immortalSpriteLoader = new SpriteLoader("character/assassin/special-skill.png","assassin");
+    private SpriteLoader immortalSpriteLoader;
     public Assassin() {
         super("assassin", null);
         totalTimeImplement = specialSkillCoolDown / 2;
+    }
+
+    @Override
+    public JsonObject load() {
+        JsonObject source = super.load();
+        immortalSpriteLoader = new SpriteLoader(source.get("immortal_texture_path").getAsString(), characterName);
+        return source;
     }
 
     @Override

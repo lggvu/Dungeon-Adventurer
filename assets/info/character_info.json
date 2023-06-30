@@ -10,7 +10,8 @@
         "width": 32,
         "height": 32,
         "weapon_x": 16,
-        "weapon_y": 16
+        "weapon_y": 16,
+        "dodge_texture_path": "character/img2.png"
     },
     "adventurer": {
         "type": "hero",
@@ -23,7 +24,8 @@
         "width": 32,
         "height": 32,
         "weapon_x": 12,
-        "weapon_y": 16
+        "weapon_y": 16,
+        "dodge_texture_path": "character/img2.png"
     },
     "jungler": {
         "type": "hero",
@@ -36,7 +38,8 @@
         "width": 32,
         "height": 32,
         "weapon_x": 16,
-        "weapon_y": 16
+        "weapon_y": 16,
+        "dodge_texture_path": "character/img2.png"
     },
     "assassin": {
         "type": "hero",
@@ -49,7 +52,9 @@
         "width": 20,
         "height": 28,
         "weapon_x": 16,
-        "weapon_y": 12
+        "weapon_y": 12,
+        "dodge_texture_path": "character/img2.png",
+        "immortal_texture_path": "character/assassin/special-skill.png"
     },
     "knight": {
         "type": "monster",
