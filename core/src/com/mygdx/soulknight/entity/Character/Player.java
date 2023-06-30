@@ -40,6 +40,8 @@ public abstract class Player extends SimpleCharacter {
     protected float totalTimeImplement = 0;
     protected float timeImplementLeft = 0;
     protected boolean isImplement = false;
+    protected float totalDodgeCooldown = 0.5f;
+    protected float currentDodgeCooldown = 0;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
     private Vector2 actualLastMoveDirection = new Vector2(1, 0);
@@ -199,10 +201,15 @@ public abstract class Player extends SimpleCharacter {
         spriteLoader = dodgeSpriteLoader;
         dodgeSpriteLoader = temp;
         isRunningDodge = false;
+        currentDodgeCooldown = totalDodgeCooldown;
     }
 
     @Override
     public void update(float deltaTime) {
+        currentDodgeCooldown -= deltaTime;
+        if (currentDodgeCooldown < 0) {
+            currentDodgeCooldown = 0;
+        }
         updatePlayerVision();
         if (isRunningDodge) {
             move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f);
@@ -265,7 +272,7 @@ public abstract class Player extends SimpleCharacter {
                 attack(attackDirection);
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.G)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.G) && !isRunningDodge && currentDodgeCooldown <= 0) {
                 stateTime = 0;
                 SpriteLoader temp = spriteLoader;
                 spriteLoader = dodgeSpriteLoader;

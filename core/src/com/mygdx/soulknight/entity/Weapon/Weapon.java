@@ -144,7 +144,8 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
             float height = source.get("height").getAsFloat();
             float origin_x = source.get("origin_x").getAsFloat();
             float origin_y = source.get("origin_y").getAsFloat();
-            Iterator<JsonElement> effects = source.get("effect").getAsJsonArray().iterator();
+
+            Iterator<JsonElement> effects = properties.get("effect").getAsJsonArray().iterator();
             ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
             while (effects.hasNext()) {
                 effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
@@ -156,16 +157,18 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
                 String shotExplosionTexturePath = source.get("shot_explosion_texture").getAsString();
                 float bulletSpeed = properties.get("bullet_speed").getAsFloat();
                 Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
+                gun.setNumWallCollide(properties.get("num_wall_collide").getAsInt());
+                gun.setNumEnemyHit(properties.get("num_enemy_hit").getAsInt());
+                gun.setNumDestroyObject(properties.get("num_destroy_object").getAsInt());
+                gun.setDegreeChangePerSec(properties.get("bullet_rotation_speed").getAsFloat());
                 gun.setSize(width, height);
 //                gun.setRotateCenter(origin_x, origin_y);
                 gun.addEffects(effectsEnum);
                 gun.setRotateCenter(origin_x, height / 2);
-                JsonElement jsonElement = source.get("attack_directions");
-                if (jsonElement != null) {
-                    Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
-                    while (directions.hasNext()) {
-                        gun.addDirectionAttack(directions.next().getAsFloat());
-                    }
+                JsonElement jsonElement = properties.get("attack_directions");
+                Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
+                while (directions.hasNext()) {
+                    gun.addDirectionAttack(directions.next().getAsFloat());
                 }
                 return gun;
             }

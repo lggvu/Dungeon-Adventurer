@@ -10,17 +10,24 @@
             "attack_speed": 1.2,
             "range": 400,
             "critical_rate": 0.25,
-            "bullet_speed": 600.0
+            "bullet_speed": 600.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH"
-        ]
+        "origin_y": 5
     },
     "Gun 2": {
         "type": "Gun",
@@ -33,17 +40,24 @@
             "attack_speed": 0.9,
             "range": 600,
             "critical_rate": 0.4,
-            "bullet_speed": 1000.0
+            "bullet_speed": 1000.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH"
-        ]
+        "origin_y": 5
     },
     "Gun Red S": {
         "type": "Gun",
@@ -56,17 +70,24 @@
             "attack_speed": 1.0,
             "range": 500,
             "critical_rate": 0.2,
-            "bullet_speed": 1000.0
+            "bullet_speed": 1000.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH"
-        ]
+        "origin_y": 5
     },
     "Gun Red M": {
         "type": "Gun",
@@ -79,19 +100,26 @@
             "attack_speed": 0.8,
             "range": 550,
             "critical_rate": 0.4,
-            "bullet_speed": 900.0
+            "bullet_speed": 900.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH",
+                "FIRE",
+                "MEDIUM_EXPLOSION"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH",
-            "FIRE",
-            "MEDIUM_EXPLOSION"
-        ]
+        "origin_y": 5
     },
     "Gun Red L": {
         "type": "Gun",
@@ -104,18 +132,25 @@
             "attack_speed": 0.5,
             "range": 550,
             "critical_rate": 0.6,
-            "bullet_speed": 850.0
+            "bullet_speed": 850.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH",
+                "POISON"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot3/shot3-explosion-start-sheet_1_3.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH",
-            "POISON"
-        ]
+        "origin_y": 5
     },
     "Gun Red XL": {
         "type": "Gun",
@@ -128,23 +163,28 @@
             "attack_speed": 0.4,
             "range": 650,
             "critical_rate": 1.0,
-            "bullet_speed": 800.0
+            "bullet_speed": 800.0,
+            "attack_directions": [
+                0,
+                15,
+                -15,
+                7.5,
+                -7.5
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot6/shot6-explosion-start-sheet_1_4.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH"
-        ],
-        "attack_directions": [
-            15,
-            -15,
-            7.5,
-            -7.5
-        ]
+        "origin_y": 5
     },
     "Gun Monster 1": {
         "type": "Gun",
@@ -157,18 +197,24 @@
             "attack_speed": 2.0,
             "range": 600,
             "critical_rate": 0.4,
-            "bullet_speed": 90.0
+            "bullet_speed": 90.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH",
-            "FIRE"
-        ]
+        "origin_y": 5
     },
     "Sword 1": {
         "type": "Sword",
@@ -191,15 +237,12 @@
             "energy_cost": 1.0,
             "attack_speed": 2.0,
             "range": 100,
-            "critical_rate": 2.0
+            "critical_rate": 2.0,
+            "effect": []
         },
         "width": 21,
         "height": 15,
         "origin_x": 1,
-        "origin_y": 5,
-        "effect": [
-            "STUN",
-            "PUSH"
-        ]
+        "origin_y": 5
     }
 }

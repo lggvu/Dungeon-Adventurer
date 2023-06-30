@@ -28,7 +28,7 @@ public class Gun extends Weapon {
     private int numWallCollide = 1;
     private int numEnemyHit = 1;
     private float degreeChangePerSec = 0;
-    protected ArrayList<Float> directionAttack = new ArrayList<>(Arrays.asList(0f));
+    protected ArrayList<Float> directionAttack = new ArrayList<>();
     protected boolean drawGun = true;
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
