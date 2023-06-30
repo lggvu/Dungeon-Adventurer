@@ -29,7 +29,7 @@ public class Bullet {
     private int numEnemyHit = 1;
     private float distanceLeft = 500f;
     private ArrayList<EffectEnum> effectsEnum;
-    private SimpleCharacter lastEnemyHit = null;
+    private ArrayList<SimpleCharacter> enemyHitRecently = new ArrayList<>();
     private SimpleCharacter target = null;
     private float degreeChangePerSec = 60f;
     public Vector2 getDirection() {
@@ -145,12 +145,20 @@ public class Bullet {
             }
         }
 
+        ArrayList<SimpleCharacter> rmList = new ArrayList<>();
+        for (SimpleCharacter character : enemyHitRecently) {
+            if (!character.getRectangle().overlaps(rectangle)) {
+                rmList.add(character);
+            }
+        }
+        enemyHitRecently.removeAll(rmList);
+
         for (SimpleCharacter character : owner.getEnemyList()) {
-            if (character.getRectangle().overlaps(rectangle) && (lastEnemyHit == null || !character.equals(lastEnemyHit))) {
+            if (character.getRectangle().overlaps(rectangle) && !enemyHitRecently.contains(rmList)) {
                 character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
                 numEnemyHit--;
                 character.getHit(damage, DamageType.PHYSIC);
-                lastEnemyHit = character;
+                enemyHitRecently.add(character);
                 break;
             }
         }
