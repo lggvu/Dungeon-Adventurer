@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="62" nextobjectid="761">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="62" nextobjectid="771">
  <tileset firstgid="1" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
  <tileset firstgid="193" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="ground" width="150" height="150">
@@ -541,7 +541,6 @@
   <object id="86" gid="79" x="240" y="1408" width="16" height="16"/>
   <object id="87" gid="79" x="256" y="1408" width="16" height="16"/>
   <object id="88" gid="79" x="272" y="1408" width="16" height="16"/>
-  <object id="89" x="192" y="1392" width="96" height="17"/>
   <object id="97" gid="79" x="192" y="448" width="16" height="16"/>
   <object id="98" gid="79" x="208" y="448" width="16" height="16"/>
   <object id="99" gid="79" x="224" y="448" width="16" height="16"/>
@@ -591,8 +590,9 @@
   <object id="150" gid="79" x="1904" y="256.5" width="16" height="16"/>
   <object id="151" gid="79" x="1904" y="272.5" width="16" height="16"/>
   <object id="152" x="1904" y="175.5" width="15" height="96"/>
+  <object id="761" x="192" y="1392" width="96" height="16"/>
  </objectgroup>
- <objectgroup id="5" name="collision_layer">
+ <objectgroup id="5" name="collision_layer" visible="0">
   <object id="153" x="10" y="0" width="476" height="16"/>
   <object id="154" x="11" y="432" width="180" height="17"/>
   <object id="155" x="288" y="432" width="198" height="17"/>
@@ -680,7 +680,7 @@
   <object id="636" x="225.333" y="14.6667" width="13.3333" height="340"/>
   <object id="637" x="97.3333" y="352" width="270.667" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="destroyable_object">
+ <objectgroup id="6" name="destroyable_object" visible="0">
   <object id="253" gid="1481" x="2064" y="1200" width="16" height="16"/>
   <object id="254" gid="1481" x="2080" y="1200" width="16" height="16"/>
   <object id="255" gid="1481" x="2096" y="1200" width="16" height="16"/>
@@ -925,7 +925,7 @@
   <object id="760" name="POISON_REGION" gid="174" x="358.667" y="2245.33" width="16" height="16"/>
  </objectgroup>
  <group id="7" name="room">
-  <group id="26" name="4" visible="0">
+  <group id="26" name="4">
    <objectgroup id="30" name="EASY" visible="0">
     <object id="556" name="knight" x="2235" y="1070">
      <point/>
@@ -989,7 +989,7 @@
     <object id="492" x="1920" y="977" width="464" height="418"/>
    </objectgroup>
   </group>
-  <group id="25" name="3" visible="0">
+  <group id="25" name="3">
    <objectgroup id="31" name="EASY">
     <object id="560" name="knight" x="1972" y="194">
      <point/>
@@ -1053,7 +1053,7 @@
     <object id="491" x="1920" y="19" width="465" height="416"/>
    </objectgroup>
   </group>
-  <group id="23" name="1" visible="0">
+  <group id="23" name="1">
    <objectgroup id="32" name="EASY">
     <object id="571" name="knight" x="65" y="339">
      <point/>
@@ -1117,7 +1117,7 @@
     <object id="489" x="16" y="15" width="463" height="419"/>
    </objectgroup>
   </group>
-  <group id="24" name="2" visible="0">
+  <group id="24" name="2">
    <objectgroup id="33" name="EASY" visible="0">
     <object id="567" name="knight" x="1361" y="210">
      <point/>
@@ -1182,7 +1182,7 @@
    </objectgroup>
   </group>
   <group id="22" name="0">
-   <objectgroup id="34" name="EASY">
+   <objectgroup id="34" name="EASY" visible="0">
     <object id="575" name="knight" x="416" y="1198">
      <point/>
     </object>
@@ -1196,7 +1196,7 @@
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="42" name="MEDIUM">
+   <objectgroup id="42" name="MEDIUM" visible="0">
     <object id="654" name="knight" x="416" y="1198">
      <point/>
     </object>
@@ -1245,7 +1245,7 @@
     <object id="483" x="15" y="976" width="464" height="416"/>
    </objectgroup>
   </group>
-  <group id="29" name="final_room" visible="0">
+  <group id="29" name="final_room">
    <objectgroup id="35" name="EASY" visible="0">
     <object id="576" name="teacher" x="2037" y="2036">
      <properties>
@@ -1347,7 +1347,7 @@
     </object>
    </objectgroup>
   </group>
-  <group id="28" name="6" visible="0">
+  <group id="28" name="6">
    <objectgroup id="36" name="EASY" visible="0">
     <object id="552" name="knight" x="1326" y="1064">
      <point/>
@@ -1426,7 +1426,7 @@
     <object id="495" x="988" y="977" width="469" height="418"/>
    </objectgroup>
   </group>
-  <group id="27" name="5" visible="0">
+  <group id="27" name="5">
    <objectgroup id="37" name="EASY">
     <object id="548" name="knight" x="1093" y="2158">
      <point/>
