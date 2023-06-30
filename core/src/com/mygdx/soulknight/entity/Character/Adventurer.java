@@ -16,7 +16,7 @@ public class Adventurer extends Player {
     public Adventurer() {
         super("adventurer", null);
         specialGun = new Gun("weapon/sword.png", "bullet/bullet4.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 0.2f, 500, 0.3f, 500f);
-        specialGun.addDirectionAttack(45, 90, 135, 180, 235, 270, 315);
+        specialGun.addDirectionAttack(0, 45, 90, 135, 180, 235, 270, 315);
         specialGun.setOwner(this);
         specialGun.setDrawGun(false);
     }
