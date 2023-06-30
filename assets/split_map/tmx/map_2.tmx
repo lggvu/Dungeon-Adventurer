@@ -464,7 +464,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="door_layer" visible="0">
+ <objectgroup id="4" name="door_layer">
   <object id="13" gid="79" x="2112" y="448" width="16" height="16"/>
   <object id="14" gid="79" x="2128" y="448" width="16" height="16"/>
   <object id="15" gid="79" x="2144" y="448" width="16" height="16"/>
@@ -925,7 +925,7 @@
   <object id="760" name="POISON_REGION" gid="174" x="358.667" y="2245.33" width="16" height="16"/>
  </objectgroup>
  <group id="7" name="room">
-  <group id="26" name="4">
+  <group id="26" name="4" visible="0">
    <objectgroup id="30" name="EASY" visible="0">
     <object id="556" name="knight" x="2235" y="1070">
      <point/>
@@ -989,7 +989,7 @@
     <object id="492" x="1920" y="977" width="464" height="418"/>
    </objectgroup>
   </group>
-  <group id="25" name="3">
+  <group id="25" name="3" visible="0">
    <objectgroup id="31" name="EASY">
     <object id="560" name="knight" x="1972" y="194">
      <point/>
@@ -1053,7 +1053,7 @@
     <object id="491" x="1920" y="19" width="465" height="416"/>
    </objectgroup>
   </group>
-  <group id="23" name="1">
+  <group id="23" name="1" visible="0">
    <objectgroup id="32" name="EASY">
     <object id="571" name="knight" x="65" y="339">
      <point/>
@@ -1117,7 +1117,7 @@
     <object id="489" x="16" y="15" width="463" height="419"/>
    </objectgroup>
   </group>
-  <group id="24" name="2">
+  <group id="24" name="2" visible="0">
    <objectgroup id="33" name="EASY" visible="0">
     <object id="567" name="knight" x="1361" y="210">
      <point/>
@@ -1241,11 +1241,11 @@
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="16" name="area" visible="0">
+   <objectgroup id="16" name="area">
     <object id="483" x="15" y="976" width="464" height="416"/>
    </objectgroup>
   </group>
-  <group id="29" name="final_room">
+  <group id="29" name="final_room" visible="0">
    <objectgroup id="35" name="EASY" visible="0">
     <object id="576" name="teacher" x="2037" y="2036">
      <properties>
@@ -1339,15 +1339,15 @@
     </object>
    </objectgroup>
   </group>
-  <group id="21" name="start_room">
-   <objectgroup id="17" name="area" visible="0">
+  <group id="21" name="start_room" visible="0">
+   <objectgroup id="17" name="area">
     <object id="507" x="17" y="1970" width="461" height="414"/>
     <object id="580" name="start_point" x="108" y="2299">
      <point/>
     </object>
    </objectgroup>
   </group>
-  <group id="28" name="6">
+  <group id="28" name="6" visible="0">
    <objectgroup id="36" name="EASY" visible="0">
     <object id="552" name="knight" x="1326" y="1064">
      <point/>

@@ -47,7 +47,7 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game, Player player) {
         this.game = game;
         this.player = player;
-        map = new WorldMap("split_map/tmx/map_2.tmx", player);
+        map = new WorldMap("map/map/map3.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
         backgroundMusic = Settings.music;
