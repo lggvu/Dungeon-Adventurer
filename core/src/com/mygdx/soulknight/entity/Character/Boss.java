@@ -29,7 +29,6 @@ public class Boss extends Monster {
         gun_2.setDrawGun(false);
         gun_3.setDrawGun(false);
         for (int i = -30; i <= 30; i+=5) {
-            if (i == 0) {continue;}
             gun_1.addDirectionAttack(i);
             gun_2.addDirectionAttack(i);
             gun_3.addDirectionAttack(i);
