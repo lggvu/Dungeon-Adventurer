@@ -120,15 +120,19 @@ public class SpriteLoader {
         return bestID;
     }
 
-    public Animation<TextureRegion> getWalkFrames(Vector2 vectorDirection) {
+    public Animation<TextureRegion> getWalkFrames(Vector2 vectorDirection, float annimationSpeed) {
         int direction = getBestFit(vectorDirection);
 //        direction 0: 0, direction 1: 90, direction 2: 180, direction 3: 270
         TextureRegion[] walkFrames = new TextureRegion[frameCols];
         for (int i = 0; i < frameCols; i++) {
             walkFrames[i] = textureRegions[direction][i];
         }
-        Animation<TextureRegion> walkAnimation = new Animation<TextureRegion>(ANIMATION_SPEED, walkFrames);
+        Animation<TextureRegion> walkAnimation = new Animation<TextureRegion>(annimationSpeed, walkFrames);
         return walkAnimation;
+    }
+
+    public Animation<TextureRegion> getWalkFrames(Vector2 vectorDirection) {
+        return getWalkFrames(vectorDirection, ANIMATION_SPEED);
     }
 
     public int getImgCharacterWidth() {

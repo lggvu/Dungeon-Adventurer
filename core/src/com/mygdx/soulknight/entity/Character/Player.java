@@ -16,6 +16,7 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.badlogic.gdx.Input;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +31,9 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
+    protected SpriteLoader dodgeSpriteLoader;
+    protected float totalTimeDodge = 0.5f;
+    protected boolean isRunningDodge = false;
     protected float specialSkillCoolDown = 5;
     protected boolean isCoolingDown = false;
     protected float coolDownTimer = 5;
@@ -38,6 +42,7 @@ public abstract class Player extends SimpleCharacter {
     protected boolean isImplement = false;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
+    private Vector2 actualLastMoveDirection = new Vector2(1, 0);
 
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
@@ -55,6 +60,7 @@ public abstract class Player extends SimpleCharacter {
         this.maxArmor = source.get("armor").getAsInt();
         maxArmor = Integer.MAX_VALUE - 100;
         this.currentArmor = getCurrentMaxArmor();
+        dodgeSpriteLoader = new SpriteLoader("character/img2.png", "young");
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
@@ -187,17 +193,33 @@ public abstract class Player extends SimpleCharacter {
         return false;
     }
 
+    public void disableDodgeMode() {
+        stateTime = 0;
+        SpriteLoader temp = spriteLoader;
+        spriteLoader = dodgeSpriteLoader;
+        dodgeSpriteLoader = temp;
+        isRunningDodge = false;
+    }
+
     @Override
     public void update(float deltaTime) {
         updatePlayerVision();
-        applyEffect(deltaTime);
+        if (isRunningDodge) {
+            move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f);
+            stateTime += deltaTime;
+            if (stateTime > totalTimeDodge) {
+                disableDodgeMode();
+            }
+        } else {
+            applyEffect(deltaTime);
+        }
         if (isCoolingDown) {
             coolDownTimer -= deltaTime;
             if (coolDownTimer <= 0) {
                 isCoolingDown = false;
             }
         }
-        if (!isStunned || getAbility().isStunImmunity()) {
+        if (!isRunningDodge && (!isStunned || getAbility().isStunImmunity())) {
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -221,9 +243,9 @@ public abstract class Player extends SimpleCharacter {
             }
 
             if (moveDirection.x != 0 || moveDirection.y != 0) {
-
                 moveDirection = moveDirection.nor();
                 move(moveDirection.x, moveDirection.y, deltaTime);
+                actualLastMoveDirection = new Vector2(moveDirection.x, moveDirection.y).nor();
             } else {
                 stateTime = 0;
                 texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
@@ -241,6 +263,14 @@ public abstract class Player extends SimpleCharacter {
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 attack(attackDirection);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.G)) {
+                stateTime = 0;
+                SpriteLoader temp = spriteLoader;
+                spriteLoader = dodgeSpriteLoader;
+                dodgeSpriteLoader = temp;
+                isRunningDodge = true;
             }
         }
 
