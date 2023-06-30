@@ -37,6 +37,7 @@ public abstract class Player extends SimpleCharacter {
     private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("cooldown_circle.png"), 1, 388, 256, 256), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
+            super.activateSkill();
             SpriteLoader temp = spriteLoader;
             spriteLoader = dodgeSpriteLoader;
             dodgeSpriteLoader = temp;
@@ -44,6 +45,7 @@ public abstract class Player extends SimpleCharacter {
 
         @Override
         public void deactivateSkill() {
+            super.deactivateSkill();
             SpriteLoader temp = spriteLoader;
             spriteLoader = dodgeSpriteLoader;
             dodgeSpriteLoader = temp;
