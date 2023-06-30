@@ -6,7 +6,7 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 
 public class Lightning extends CharacterEffect {
-    private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/stun.png"));
+    private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/character_effect/Electrify.png"));
     private float timeLeft = 3f;
     private float timeEffectAgain = 1f;
     private float timeCount = 0.4f;

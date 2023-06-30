@@ -34,7 +34,7 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
-    private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("cooldown_circle.png"), 1, 388, 256, 256), 0.5f, 0.5f) {
+    private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
             super.activateSkill();

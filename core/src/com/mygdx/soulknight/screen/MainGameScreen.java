@@ -54,7 +54,7 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
         specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Input.Keys.P);
-        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,4f, Input.Keys.H);
+        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Input.Keys.H);
         coolDownBar = new CoolDownBar(player);
     }
 
@@ -125,7 +125,7 @@ public class MainGameScreen extends ScreenAdapter {
         stage3.dispose();
         backgroundMusic.dispose();
         specialSkillCooldownButton.disposeShapeRenderer();
-
+        dodgeCooldownBtn.disposeShapeRenderer();
     }
 
     
