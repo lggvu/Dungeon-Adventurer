@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.PlayerSkill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.util.SpriteLoader;
@@ -17,20 +19,24 @@ public class Adventurer extends Player {
         specialGun.addDirectionAttack(45, 90, 135, 180, 235, 270, 315);
         specialGun.setOwner(this);
         specialGun.setDrawGun(false);
-        specialSkillCoolDown = 1f;
-        totalTimeImplement = specialSkillCoolDown * 5;
     }
+
     @Override
-    public void applySpecialSkill(float deltaTime) {
+    public JsonObject load() {
+        JsonObject source = super.load();
+        String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
+        specialSkill = new PlayerSkill(
+                new TextureRegion(new Texture(textureSpecPath), 1, 388, 256, 256),
+                1f, 1f);
+        return source;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
         specialGun.update(deltaTime);
-        if (timeImplementLeft > 0) {
-            timeImplementLeft -= deltaTime;
+        if (specialSkill.isInProgresss()) {
             specialGun.attack(lastMoveDirection);
-            if (timeImplementLeft <= 0) {
-                isImplement = false;
-                isCoolingDown = true;
-                coolDownTimer = specialSkillCoolDown;
-            }
         }
     }
 

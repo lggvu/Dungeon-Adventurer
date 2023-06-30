@@ -1,7 +1,9 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
@@ -12,6 +14,7 @@ import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.entity.PlayerSkill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -31,17 +34,23 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
+    private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("cooldown_circle.png"), 1, 388, 256, 256), 0.5f, 0.5f) {
+        @Override
+        public void activateSkill() {
+            SpriteLoader temp = spriteLoader;
+            spriteLoader = dodgeSpriteLoader;
+            dodgeSpriteLoader = temp;
+        }
+
+        @Override
+        public void deactivateSkill() {
+            SpriteLoader temp = spriteLoader;
+            spriteLoader = dodgeSpriteLoader;
+            dodgeSpriteLoader = temp;
+        }
+    };
+    protected PlayerSkill specialSkill;
     protected SpriteLoader dodgeSpriteLoader;
-    protected float totalTimeDodge = 0.5f;
-    protected boolean isRunningDodge = false;
-    protected float specialSkillCoolDown = 5;
-    protected boolean isCoolingDown = false;
-    protected float coolDownTimer = 5;
-    protected float totalTimeImplement = 0;
-    protected float timeImplementLeft = 0;
-    protected boolean isImplement = false;
-    protected float totalDodgeCooldown = 0.5f;
-    protected float currentDodgeCooldown = 0;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
     private Vector2 actualLastMoveDirection = new Vector2(1, 0);
@@ -173,20 +182,6 @@ public abstract class Player extends SimpleCharacter {
             }
         }
     }
-    public abstract void applySpecialSkill(float deltaTime);
-    public void activateSpecialSkill() {
-        isImplement = true;
-        timeImplementLeft = totalTimeImplement;
-    }
-    public boolean isCoolingDown() {
-        return isCoolingDown;
-    }
-    public float getCoolDownTimer() {
-        return coolDownTimer;
-    }
-    public float getSpecialSkillCoolDown() {
-        return specialSkillCoolDown;
-    }
 
     public boolean isInVision(SimpleCharacter character) {
         if (monsterInVision.containsKey(character)) {
@@ -195,38 +190,17 @@ public abstract class Player extends SimpleCharacter {
         return false;
     }
 
-    public void disableDodgeMode() {
-        stateTime = 0;
-        SpriteLoader temp = spriteLoader;
-        spriteLoader = dodgeSpriteLoader;
-        dodgeSpriteLoader = temp;
-        isRunningDodge = false;
-        currentDodgeCooldown = totalDodgeCooldown;
-    }
-
     @Override
     public void update(float deltaTime) {
-        currentDodgeCooldown -= deltaTime;
-        if (currentDodgeCooldown < 0) {
-            currentDodgeCooldown = 0;
-        }
         updatePlayerVision();
-        if (isRunningDodge) {
+        specialSkill.update(deltaTime);
+        dodgeSkill.update(deltaTime);
+        if (dodgeSkill.isInProgresss()) {
             move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f);
-            stateTime += deltaTime;
-            if (stateTime > totalTimeDodge) {
-                disableDodgeMode();
-            }
         } else {
             applyEffect(deltaTime);
         }
-        if (isCoolingDown) {
-            coolDownTimer -= deltaTime;
-            if (coolDownTimer <= 0) {
-                isCoolingDown = false;
-            }
-        }
-        if (!isRunningDodge && (!isStunned || getAbility().isStunImmunity())) {
+        if (!dodgeSkill.isInProgresss() && (!isStunned || getAbility().isStunImmunity())) {
             Vector2 moveDirection = new Vector2(0, 0);
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -271,14 +245,6 @@ public abstract class Player extends SimpleCharacter {
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 attack(attackDirection);
             }
-
-            if (Gdx.input.isKeyPressed(Input.Keys.G) && !isRunningDodge && currentDodgeCooldown <= 0) {
-                stateTime = 0;
-                SpriteLoader temp = spriteLoader;
-                spriteLoader = dodgeSpriteLoader;
-                dodgeSpriteLoader = temp;
-                isRunningDodge = true;
-            }
         }
 
         ArrayList<Pickable> collectItem = autoCollect();
@@ -312,7 +278,6 @@ public abstract class Player extends SimpleCharacter {
             weapon.update(deltaTime);
         }
 
-        applySpecialSkill(deltaTime);
         for (Pickable item : collectItem) {
             if (item instanceof Item) {
                 ((Item) item).use(this);
@@ -404,19 +369,15 @@ public abstract class Player extends SimpleCharacter {
         return null;
     }
 
-    public float getTotalTimeImplement() {
-        return totalTimeImplement;
-    }
-
-    public float getTimeImplementLeft() {
-        return timeImplementLeft;
-    }
-
-    public boolean isImplement() {
-        return isImplement;
-    }
-
     public void setCurrentArmor(int currentArmor) {
         this.currentArmor = currentArmor;
+    }
+
+    public PlayerSkill getDodgeSkill() {
+        return dodgeSkill;
+    }
+
+    public PlayerSkill getSpecialSkill() {
+        return specialSkill;
     }
 }

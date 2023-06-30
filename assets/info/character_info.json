@@ -11,7 +11,8 @@
         "height": 32,
         "weapon_x": 16,
         "weapon_y": 16,
-        "dodge_texture_path": "character/img2.png"
+        "dodge_texture_path": "character/img2.png",
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     },
     "adventurer": {
         "type": "hero",
@@ -25,7 +26,8 @@
         "height": 32,
         "weapon_x": 12,
         "weapon_y": 16,
-        "dodge_texture_path": "character/img2.png"
+        "dodge_texture_path": "character/img2.png",
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     },
     "jungler": {
         "type": "hero",
@@ -39,7 +41,8 @@
         "height": 32,
         "weapon_x": 16,
         "weapon_y": 16,
-        "dodge_texture_path": "character/img2.png"
+        "dodge_texture_path": "character/img2.png",
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     },
     "assassin": {
         "type": "hero",
@@ -54,7 +57,8 @@
         "weapon_x": 16,
         "weapon_y": 12,
         "dodge_texture_path": "character/img2.png",
-        "immortal_texture_path": "character/assassin/special-skill.png"
+        "immortal_texture_path": "character/assassin/special-skill.png",
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     },
     "knight": {
         "type": "monster",
@@ -65,7 +69,8 @@
         "width": 32,
         "height": 32,
         "weapon_x": 16,
-        "weapon_y": 16
+        "weapon_y": 16,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     },
     "teacher": {
         "type": "boss",
@@ -76,6 +81,7 @@
         "width": 64,
         "height": 64,
         "weapon_x": 32,
-        "weapon_y": 32
+        "weapon_y": 32,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png"
     }
 }
