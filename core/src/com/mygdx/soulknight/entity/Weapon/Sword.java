@@ -8,42 +8,51 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 
 public class Sword extends Weapon {
     private Animation<TextureRegion> swordAnimation;
-    private float stateTime;
-    private TextureRegion[][] frames;
+    private float stateTime = 0;
     private boolean isAttacking;
     private Vector2 attackDirection;
-
-//    private class Slice {
-//        private
-//    }
 
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
     }
 
-    public void setEffectFrames(TextureRegion[][] frames) {
-        this.frames = frames;
+    public Sword() { super(); }
+
+    @Override
+    public JsonObject load(JsonObject jsonObject) {
+        jsonObject = super.load(jsonObject);
+        initWeaponTexture(jsonObject.get("sword_texture").getAsString());
+        JsonObject effectTexture = jsonObject.get("effect_texture").getAsJsonObject();
+        Texture texture = new Texture(effectTexture.get("path").getAsString());
+        TextureRegion[][] frames = SpriteLoader.splitTexture(
+                texture,
+                effectTexture.get("imgWidth").getAsInt(), effectTexture.get("imgHeight").getAsInt(),
+                effectTexture.get("gapWidth").getAsInt(), effectTexture.get("gapHeight").getAsInt(),
+                effectTexture.get("paddingWidth").getAsInt(), effectTexture.get("paddingHeight").getAsInt(),
+                effectTexture.get("frameCols").getAsInt(), effectTexture.get("frameRows").getAsInt(),
+                effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
+        );
+        swordAnimation = new Animation<>(0.05f, frames[0]);
+        return jsonObject;
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        stateTime += deltaTime;
         if (owner != null && owner.isFlipX() != texture.isFlipY()) {
             texture.flip(false, true);
-            for (int i = 0; i < frames.length; i++) {
-                for (int j = 0; j < frames[i].length; j++) {
-                    frames[i][j].flip(false, true);
-                }
-            }
         }
         // Add any additional update logic for the sword here
     }
@@ -87,7 +96,6 @@ public class Sword extends Weapon {
 
             // Create the animation object and define the frame duration
             float frameDuration = 0.05f; // Adjust the duration as per your preference
-            swordAnimation = new Animation<>(frameDuration, frames[0]);
 
             stateTime += Gdx.graphics.getDeltaTime();
 

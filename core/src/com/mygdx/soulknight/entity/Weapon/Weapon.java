@@ -41,9 +41,7 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     protected boolean drawWeapon = true;
 
     public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
-        this.texturePath = texturePath;
-        this.texture = new TextureRegion(new Texture(texturePath));
-        textureForDrawer = new TextureRegion(new Texture(texturePath));
+        initWeaponTexture(texturePath);
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
         this.damage = damage;
@@ -53,6 +51,11 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         weaponID = ID++;
     }
 
+    protected void initWeaponTexture(String texturePath) {
+        this.texturePath = texturePath;
+        this.texture = new TextureRegion(new Texture(texturePath));
+        textureForDrawer = new TextureRegion(new Texture(texturePath));
+    }
     @Override
     public String toString() {
         return "Weapon " + weaponID;
@@ -130,73 +133,32 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         this.originX = jsonObject.get("origin_x").getAsFloat();
         float originY = jsonObject.get("origin_y").getAsFloat();
         this.originY = height / 2;
+        Iterator<JsonElement> effects = properties.get("effect").getAsJsonArray().iterator();
+        ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
+        while (effects.hasNext()) {
+            effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
+        }
+        this.addEffects(effectsEnum);
         return jsonObject;
     }
 
-    public static Weapon load(String weaponName) {
-        return load(weaponName, "info/weapon_info.json");
+    public void setName(String name) {
+        this.name = name;
     }
-    public static Weapon load(String weaponName, String infoPath) {
+    public static Weapon load(String weaponName) {
         try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(INFO_PATH).reader(), JsonObject.class);
             JsonObject source = json.get(weaponName).getAsJsonObject();
-            JsonObject properties = source.get("properties").getAsJsonObject();
-            int damage = properties.get("damage").getAsInt();
-            int energyCost = properties.get("energy_cost").getAsInt();
-            float attackSpeed = properties.get("attack_speed").getAsFloat();
-            int range = properties.get("range").getAsInt();
-            float criticalRate = properties.get("critical_rate").getAsFloat();
-            float width = source.get("width").getAsFloat();
-            float height = source.get("height").getAsFloat();
-            float origin_x = source.get("origin_x").getAsFloat();
-            float origin_y = source.get("origin_y").getAsFloat();
-
-            Iterator<JsonElement> effects = properties.get("effect").getAsJsonArray().iterator();
-            ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
-            while (effects.hasNext()) {
-                effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
-            }
-
+            Weapon weapon = null;
             if (source.get("type").getAsString().equals("Gun")) {
-                String bulletTexturePath = source.get("bullet_texture").getAsString();
-                String explosionTexturePath = source.get("explosion_texture").getAsString();
-                String shotExplosionTexturePath = source.get("shot_explosion_texture").getAsString();
-                float bulletSpeed = properties.get("bullet_speed").getAsFloat();
-                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
-                gun.setNumWallCollide(properties.get("num_wall_collide").getAsInt());
-                gun.setNumEnemyHit(properties.get("num_enemy_hit").getAsInt());
-                gun.setNumDestroyObject(properties.get("num_destroy_object").getAsInt());
-                gun.setDegreeChangePerSec(properties.get("bullet_rotation_speed").getAsFloat());
-                gun.setSize(width, height);
-//                gun.setRotateCenter(origin_x, origin_y);
-                gun.addEffects(effectsEnum);
-                gun.setRotateCenter(origin_x, height / 2);
-                JsonElement jsonElement = properties.get("attack_directions");
-                Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
-                while (directions.hasNext()) {
-                    gun.addDirectionAttack(directions.next().getAsFloat());
-                }
-                return gun;
+                weapon = new Gun();
             }
             else if (source.get("type").getAsString().equals("Sword")) {
-                Sword sword = new Sword(source.get("sword_texture").getAsString(), damage, energyCost, attackSpeed, range, criticalRate);
-                JsonObject effectTexture = source.get("effect_texture").getAsJsonObject();
-                Texture texture = new Texture(effectTexture.get("path").getAsString());
-                TextureRegion[][] frames = SpriteLoader.splitTexture(
-                        texture,
-                        effectTexture.get("imgWidth").getAsInt(), effectTexture.get("imgHeight").getAsInt(),
-                        effectTexture.get("gapWidth").getAsInt(), effectTexture.get("gapHeight").getAsInt(),
-                        effectTexture.get("paddingWidth").getAsInt(), effectTexture.get("paddingHeight").getAsInt(),
-                        effectTexture.get("frameCols").getAsInt(), effectTexture.get("frameRows").getAsInt(),
-                        effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
-                );
-                sword.setEffectFrames(frames);
-                sword.setSize(width, height);
-                sword.setRotateCenter(origin_x, height / 2);
-//                sword.setRotateCenter(origin_x, origin_y);
-                sword.addEffects(effectsEnum);
-                return sword;
+                weapon = new Sword();
             }
+            weapon.load(source);
+            weapon.setName(weaponName);
+            return weapon;
         } catch (Exception e) {
             e.printStackTrace();
         }
