@@ -102,9 +102,9 @@ public class Bullet {
 
         float testX = this.x, testY = this.y;
         Rectangle rectangle = null;
-        boolean foundNewDirection = false;
+        boolean noCollide = false;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             testX = this.x + direction.x * speed * deltaTime;
             testY = this.y + direction.y * speed * deltaTime;
             rectangle = new Rectangle(testX, testY, width, height);
@@ -113,27 +113,34 @@ public class Bullet {
                     numWallCollide -= 1;
                 }
                 if (numWallCollide > 0) {
+                    boolean objectX = false, objectY = false;
                     // this script will implement bouncing bullet
                     Rectangle rectangle1 = new Rectangle(testX, this.y, width, height);
                     if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
-//                    only update x but still collision
-                        direction = new Vector2(-direction.x, direction.y);
-                        update(deltaTime);
-                        continue;
+//                    collide detect when update x
+                        objectX = true;
                     }
                     rectangle1 = new Rectangle(this.x, testY, width, height);
                     if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
-//                    only update y but still collision
+//                    collide detect when update y
+                        objectY = true;
+                    }
+
+                    if (objectX == objectY) {
+                        direction = new Vector2(-direction.x, -direction.y);
+                    } else if (objectX) {
+                        direction = new Vector2(-direction.x, direction.y);
+                    } else if (objectY) {
                         direction = new Vector2(direction.x, -direction.y);
-                        update(deltaTime);
-                        continue;
                     }
                 }
+            } else {
+                noCollide = true;
+                break;
             }
-            foundNewDirection = true;
         }
 
-        if (!foundNewDirection) {
+        if (!noCollide) {
             return;
         }
 
