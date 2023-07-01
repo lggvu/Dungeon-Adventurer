@@ -53,4 +53,9 @@ public class TextItem {
         return layout;
     }
 
+    public void dispose() {
+        normalFont.dispose();
+        hoverFont.dispose();
+    }
+
 }

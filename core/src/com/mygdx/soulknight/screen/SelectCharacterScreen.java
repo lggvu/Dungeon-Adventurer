@@ -75,7 +75,8 @@ public class SelectCharacterScreen extends ScreenAdapter {
             if (Gdx.input.isTouched() && selectedText != null) {
                 String txt = selectedText.getText();
                 if (txt.equals("Assassin")) {
-                    game.setScreen(new MainGameScreen(game, new Assassin()));
+//                    game.setScreen(new MainGameScreen(game, new Assassin()));
+                    game.setScreen(new SelectAbilityScreen(game, Level.MEDIUM, new Assassin()));
                 } else if (txt.equals("Adventurer")) {
                     game.setScreen(new MainGameScreen(game, new Adventurer()));
                 } else {
