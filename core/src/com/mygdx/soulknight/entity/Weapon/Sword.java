@@ -22,6 +22,10 @@ public class Sword extends Weapon {
     private boolean isAttacking;
     private Vector2 attackDirection;
 
+//    private class Slice {
+//        private
+//    }
+
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
     }
@@ -64,18 +68,18 @@ public class Sword extends Weapon {
             return;
         }
         // Draw the sword
-        if (!isAttacking) {
+        if (!isAttacking && !onGround) {
             float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
             float dlX = 0;
             float dlY = 0;
             if (texture.isFlipY()) {
-                dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
-                dlY = owner.getY() + owner.getWeaponY() - origin_y;
+                dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - originX);
+                dlY = owner.getY() + owner.getWeaponY() - originY;
             } else {
-                dlX = owner.getX() + owner.getWeaponX() - origin_x;
-                dlY = owner.getY() + owner.getWeaponY() - origin_y;
+                dlX = owner.getX() + owner.getWeaponX() - originX;
+                dlY = owner.getY() + owner.getWeaponY() - originY;
             }
-            batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
+            batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
         }
         // Draw effect when attacking
         if (isAttacking) {
@@ -106,7 +110,6 @@ public class Sword extends Weapon {
         }
     }
 
-    @Override
     public void dealDamageMethod() {
         ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
         Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);

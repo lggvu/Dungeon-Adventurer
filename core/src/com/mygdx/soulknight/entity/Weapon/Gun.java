@@ -19,17 +19,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Gun extends Weapon {
-    protected ArrayList<Bullet> bulletArrayList = new ArrayList<>();
+    private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-    protected TextureRegion bulletTextureRegion;
-    protected Animation<TextureRegion> explosionAnimation;
-    protected Animation<TextureRegion> shotExplosionAnimation;
+    private TextureRegion bulletTextureRegion;
+    private Animation<TextureRegion> explosionAnimation;
+    private Animation<TextureRegion> shotExplosionAnimation;
     private int numDestroyObject = 1;
     private int numWallCollide = 1;
     private int numEnemyHit = 1;
     private float degreeChangePerSec = 0;
-    protected ArrayList<Float> directionAttack = new ArrayList<>();
-    protected boolean drawGun = true;
+    private ArrayList<Float> directionAttack = new ArrayList<>();
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
@@ -56,12 +55,13 @@ public class Gun extends Weapon {
             gunBarrelX += owner.getX() + owner.getWeaponX();
             gunBarrelY += owner.getY() + owner.getWeaponY();
         }
-        gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
-        gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
+        gunBarrelX += (width - originX) * MathUtils.cosDeg(degree);
+        gunBarrelY += (width - originX) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
         bulletArrayList.add(new Bullet(owner, bulletTextureRegion, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
                 bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon));
     }
+
 
     public void setNumDestroyObject(int numDestroyObject) {
         this.numDestroyObject = numDestroyObject;
@@ -120,7 +120,7 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
-        if (!drawGun) {
+        if (!drawWeapon) {
             return;
         }
         if (onGround) {
@@ -131,36 +131,21 @@ public class Gun extends Weapon {
         float dlX = 0;
         float dlY = 0;
         if (texture.isFlipY()) {
-            dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
-            dlY = owner.getY() + owner.getWeaponY() - origin_y;
+            dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - originX);
+            dlY = owner.getY() + owner.getWeaponY() - originY;
         } else {
-            dlX = owner.getX() + owner.getWeaponX() - origin_x;
-            dlY = owner.getY() + owner.getWeaponY() - origin_y;
+            dlX = owner.getX() + owner.getWeaponX() - originX;
+            dlY = owner.getY() + owner.getWeaponY() - originY;
         }
-        batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
+        batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
     }
-
-    @Override
-    public void dealDamageMethod() {
-
-    }
-
     public int getCurrentNumWallCollide() {
         if (owner != null) {
             return numWallCollide + owner.getAbility().getWallCollideIncrease();
         }
         return numWallCollide;
     }
-
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;
-    }
-
-    public void setBulletSpeed(float bulletSpeed) {
-        this.bulletSpeed = bulletSpeed;
-    }
-
-    public void setDrawGun(boolean drawGun) {
-        this.drawGun = drawGun;
     }
 }

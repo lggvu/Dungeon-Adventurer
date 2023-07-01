@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Effect;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -11,12 +12,13 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LightningRegion extends RegionEffect{
-    public final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/stun.png"));
+    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName("effect/zone/lightning_1_5.png")));
     private float timeExistLeft = 5f;
     private float timeEffectAgain = 1f;
     private SimpleCharacter owner = null;
@@ -24,6 +26,7 @@ public class LightningRegion extends RegionEffect{
     private int damage = 1;
     private float x, y;
     private float radius = 60;
+    private float stateTime = 0;
     public LightningRegion(SimpleCharacter owner, float x, float y) {
         this.owner = owner;
         this.x = x;
@@ -36,6 +39,7 @@ public class LightningRegion extends RegionEffect{
 
     @Override
     public void update(float deltaTime, WorldMap map) {
+        stateTime += deltaTime;
         timeExistLeft -= deltaTime;
         ArrayList<SimpleCharacter> rmList = new ArrayList<>();
         for (SimpleCharacter character : affectedCharacter.keySet()) {
@@ -80,9 +84,10 @@ public class LightningRegion extends RegionEffect{
 
     @Override
     public void draw(SpriteBatch batch) {
-        Color color = batch.getColor();
-        batch.setColor(color.r, color.g, color.b, 0.5f);
-        batch.draw(TEXTURE_REGION, x - radius,y - radius, radius*2, radius*2);
-        batch.setColor(color.r, color.g, color.b, 1f);
+//        Color color = batch.getColor();
+//        batch.setColor(color.r, color.g, color.b, 0.5f);
+        TextureRegion textureRegion = ANIMATION.getKeyFrame(stateTime, true);
+        batch.draw(textureRegion, x - radius,y - radius, radius*2, radius*2);
+//        batch.setColor(color.r, color.g, color.b, 1f);
     }
 }

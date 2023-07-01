@@ -25,9 +25,9 @@ public class Boss extends Monster {
         Gun gun_2 = new Gun("weapon/sword.png", "bullet/bullet3.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 2f, 500, 0.3f, 300f);
         Gun gun_3 = new Gun("weapon/sword.png", "bullet/bullet5.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 2f, 3000, 0.3f, 300f);
         gun_3.setNumWallCollide(3);
-        gun_1.setDrawGun(false);
-        gun_2.setDrawGun(false);
-        gun_3.setDrawGun(false);
+        gun_1.setDrawWeapon(false);
+        gun_2.setDrawWeapon(false);
+        gun_3.setDrawWeapon(false);
         for (int i = -30; i <= 30; i+=5) {
             gun_1.addDirectionAttack(i);
             gun_2.addDirectionAttack(i);

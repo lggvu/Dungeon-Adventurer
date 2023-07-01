@@ -203,6 +203,7 @@ public abstract class SimpleCharacter {
             weapons.add(weapon);
         } else {
             Weapon currentWeapon = getCurrentWeapon();
+            currentWeapon.reset();
             currentWeapon.setPosition(this.x, this.y);
             weapons.remove(currentWeapon);
             map.addWeaponOnGround(currentWeapon);

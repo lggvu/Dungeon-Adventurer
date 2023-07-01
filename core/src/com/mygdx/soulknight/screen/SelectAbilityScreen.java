@@ -116,7 +116,7 @@ public class SelectAbilityScreen extends ScreenAdapter {
     public String getAbilityDescription(Ability.AbilityEnum abilityEnum) {
         switch (abilityEnum) {
             case STUN_IMMUNITY:
-                return "Immunity with stun";
+                return "Immune with stun";
             case MAX_MANA_INCREASE:
                 return "Maximize energy levels for player";
             case MAX_WEAPON_INCREASE:
@@ -124,15 +124,15 @@ public class SelectAbilityScreen extends ScreenAdapter {
             case MAX_ARMOR_INCREASE:
                 return "Maximize shield levels for player";
             case LIGHTNING_IMMUNITY:
-                return "Immunity with lightning damage";
+                return "Immune with lightning damage";
             case POISON_IMMUNITY:
-                return "Immunity with poison damage";
+                return "Immune with poison damage";
             case MAX_HP_INCREASE:
                 return "Maximize hp levels for player";
             case DAMAGE_INCREASE:
                 return "Maximize damage levels for player";
             case FIRE_IMMUNITY:
-                return "Immunity with fire damage";
+                return "Immune with fire damage";
             case NUM_WALL_COLLIDE_INCREASE:
                 return "Bullet can bounce";
             default:

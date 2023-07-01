@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public abstract class Weapon implements Pickable, AbilityDrawer {
-//    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
+    private final static String INFO_PATH = "info/weapon_info.json";
     protected String name;
     private static int ID = 1;
     private int weaponID;
@@ -34,10 +34,11 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     protected ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
     protected int energyCost=0;
     protected float criticalRate=0;
-    protected float x, y, width, height, origin_x, origin_y;
+    protected float x, y, width, height, originX, originY;
     protected boolean onGround = false;
     protected String texturePath;
     private TextureRegion textureForDrawer;
+    protected boolean drawWeapon = true;
 
     public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         this.texturePath = texturePath;
@@ -66,11 +67,15 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         this.height = height;
     }
     public void setRotateCenter(float origin_x, float origin_y) {
-        this.origin_x = origin_x;
-        this.origin_y = origin_y;
+        this.originX = origin_x;
+        this.originY = origin_y;
     }
     public void reset() {
-        elapsedSeconds = intervalSeconds + 1;
+        elapsedSeconds = intervalSeconds;
+    }
+
+    public void setDrawWeapon(boolean drawWeapon) {
+        this.drawWeapon = drawWeapon;
     }
 
     @Override
@@ -113,19 +118,20 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         return false;
     }
 
-    public float getRangeWeapon() {
-        return rangeWeapon;
+    public JsonObject load(JsonObject jsonObject) {
+        JsonObject properties = jsonObject.get("properties").getAsJsonObject();
+        this.damage = properties.get("damage").getAsInt();
+        this.energyCost = properties.get("energy_cost").getAsInt();
+        this.intervalSeconds = properties.get("attack_speed").getAsFloat();
+        this.rangeWeapon = properties.get("range").getAsInt();
+        this.criticalRate = properties.get("critical_rate").getAsFloat();
+        this.width = jsonObject.get("width").getAsFloat();
+        this.height = jsonObject.get("height").getAsFloat();
+        this.originX = jsonObject.get("origin_x").getAsFloat();
+        float originY = jsonObject.get("origin_y").getAsFloat();
+        this.originY = height / 2;
+        return jsonObject;
     }
-
-    public void setIntervalSeconds(float intervalSeconds) {
-        this.intervalSeconds = intervalSeconds;
-    }
-
-    public TextureRegion getTextureRegion() {
-        return texture;
-    }
-
-    public abstract void dealDamageMethod();
 
     public static Weapon load(String weaponName) {
         return load(weaponName, "info/weapon_info.json");
@@ -225,11 +231,6 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     public void addEffects(ArrayList<EffectEnum> effectsEnum) {
         this.effectsEnum.addAll(effectsEnum);
     }
-
-    public SimpleCharacter getOwner() {
-        return owner;
-    }
-
     public TextureRegion getTextureCoolDown() {
         return textureForDrawer;
     }

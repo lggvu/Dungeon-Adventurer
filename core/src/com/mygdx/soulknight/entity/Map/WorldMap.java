@@ -168,6 +168,13 @@ public class WorldMap {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
+        for (RegionEffect regionEffect: regionEffectArrayList){
+            if (!(regionEffect instanceof Explosion)) {
+                regionEffect.draw(batch);
+            }
+        }
+
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
         }
@@ -195,7 +202,9 @@ public class WorldMap {
         }
 
         for (RegionEffect regionEffect: regionEffectArrayList){
-            regionEffect.draw(batch);
+            if (regionEffect instanceof Explosion) {
+                regionEffect.draw(batch);
+            }
         }
 
         if (clearFinalRoom) {
