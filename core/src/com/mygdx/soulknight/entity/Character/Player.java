@@ -67,7 +67,7 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-//        maxArmor = Integer.MAX_VALUE - 100;
+        maxArmor = Integer.MAX_VALUE - 100;
         this.currentArmor = getCurrentMaxArmor();
         dodgeSpriteLoader = new SpriteLoader(source.get("dodge_texture_path").getAsString(), characterName);
         this.maxMana = source.get("energy").getAsInt();
@@ -253,7 +253,7 @@ public abstract class Player extends SimpleCharacter {
                 collectItem.add(item);
                 map.getItemsOnGround().remove(item);
             }
-            if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange) {
+            if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange * 10) {
                 map.setOver(true);
             }
         }

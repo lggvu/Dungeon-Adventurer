@@ -58,7 +58,7 @@ public class SpriteLoader {
         return result;
     }
 
-    public static TextureRegion[] loadTextureByFileName(String path) {
+    public static TextureRegion[][] loadTextureByFileName(String path) {
         int underscoreIndex1 = path.indexOf('_');
         int underscoreIndex2 = path.lastIndexOf('_');
 
@@ -75,15 +75,19 @@ public class SpriteLoader {
         int frameWidth = explosionSheet.getWidth() / frameCols;
         int frameHeight = explosionSheet.getHeight() / frameRows;
         TextureRegion[][] temp = TextureRegion.split(explosionSheet, frameWidth, frameHeight);
-        TextureRegion[] explosionFrames = new TextureRegion[frameCols * frameRows];
-        int index = 0;
-        for (int row = 0; row < frameRows; row++) {
-            for (int col = 0; col < frameCols; col++) {
-                explosionFrames[index++] = temp[row][col];
+        return temp;
+    }
+
+    public static TextureRegion[] to1DArray(TextureRegion[][] array) {
+        TextureRegion[] res = new TextureRegion[array.length * array[0].length];
+        int count = 0;
+        for (int row = 0; row < array.length; row++) {
+            for (int col = 0; col < array[row].length; col++) {
+                res[count] = array[row][col];
+                count++;
             }
         }
-
-        return explosionFrames;
+        return res;
     }
 
     public static ArrayList<String> getCharacterNameFromImage(String sourceImage) {

@@ -36,7 +36,8 @@ public class WorldMap {
     private OrthogonalTiledMapRenderer mapRenderer;
     private ArrayList<Rectangle> collisionRect = new ArrayList<>();
     private ArrayList<Rectangle> doorCollisionRect = new ArrayList<>();
-    private Animation<TextureRegion> teleGate;
+//    private Animation<TextureRegion> teleGate;
+    private TextureRegion[][] teleGateTextureRegions;
     private Player player;
     private ArrayList<Room> rooms;
     private float gateX, gateY;
@@ -50,7 +51,8 @@ public class WorldMap {
     public WorldMap(String tmxPath, Player player, Level level) {
         this.level = level;
         this.player = player;
-        teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
+        teleGateTextureRegions = SpriteLoader.loadTextureByFileName("tele_4_4.png");
+//        teleGate = new Animation<>(0.15f, );
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
         tiledMap = new TmxMapLoader().load(tmxPath);
@@ -197,8 +199,23 @@ public class WorldMap {
         }
 
         if (clearFinalRoom) {
+            float teleFrameDuration = 0.15f;
+            float teleSize = 256;
+            Animation<TextureRegion> teleGate = new Animation<>(teleFrameDuration, teleGateTextureRegions[0]);
+            if (teleGate.isAnimationFinished(stateTime)) {
+                TextureRegion[] temp = new TextureRegion[] {
+                        teleGateTextureRegions[1][0],
+                        teleGateTextureRegions[1][1],
+                        teleGateTextureRegions[1][2],
+                        teleGateTextureRegions[1][3],
+                        teleGateTextureRegions[2][0],
+                        teleGateTextureRegions[2][1],
+                        teleGateTextureRegions[2][2],
+                        teleGateTextureRegions[2][3]
+                };
+                teleGate = new Animation<>(teleFrameDuration, temp);
+            }
             TextureRegion texture = teleGate.getKeyFrame(stateTime, true);
-            float teleSize = 156;
             batch.draw(texture, gateX-teleSize/2, gateY-teleSize/2, teleSize, teleSize);
         }
 

@@ -35,8 +35,8 @@ public class Gun extends Weapon {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
         this.bulletTextureRegion = new TextureRegion(new Texture(bulletTexturePath));
         this.bulletSpeed = bulletSpeed;
-        TextureRegion[] explosionFrames = SpriteLoader.loadTextureByFileName(explosionTexturePath);
-        TextureRegion[] shotExplosionFrames = SpriteLoader.loadTextureByFileName(shotExplosionTexturePath);
+        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(explosionTexturePath));
+        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(shotExplosionTexturePath));
         this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
     }
