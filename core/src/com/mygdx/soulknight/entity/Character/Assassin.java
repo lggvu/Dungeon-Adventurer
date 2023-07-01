@@ -19,7 +19,7 @@ public class Assassin extends Player {
         JsonObject source = super.load();
         immortalSpriteLoader = new SpriteLoader(source.get("immortal_texture_path").getAsString(), characterName);
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        specialSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 1f, 1f) {
+        specialSkill = new PlayerSkill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
             @Override
             public void activateSkill() {
                 super.activateSkill();

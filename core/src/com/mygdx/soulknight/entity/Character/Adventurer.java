@@ -26,8 +26,9 @@ public class Adventurer extends Player {
         JsonObject source = super.load();
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
         specialSkill = new PlayerSkill(
-                new TextureRegion(new Texture(textureSpecPath), 1, 388, 256, 256),
-                1f, 1f);
+                new TextureRegion(new Texture(textureSpecPath)),
+                1f, 1f
+        );
         return source;
     }
 

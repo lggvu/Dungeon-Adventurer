@@ -12,7 +12,7 @@
         "weapon_x": 16,
         "weapon_y": 16,
         "dodge_texture_path": "character/img2.png",
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown/1.png"
     },
     "adventurer": {
         "type": "hero",
@@ -27,7 +27,7 @@
         "weapon_x": 12,
         "weapon_y": 16,
         "dodge_texture_path": "character/img2.png",
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown/2.png"
     },
     "jungler": {
         "type": "hero",
@@ -42,7 +42,7 @@
         "weapon_x": 16,
         "weapon_y": 16,
         "dodge_texture_path": "character/img2.png",
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown/3.png"
     },
     "assassin": {
         "type": "hero",
@@ -58,7 +58,7 @@
         "weapon_y": 12,
         "dodge_texture_path": "character/img2.png",
         "immortal_texture_path": "character/assassin/special-skill.png",
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown/4.png"
     },
     "knight": {
         "type": "monster",
