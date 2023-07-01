@@ -1177,8 +1177,6 @@
    <objectgroup id="15" name="area">
     <object id="236" x="1392" y="640" width="992" height="560"/>
     <object id="237" x="1392" y="1200" width="816" height="128"/>
-    <object id="1175" x="1152" y="-608"/>
-    <object id="1176" x="2672" y="784"/>
    </objectgroup>
    <objectgroup id="47" name="EASY">
     <object id="1521" name="knight" x="1632" y="1264">

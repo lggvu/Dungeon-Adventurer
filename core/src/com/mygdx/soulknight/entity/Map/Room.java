@@ -32,7 +32,6 @@ public class Room {
         roomName = roomLayers.getName();
         MapLayer layer = roomLayers.getLayers().get("area");
         MapLayer monsterPositionLayer = roomLayers.getLayers().get(map.getLevel().name());
-
         roomArea = new ArrayList<>();
         for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {
