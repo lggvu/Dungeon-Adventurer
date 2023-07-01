@@ -108,7 +108,7 @@ public class Bullet {
             testX = this.x + direction.x * speed * deltaTime;
             testY = this.y + direction.y * speed * deltaTime;
             rectangle = new Rectangle(testX, testY, width, height);
-            if (owner.getMap().isMapCollision(rectangle) || owner.getMap().isInDoor(rectangle)) {
+            if (owner.getMap().isMapCollision(rectangle, false) || owner.getMap().isInDoor(rectangle)) {
                 if (i == 0) {
                     numWallCollide -= 1;
                 }
