@@ -19,33 +19,23 @@ public class Assassin extends Player {
         JsonObject source = super.load();
         immortalSpriteLoader = new SpriteLoader(source.get("immortal_texture_path").getAsString(), characterName);
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        specialSkill = new PlayerSkill(
-                new TextureRegion(new Texture(textureSpecPath), 1, 388, 256, 256),
-                1f, 1f);
+        specialSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 1f, 1f) {
+            @Override
+            public void activateSkill() {
+                super.activateSkill();
+                SpriteLoader temp = spriteLoader;
+                spriteLoader = immortalSpriteLoader;
+                immortalSpriteLoader = temp;
+            }
+            @Override
+            public void deactivateSkill() {
+                super.deactivateSkill();
+                SpriteLoader temp = spriteLoader;
+                spriteLoader = immortalSpriteLoader;
+                immortalSpriteLoader = temp;
+            }
+        };
         return source;
-    }
-
-    private class SpecialSkill extends PlayerSkill {
-
-        public SpecialSkill(TextureRegion textureRegion, float totalTimeCoolDown, float totalTimeImplement) {
-            super(textureRegion, totalTimeCoolDown, totalTimeImplement);
-        }
-
-        @Override
-        public void activateSkill() {
-            super.activateSkill();
-            SpriteLoader temp = spriteLoader;
-            spriteLoader = immortalSpriteLoader;
-            immortalSpriteLoader = temp;
-        }
-
-        @Override
-        public void deactivateSkill() {
-            super.deactivateSkill();
-            SpriteLoader temp = spriteLoader;
-            spriteLoader = immortalSpriteLoader;
-            immortalSpriteLoader = temp;
-        }
     }
 
     @Override
