@@ -60,10 +60,6 @@ public abstract class Player extends SimpleCharacter {
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         setMaxWeaponNumber(2);
-        getAbility().addAbility(this, Ability.AbilityEnum.MAX_HP_INCREASE);
-        getAbility().addAbility(this, Ability.AbilityEnum.NUM_WALL_COLLIDE_INCREASE);
-        getAbility().addAbility(this, Ability.AbilityEnum.MAX_WEAPON_INCREASE);
-        getAbility().addAbility(this, Ability.AbilityEnum.STUN_IMMUNITY);
     }
 
 

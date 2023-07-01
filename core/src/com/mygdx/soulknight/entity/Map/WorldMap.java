@@ -47,8 +47,8 @@ public class WorldMap {
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
     private Level level;
-    public WorldMap(String tmxPath, Player player) {
-        level = Level.MEDIUM;
+    public WorldMap(String tmxPath, Player player, Level level) {
+        this.level = level;
         this.player = player;
         teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
         camera = new OrthographicCamera();

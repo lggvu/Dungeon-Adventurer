@@ -9,8 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.DamageType;
-import com.mygdx.soulknight.entity.Effect.CharacterEffect;
-import com.mygdx.soulknight.entity.Effect.Effect;
+import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
@@ -89,6 +88,9 @@ public abstract class SimpleCharacter {
     }
 
     public void addEffect(CharacterEffect effect) {
+        if (isImmuneWithEffect(effect)) {
+            return;
+        }
         for (CharacterEffect effect1 : effectArrayList) {
             if (effect1.getClass().getName().equals(effect.getClass().getName())) {
                 effectArrayList.remove(effect1);
@@ -96,6 +98,19 @@ public abstract class SimpleCharacter {
             }
         }
         effectArrayList.add(effect);
+    }
+
+    public boolean isImmuneWithEffect(CharacterEffect effect) {
+        if (getAbility().isStunImmunity() && effect instanceof Stun) {
+            return true;
+        } else if (getAbility().isPoisonImmunity() && effect instanceof Poison) {
+            return true;
+        } else if (getAbility().isFireImmunity() && effect instanceof Fire) {
+            return true;
+        } else if (getAbility().isLightningImmunity() && effect instanceof Lightning) {
+            return true;
+        }
+        return false;
     }
 
     public JsonObject load() {
@@ -173,7 +188,7 @@ public abstract class SimpleCharacter {
 
     public void draw(SpriteBatch batch) {
         for (CharacterEffect effect : effectArrayList) {
-            if (effect.isDrawEffect()) {
+            if (effect.isDrawEffect() && !isImmuneWithEffect(effect)) {
                 effect.draw(batch, x + width / 2, y + height + 8);
                 break;
             }

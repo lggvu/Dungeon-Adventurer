@@ -28,6 +28,10 @@ public class TextItem {
         }
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public Vector2 getPosition() {
         return this.position;
     }
@@ -49,7 +53,7 @@ public class TextItem {
     }
     public GlyphLayout getLayout(){
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(this.getFont(),text);
+        layout.setText(this.getFont(), text);
         return layout;
     }
 

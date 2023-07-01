@@ -76,11 +76,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
                 String txt = selectedText.getText();
                 if (txt.equals("Assassin")) {
 //                    game.setScreen(new MainGameScreen(game, new Assassin()));
-                    game.setScreen(new SelectAbilityScreen(game, Level.MEDIUM, new Assassin()));
+                    game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
                 } else if (txt.equals("Adventurer")) {
-                    game.setScreen(new MainGameScreen(game, new Adventurer()));
+                    game.setScreen(new SelectAbilityScreen(game, level, new Adventurer()));
                 } else {
-                    game.setScreen(new MainGameScreen(game, new Assassin()));
+                    game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
                 }
                 this.dispose();
             }
