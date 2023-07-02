@@ -11,6 +11,8 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
+import com.mygdx.soulknight.entity.Effect.Explosion;
+import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
 import java.util.ArrayList;
@@ -29,9 +31,10 @@ public class Bullet {
     private int numEnemyHit = 1;
     private float distanceLeft = 500f;
     private ArrayList<EffectEnum> effectsEnum;
-    private SimpleCharacter lastEnemyHit = null;
+    private ArrayList<SimpleCharacter> enemyHitRecently = new ArrayList<>();
     private SimpleCharacter target = null;
     private float degreeChangePerSec = 60f;
+    private Animation<TextureRegion> explosionAnimation;
     public Vector2 getDirection() {
         return direction;
     }
@@ -55,9 +58,10 @@ public class Bullet {
     public float getY() {
         return y;
     }
-    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, int damage, float x, float y,
+    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, Animation<TextureRegion> explosionAnimation, int damage, float x, float y,
                   Vector2 direction, float speed, ArrayList<EffectEnum> effectsEnum, int numDestroyObject,
                   int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
+        this.explosionAnimation = explosionAnimation;
         this.x = x - width / 2;
         this.y = y - height / 2;
         this.direction = direction.nor();
@@ -102,62 +106,80 @@ public class Bullet {
 
         float testX = this.x, testY = this.y;
         Rectangle rectangle = null;
-        boolean foundNewDirection = false;
+        boolean noCollide = false;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             testX = this.x + direction.x * speed * deltaTime;
             testY = this.y + direction.y * speed * deltaTime;
             rectangle = new Rectangle(testX, testY, width, height);
-            if (owner.getMap().isMapCollision(rectangle) || owner.getMap().isInDoor(rectangle)) {
+            if (owner.getMap().isMapCollision(rectangle, false) || owner.getMap().isInDoor(rectangle)) {
                 if (i == 0) {
                     numWallCollide -= 1;
                 }
                 if (numWallCollide > 0) {
+                    boolean objectX = false, objectY = false;
                     // this script will implement bouncing bullet
                     Rectangle rectangle1 = new Rectangle(testX, this.y, width, height);
                     if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
-//                    only update x but still collision
-                        direction = new Vector2(-direction.x, direction.y);
-                        update(deltaTime);
-                        continue;
+//                    collide detect when update x
+                        objectX = true;
                     }
                     rectangle1 = new Rectangle(this.x, testY, width, height);
                     if (owner.getMap().isMapCollision(rectangle1,false) || owner.getMap().isInDoor(rectangle1)) {
-//                    only update y but still collision
+//                    collide detect when update y
+                        objectY = true;
+                    }
+
+                    if (objectX == objectY) {
+                        direction = new Vector2(-direction.x, -direction.y);
+                    } else if (objectX) {
+                        direction = new Vector2(-direction.x, direction.y);
+                    } else if (objectY) {
                         direction = new Vector2(direction.x, -direction.y);
-                        update(deltaTime);
-                        continue;
                     }
                 }
-            }
-            foundNewDirection = true;
-        }
-
-        if (!foundNewDirection) {
-            return;
-        }
-
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            if (rectangle.overlaps(object.getRectangle())) {
-                owner.getMap().removeDestroyableObject(object);
-                numDestroyObject--;
+            } else {
+                noCollide = true;
                 break;
             }
         }
 
-        for (SimpleCharacter character : owner.getEnemyList()) {
-            if (character.getRectangle().overlaps(rectangle) && (lastEnemyHit == null || !character.equals(lastEnemyHit))) {
-                character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
-                numEnemyHit--;
-                character.getHit(damage, DamageType.PHYSIC);
-                lastEnemyHit = character;
-                break;
+        if (noCollide) {
+            for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+                if (rectangle.overlaps(object.getRectangle())) {
+                    owner.getMap().removeDestroyableObject(object);
+                    numDestroyObject--;
+                    break;
+                }
             }
+
+            ArrayList<SimpleCharacter> rmList = new ArrayList<>();
+            for (SimpleCharacter character : enemyHitRecently) {
+                if (!character.getRectangle().overlaps(rectangle)) {
+                    rmList.add(character);
+                }
+            }
+            enemyHitRecently.removeAll(rmList);
+
+            for (SimpleCharacter character : owner.getEnemyList()) {
+                if (character.getRectangle().overlaps(rectangle) && !enemyHitRecently.contains(rmList)) {
+                    character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
+                    numEnemyHit--;
+                    character.getHit(damage, DamageType.PHYSIC);
+                    enemyHitRecently.add(character);
+                    break;
+                }
+            }
+
+            this.x = testX;
+            this.y = testY;
+            distanceLeft -= speed * deltaTime;
         }
 
-        this.x = testX;
-        this.y = testY;
-        distanceLeft -= speed * deltaTime;
+        if (isStop()) {
+            owner.getMap().createAnExplosion(owner, getX(), getY(), 30, this.explosionAnimation, false);
+            RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsEnum, getX(), getY());
+        }
     }
 
     public void setSize(float width, float height) {

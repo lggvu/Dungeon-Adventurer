@@ -1,0 +1,2 @@
+name,width,height
+assassin,18,20

@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,15 +29,14 @@ import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
+    private SpriteBatch batch;
     private WorldMap map;
     private Player player;
-    private Stage stage1;
-    private Stage stage2;
+    private Stage stage1, stage2, stage3;
     private Music backgroundMusic;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
-    private CooldownButton cooldownButton;
-    private int difficultMode;
+    private CooldownButton specialSkillCooldownButton, dodgeCooldownBtn;
     private CoolDownBar coolDownBar;
     private float countTime = 0;
 
@@ -44,8 +44,9 @@ public class MainGameScreen extends ScreenAdapter {
     Minimap minimap;
 
 
-    public MainGameScreen(SoulKnight game, Player player) {
+    public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
+        batch = new SpriteBatch();
         this.player = player;
         map = new WorldMap("map/map/map3.tmx", player);
         minimap = new Minimap(map.getTiledMap(), player);
@@ -55,29 +56,29 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
-        cooldownButton = new CooldownButton(player);
+        specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Input.Keys.P);
+        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Input.Keys.H);
         coolDownBar = new CoolDownBar(player);
-//        System.out.println(Level.EASY.name());
     }
 
     @Override
     public void show() {
         stage1 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         stage2 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage3 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage1);
         inputMultiplexer.addProcessor(stage2);
+        inputMultiplexer.addProcessor(stage3);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        cooldownButton.setPosition(Gdx.graphics.getWidth() / 1.2f - cooldownButton.RADIUS, Gdx.graphics.getHeight() / 5f - cooldownButton.RADIUS); // Set the button position as per your requirements
-
         // Add the button to the stage
         stage1.addActor(pauseButton);
-        stage2.addActor(cooldownButton);
-        
-
-        stage2.setKeyboardFocus(cooldownButton);
+        stage2.addActor(specialSkillCooldownButton);
+        stage2.setKeyboardFocus(specialSkillCooldownButton);
+        stage3.addActor(dodgeCooldownBtn);
+        stage3.setKeyboardFocus(dodgeCooldownBtn);
     }
 
     @Override
@@ -102,14 +103,15 @@ public class MainGameScreen extends ScreenAdapter {
         map.update(deltaTime);
         if (map.isOver()) {
             game.setScreen(new MenuScreen(game));
-            game.resetBatch();
             this.dispose();
             return;
         }
 
-        map.draw(game.getBatch());
+        map.draw(batch);
         minimap.render();
         drawHealthBar();
+        stage3.act(deltaTime);
+        stage3.draw();
         stage2.act(deltaTime);
         stage2.draw();
         stage1.act(deltaTime);
@@ -120,11 +122,13 @@ public class MainGameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         map.dispose();
+        batch.dispose();
         stage1.dispose();
         stage2.dispose();
+        stage3.dispose();
         backgroundMusic.dispose();
-        cooldownButton.disposeShapeRenderer();
-
+        specialSkillCooldownButton.disposeShapeRenderer();
+        dodgeCooldownBtn.disposeShapeRenderer();
     }
 
     
@@ -181,7 +185,7 @@ public class MainGameScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         stage1.getViewport().update(width, height, true);
         stage2.getViewport().update(width, height, true);
-
+        stage3.getViewport().update(width, height, true);
         // Update the position of the pause button when the screen is resized
         pauseButton.setPosition(stage1.getWidth() - pauseButton.getWidth() - 10, stage1.getHeight() - pauseButton.getHeight() - 10);
     }

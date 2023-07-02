@@ -96,6 +96,70 @@
                     "135": 6,
                     "45": 7
                 }
+            },
+            "king": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 8,
+                "frameRows": 8,
+                "direction": {
+                    "270": 0,
+                    "180": 1,
+                    "0": 2,
+                    "90": 3,
+                    "225": 4,
+                    "315": 5,
+                    "135": 6,
+                    "45": 7
+                }
+            },
+            "adventurer": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 8,
+                "frameRows": 8,
+                "direction": {
+                    "270": 0,
+                    "180": 1,
+                    "0": 2,
+                    "90": 3,
+                    "225": 4,
+                    "315": 5,
+                    "135": 6,
+                    "45": 7
+                }
+            },
+            "jungler": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 8,
+                "frameRows": 8,
+                "direction": {
+                    "270": 0,
+                    "180": 1,
+                    "0": 2,
+                    "90": 3,
+                    "225": 4,
+                    "315": 5,
+                    "135": 6,
+                    "45": 7
+                }
+            },
+            "assassin": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 8,
+                "frameRows": 8,
+                "direction": {
+                    "270": 0,
+                    "180": 1,
+                    "0": 2,
+                    "90": 3,
+                    "225": 4,
+                    "315": 5,
+                    "135": 6,
+                    "45": 7
+                }
             }
         }
     },
@@ -149,11 +213,11 @@
         "gapWidth": 14,
         "gapHeight": 0,
         "imgCharacterWidth": 18,
-        "imgCharacterHeight": 21,
+        "imgCharacterHeight": 20,
         "totalCols": 8,
         "totalRows": 2,
         "character": {
-                "assassin": {
+            "assassin": {
                 "startCol": 0,
                 "startRow": 0,
                 "frameCols": 8,
@@ -179,6 +243,28 @@
                 "startCol": 0,
                 "startRow": 0,
                 "frameCols": 8,
+                "frameRows": 2,
+                "direction": {
+                    "180": 1,
+                    "0": 0
+                }
+            }
+        }
+    },
+    "character/adventurer/dodge-full.png": {
+        "paddingWidth": 0,
+        "paddingHeight": 0,
+        "gapWidth": 0,
+        "gapHeight": 0,
+        "imgCharacterWidth": 50,
+        "imgCharacterHeight": 37,
+        "totalCols": 9,
+        "totalRows": 2,
+        "character": {
+            "adventurer": {
+                "startCol": 0,
+                "startRow": 0,
+                "frameCols": 9,
                 "frameRows": 2,
                 "direction": {
                     "180": 1,

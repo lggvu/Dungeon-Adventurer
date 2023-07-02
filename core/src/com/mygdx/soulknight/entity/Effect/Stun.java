@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 
 public class Stun extends CharacterEffect {
-    private static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/stun.png"));
+    private static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/character_effect/Stun .png"));
     private float timeLeft = 0.5f;
     @Override
     public void update(float deltaTime, SimpleCharacter affectedCharacter) {

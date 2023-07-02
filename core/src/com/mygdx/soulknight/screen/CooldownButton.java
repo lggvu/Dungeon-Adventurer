@@ -13,27 +13,26 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.PlayerSkill;
 
 public class CooldownButton extends Actor {
-    static final float RADIUS = 50f; // Adjust the radius to your liking
-    private Player player;
+    private PlayerSkill playerSkill;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private SpriteBatch spriteBatch = new SpriteBatch();
-    private TextureRegion textureRegion;
 
-    public float getCooldownTimer() {
-        return player.getCoolDownTimer();
-    }
+    private float radius, margin;
 
-    public CooldownButton(final Player player) {
-        this.player = player;
-        textureRegion = new TextureRegion(new Texture("cooldown_circle.png"),1,388, 256, 256);
-        setBounds(getX(), getY(), RADIUS * 2, RADIUS * 2);
+    public CooldownButton(final PlayerSkill playerSkill, float x, float y, float radius, float margin, final int key) {
+        this.playerSkill = playerSkill;
+        this.radius = radius;
+        this.margin = margin;
+        setPosition(x - radius, y - radius);
+        setBounds(getX(), getY(), radius * 2, radius * 2);
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!player.isCoolingDown() && !player.isImplement()) {
-                    player.activateSpecialSkill();
+                if (!playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
+                    playerSkill.activateSkill();
                     return true;
                 }
                 return false;
@@ -42,8 +41,8 @@ public class CooldownButton extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.P && !player.isCoolingDown() && !player.isImplement()) {
-                    player.activateSpecialSkill();
+                if (keycode == key && !playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
+                    playerSkill.activateSkill();
                     return true;
                 }
                 return false;
@@ -58,9 +57,8 @@ public class CooldownButton extends Actor {
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 
         spriteBatch.begin();
-//        spriteBatch.draw(textureRegion,0,0);
-        float margin = 4f;
-        spriteBatch.draw(textureRegion, getX()-margin, getY()-margin, (RADIUS+margin)*2, (RADIUS+margin)*2);
+        spriteBatch.draw(playerSkill.getTextureRegion(),getX() - margin,getY() - margin,
+                (radius + margin) * 2,(radius + margin) * 2);
         spriteBatch.end();
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -68,16 +66,16 @@ public class CooldownButton extends Actor {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         float start = 90;
-        if (player.isImplement() && player.getTotalTimeImplement() > 0) {
+        if (playerSkill.isInProgresss() && playerSkill.getTotalTimeImplement() > 0) {
             shapeRenderer.setColor(173/255f, 232/255f, 244/255f, 0.5f);
-            float degree = 360 - player.getTimeImplementLeft() / player.getTotalTimeImplement() * 360;
-            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90,-degree, 30);
+            float degree = 360 - playerSkill.getCurrentTimeImplement() / playerSkill.getTotalTimeImplement() * 360;
+            shapeRenderer.arc(getX() + radius, getY() + radius, radius,90, -degree, 30);
         }
 
-        if (player.isCoolingDown()) {
+        if (playerSkill.isCoolingDown() && playerSkill.getTotalTimeCoolDown() > 0) {
             shapeRenderer.setColor(229/255f, 229/255f, 229/255f, 0.5f);
-            float degree = player.getCoolDownTimer() / player.getSpecialSkillCoolDown() * 360;
-            shapeRenderer.arc(getX() + RADIUS, getY() + RADIUS, RADIUS,90,-degree,30);
+            float degree = playerSkill.getCurrentTimeCoolDown() / playerSkill.getTotalTimeCoolDown() * 360;
+            shapeRenderer.arc(getX() + radius, getY() + radius, radius,90,-degree,30);
         }
 
         shapeRenderer.end();

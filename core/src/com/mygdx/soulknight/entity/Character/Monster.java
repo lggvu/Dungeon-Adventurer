@@ -23,6 +23,9 @@ public class Monster extends SimpleCharacter {
     public Monster(String characterName, WorldMap map, Room room) {
         super(characterName, map);
         setMaxWeaponNumber(1);
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
         this.room = room;
     }
 
@@ -37,10 +40,12 @@ public class Monster extends SimpleCharacter {
     @Override
     public void update(float deltaTime) {
         applyEffect(deltaTime);
-        if (isStunned) {
+        for (Weapon weapon : weapons) {
+            weapon.update(deltaTime);
+        }
+        if (isStunned || !isAlive()) {
             return;
         }
-        getCurrentWeapon().update(deltaTime);
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
@@ -51,7 +56,6 @@ public class Monster extends SimpleCharacter {
                 move(direction.x, direction.y, deltaTime);
             }
             this.attack(direction);
-
         }
         else {
             // The monster will move randomly if the player is not in the attack radius
@@ -65,20 +69,23 @@ public class Monster extends SimpleCharacter {
             }
         }
     }
-    public float getAttackRadius() {
-        return attackRadius;
-    }
-    public void setAttackRadius(float attackRadius) {
-        this.attackRadius = attackRadius;
-    }
     @Override
     public void getHit(int damage, DamageType damageType) {
         currentHP -= damage;
     }
+
+    public void setDie() {
+        drawCharacter = false;
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
+    }
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
-        getCurrentWeapon().draw(batch);
+        for (Weapon weapon : weapons) {
+            weapon.draw(batch);
+        }
     }
     @Override
     public void attack(Vector2 direction) {

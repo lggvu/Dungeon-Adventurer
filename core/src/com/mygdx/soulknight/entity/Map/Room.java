@@ -11,6 +11,7 @@ import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Room {
-    private MapLayer layer;
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private WorldMap map;
@@ -28,7 +28,6 @@ public class Room {
     private boolean combat = false;
     public Room(MapGroupLayer roomLayers, WorldMap map) {
         this.map = map;
-
         roomName = roomLayers.getName();
         MapLayer layer = roomLayers.getLayers().get("area");
         MapLayer monsterPositionLayer = roomLayers.getLayers().get(map.getLevel().name());
@@ -44,6 +43,7 @@ public class Room {
                         map.setGateX(roomRectangle.x);
                         map.setGateY(roomRectangle.y);
                     } else if (mapObject.getName().equals("start_point")) {
+                        System.out.println("Init position for player: " + roomRectangle.x + " " + roomRectangle.y);
                         map.getPlayer().setPosition(roomRectangle.x, roomRectangle.y);
                     }
                 }
@@ -75,12 +75,7 @@ public class Room {
         }
 
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getCurrentWeapon();
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.draw(batch);
-                }
-            }
+            monster.draw(batch);
         }
     }
 
@@ -93,13 +88,16 @@ public class Room {
             for (Monster monster : monsterAlive) {
                 if (monster.getCurrentHP() <= 0) {
                     monstersKilled.add(monster);
-                    map.addRandomPotion(monster.getX(), monster.getY());
+                    map.getItemsOnGround().add(Item.getRandomItem(monster.getX(), monster.getY()));
                     continue;
                 }
                 monster.update(deltaTime);
             }
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);
+            for (Monster monster : monstersKilled) {
+                monster.setDie();
+            }
         } else {
             for (Monster monster : monsterAlive) {
                 monster.setCurrentHP(monster.getCurrentMaxHP());
@@ -107,8 +105,7 @@ public class Room {
         }
 
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getCurrentWeapon();
-            weapon.update(deltaTime);
+            monster.update(deltaTime);
         }
     }
     public ArrayList<Monster> getMonsterAlive() {

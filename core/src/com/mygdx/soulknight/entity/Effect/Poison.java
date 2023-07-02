@@ -7,7 +7,7 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 
 public class Poison extends CharacterEffect {
-    private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/poison_region.png"));
+    private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/character_effect/Poison .png"));
     private float timeLeft = 3f;
     private float timeEffectAgain = 1f;
     private float timeCount = 0.4f;

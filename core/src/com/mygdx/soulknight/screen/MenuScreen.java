@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -23,6 +24,7 @@ import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
 
 public class MenuScreen extends ScreenAdapter {
+    SpriteBatch batch;
     SoulKnight game;
     Texture background;
     Texture startGameTexture;
@@ -36,6 +38,7 @@ public class MenuScreen extends ScreenAdapter {
 
     public MenuScreen(SoulKnight game) {
         this.game = game;
+        batch = new SpriteBatch();
         background = new Texture("dark_menu.png");
         startGameTexture = new Texture("start_game.png");
         normalFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
@@ -64,7 +67,7 @@ public class MenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float x = (Gdx.graphics.getWidth() - startBtnWidth) / 2;
-        game.getBatch().begin();
+        batch.begin();
         if (
             (Gdx.input.getX() > x) &&
             (Gdx.input.getX() < x + startBtnWidth) &&
@@ -73,21 +76,20 @@ public class MenuScreen extends ScreenAdapter {
         ) {
             if (Gdx.input.isTouched() && selectedText != null) {
                 game.setScreen(new SelectCharacterScreen(game, Level.valueOf(selectedText.getText().toUpperCase())));
-                this.dispose();
             }
         }
 
-        game.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.getBatch().draw(startGameTexture, x, startBtnY, startBtnWidth, startBtnHeight);
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(startGameTexture, x, startBtnY, startBtnWidth, startBtnHeight);
         for (TextItem item : textItems) {
             BitmapFont font = item.getFont();
             Vector2 position = item.getPosition();
 
             // Draw the text
-            font.draw(game.getBatch(), item.getLayout(), position.x, position.y);
+            font.draw(batch, item.getLayout(), position.x, position.y);
         }
 
-        game.getBatch().end();
+        batch.end();
         Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 
         for (TextItem item : textItems) {
@@ -116,7 +118,6 @@ public class MenuScreen extends ScreenAdapter {
         startGameTexture.dispose();
         normalFont.dispose();
         hoverFont.dispose();
+        batch.dispose();
     }
-
-
 }

@@ -36,7 +36,8 @@ public class WorldMap {
     private OrthogonalTiledMapRenderer mapRenderer;
     private ArrayList<Rectangle> collisionRect = new ArrayList<>();
     private ArrayList<Rectangle> doorCollisionRect = new ArrayList<>();
-    private Animation<TextureRegion> teleGate;
+//    private Animation<TextureRegion> teleGate;
+    private TextureRegion[][] teleGateTextureRegions;
     private Player player;
     private ArrayList<Room> rooms;
     private float gateX, gateY;
@@ -47,10 +48,11 @@ public class WorldMap {
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
     private Level level;
-    public WorldMap(String tmxPath, Player player) {
-        level = Level.MEDIUM;
+    public WorldMap(String tmxPath, Player player, Level level) {
+        this.level = level;
         this.player = player;
-        teleGate = new Animation<>(0.15f, SpriteLoader.loadTextureByFileName("tele_4_4.png"));
+        teleGateTextureRegions = SpriteLoader.splitTextureByFileName("tele_4_4.png");
+//        teleGate = new Animation<>(0.15f, );
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
         tiledMap = new TmxMapLoader().load(tmxPath);
@@ -166,6 +168,13 @@ public class WorldMap {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
+        for (RegionEffect regionEffect: regionEffectArrayList){
+            if (!(regionEffect instanceof Explosion)) {
+                regionEffect.draw(batch);
+            }
+        }
+
         for (DestroyableObject object : destroyableObjects) {
             object.draw(batch);
         }
@@ -193,12 +202,29 @@ public class WorldMap {
         }
 
         for (RegionEffect regionEffect: regionEffectArrayList){
-            regionEffect.draw(batch);
+            if (regionEffect instanceof Explosion) {
+                regionEffect.draw(batch);
+            }
         }
 
         if (clearFinalRoom) {
+            float teleFrameDuration = 0.15f;
+            float teleSize = 256;
+            Animation<TextureRegion> teleGate = new Animation<>(teleFrameDuration, teleGateTextureRegions[0]);
+            if (teleGate.isAnimationFinished(stateTime)) {
+                TextureRegion[] temp = new TextureRegion[] {
+                        teleGateTextureRegions[1][0],
+                        teleGateTextureRegions[1][1],
+                        teleGateTextureRegions[1][2],
+                        teleGateTextureRegions[1][3],
+                        teleGateTextureRegions[2][0],
+                        teleGateTextureRegions[2][1],
+                        teleGateTextureRegions[2][2],
+                        teleGateTextureRegions[2][3]
+                };
+                teleGate = new Animation<>(teleFrameDuration, temp);
+            }
             TextureRegion texture = teleGate.getKeyFrame(stateTime, true);
-            float teleSize = 156;
             batch.draw(texture, gateX-teleSize/2, gateY-teleSize/2, teleSize, teleSize);
         }
 
@@ -299,28 +325,15 @@ public class WorldMap {
     public void removeDestroyableObject(DestroyableObject object) {
         if (destroyableObjects.contains(object)) {
             destroyableObjects.remove(object);
-            if (object.getName().equals("ARK")) {
-                addRandomPotion(object.getX(), object.getY());
+            if (object.getName().equals("ARK") || object.getName().equals("ARK_WEAPON")) {
+                itemsOnGround.add(object.getPickableObject());
             } else if (!object.getName().equals("")) {
                 RegionEffect.loadRegionEffect(null, this, EffectEnum.valueOf(object.getName()), object.getX(), object.getY());
             }
         }
     }
 
-    public void addRandomPotion(float x, float y) {
-        int random = MathUtils.random(100);
-        Item item = null;
-        if (random < 2) {
-            item = new Item(Item.ItemEnum.LIFE_POTION, x, y);
-        } else if (random < 20) {
-            item = new Item(Item.ItemEnum.HP_STONE, x, y);
-        } else if (random < 50) {
-            item = new Item(Item.ItemEnum.MANA_POTION, x, y);
-        } else if (random <= 100) {
-            item = new Item(Item.ItemEnum.MANA_STONE, x, y);
-        }
-        itemsOnGround.add(item);
-    }
+
 
     public TiledMap getTiledMap() {
         return tiledMap;

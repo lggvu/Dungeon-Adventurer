@@ -8,40 +8,58 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
+import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Sword extends Weapon {
-    private Animation<TextureRegion> swordAnimation;
-    private float stateTime;
-    private TextureRegion[][] frames;
-    private boolean isAttacking;
+    private Animation<TextureInfo> swordAnimation;
     private Vector2 attackDirection;
+    private ArrayList<Slice> slices = new ArrayList<>();
 
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
     }
 
-    public void setEffectFrames(TextureRegion[][] frames) {
-        this.frames = frames;
+    public Sword() { super(); }
+
+    @Override
+    public JsonObject load(JsonObject jsonObject) {
+        jsonObject = super.load(jsonObject);
+        initWeaponTexture(jsonObject.get("sword_texture").getAsString());
+        JsonArray effectTexture = jsonObject.get("effect_texture").getAsJsonArray();
+        TextureInfo[] frames = new TextureInfo[effectTexture.size()];
+        int count = 0;
+        Iterator<JsonElement> iterator = effectTexture.iterator();
+        while (iterator.hasNext()) {
+            frames[count++] = new TextureInfo(iterator.next().getAsString());
+        }
+        swordAnimation = new Animation<>(jsonObject.get("properties").getAsJsonObject().get("duration").getAsFloat(), frames);
+        return jsonObject;
     }
+
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (owner != null && owner.isFlipX() != texture.isFlipY()) {
-            texture.flip(false, true);
-            for (int i = 0; i < frames.length; i++) {
-                for (int j = 0; j < frames[i].length; j++) {
-                    frames[i][j].flip(false, true);
-                }
+        // Add any additional update logic for the sword here
+        ArrayList<Slice> rmSlice = new ArrayList<>();
+        for (Slice slice : slices) {
+            slice.update(deltaTime);
+            if (slice.isStop()) {
+                rmSlice.add(slice);
             }
         }
-        // Add any additional update logic for the sword here
+        slices.removeAll(rmSlice);
     }
 
     @Override
@@ -49,11 +67,7 @@ public class Sword extends Weapon {
         if (isAllowedAttack()) {
             elapsedSeconds = 0;
             subOwnerMana();
-            // Initialize state time
-            attackDirection = direction;
-            stateTime = 0f;
-            isAttacking = true;
-            dealDamageMethod();
+            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum));
         }
     }
 
@@ -63,68 +77,35 @@ public class Sword extends Weapon {
             batch.draw(texture, x, y, width, height);
             return;
         }
-        // Draw the sword
-        if (!isAttacking) {
-            float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
-            float dlX = 0;
-            float dlY = 0;
-            if (texture.isFlipY()) {
-                dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
-                dlY = owner.getY() + owner.getWeaponY() - origin_y;
-            } else {
-                dlX = owner.getX() + owner.getWeaponX() - origin_x;
-                dlY = owner.getY() + owner.getWeaponY() - origin_y;
-            }
-            batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
-        }
+
         // Draw effect when attacking
-        if (isAttacking) {
-            float degree = attackDirection.angleDeg(new Vector2(1, 0));
+        for (Slice slice : slices) {
+            slice.draw(batch);
+        }
 
-            // Create the animation object and define the frame duration
-            float frameDuration = 0.05f; // Adjust the duration as per your preference
-            swordAnimation = new Animation<>(frameDuration, frames[0]);
-
-            stateTime += Gdx.graphics.getDeltaTime();
-
-            // Get the current frame from the animation
-            TextureRegion currentFrame = swordAnimation.getKeyFrame(stateTime, true);
-//            if (degree > 90 && degree < 270) {
-//                currentFrame = new TextureRegion(currentFrame);
-//                currentFrame.flip(false, true);
-//            }
-            // Calculate the position for drawing the animation
-            float offsetX = owner.getX() + owner.getWidth() / 2;
-            float offsetY = owner.getY() + owner.getHeight() / 2 - 24;
-            batch.draw(currentFrame, offsetX, offsetY, 0, 24, 48, 48, 1, 1, degree);
-//            batch.draw(currentFrame, degree);
-
-            // Check if the animation has reached the last frame
-            if (swordAnimation.isAnimationFinished(stateTime)) {
-                isAttacking = false; // Stop the animation
+        // Draw the sword
+        if (slices.size() <= 0 && drawWeapon) {
+            if (owner.isFlipX() != texture.isFlipY()) {
+                texture.flip(false, true);
             }
+            float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
+            Vector2 weaponPos = owner.getAbsoluteWeaponPos();
+            float dlX = weaponPos.x;
+            float dlY = weaponPos.y - originY;
+            if (owner.isFlipX()) {
+                dlX += originX;
+            } else {
+                dlX -= originX;
+            }
+            batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
         }
     }
 
     @Override
-    public void dealDamageMethod() {
-        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
-        Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
-        for (SimpleCharacter character : listEnemy) {
-            if (rectangle.overlaps(character.getRectangle())) {
-                character.getHit(getCurrentDamage(), DamageType.PHYSIC);
-                Vector2 ownerPos = new Vector2(owner.getX() + owner.getWidth() / 2, owner.getY() + owner.getHeight() / 2);
-                Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
-                character.addEffects(CharacterEffect.loadEffect(effectsEnum, monsterPos.sub(ownerPos)));
-            }
+    public void setOnGround(boolean onGround) {
+        super.setOnGround(onGround);
+        if (onGround) {
+            slices.clear();
         }
-
-        ArrayList<DestroyableObject> arr = new ArrayList<>();
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            if (rectangle.overlaps(object.getRectangle())) {
-                arr.add(object);
-            }
-        }
-        owner.getMap().removeDestroyableObject(arr);
     }
 }

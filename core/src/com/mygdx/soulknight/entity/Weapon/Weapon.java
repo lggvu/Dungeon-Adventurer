@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public abstract class Weapon implements Pickable, AbilityDrawer {
-//    public final static ArrayList<Bullet> BULLET_ARRAY_LIST = new ArrayList<Bullet>();
+    private final static String INFO_PATH = "info/weapon_info.json";
     protected String name;
     private static int ID = 1;
     private int weaponID;
@@ -34,15 +34,14 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     protected ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
     protected int energyCost=0;
     protected float criticalRate=0;
-    protected float x, y, width, height, origin_x, origin_y;
+    protected float x, y, width, height, originX, originY;
     protected boolean onGround = false;
     protected String texturePath;
     private TextureRegion textureForDrawer;
+    protected boolean drawWeapon = true;
 
     public Weapon(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
-        this.texturePath = texturePath;
-        this.texture = new TextureRegion(new Texture(texturePath));
-        textureForDrawer = new TextureRegion(new Texture(texturePath));
+        initWeaponTexture(texturePath);
         this.intervalSeconds = intervalSeconds;
         this.elapsedSeconds = intervalSeconds;
         this.damage = damage;
@@ -52,6 +51,11 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         weaponID = ID++;
     }
 
+    protected void initWeaponTexture(String texturePath) {
+        this.texturePath = texturePath;
+        this.texture = new TextureRegion(new Texture(texturePath));
+        textureForDrawer = new TextureRegion(new Texture(texturePath));
+    }
     @Override
     public String toString() {
         return "Weapon " + weaponID;
@@ -66,11 +70,15 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         this.height = height;
     }
     public void setRotateCenter(float origin_x, float origin_y) {
-        this.origin_x = origin_x;
-        this.origin_y = origin_y;
+        this.originX = origin_x;
+        this.originY = origin_y;
     }
     public void reset() {
-        elapsedSeconds = intervalSeconds + 1;
+        elapsedSeconds = intervalSeconds;
+    }
+
+    public void setDrawWeapon(boolean drawWeapon) {
+        this.drawWeapon = drawWeapon;
     }
 
     @Override
@@ -113,81 +121,44 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         return false;
     }
 
-    public float getRangeWeapon() {
-        return rangeWeapon;
+    public JsonObject load(JsonObject jsonObject) {
+        JsonObject properties = jsonObject.get("properties").getAsJsonObject();
+        this.damage = properties.get("damage").getAsInt();
+        this.energyCost = properties.get("energy_cost").getAsInt();
+        this.intervalSeconds = properties.get("attack_speed").getAsFloat();
+        this.rangeWeapon = properties.get("range").getAsInt();
+        this.criticalRate = properties.get("critical_rate").getAsFloat();
+        this.width = jsonObject.get("width").getAsFloat();
+        this.height = jsonObject.get("height").getAsFloat();
+        this.originX = jsonObject.get("origin_x").getAsFloat();
+        float originY = jsonObject.get("origin_y").getAsFloat();
+        this.originY = height / 2;
+        Iterator<JsonElement> effects = properties.get("effect").getAsJsonArray().iterator();
+        ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
+        while (effects.hasNext()) {
+            effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
+        }
+        this.addEffects(effectsEnum);
+        return jsonObject;
     }
 
-    public void setIntervalSeconds(float intervalSeconds) {
-        this.intervalSeconds = intervalSeconds;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public TextureRegion getTextureRegion() {
-        return texture;
-    }
-
-    public abstract void dealDamageMethod();
-
     public static Weapon load(String weaponName) {
-        return load(weaponName, "info/weapon_info.json");
-    }
-    public static Weapon load(String weaponName, String infoPath) {
         try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(INFO_PATH).reader(), JsonObject.class);
             JsonObject source = json.get(weaponName).getAsJsonObject();
-            JsonObject properties = source.get("properties").getAsJsonObject();
-            int damage = properties.get("damage").getAsInt();
-            int energyCost = properties.get("energy_cost").getAsInt();
-            float attackSpeed = properties.get("attack_speed").getAsFloat();
-            int range = properties.get("range").getAsInt();
-            float criticalRate = properties.get("critical_rate").getAsFloat();
-            float width = source.get("width").getAsFloat();
-            float height = source.get("height").getAsFloat();
-            float origin_x = source.get("origin_x").getAsFloat();
-            float origin_y = source.get("origin_y").getAsFloat();
-            Iterator<JsonElement> effects = source.get("effect").getAsJsonArray().iterator();
-            ArrayList<EffectEnum> effectsEnum = new ArrayList<>();
-            while (effects.hasNext()) {
-                effectsEnum.add(EffectEnum.valueOf(effects.next().getAsString()));
-            }
-
+            Weapon weapon = null;
             if (source.get("type").getAsString().equals("Gun")) {
-                String bulletTexturePath = source.get("bullet_texture").getAsString();
-                String explosionTexturePath = source.get("explosion_texture").getAsString();
-                String shotExplosionTexturePath = source.get("shot_explosion_texture").getAsString();
-                float bulletSpeed = properties.get("bullet_speed").getAsFloat();
-                Gun gun = new Gun(source.get("gun_texture").getAsString(), bulletTexturePath, explosionTexturePath, shotExplosionTexturePath, damage, energyCost, attackSpeed, range, criticalRate, bulletSpeed);
-                gun.setSize(width, height);
-//                gun.setRotateCenter(origin_x, origin_y);
-                gun.addEffects(effectsEnum);
-                gun.setRotateCenter(origin_x, height / 2);
-                JsonElement jsonElement = source.get("attack_directions");
-                if (jsonElement != null) {
-                    Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
-                    while (directions.hasNext()) {
-                        gun.addDirectionAttack(directions.next().getAsFloat());
-                    }
-                }
-                return gun;
+                weapon = new Gun();
             }
             else if (source.get("type").getAsString().equals("Sword")) {
-                Sword sword = new Sword(source.get("sword_texture").getAsString(), damage, energyCost, attackSpeed, range, criticalRate);
-                JsonObject effectTexture = source.get("effect_texture").getAsJsonObject();
-                Texture texture = new Texture(effectTexture.get("path").getAsString());
-                TextureRegion[][] frames = SpriteLoader.splitTexture(
-                        texture,
-                        effectTexture.get("imgWidth").getAsInt(), effectTexture.get("imgHeight").getAsInt(),
-                        effectTexture.get("gapWidth").getAsInt(), effectTexture.get("gapHeight").getAsInt(),
-                        effectTexture.get("paddingWidth").getAsInt(), effectTexture.get("paddingHeight").getAsInt(),
-                        effectTexture.get("frameCols").getAsInt(), effectTexture.get("frameRows").getAsInt(),
-                        effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
-                );
-                sword.setEffectFrames(frames);
-                sword.setSize(width, height);
-                sword.setRotateCenter(origin_x, height / 2);
-//                sword.setRotateCenter(origin_x, origin_y);
-                sword.addEffects(effectsEnum);
-                return sword;
+                weapon = new Sword();
             }
+            weapon.load(source);
+            weapon.setName(weaponName);
+            return weapon;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,19 +185,17 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
-        if (onGround && texture.isFlipY()) {
-            texture.flip(false, true);
+        if (onGround) {
+            setOwner(null);
+            if (texture.isFlipY()) {
+                texture.flip(false, true);
+            }
         }
     }
 
     public void addEffects(ArrayList<EffectEnum> effectsEnum) {
         this.effectsEnum.addAll(effectsEnum);
     }
-
-    public SimpleCharacter getOwner() {
-        return owner;
-    }
-
     public TextureRegion getTextureCoolDown() {
         return textureForDrawer;
     }

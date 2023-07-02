@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,27 +10,26 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.DamageType;
-import com.mygdx.soulknight.entity.Effect.CharacterEffect;
-import com.mygdx.soulknight.entity.Effect.Effect;
+import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.TextureInfo;
 
 
 import java.util.ArrayList;
 
 public abstract class SimpleCharacter {
     public static final String CHARACTER_INFO_PATH = "info/character_info.json";
-    protected TextureRegion texture;
     protected WorldMap map;
     protected Room room;
     private static int ID = 0;
     protected boolean isStunned = false;
     protected String characterName;
-    protected SpriteLoader spriteLoader;
+    protected Animation<TextureInfo> animationMovement;
     private int maxHP = 10;
     protected float stateTime = 0f;
     protected int currentHP = 10;
@@ -47,11 +47,31 @@ public abstract class SimpleCharacter {
     protected ArrayList<CharacterEffect> effectArrayList = new ArrayList<>();
     private int id;
     private Ability ability = new Ability();
+    protected boolean drawCharacter = true;
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
         this.load();
         id = ID++;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Vector2 getAbsoluteWeaponPos(boolean flipX) {
+        float dlX;
+        float dlY = getY() + getWeaponY();
+        if (flipX) {
+            dlX = getX() + getWidth() - getWeaponX();
+        } else {
+            dlX = getX() + getWeaponX();
+        }
+        return new Vector2(dlX, dlY);
+    }
+
+    public Vector2 getAbsoluteWeaponPos() {
+        return getAbsoluteWeaponPos(isFlipX());
     }
 
     @Override
@@ -63,10 +83,12 @@ public abstract class SimpleCharacter {
     }
 
     public void switchWeapon() {
+        getCurrentWeapon().setDrawWeapon(false);
         currentWeaponId++;
         if (currentWeaponId >= weapons.size()) {
             currentWeaponId = 0;
         }
+        getCurrentWeapon().setDrawWeapon(true);
     }
 
     protected void applyEffect(float deltaTime) {
@@ -89,6 +111,9 @@ public abstract class SimpleCharacter {
     }
 
     public void addEffect(CharacterEffect effect) {
+        if (isImmuneWithEffect(effect)) {
+            return;
+        }
         for (CharacterEffect effect1 : effectArrayList) {
             if (effect1.getClass().getName().equals(effect.getClass().getName())) {
                 effectArrayList.remove(effect1);
@@ -96,6 +121,23 @@ public abstract class SimpleCharacter {
             }
         }
         effectArrayList.add(effect);
+    }
+
+    public boolean isImmuneWithEffect(CharacterEffect effect) {
+        if (getAbility().isStunImmunity() && effect instanceof Stun) {
+            return true;
+        } else if (getAbility().isPoisonImmunity() && effect instanceof Poison) {
+            return true;
+        } else if (getAbility().isFireImmunity() && effect instanceof Fire) {
+            return true;
+        } else if (getAbility().isLightningImmunity() && effect instanceof Lightning) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAlive() {
+        return currentHP > 0;
     }
 
     public JsonObject load() {
@@ -106,8 +148,7 @@ public abstract class SimpleCharacter {
             height = source.get("height").getAsFloat();
             weaponX = source.get("weapon_x").getAsFloat();
             weaponY = source.get("weapon_y").getAsFloat();
-            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
-            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+            animationMovement = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("texture_path").getAsJsonArray()));
             maxHP = source.get("hp").getAsInt();
             currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
@@ -164,7 +205,6 @@ public abstract class SimpleCharacter {
         if (degree > 90 && degree < 270) {
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
         }
-        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
     }
 
     public boolean isFlipX() {
@@ -172,13 +212,21 @@ public abstract class SimpleCharacter {
     }
 
     public void draw(SpriteBatch batch) {
+        if (!drawCharacter) {
+            return;
+        }
         for (CharacterEffect effect : effectArrayList) {
-            if (effect.isDrawEffect()) {
+            if (effect.isDrawEffect() && !isImmuneWithEffect(effect)) {
                 effect.draw(batch, x + width / 2, y + height + 8);
                 break;
             }
         }
-        batch.draw(texture, x, y, width, height);
+        TextureInfo textureInfo = animationMovement.getKeyFrame(stateTime, true);
+        TextureRegion textureRegion = textureInfo.getTextureRegion();
+        if (textureRegion.isFlipX() != isFlipX()) {
+            textureRegion.flip(true, false);
+        }
+        batch.draw(textureRegion, x, y, textureInfo.getWidth(), textureInfo.getHeight());
     }
 
     public void collectWeapon(Weapon weapon) {
@@ -188,6 +236,7 @@ public abstract class SimpleCharacter {
             weapons.add(weapon);
         } else {
             Weapon currentWeapon = getCurrentWeapon();
+            currentWeapon.reset();
             currentWeapon.setPosition(this.x, this.y);
             weapons.remove(currentWeapon);
             map.addWeaponOnGround(currentWeapon);

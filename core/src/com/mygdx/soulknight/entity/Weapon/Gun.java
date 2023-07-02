@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.Effect;
@@ -17,28 +19,49 @@ import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class Gun extends Weapon {
-    protected ArrayList<Bullet> bulletArrayList = new ArrayList<>();
+    private ArrayList<Bullet> bulletArrayList = new ArrayList<>();
     private float bulletSpeed = 1000f/2;
-    protected TextureRegion bulletTextureRegion;
-    protected Animation<TextureRegion> explosionAnimation;
-    protected Animation<TextureRegion> shotExplosionAnimation;
+    private TextureRegion bulletTextureRegion;
+    private Animation<TextureRegion> explosionAnimation;
+    private Animation<TextureRegion> shotExplosionAnimation;
     private int numDestroyObject = 1;
     private int numWallCollide = 1;
     private int numEnemyHit = 1;
     private float degreeChangePerSec = 0;
-    protected ArrayList<Float> directionAttack = new ArrayList<>(Arrays.asList(0f));
-    protected boolean drawGun = true;
+    private ArrayList<Float> directionAttack = new ArrayList<>();
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
         this.bulletTextureRegion = new TextureRegion(new Texture(bulletTexturePath));
         this.bulletSpeed = bulletSpeed;
-        TextureRegion[] explosionFrames = SpriteLoader.loadTextureByFileName(explosionTexturePath);
-        TextureRegion[] shotExplosionFrames = SpriteLoader.loadTextureByFileName(shotExplosionTexturePath);
+        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(explosionTexturePath));
+        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
+    }
+
+    @Override
+    public JsonObject load(JsonObject jsonObject) {
+        jsonObject = super.load(jsonObject);
+        initWeaponTexture(jsonObject.get("gun_texture").getAsString());
+        JsonObject properties = jsonObject.get("properties").getAsJsonObject();
+        bulletTextureRegion = new TextureRegion(new Texture(jsonObject.get("bullet_texture").getAsString()));
+        bulletSpeed = properties.get("bullet_speed").getAsFloat();
+        String explosionTexturePath = jsonObject.get("explosion_texture").getAsString();
+        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(explosionTexturePath));
+        explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
+        String shotExplosionTexturePath = jsonObject.get("shot_explosion_texture").getAsString();
+        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
+        shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
+        JsonElement jsonElement = properties.get("attack_directions");
+        Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
+        while (directions.hasNext()) {
+            this.addDirectionAttack(directions.next().getAsFloat());
+        }
+        return jsonObject;
     }
 
     public Gun() {
@@ -56,12 +79,13 @@ public class Gun extends Weapon {
             gunBarrelX += owner.getX() + owner.getWeaponX();
             gunBarrelY += owner.getY() + owner.getWeaponY();
         }
-        gunBarrelX += (width - origin_x) * MathUtils.cosDeg(degree);
-        gunBarrelY += (width - origin_x) * MathUtils.sinDeg(degree);
+        gunBarrelX += (width - originX) * MathUtils.cosDeg(degree);
+        gunBarrelY += (width - originX) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
+        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, explosionAnimation, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
                 bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon));
     }
+
 
     public void setNumDestroyObject(int numDestroyObject) {
         this.numDestroyObject = numDestroyObject;
@@ -95,17 +119,12 @@ public class Gun extends Weapon {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (!onGround && owner.isFlipX() != texture.isFlipY()) {
-            texture.flip(false, true);
-        }
 
         ArrayList<Bullet> removeArrayList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
             if (bullet.isStop()) {
                 removeArrayList.add(bullet);
-                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
-                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsEnum, bullet.getX(), bullet.getY());
             }
         }
         bulletArrayList.removeAll(removeArrayList);
@@ -120,47 +139,39 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
-        if (!drawGun) {
-            return;
-        }
+
         if (onGround) {
             batch.draw(texture, x, y, width, height);
             return;
         }
-        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
-        float dlX = 0;
-        float dlY = 0;
-        if (texture.isFlipY()) {
-            dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - origin_x);
-            dlY = owner.getY() + owner.getWeaponY() - origin_y;
-        } else {
-            dlX = owner.getX() + owner.getWeaponX() - origin_x;
-            dlY = owner.getY() + owner.getWeaponY() - origin_y;
+
+        if (!drawWeapon) {
+            return;
         }
-        batch.draw(texture, dlX, dlY, origin_x, origin_y, width, height, 1, 1, degree);
+
+        if (owner.isFlipX() != texture.isFlipY()) {
+            texture.flip(false, true);
+        }
+
+        Vector2 weaponPos = owner.getAbsoluteWeaponPos();
+        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
+        float dlX = weaponPos.x;
+        float dlY = weaponPos.y - originY;
+        if (owner.isFlipX()) {
+            dlX += originX;
+        } else {
+            dlX -= originX;
+        }
+
+        batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
     }
-
-    @Override
-    public void dealDamageMethod() {
-
-    }
-
     public int getCurrentNumWallCollide() {
         if (owner != null) {
             return numWallCollide + owner.getAbility().getWallCollideIncrease();
         }
         return numWallCollide;
     }
-
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;
-    }
-
-    public void setBulletSpeed(float bulletSpeed) {
-        this.bulletSpeed = bulletSpeed;
-    }
-
-    public void setDrawGun(boolean drawGun) {
-        this.drawGun = drawGun;
     }
 }

@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class Ability  {
     public enum AbilityEnum implements AbilityDrawer {
-        MAX_HP_INCREASE("ppp.png", 0, 0),
-        MAX_ARMOR_INCREASE("hire-designer.png", 0, 0),
-        DAMAGE_INCREASE("hire-designer.png", 0, 0),
-        NUM_WALL_COLLIDE_INCREASE("dark_menu.png", 0, 0),
-        POISON_IMMUNITY("hire-designer.png", 0, 0),
-        FIRE_IMMUNITY("hire-designer.png", 0, 0),
-        LIGHTNING_IMMUNITY("hire-designer.png", 0, 0),
-        STUN_IMMUNITY("hire-designer.png", 0, 0),
-        MAX_WEAPON_INCREASE("start_game.png", 0, 0),
-        MAX_MANA_INCREASE("start_game.png", 0, 0);
+        MAX_HP_INCREASE("buff/Incease Max Health.png", 0, 0),
+        MAX_ARMOR_INCREASE("buff/Increase Shield.png", 0, 0),
+        DAMAGE_INCREASE("buff/Increase Damage.png", 0, 0),
+        NUM_WALL_COLLIDE_INCREASE("buff/Buff Bullet Bounce.png", 0, 0),
+        POISON_IMMUNITY("buff/Poison Immune.png", 0, 0),
+        FIRE_IMMUNITY("buff/Fire Immune.png", 0, 0),
+        LIGHTNING_IMMUNITY("buff/Light Immune.png", 0, 0),
+        STUN_IMMUNITY("buff/Stun Immune.png", 0, 0),
+        MAX_WEAPON_INCREASE("buff/Increase Weapon Slot.png", 0, 0),
+        MAX_MANA_INCREASE("buff/Increase Max Mana.png", 0, 0);
         private TextureRegion texture;
         private float totalTimeCooldown;
         private float currentTimeCooldown;

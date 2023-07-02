@@ -94,8 +94,18 @@ public class CoolDownBar {
         batch.begin();
         for (int i = 0; i < numDraw; i++) {
             if (i < lstDraw.size()) {
-                batch.draw(lstDraw.get(i).getTextureCoolDown(), startBoard + margin * (i + 1) + gridSize * i,
-                        margin, gridSize, gridSize);
+                TextureRegion trg = lstDraw.get(i).getTextureCoolDown();
+                float twidth = trg.getRegionWidth(), theight = trg.getRegionHeight();
+                float drawWidth = gridSize, drawHeight = gridSize;
+                if (twidth < theight) {
+                    drawWidth = twidth * drawHeight / theight;
+                } else if (twidth > theight) {
+                    drawHeight = theight * drawWidth / twidth;
+                }
+                float paddingX = (gridSize - drawWidth) / 2;
+                float paddingY = (gridSize - drawHeight) / 2;
+                batch.draw(lstDraw.get(i).getTextureCoolDown(), startBoard + margin * (i + 1) + gridSize * i + paddingX,
+                        margin + paddingY, drawWidth, drawHeight);
             }
         }
         batch.end();
