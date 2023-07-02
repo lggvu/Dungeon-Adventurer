@@ -23,6 +23,9 @@ public class Monster extends SimpleCharacter {
     public Monster(String characterName, WorldMap map, Room room) {
         super(characterName, map);
         setMaxWeaponNumber(1);
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
         this.room = room;
     }
 
