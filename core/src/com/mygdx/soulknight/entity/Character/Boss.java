@@ -53,7 +53,7 @@ public class Boss extends Monster {
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
-        if (isStunned) {
+        if (isStunned || !isAlive()) {
             return;
         }
 

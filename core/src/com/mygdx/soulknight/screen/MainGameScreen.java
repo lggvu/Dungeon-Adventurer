@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +29,7 @@ import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
+    private SpriteBatch batch;
     private WorldMap map;
     private Player player;
     private Stage stage1, stage2, stage3;
@@ -44,6 +46,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
+        batch = new SpriteBatch();
         this.player = player;
         map = new WorldMap("split_map/tmx/map_2.tmx", player, level);
         minimap = new Minimap(map.getTiledMap(), player);
@@ -100,12 +103,11 @@ public class MainGameScreen extends ScreenAdapter {
         map.update(deltaTime);
         if (map.isOver()) {
             game.setScreen(new MenuScreen(game));
-            game.resetBatch();
             this.dispose();
             return;
         }
 
-        map.draw(game.getBatch());
+        map.draw(batch);
         minimap.render();
         drawHealthBar();
         stage3.act(deltaTime);
@@ -120,6 +122,7 @@ public class MainGameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         map.dispose();
+        batch.dispose();
         stage1.dispose();
         stage2.dispose();
         stage3.dispose();

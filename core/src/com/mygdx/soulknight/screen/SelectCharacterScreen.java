@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -27,11 +28,13 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private TextureRegion character2Texture;
     private TextureRegion character3Texture;
     private Level level;
+    private SpriteBatch batch;
 
 
-    public SelectCharacterScreen(SoulKnight game, Level level){
+    public SelectCharacterScreen(SoulKnight game, Level level) {
         this.level = level;
         this.game = game;
+        batch = new SpriteBatch();
         background = new Texture("select-character.png");
         normalFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
         hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
@@ -67,7 +70,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getBatch().begin();
+        batch.begin();
         if (Gdx.input.getX()>= playText.getPosition().x && Gdx.input.getX() <= playText.getPosition().x + playText.getLayout().width &&
                 Gdx.input.getY() -30 >= Gdx.graphics.getHeight() - playText.getPosition().y - playText.getLayout().height &&
                 Gdx.input.getY() -30 <= Gdx.graphics.getHeight() - playText.getPosition().y) {
@@ -87,21 +90,21 @@ public class SelectCharacterScreen extends ScreenAdapter {
         }else{
             playText.setHovered(false);
         }
-        game.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.getBatch().draw(character1Texture, Gdx.graphics.getWidth()/5.8f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/3.7f);
-        game.getBatch().draw(character2Texture, Gdx.graphics.getWidth()/2.65f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/8.5f,Gdx.graphics.getHeight()/3.65f);
-        game.getBatch().draw(character3Texture, Gdx.graphics.getWidth()/1.9f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/2.9f);
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(character1Texture, Gdx.graphics.getWidth()/5.8f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/3.7f);
+        batch.draw(character2Texture, Gdx.graphics.getWidth()/2.65f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/8.5f,Gdx.graphics.getHeight()/3.65f);
+        batch.draw(character3Texture, Gdx.graphics.getWidth()/1.9f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/2.9f);
 
         for (TextItem item : textItems) {
             BitmapFont font = item.getFont();
             Vector2 position = item.getPosition();
 
             // Draw the text
-            font.draw(game.getBatch(), item.getLayout(), position.x, position.y);
+            font.draw(batch, item.getLayout(), position.x, position.y);
         }
-        playText.getFont().draw(game.getBatch(), playText.getLayout(), playText.getPosition().x, playText.getPosition().y);
+        playText.getFont().draw(batch, playText.getLayout(), playText.getPosition().x, playText.getPosition().y);
 
-        game.getBatch().end();
+        batch.end();
 
         for (TextItem item : textItems) {
             if (Gdx.input.getX()>= item.getPosition().x && Gdx.input.getX() <= item.getPosition().x + item.getLayout().width &&

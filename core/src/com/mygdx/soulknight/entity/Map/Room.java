@@ -107,8 +107,7 @@ public class Room {
         }
 
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getCurrentWeapon();
-            weapon.update(deltaTime);
+            monster.update(deltaTime);
         }
     }
     public ArrayList<Monster> getMonsterAlive() {

@@ -37,11 +37,11 @@ public class Monster extends SimpleCharacter {
     @Override
     public void update(float deltaTime) {
         applyEffect(deltaTime);
-        if (isStunned) {
-            return;
-        }
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
+        }
+        if (isStunned || !isAlive()) {
+            return;
         }
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
@@ -52,8 +52,6 @@ public class Monster extends SimpleCharacter {
             if (direction.x != 0 || direction.y != 0) {
                 move(direction.x, direction.y, deltaTime);
             }
-            this.attack(direction);
-
         }
         else {
             // The monster will move randomly if the player is not in the attack radius

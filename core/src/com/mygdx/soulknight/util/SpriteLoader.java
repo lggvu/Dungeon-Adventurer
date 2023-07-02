@@ -66,10 +66,6 @@ public class SpriteLoader {
         int frameRows = Integer.parseInt(xSubstring);
         int frameCols = Integer.parseInt(ySubstring);
 
-        System.out.println(path);
-        System.out.println(frameCols);
-        System.out.println(frameRows);
-
         Texture explosionSheet = new Texture(path);
 
         int frameWidth = explosionSheet.getWidth() / frameCols;

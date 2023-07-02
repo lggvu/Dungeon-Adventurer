@@ -136,6 +136,10 @@ public abstract class SimpleCharacter {
         return false;
     }
 
+    public boolean isAlive() {
+        return currentHP > 0;
+    }
+
     public JsonObject load() {
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
