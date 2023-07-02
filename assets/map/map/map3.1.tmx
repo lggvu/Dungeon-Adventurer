@@ -892,7 +892,7 @@
   <object id="1640" x="2096" y="624" width="48" height="16"/>
   <object id="1641" x="2224" y="624" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="56" name="destroyable_object">
+ <objectgroup id="56" name="destroyable_object" visible="0">
   <object id="1644" name="ark" gid="5866" x="128" y="2160" width="16" height="16"/>
   <object id="1645" name="ark" gid="5866" x="480" y="2336" width="16" height="16"/>
   <object id="1646" name="ark_weapon" gid="5995" x="304" y="2256" width="16" height="16"/>
@@ -1055,7 +1055,7 @@
   <object id="1812" name="LARGE_EXPLOSION" gid="35" x="1184" y="2352" width="16" height="16"/>
   <object id="1813" name="LARGE_EXPLOSION" gid="35" x="560" y="1680" width="16" height="16"/>
  </objectgroup>
- <group id="9" name="room" locked="1">
+ <group id="9" name="room" visible="0" locked="1">
   <group id="18" name="start_room" locked="1">
    <objectgroup id="19" name="area">
     <object id="1378" x="0" y="2048" width="272" height="336"/>
