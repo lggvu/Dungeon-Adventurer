@@ -77,12 +77,7 @@ public class Room {
         }
 
         for (Monster monster : monsterDie) {
-            Weapon weapon = monster.getCurrentWeapon();
-            if (weapon instanceof Gun) {
-                for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                    bullet.draw(batch);
-                }
-            }
+            monster.draw(batch);
         }
     }
 
@@ -102,6 +97,9 @@ public class Room {
             }
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);
+            for (Monster monster : monstersKilled) {
+                monster.setDie();
+            }
         } else {
             for (Monster monster : monsterAlive) {
                 monster.setCurrentHP(monster.getCurrentMaxHP());

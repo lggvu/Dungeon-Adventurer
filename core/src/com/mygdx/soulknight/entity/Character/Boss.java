@@ -25,9 +25,6 @@ public class Boss extends Monster {
         Gun gun_2 = new Gun("weapon/sword.png", "bullet/bullet3.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 2f, 500, 0.3f, 300f);
         Gun gun_3 = new Gun("weapon/sword.png", "bullet/bullet5.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 2f, 3000, 0.3f, 300f);
         gun_3.setNumWallCollide(3);
-        gun_1.setDrawWeapon(false);
-        gun_2.setDrawWeapon(false);
-        gun_3.setDrawWeapon(false);
         for (int i = -30; i <= 30; i+=5) {
             gun_1.addDirectionAttack(i);
             gun_2.addDirectionAttack(i);
@@ -44,6 +41,9 @@ public class Boss extends Monster {
         collectWeapon(gun_1);
         collectWeapon(gun_2);
         collectWeapon(gun_3);
+        gun_1.setDrawWeapon(false);
+        gun_2.setDrawWeapon(false);
+        gun_3.setDrawWeapon(false);
     }
 
     @Override
@@ -70,6 +70,7 @@ public class Boss extends Monster {
                 currentTimeCount = 0;
                 this.attack(direction);
                 switchWeapon();
+                getCurrentWeapon().setDrawWeapon(false);
             }
         }
         else {
@@ -91,20 +92,6 @@ public class Boss extends Monster {
                 this.attack(new Vector2(1, 0));
             }
             switchWeapon();
-        }
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        super.draw(batch);
-        for (Weapon weapon : weapons) {
-            if (!weapon.equals(getCurrentWeapon())) {
-                if (weapon instanceof Gun) {
-                    for (Bullet bullet : ((Gun) weapon).getBulletArrayList()) {
-                        bullet.draw(batch);
-                    }
-                }
-            }
         }
     }
 }

@@ -185,8 +185,11 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
-        if (onGround && texture.isFlipY()) {
-            texture.flip(false, true);
+        if (onGround) {
+            setOwner(null);
+            if (texture.isFlipY()) {
+                texture.flip(false, true);
+            }
         }
     }
 

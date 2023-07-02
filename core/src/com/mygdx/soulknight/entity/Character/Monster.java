@@ -40,7 +40,9 @@ public class Monster extends SimpleCharacter {
         if (isStunned) {
             return;
         }
-        getCurrentWeapon().update(deltaTime);
+        for (Weapon weapon : weapons) {
+            weapon.update(deltaTime);
+        }
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
@@ -65,20 +67,23 @@ public class Monster extends SimpleCharacter {
             }
         }
     }
-    public float getAttackRadius() {
-        return attackRadius;
-    }
-    public void setAttackRadius(float attackRadius) {
-        this.attackRadius = attackRadius;
-    }
     @Override
     public void getHit(int damage, DamageType damageType) {
         currentHP -= damage;
     }
+
+    public void setDie() {
+        drawCharacter = false;
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
+    }
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
-        getCurrentWeapon().draw(batch);
+        for (Weapon weapon : weapons) {
+            weapon.draw(batch);
+        }
     }
     @Override
     public void attack(Vector2 direction) {

@@ -46,6 +46,7 @@ public abstract class SimpleCharacter {
     protected ArrayList<CharacterEffect> effectArrayList = new ArrayList<>();
     private int id;
     private Ability ability = new Ability();
+    protected boolean drawCharacter = true;
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
@@ -81,10 +82,12 @@ public abstract class SimpleCharacter {
     }
 
     public void switchWeapon() {
+        getCurrentWeapon().setDrawWeapon(false);
         currentWeaponId++;
         if (currentWeaponId >= weapons.size()) {
             currentWeaponId = 0;
         }
+        getCurrentWeapon().setDrawWeapon(true);
     }
 
     protected void applyEffect(float deltaTime) {
@@ -206,6 +209,9 @@ public abstract class SimpleCharacter {
     }
 
     public void draw(SpriteBatch batch) {
+        if (!drawCharacter) {
+            return;
+        }
         for (CharacterEffect effect : effectArrayList) {
             if (effect.isDrawEffect() && !isImmuneWithEffect(effect)) {
                 effect.draw(batch, x + width / 2, y + height + 8);

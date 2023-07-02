@@ -118,24 +118,11 @@ public class Sword extends Weapon {
         }
     }
 
-    public void dealDamageMethod() {
-        ArrayList<SimpleCharacter> listEnemy = owner.getEnemyList();
-        Rectangle rectangle = new Rectangle(owner.getX() + owner.getWidth() / 2 - rangeWeapon / 2, owner.getY() + owner.getHeight() / 2 - rangeWeapon / 2, rangeWeapon, rangeWeapon);
-        for (SimpleCharacter character : listEnemy) {
-            if (rectangle.overlaps(character.getRectangle())) {
-                character.getHit(getCurrentDamage(), DamageType.PHYSIC);
-                Vector2 ownerPos = new Vector2(owner.getX() + owner.getWidth() / 2, owner.getY() + owner.getHeight() / 2);
-                Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
-                character.addEffects(CharacterEffect.loadEffect(effectsEnum, monsterPos.sub(ownerPos)));
-            }
+    @Override
+    public void setOnGround(boolean onGround) {
+        super.setOnGround(onGround);
+        if (onGround) {
+            slices.clear();
         }
-
-        ArrayList<DestroyableObject> arr = new ArrayList<>();
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            if (rectangle.overlaps(object.getRectangle())) {
-                arr.add(object);
-            }
-        }
-        owner.getMap().removeDestroyableObject(arr);
     }
 }
