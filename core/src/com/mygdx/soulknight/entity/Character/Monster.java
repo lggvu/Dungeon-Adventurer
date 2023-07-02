@@ -52,6 +52,7 @@ public class Monster extends SimpleCharacter {
             if (direction.x != 0 || direction.y != 0) {
                 move(direction.x, direction.y, deltaTime);
             }
+            this.attack(direction);
         }
         else {
             // The monster will move randomly if the player is not in the attack radius

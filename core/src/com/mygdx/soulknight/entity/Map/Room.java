@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Room {
-    private MapLayer layer;
     private ArrayList<Monster> monsterAlive = new ArrayList<>();
     private ArrayList<Monster> monsterDie = new ArrayList<>();
     private WorldMap map;
@@ -28,11 +27,9 @@ public class Room {
     private boolean combat = false;
     public Room(MapGroupLayer roomLayers, WorldMap map) {
         this.map = map;
-
         roomName = roomLayers.getName();
         MapLayer layer = roomLayers.getLayers().get("area");
         MapLayer monsterPositionLayer = roomLayers.getLayers().get(map.getLevel().name());
-
         roomArea = new ArrayList<>();
         for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {

@@ -81,7 +81,12 @@
     "knight": {
         "type": "monster",
         "texture_path": [
-            "character/jungler/animation_new.png"
+            "monsters/Flying eye/1.png",
+            "monsters/Flying eye/2.png",
+            "monsters/Flying eye/3.png",
+            "monsters/Flying eye/4.png",
+            "monsters/Flying eye/5.png",
+            "monsters/Flying eye/6.png"
         ],
         "hp": 7,
         "speed_run": 30,
