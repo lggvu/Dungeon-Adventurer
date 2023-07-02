@@ -11,6 +11,7 @@ import com.mygdx.soulknight.entity.Character.Boss;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -87,7 +88,7 @@ public class Room {
             for (Monster monster : monsterAlive) {
                 if (monster.getCurrentHP() <= 0) {
                     monstersKilled.add(monster);
-                    map.addRandomPotion(monster.getX(), monster.getY());
+                    map.getItemsOnGround().add(Item.getRandomItem(monster.getX(), monster.getY()));
                     continue;
                 }
                 monster.update(deltaTime);
