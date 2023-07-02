@@ -48,7 +48,7 @@ public class MainGameScreen extends ScreenAdapter {
         this.game = game;
         batch = new SpriteBatch();
         this.player = player;
-        map = new WorldMap("map/map/map3.tmx", player);
+        map = new WorldMap("map/map/map3.tmx", player, level);
         minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
         backgroundMusic = Settings.music;

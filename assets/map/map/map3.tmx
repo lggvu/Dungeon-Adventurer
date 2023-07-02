@@ -1177,9 +1177,6 @@
     <object id="1451" name="knight" x="1248" y="1248">
      <point/>
     </object>
-    <object id="1452" x="592" y="704">
-     <point/>
-    </object>
    </objectgroup>
    <objectgroup id="38" name="NIGHTMARE">
     <object id="1445" name="knight" x="832" y="1312">
@@ -1502,9 +1499,6 @@
      <point/>
     </object>
     <object id="1413" name="knight" x="2320" y="256">
-     <point/>
-    </object>
-    <object id="1414" x="2400" y="512">
      <point/>
     </object>
    </objectgroup>

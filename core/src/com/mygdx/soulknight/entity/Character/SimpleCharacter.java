@@ -143,6 +143,7 @@ public abstract class SimpleCharacter {
     public JsonObject load() {
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
+            System.out.println(characterName);
             JsonObject source = json.get(characterName).getAsJsonObject();
             width = source.get("width").getAsFloat();
             height = source.get("height").getAsFloat();
