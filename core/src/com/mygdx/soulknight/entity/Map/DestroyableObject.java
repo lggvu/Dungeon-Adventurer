@@ -4,9 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.GameElement;
+import com.mygdx.soulknight.entity.Item.Item;
+import com.mygdx.soulknight.entity.Item.Pickable;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 
 public class DestroyableObject implements GameElement {
@@ -17,6 +21,7 @@ public class DestroyableObject implements GameElement {
     private static int count = 0;
     private int id;
     private Rectangle rectangle;
+    private Pickable pickableObject;
     private String name;
     public DestroyableObject(TiledMapTileMapObject object) {
         region = object.getTextureRegion();
@@ -29,6 +34,17 @@ public class DestroyableObject implements GameElement {
         y = object.getY();
         id = count++;
         rectangle = new Rectangle(object.getX(), object.getY(), width, height);
+        if (name.equals("ARK")) {
+            pickableObject = Item.getRandomItem(getX(), getY());
+        } else if (name.equals("ARK_WEAPON")) {
+            Weapon weapon = Weapon.load("Gun Red S");
+            weapon.setPosition(getX(), getY());
+            pickableObject = weapon;
+        }
+    }
+
+    public Pickable getPickableObject() {
+        return pickableObject;
     }
 
     public String getName() {

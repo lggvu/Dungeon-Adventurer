@@ -325,28 +325,15 @@ public class WorldMap {
     public void removeDestroyableObject(DestroyableObject object) {
         if (destroyableObjects.contains(object)) {
             destroyableObjects.remove(object);
-            if (object.getName().equals("ARK")) {
-                addRandomPotion(object.getX(), object.getY());
+            if (object.getName().equals("ARK") || object.getName().equals("ARK_WEAPON")) {
+                itemsOnGround.add(object.getPickableObject());
             } else if (!object.getName().equals("")) {
                 RegionEffect.loadRegionEffect(null, this, EffectEnum.valueOf(object.getName()), object.getX(), object.getY());
             }
         }
     }
 
-    public void addRandomPotion(float x, float y) {
-        int random = MathUtils.random(100);
-        Item item = null;
-        if (random < 2) {
-            item = new Item(Item.ItemEnum.LIFE_POTION, x, y);
-        } else if (random < 20) {
-            item = new Item(Item.ItemEnum.HP_STONE, x, y);
-        } else if (random < 50) {
-            item = new Item(Item.ItemEnum.MANA_POTION, x, y);
-        } else if (random <= 100) {
-            item = new Item(Item.ItemEnum.MANA_STONE, x, y);
-        }
-        itemsOnGround.add(item);
-    }
+
 
     public TiledMap getTiledMap() {
         return tiledMap;

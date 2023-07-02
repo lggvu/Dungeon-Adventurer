@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -41,6 +42,20 @@ public class Item implements Pickable {
         this.y = y;
     }
 
+    public static Item getRandomItem(float x, float y) {
+        int random = MathUtils.random(100);
+        Item item = null;
+        if (random < 2) {
+            item = new Item(Item.ItemEnum.LIFE_POTION, x, y);
+        } else if (random < 20) {
+            item = new Item(Item.ItemEnum.HP_STONE, x, y);
+        } else if (random < 50) {
+            item = new Item(Item.ItemEnum.MANA_POTION, x, y);
+        } else if (random <= 100) {
+            item = new Item(Item.ItemEnum.MANA_STONE, x, y);
+        }
+        return item;
+    }
     @Override
     public float getX() {
         return x;
@@ -90,4 +105,5 @@ public class Item implements Pickable {
     public boolean isAutoCollect() {
         return item.autoCollect;
     }
+
 }
