@@ -3,5 +3,10 @@
         "num_col": 8,
         "width": 18,
         "height": 20
+    },
+    "character/jungler/animation_new.png": {
+        "num_col": 10,
+        "width": 19,
+        "height": 34
     }
 }
