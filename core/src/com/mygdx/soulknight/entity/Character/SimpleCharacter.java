@@ -53,6 +53,25 @@ public abstract class SimpleCharacter {
         id = ID++;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Vector2 getAbsoluteWeaponPos(boolean flipX) {
+        float dlX;
+        float dlY = getY() + getWeaponY();
+        if (flipX) {
+            dlX = getX() + getWidth() - getWeaponX();
+        } else {
+            dlX = getX() + getWeaponX();
+        }
+        return new Vector2(dlX, dlY);
+    }
+
+    public Vector2 getAbsoluteWeaponPos() {
+        return getAbsoluteWeaponPos(isFlipX());
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof SimpleCharacter) {

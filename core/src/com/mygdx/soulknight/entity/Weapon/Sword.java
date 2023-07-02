@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
@@ -16,12 +18,12 @@ import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Sword extends Weapon {
-    private Animation<TextureRegion> swordAnimation;
-    private float stateTime = 0;
-    private boolean isAttacking;
+    private Animation<TextureInfo> swordAnimation;
     private Vector2 attackDirection;
+    private ArrayList<Slice> slices = new ArrayList<>();
 
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
@@ -33,28 +35,48 @@ public class Sword extends Weapon {
     public JsonObject load(JsonObject jsonObject) {
         jsonObject = super.load(jsonObject);
         initWeaponTexture(jsonObject.get("sword_texture").getAsString());
-        JsonObject effectTexture = jsonObject.get("effect_texture").getAsJsonObject();
-        Texture texture = new Texture(effectTexture.get("path").getAsString());
-        TextureRegion[][] frames = SpriteLoader.splitTexture(
-                texture,
-                effectTexture.get("imgWidth").getAsInt(), effectTexture.get("imgHeight").getAsInt(),
-                effectTexture.get("gapWidth").getAsInt(), effectTexture.get("gapHeight").getAsInt(),
-                effectTexture.get("paddingWidth").getAsInt(), effectTexture.get("paddingHeight").getAsInt(),
-                effectTexture.get("frameCols").getAsInt(), effectTexture.get("frameRows").getAsInt(),
-                effectTexture.get("startCol").getAsInt(), effectTexture.get("startRow").getAsInt()
-        );
-        swordAnimation = new Animation<>(0.05f, frames[0]);
+        JsonArray effectTexture = jsonObject.get("effect_texture").getAsJsonArray();
+        TextureInfo[] frames = new TextureInfo[effectTexture.size()];
+        int count = 0;
+        Iterator<JsonElement> iterator = effectTexture.iterator();
+        while (iterator.hasNext()) {
+            frames[count++] = new TextureInfo(iterator.next().getAsString());
+        }
+        swordAnimation = new Animation<>(jsonObject.get("properties").getAsJsonObject().get("duration").getAsFloat(), frames);
         return jsonObject;
     }
+
+    class TextureInfo {
+        public TextureRegion textureRegion;
+        public float width;
+        public float height;
+
+        public TextureInfo(String path) {
+            int underscoreIndex1 = path.indexOf('_');
+            int underscoreIndex2 = path.lastIndexOf('_');
+            // Extract the x and y substrings
+            String xSubstring = path.substring(underscoreIndex1 + 1, underscoreIndex2);
+            String ySubstring = path.substring(underscoreIndex2 + 1, path.lastIndexOf('.'));
+            // Parse the x and y values as integers
+            width = Integer.parseInt(xSubstring);
+            height = Integer.parseInt(ySubstring);
+            textureRegion = new TextureRegion(new Texture(path));
+        }
+    }
+
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        stateTime += deltaTime;
-        if (owner != null && owner.isFlipX() != texture.isFlipY()) {
-            texture.flip(false, true);
-        }
         // Add any additional update logic for the sword here
+        ArrayList<Slice> rmSlice = new ArrayList<>();
+        for (Slice slice : slices) {
+            slice.update(deltaTime);
+            if (slice.isStop()) {
+                rmSlice.add(slice);
+            }
+        }
+        slices.removeAll(rmSlice);
     }
 
     @Override
@@ -62,11 +84,7 @@ public class Sword extends Weapon {
         if (isAllowedAttack()) {
             elapsedSeconds = 0;
             subOwnerMana();
-            // Initialize state time
-            attackDirection = direction;
-            stateTime = 0f;
-            isAttacking = true;
-            dealDamageMethod();
+            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum));
         }
     }
 
@@ -76,45 +94,27 @@ public class Sword extends Weapon {
             batch.draw(texture, x, y, width, height);
             return;
         }
+
+        // Draw effect when attacking
+        for (Slice slice : slices) {
+            slice.draw(batch);
+        }
+
         // Draw the sword
-        if (!isAttacking && !onGround) {
+        if (slices.size() <= 0 && drawWeapon) {
+            if (owner.isFlipX() != texture.isFlipY()) {
+                texture.flip(false, true);
+            }
             float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
-            float dlX = 0;
-            float dlY = 0;
-            if (texture.isFlipY()) {
-                dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - originX);
-                dlY = owner.getY() + owner.getWeaponY() - originY;
+            Vector2 weaponPos = owner.getAbsoluteWeaponPos();
+            float dlX = weaponPos.x;
+            float dlY = weaponPos.y - originY;
+            if (owner.isFlipX()) {
+                dlX += originX;
             } else {
-                dlX = owner.getX() + owner.getWeaponX() - originX;
-                dlY = owner.getY() + owner.getWeaponY() - originY;
+                dlX -= originX;
             }
             batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
-        }
-        // Draw effect when attacking
-        if (isAttacking) {
-            float degree = attackDirection.angleDeg(new Vector2(1, 0));
-
-            // Create the animation object and define the frame duration
-            float frameDuration = 0.05f; // Adjust the duration as per your preference
-
-            stateTime += Gdx.graphics.getDeltaTime();
-
-            // Get the current frame from the animation
-            TextureRegion currentFrame = swordAnimation.getKeyFrame(stateTime, true);
-//            if (degree > 90 && degree < 270) {
-//                currentFrame = new TextureRegion(currentFrame);
-//                currentFrame.flip(false, true);
-//            }
-            // Calculate the position for drawing the animation
-            float offsetX = owner.getX() + owner.getWidth() / 2;
-            float offsetY = owner.getY() + owner.getHeight() / 2 - 24;
-            batch.draw(currentFrame, offsetX, offsetY, 0, 24, 48, 48, 1, 1, degree);
-//            batch.draw(currentFrame, degree);
-
-            // Check if the animation has reached the last frame
-            if (swordAnimation.isAnimationFinished(stateTime)) {
-                isAttacking = false; // Stop the animation
-            }
         }
     }
 

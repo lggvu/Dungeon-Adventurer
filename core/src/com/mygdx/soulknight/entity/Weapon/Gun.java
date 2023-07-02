@@ -82,7 +82,7 @@ public class Gun extends Weapon {
         gunBarrelX += (width - originX) * MathUtils.cosDeg(degree);
         gunBarrelY += (width - originX) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
-        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
+        bulletArrayList.add(new Bullet(owner, bulletTextureRegion, explosionAnimation, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
                 bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon));
     }
 
@@ -119,17 +119,12 @@ public class Gun extends Weapon {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if (!onGround && owner.isFlipX() != texture.isFlipY()) {
-            texture.flip(false, true);
-        }
 
         ArrayList<Bullet> removeArrayList = new ArrayList<>();
         for (Bullet bullet : bulletArrayList) {
             bullet.update(deltaTime);
             if (bullet.isStop()) {
                 removeArrayList.add(bullet);
-                owner.getMap().createAnExplosion(owner, bullet.getX(), bullet.getY(), 30, this.explosionAnimation, false);
-                RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsEnum, bullet.getX(), bullet.getY());
             }
         }
         bulletArrayList.removeAll(removeArrayList);
@@ -144,23 +139,30 @@ public class Gun extends Weapon {
         for (Bullet bullet : bulletArrayList) {
             bullet.draw(batch);
         }
-        if (!drawWeapon) {
-            return;
-        }
+
         if (onGround) {
             batch.draw(texture, x, y, width, height);
             return;
         }
-        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
-        float dlX = 0;
-        float dlY = 0;
-        if (texture.isFlipY()) {
-            dlX = owner.getX() + owner.getWidth() - (owner.getWeaponX() - originX);
-            dlY = owner.getY() + owner.getWeaponY() - originY;
-        } else {
-            dlX = owner.getX() + owner.getWeaponX() - originX;
-            dlY = owner.getY() + owner.getWeaponY() - originY;
+
+        if (!drawWeapon) {
+            return;
         }
+
+        if (owner.isFlipX() != texture.isFlipY()) {
+            texture.flip(false, true);
+        }
+
+        Vector2 weaponPos = owner.getAbsoluteWeaponPos();
+        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
+        float dlX = weaponPos.x;
+        float dlY = weaponPos.y - originY;
+        if (owner.isFlipX()) {
+            dlX += originX;
+        } else {
+            dlX -= originX;
+        }
+
         batch.draw(texture, dlX, dlY, originX, originY, width, height, 1, 1, degree);
     }
     public int getCurrentNumWallCollide() {

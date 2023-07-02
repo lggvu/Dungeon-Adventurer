@@ -219,25 +219,17 @@
     "Sword 1": {
         "type": "Sword",
         "sword_texture": "weapon/sword.png",
-        "effect_texture": {
-            "path": "weapon/sword-effect.png",
-            "paddingWidth": 16,
-            "paddingHeight": 30,
-            "gapWidth": 24,
-            "gapHeight": 50,
-            "imgWidth": 100,
-            "imgHeight": 100,
-            "startCol": 0,
-            "startRow": 1,
-            "frameCols": 2,
-            "frameRows": 1
-        },
+        "effect_texture": [
+            "weapon/slices/slice1/1_36_53.png",
+            "weapon/slices/slice1/2_32_53.png"
+        ],
         "properties": {
             "damage": 8,
             "energy_cost": 1.0,
             "attack_speed": 2.0,
             "range": 100,
             "critical_rate": 2.0,
+            "duration": 0.15,
             "effect": []
         },
         "width": 21,

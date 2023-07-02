@@ -45,6 +45,7 @@ public class Room {
                         map.setGateX(roomRectangle.x);
                         map.setGateY(roomRectangle.y);
                     } else if (mapObject.getName().equals("start_point")) {
+                        System.out.println("Init position for player: " + roomRectangle.x + " " + roomRectangle.y);
                         map.getPlayer().setPosition(roomRectangle.x, roomRectangle.y);
                     }
                 }

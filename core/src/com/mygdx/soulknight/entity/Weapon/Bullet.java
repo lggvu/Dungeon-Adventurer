@@ -11,6 +11,8 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
+import com.mygdx.soulknight.entity.Effect.Explosion;
+import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class Bullet {
     private ArrayList<SimpleCharacter> enemyHitRecently = new ArrayList<>();
     private SimpleCharacter target = null;
     private float degreeChangePerSec = 60f;
+    private Animation<TextureRegion> explosionAnimation;
     public Vector2 getDirection() {
         return direction;
     }
@@ -55,9 +58,10 @@ public class Bullet {
     public float getY() {
         return y;
     }
-    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, int damage, float x, float y,
+    public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, Animation<TextureRegion> explosionAnimation, int damage, float x, float y,
                   Vector2 direction, float speed, ArrayList<EffectEnum> effectsEnum, int numDestroyObject,
                   int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
+        this.explosionAnimation = explosionAnimation;
         this.x = x - width / 2;
         this.y = y - height / 2;
         this.direction = direction.nor();
@@ -140,39 +144,42 @@ public class Bullet {
             }
         }
 
-        if (!noCollide) {
-            return;
-        }
-
-        for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
-            if (rectangle.overlaps(object.getRectangle())) {
-                owner.getMap().removeDestroyableObject(object);
-                numDestroyObject--;
-                break;
+        if (noCollide) {
+            for (DestroyableObject object : owner.getMap().getDestroyableObjects()) {
+                if (rectangle.overlaps(object.getRectangle())) {
+                    owner.getMap().removeDestroyableObject(object);
+                    numDestroyObject--;
+                    break;
+                }
             }
-        }
 
-        ArrayList<SimpleCharacter> rmList = new ArrayList<>();
-        for (SimpleCharacter character : enemyHitRecently) {
-            if (!character.getRectangle().overlaps(rectangle)) {
-                rmList.add(character);
+            ArrayList<SimpleCharacter> rmList = new ArrayList<>();
+            for (SimpleCharacter character : enemyHitRecently) {
+                if (!character.getRectangle().overlaps(rectangle)) {
+                    rmList.add(character);
+                }
             }
-        }
-        enemyHitRecently.removeAll(rmList);
+            enemyHitRecently.removeAll(rmList);
 
-        for (SimpleCharacter character : owner.getEnemyList()) {
-            if (character.getRectangle().overlaps(rectangle) && !enemyHitRecently.contains(rmList)) {
-                character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
-                numEnemyHit--;
-                character.getHit(damage, DamageType.PHYSIC);
-                enemyHitRecently.add(character);
-                break;
+            for (SimpleCharacter character : owner.getEnemyList()) {
+                if (character.getRectangle().overlaps(rectangle) && !enemyHitRecently.contains(rmList)) {
+                    character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
+                    numEnemyHit--;
+                    character.getHit(damage, DamageType.PHYSIC);
+                    enemyHitRecently.add(character);
+                    break;
+                }
             }
+
+            this.x = testX;
+            this.y = testY;
+            distanceLeft -= speed * deltaTime;
         }
 
-        this.x = testX;
-        this.y = testY;
-        distanceLeft -= speed * deltaTime;
+        if (isStop()) {
+            owner.getMap().createAnExplosion(owner, getX(), getY(), 30, this.explosionAnimation, false);
+            RegionEffect.loadRegionEffect(owner, owner.getMap(), effectsEnum, getX(), getY());
+        }
     }
 
     public void setSize(float width, float height) {

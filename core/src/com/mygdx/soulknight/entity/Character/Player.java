@@ -19,6 +19,7 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.badlogic.gdx.Input;
+import com.mygdx.soulknight.util.Collision;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public abstract class Player extends SimpleCharacter {
             }
             boolean collide = false;
             for (Rectangle rectangle : map.getCollisionRect()) {
-                if (isLineCollideRectange(playerPos, monsterPos, rectangle)) {
+                if (Collision.isLineCollideRect(playerPos, monsterPos, rectangle)) {
                     monsterInVision.put(character, false);
                     collide = true;
                     break;
@@ -96,7 +97,7 @@ public abstract class Player extends SimpleCharacter {
                 continue;
             }
             for (DestroyableObject object : map.getDestroyableObjects()) {
-                if (isLineCollideRectange(playerPos, monsterPos, object.getRectangle())) {
+                if (Collision.isLineCollideRect(playerPos, monsterPos, object.getRectangle())) {
                     monsterInVision.put(character, false);
                     collide = true;
                     break;
@@ -106,43 +107,6 @@ public abstract class Player extends SimpleCharacter {
                 monsterInVision.put(character, true);
             }
         }
-    }
-
-    private boolean isLineCollideRectange(Vector2 pos1, Vector2 pos2, Rectangle rectangle) {
-        if (pos1.x < rectangle.x && pos2.x < rectangle.x) {
-            return false;
-        }
-        if (pos1.x > rectangle.x + rectangle.width && pos2.x > rectangle.x + rectangle.width) {
-            return false;
-        }
-        if (pos1.y < rectangle.y && pos2.y < rectangle.y) {
-            return false;
-        }
-        if (pos1.y > rectangle.y + rectangle.height && pos2.y > rectangle.y + rectangle.height) {
-            return false;
-        }
-        if (pos1.x == pos2.x) {
-            return true;
-        }
-        float a = (pos2.y - pos1.y) / (pos2.x - pos1.x);
-        float b = (pos2.x * pos1.y - pos1.x * pos2.y) / (pos2.x - pos1.x);
-        float test = a * rectangle.x + b;
-        if (rectangle.y <= test && test <= (rectangle.y + rectangle.height)) {
-            return true;
-        }
-        test = a * (rectangle.x + rectangle.width) + b;
-        if (rectangle.y <= test && test <= (rectangle.y + rectangle.height)) {
-            return true;
-        }
-        test = (rectangle.y - b) / a;
-        if (rectangle.x <= test && test <= rectangle.x + rectangle.width) {
-            return true;
-        }
-        test = (rectangle.y + rectangle.height - b) / a;
-        if (rectangle.x <= test && test <= rectangle.x + rectangle.width) {
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -253,7 +217,7 @@ public abstract class Player extends SimpleCharacter {
                 collectItem.add(item);
                 map.getItemsOnGround().remove(item);
             }
-            if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange * 10) {
+            if (new Vector2(x, y).dst(map.getGateX(), map.getGateY()) < collectRange * 2) {
                 map.setOver(true);
             }
         }
