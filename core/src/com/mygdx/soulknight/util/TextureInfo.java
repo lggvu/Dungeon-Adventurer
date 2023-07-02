@@ -20,6 +20,12 @@ public class TextureInfo {
         textureRegion = new TextureRegion(new Texture(path));
     }
 
+    public TextureInfo(TextureRegion textureRegion, float width, float height) {
+        this.textureRegion = textureRegion;
+        this.width = width;
+        this.height = height;
+    }
+
     public TextureRegion getTextureRegion() {
         return textureRegion;
     }

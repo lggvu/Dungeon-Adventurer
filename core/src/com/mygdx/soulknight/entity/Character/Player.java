@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,6 +22,7 @@ import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.badlogic.gdx.Input;
 import com.mygdx.soulknight.util.Collision;
 import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,21 +41,21 @@ public abstract class Player extends SimpleCharacter {
         @Override
         public void activateSkill() {
             super.activateSkill();
-            SpriteLoader temp = spriteLoader;
-            spriteLoader = dodgeSpriteLoader;
-            dodgeSpriteLoader = temp;
+            Animation<TextureInfo> temp = animationMovement;
+            animationMovement = dodgeAnimation;
+            dodgeAnimation = temp;
         }
 
         @Override
         public void deactivateSkill() {
             super.deactivateSkill();
-            SpriteLoader temp = spriteLoader;
-            spriteLoader = dodgeSpriteLoader;
-            dodgeSpriteLoader = temp;
+            Animation<TextureInfo> temp = animationMovement;
+            animationMovement = dodgeAnimation;
+            dodgeAnimation = temp;
         }
     };
     protected PlayerSkill specialSkill;
-    protected SpriteLoader dodgeSpriteLoader;
+    protected Animation<TextureInfo> dodgeAnimation;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
     private Vector2 actualLastMoveDirection = new Vector2(1, 0);
@@ -70,7 +72,7 @@ public abstract class Player extends SimpleCharacter {
         this.maxArmor = source.get("armor").getAsInt();
         maxArmor = Integer.MAX_VALUE - 100;
         this.currentArmor = getCurrentMaxArmor();
-        dodgeSpriteLoader = new SpriteLoader(source.get("dodge_texture_path").getAsString(), characterName);
+        dodgeAnimation = new Animation<>(0.05f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
@@ -191,7 +193,6 @@ public abstract class Player extends SimpleCharacter {
                 actualLastMoveDirection = new Vector2(moveDirection.x, moveDirection.y).nor();
             } else {
                 stateTime = 0;
-                texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
             }
 
             this.room = map.getRoomPlayerIn();

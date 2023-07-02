@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,19 +17,19 @@ import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.TextureInfo;
 
 
 import java.util.ArrayList;
 
 public abstract class SimpleCharacter {
     public static final String CHARACTER_INFO_PATH = "info/character_info.json";
-    protected TextureRegion texture;
     protected WorldMap map;
     protected Room room;
     private static int ID = 0;
     protected boolean isStunned = false;
     protected String characterName;
-    protected SpriteLoader spriteLoader;
+    protected Animation<TextureInfo> animationMovement;
     private int maxHP = 10;
     protected float stateTime = 0f;
     protected int currentHP = 10;
@@ -143,8 +144,7 @@ public abstract class SimpleCharacter {
             height = source.get("height").getAsFloat();
             weaponX = source.get("weapon_x").getAsFloat();
             weaponY = source.get("weapon_y").getAsFloat();
-            spriteLoader = new SpriteLoader(source.get("texture_path").getAsString(), characterName);
-            texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
+            animationMovement = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("texture_path").getAsJsonArray()));
             maxHP = source.get("hp").getAsInt();
             currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
@@ -201,7 +201,6 @@ public abstract class SimpleCharacter {
         if (degree > 90 && degree < 270) {
             currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
         }
-        texture = spriteLoader.getWalkFrames(currentHeadDirection).getKeyFrame(stateTime, true);
     }
 
     public boolean isFlipX() {
@@ -218,7 +217,12 @@ public abstract class SimpleCharacter {
                 break;
             }
         }
-        batch.draw(texture, x, y, width, height);
+        TextureInfo textureInfo = animationMovement.getKeyFrame(stateTime, true);
+        TextureRegion textureRegion = textureInfo.getTextureRegion();
+        if (textureRegion.isFlipX() != isFlipX()) {
+            textureRegion.flip(true, false);
+        }
+        batch.draw(textureRegion, x, y, textureInfo.getWidth(), textureInfo.getHeight());
     }
 
     public void collectWeapon(Weapon weapon) {
