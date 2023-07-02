@@ -680,7 +680,7 @@
   <object id="636" x="225.333" y="14.6667" width="13.3333" height="340"/>
   <object id="637" x="97.3333" y="352" width="270.667" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="destroyable_object" visible="0">
+ <objectgroup id="6" name="destroyable_object">
   <object id="253" gid="1481" x="2064" y="1200" width="16" height="16"/>
   <object id="254" gid="1481" x="2080" y="1200" width="16" height="16"/>
   <object id="255" gid="1481" x="2096" y="1200" width="16" height="16"/>

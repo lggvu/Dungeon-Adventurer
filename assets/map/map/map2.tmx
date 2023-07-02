@@ -362,7 +362,7 @@
   <object id="234" gid="4279" x="591" y="655.5" width="16" height="16"/>
   <object id="235" gid="4280" x="607" y="655.5" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="13" name="destroyable_object" visible="0">
+ <objectgroup id="13" name="destroyable_object">
   <object id="90" x="608" y="240" width="16" height="16"/>
   <object id="91" x="624" y="240" width="16" height="16"/>
   <object id="92" x="624" y="256" width="16" height="16"/>
