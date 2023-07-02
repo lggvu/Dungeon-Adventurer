@@ -15,26 +15,27 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class SpriteLoader {
-    private final static String TEXTURE_INFO_PATH = "info/texture_info.json";
-
     public static TextureInfo[] loadTextureInfo(String sourceImage) {
-        try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(TEXTURE_INFO_PATH).reader(), JsonObject.class);
-            JsonObject source = json.get(sourceImage).getAsJsonObject();
-            int num_col = source.get("num_col").getAsInt();
-            float width = source.get("width").getAsFloat();
-            float height = source.get("height").getAsFloat();
-            Texture texture = new Texture(sourceImage);
-            TextureRegion[][] textureRegions = TextureRegion.split(texture,texture.getWidth() / num_col, texture.getHeight());
-            TextureInfo[] textureInfos = new TextureInfo[num_col];
-            for (int i = 0; i < textureRegions[0].length; i++) {
-                textureInfos[i] = new TextureInfo(textureRegions[0][i], width, height);
-            }
-            return textureInfos;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        int lastDot = sourceImage.lastIndexOf('.');
+        int lastUnderscore = sourceImage.lastIndexOf('_');
+        String ySubstring = sourceImage.substring(lastUnderscore + 1, lastDot);
+        String d = sourceImage.substring(0, lastUnderscore);
+        int secLastUnderScore = d.lastIndexOf("_");
+        String xSubstring = d.substring(secLastUnderScore + 1);
+
+        // Parse the x and y values as integers
+        int frameRows = Integer.parseInt(xSubstring);
+        int frameCols = Integer.parseInt(ySubstring);
+
+        Texture texture = new Texture(sourceImage);
+        int frameWidth = texture.getWidth() / frameCols;
+        int frameHeight = texture.getHeight() / frameRows;
+        TextureRegion[] textureRegions = to1DArray(TextureRegion.split(texture, frameWidth, frameHeight));
+        TextureInfo[] textureInfos = new TextureInfo[textureRegions.length];
+        for (int i = 0; i < textureRegions.length; i++) {
+            textureInfos[i] = new TextureInfo(textureRegions[i], frameWidth, frameHeight);
         }
+        return textureInfos;
     }
 
     public static TextureInfo[] loadTextureInfo(JsonArray jsonArray) {

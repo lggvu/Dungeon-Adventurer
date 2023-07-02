@@ -40,15 +40,15 @@ public class SelectCharacterScreen extends ScreenAdapter {
         hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         textItems = new Array<>();
 
-        Texture texture1=new Texture(Gdx.files.internal("character/adventurer/animation.png"));
+        Texture texture1=new Texture(Gdx.files.internal("character/adventurer/animation_1_3.png"));
         TextureRegion[][] tmp1 = new TextureRegion(texture1).split(texture1.getWidth() / 3,texture1.getHeight() / 2);
         character1Texture = tmp1[0][0];
 
-        Texture texture2=new Texture(Gdx.files.internal("character/jungler/animation.png"));
+        Texture texture2=new Texture(Gdx.files.internal("character/jungler/animation_1_10.png"));
         TextureRegion[][] tmp2 = new TextureRegion(texture2).split(texture2.getWidth() /10,texture2.getHeight() / 2);
         character2Texture = tmp2[0][0];
 
-        Texture texture3=new Texture(Gdx.files.internal("character/assassin/animation.png"));
+        Texture texture3=new Texture(Gdx.files.internal("character/assassin/animation_1_8.png"));
         TextureRegion[][] tmp3 = new TextureRegion(texture3).split(texture3.getWidth() /8,texture3.getHeight() / 2);
         character3Texture = tmp3[0][0];
 
