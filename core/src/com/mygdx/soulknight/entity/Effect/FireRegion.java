@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FireRegion extends RegionEffect {
-    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName("effect/zone/fire_1_4.png")));
+    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("effect/zone/fire_1_4.png")));
     private float timeExistLeft = 5f;
     private float timeEffectAgain = 1f;
     private SimpleCharacter owner = null;

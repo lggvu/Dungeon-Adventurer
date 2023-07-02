@@ -11,15 +11,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class SpriteLoader {
+    private final static String TEXTURE_INFO_PATH = "info/character_sprite_sheet_info.json";
     private int imgCharacterWidth, imgCharacterHeight;
     private int frameCols, frameRows;
     private HashMap<Integer, Integer> degree2AnimationID;
     private TextureRegion[][] textureRegions;
     public static final float ANIMATION_SPEED = 0.15f;
-    public SpriteLoader(String sourceImage, String characterName, String infoPath) {
+    public SpriteLoader(String sourceImage, String characterName) {
         this.degree2AnimationID = new HashMap<>();
         try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class);
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(TEXTURE_INFO_PATH).reader(), JsonObject.class);
             JsonObject source = json.get(sourceImage).getAsJsonObject();
             int gapWidth = source.get("gapWidth").getAsInt();
             int gapHeight = source.get("gapHeight").getAsInt();
@@ -45,20 +46,7 @@ public class SpriteLoader {
         }
     }
 
-    public static ArrayList<String> getCharacterNameFromImage(String sourceImage, String infoPath) {
-        ArrayList<String> result = new ArrayList<>();
-        try {
-            JsonObject characters = new Gson().fromJson(Gdx.files.internal(infoPath).reader(), JsonObject.class).get(sourceImage).getAsJsonObject().get("character").getAsJsonObject();
-            for (String key : characters.keySet()) {
-                result.add(key);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public static TextureRegion[][] loadTextureByFileName(String path) {
+    public static TextureRegion[][] splitTextureByFileName(String path) {
         int underscoreIndex1 = path.indexOf('_');
         int underscoreIndex2 = path.lastIndexOf('_');
 
@@ -90,14 +78,6 @@ public class SpriteLoader {
         return res;
     }
 
-    public static ArrayList<String> getCharacterNameFromImage(String sourceImage) {
-        return getCharacterNameFromImage(sourceImage, "character/info.json");
-    }
-
-    public SpriteLoader(String sourceImage, String characterName) {
-        this(sourceImage, characterName, "info/character_sprite_sheet_info.json");
-
-    }
 
     public static TextureRegion[][] splitTexture(Texture texture, int width, int height, int gapWidth, int gapHeight, int paddingWidth, int paddingHeight, int frame_cols, int frame_rows, int startCol, int startRow) {
         TextureRegion[][] textureRegions = new TextureRegion[frame_rows][frame_cols];

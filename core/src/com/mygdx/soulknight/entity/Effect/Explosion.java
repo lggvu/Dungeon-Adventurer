@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Explosion extends RegionEffect {
-    public final static Animation<TextureRegion> NORMAL_BOOM = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName("explosion/explosion_4_5.png")));
+    public final static Animation<TextureRegion> NORMAL_BOOM = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("explosion/explosion_4_5.png")));
     private float x;
     private float y;
     private float radius;

@@ -16,6 +16,7 @@ import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,24 +45,6 @@ public class Sword extends Weapon {
         }
         swordAnimation = new Animation<>(jsonObject.get("properties").getAsJsonObject().get("duration").getAsFloat(), frames);
         return jsonObject;
-    }
-
-    class TextureInfo {
-        public TextureRegion textureRegion;
-        public float width;
-        public float height;
-
-        public TextureInfo(String path) {
-            int underscoreIndex1 = path.indexOf('_');
-            int underscoreIndex2 = path.lastIndexOf('_');
-            // Extract the x and y substrings
-            String xSubstring = path.substring(underscoreIndex1 + 1, underscoreIndex2);
-            String ySubstring = path.substring(underscoreIndex2 + 1, path.lastIndexOf('.'));
-            // Parse the x and y values as integers
-            width = Integer.parseInt(xSubstring);
-            height = Integer.parseInt(ySubstring);
-            textureRegion = new TextureRegion(new Texture(path));
-        }
     }
 
 

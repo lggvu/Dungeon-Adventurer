@@ -11,6 +11,7 @@ import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.util.Collision;
+import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,12 @@ public class Slice {
     private final static float DST_UNIT = 50;
     private float stateTime = 0;
     private SimpleCharacter owner;
-    private Animation<Sword.TextureInfo> animation;
+    private Animation<TextureInfo> animation;
     private float directionDegree, rangeWeapon;
     private int damage;
     private ArrayList<Integer> characterAttackedId = new ArrayList<>();
     private ArrayList<EffectEnum> effectsEnum;
-    public Slice(Animation<Sword.TextureInfo> animation, Vector2 direction, SimpleCharacter owner, float rangeWeapon, int damage, ArrayList<EffectEnum> effectsEnum) {
+    public Slice(Animation<TextureInfo> animation, Vector2 direction, SimpleCharacter owner, float rangeWeapon, int damage, ArrayList<EffectEnum> effectsEnum) {
         this.owner = owner;
         this.directionDegree = direction.angleDeg(new Vector2(1, 0));
         this.animation = animation;
@@ -39,8 +40,8 @@ public class Slice {
     public void update(float deltaTime) {
         stateTime += deltaTime;
         if (!isStop()) {
-            Sword.TextureInfo temp = animation.getKeyFrame(stateTime, true);
-            float degree = MathUtils.atan(temp.height / 2 / DST_UNIT) * MathUtils.radiansToDegrees;
+            TextureInfo temp = animation.getKeyFrame(stateTime, true);
+            float degree = MathUtils.atan(temp.getHeight() / 2 / DST_UNIT) * MathUtils.radiansToDegrees;
             float startDegree = directionDegree - degree, endDegree = directionDegree + degree;
             Vector2 weaponPos = owner.getAbsoluteWeaponPos();
             boolean isCollide;
@@ -67,9 +68,9 @@ public class Slice {
     }
 
     public void draw(SpriteBatch batch) {
-        Sword.TextureInfo textureInfo = animation.getKeyFrame(stateTime, true);
-        float alpha = textureInfo.height / 2 / DST_UNIT;
-        float beta = textureInfo.width / textureInfo.height;
+        TextureInfo textureInfo = animation.getKeyFrame(stateTime, true);
+        float alpha = textureInfo.getHeight() / 2 / DST_UNIT;
+        float beta = textureInfo.getWidth() / textureInfo.getHeight();
         float actualHeight = rangeWeapon / (0.5f + alpha * beta);
         float actualWidth = beta * actualHeight;
         Vector2 absPos = owner.getAbsoluteWeaponPos();
@@ -77,7 +78,7 @@ public class Slice {
         float offsetY = absPos.y - actualHeight / 2;
         float originX = -(rangeWeapon - actualWidth);
         float originY = actualHeight / 2;
-        TextureRegion textureRegion = textureInfo.textureRegion;
+        TextureRegion textureRegion = textureInfo.getTextureRegion();
         if (owner.isFlipX() != textureRegion.isFlipY()) {
             textureRegion.flip(false, true);
         }

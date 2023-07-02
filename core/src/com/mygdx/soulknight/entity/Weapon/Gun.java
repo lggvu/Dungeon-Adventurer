@@ -37,8 +37,8 @@ public class Gun extends Weapon {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
         this.bulletTextureRegion = new TextureRegion(new Texture(bulletTexturePath));
         this.bulletSpeed = bulletSpeed;
-        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(explosionTexturePath));
-        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(shotExplosionTexturePath));
+        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(explosionTexturePath));
+        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
     }
@@ -51,10 +51,10 @@ public class Gun extends Weapon {
         bulletTextureRegion = new TextureRegion(new Texture(jsonObject.get("bullet_texture").getAsString()));
         bulletSpeed = properties.get("bullet_speed").getAsFloat();
         String explosionTexturePath = jsonObject.get("explosion_texture").getAsString();
-        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(explosionTexturePath));
+        TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(explosionTexturePath));
         explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         String shotExplosionTexturePath = jsonObject.get("shot_explosion_texture").getAsString();
-        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName(shotExplosionTexturePath));
+        TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
         JsonElement jsonElement = properties.get("attack_directions");
         Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();

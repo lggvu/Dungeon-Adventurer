@@ -51,7 +51,7 @@ public class WorldMap {
     public WorldMap(String tmxPath, Player player, Level level) {
         this.level = level;
         this.player = player;
-        teleGateTextureRegions = SpriteLoader.loadTextureByFileName("tele_4_4.png");
+        teleGateTextureRegions = SpriteLoader.splitTextureByFileName("tele_4_4.png");
 //        teleGate = new Animation<>(0.15f, );
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PoisonRegion extends RegionEffect{
-    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName("effect/zone/poison_1_3.png")));
+    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("effect/zone/poison_1_3.png")));
     private float timeExistLeft = 5f;
     private float timeEffectAgain = 1f;
     private SimpleCharacter owner = null;

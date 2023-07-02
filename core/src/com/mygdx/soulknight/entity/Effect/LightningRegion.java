@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LightningRegion extends RegionEffect{
-    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.loadTextureByFileName("effect/zone/lightning_1_5.png")));
+    private final static Animation<TextureRegion> ANIMATION = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("effect/zone/lightning_1_5.png")));
     private float timeExistLeft = 5f;
     private float timeEffectAgain = 1f;
     private SimpleCharacter owner = null;
