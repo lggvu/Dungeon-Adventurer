@@ -26,7 +26,7 @@
         "height": 32,
         "weapon_x": 12,
         "weapon_y": 16,
-        "dodge_texture_path": "character/img2.png",
+        "dodge_texture_path": "character/adventurer/dodge-full.png",
         "cooldown_special_skill_texture_path": "cooldown/2.png"
     },
     "jungler": {
