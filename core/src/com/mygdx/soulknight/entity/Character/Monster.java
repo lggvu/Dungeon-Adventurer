@@ -46,6 +46,7 @@ public class Monster extends SimpleCharacter {
         if (isStunned || !isAlive()) {
             return;
         }
+        stateTime += deltaTime;
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
@@ -53,6 +54,7 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedInRangeAttack);
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
+                stateTime -= deltaTime;
                 move(direction.x, direction.y, deltaTime);
             }
             this.attack(direction);
@@ -62,9 +64,11 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+            if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
             } else {
+                stateTime -= deltaTime;
                 lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
             }
         }

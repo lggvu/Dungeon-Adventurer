@@ -80,9 +80,9 @@ public abstract class Player extends SimpleCharacter {
 
     private void updatePlayerVision() {
         monsterInVision.clear();
-        Vector2 playerPos = new Vector2(x + width / 2, y + height / 2);
+        Vector2 playerPos = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
         for (SimpleCharacter character : getEnemyList()) {
-            Vector2 monsterPos = new Vector2(character.x + character.width / 2, character.y + character.height / 2);
+            Vector2 monsterPos = new Vector2(character.x + character.getWidth() / 2, character.y + character.getHeight() / 2);
             if (monsterPos.dst(playerPos) > visionRange) {
                 monsterInVision.put(character, false);
                 continue;
@@ -254,7 +254,7 @@ public abstract class Player extends SimpleCharacter {
         if (roomPlayerIn != null) {
             float minDst = Float.MAX_VALUE;
             Vector2 direction = null;
-            Vector2 playerPosition = new Vector2(x + width / 2, y + height / 2);
+            Vector2 playerPosition = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
             for (Monster monster : roomPlayerIn.getMonsterAlive()) {
                 if (isInVision(monster)) {
                     Vector2 monsterPos = new Vector2(monster.getX() + monster.getWidth() / 2, monster.getY() + monster.getHeight() / 2);

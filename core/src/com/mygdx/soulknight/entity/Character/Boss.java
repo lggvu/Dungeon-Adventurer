@@ -78,7 +78,9 @@ public class Boss extends Monster {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+            stateTime += deltaTime;
+            if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
             } else {
                 lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
