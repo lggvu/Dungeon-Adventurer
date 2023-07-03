@@ -48,12 +48,19 @@ public class Boss extends Monster {
 
     @Override
     public void update(float deltaTime) {
-        applyEffect(deltaTime);
-        currentTimeCount += deltaTime;
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
-        if (isStunned || !isAlive()) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
+            return;
+        }
+
+        applyEffect(deltaTime);
+        currentTimeCount += deltaTime;
+
+        if (isStunned) {
             return;
         }
 

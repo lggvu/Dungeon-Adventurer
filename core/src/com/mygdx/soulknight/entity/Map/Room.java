@@ -96,7 +96,7 @@ public class Room {
             monsterAlive.removeAll(monstersKilled);
             monsterDie.addAll(monstersKilled);
             for (Monster monster : monstersKilled) {
-                monster.setDie();
+                monster.activateDying();
             }
         } else {
             for (Monster monster : monsterAlive) {

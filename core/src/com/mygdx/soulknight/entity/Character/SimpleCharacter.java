@@ -30,6 +30,7 @@ public abstract class SimpleCharacter {
     protected boolean isStunned = false;
     protected String characterName;
     protected Animation<TextureInfo> animationMovement;
+    protected Animation<TextureInfo> dyingAnimation;
     private int maxHP = 10;
     protected float stateTime = 0f;
     protected int currentHP = 10;
@@ -108,6 +109,14 @@ public abstract class SimpleCharacter {
         }
     }
 
+    public void activateDying() {
+        stateTime = 0;
+        drawCharacter = false;
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
+    }
+
     public void addEffect(CharacterEffect effect) {
         if (isImmuneWithEffect(effect)) {
             return;
@@ -145,6 +154,7 @@ public abstract class SimpleCharacter {
             weaponX = source.get("weapon_x").getAsFloat();
             weaponY = source.get("weapon_y").getAsFloat();
             animationMovement = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("texture_path").getAsJsonArray()));
+            dyingAnimation = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("die_texture_path").getAsJsonArray()));
             maxHP = source.get("hp").getAsInt();
             currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
@@ -208,6 +218,13 @@ public abstract class SimpleCharacter {
     }
 
     public void draw(SpriteBatch batch) {
+        if (!isAlive()) {
+            if (!isFinishDying()) {
+                TextureInfo textureInfo = dyingAnimation.getKeyFrame(stateTime, true);
+                batch.draw(textureInfo.getTextureRegion(), x, y, textureInfo.getWidth(), textureInfo.getHeight());
+            }
+            return;
+        }
         if (!drawCharacter) {
             return;
         }
@@ -223,6 +240,10 @@ public abstract class SimpleCharacter {
             textureRegion.flip(true, false);
         }
         batch.draw(textureRegion, x, y, textureInfo.getWidth(), textureInfo.getHeight());
+    }
+
+    public boolean isFinishDying() {
+        return dyingAnimation.isAnimationFinished(stateTime);
     }
 
     public void collectWeapon(Weapon weapon) {

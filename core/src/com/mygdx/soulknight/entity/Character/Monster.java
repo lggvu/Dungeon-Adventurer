@@ -39,11 +39,17 @@ public class Monster extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
-        applyEffect(deltaTime);
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
-        if (isStunned || !isAlive()) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
+            return;
+        }
+
+        applyEffect(deltaTime);
+        if (isStunned) {
             return;
         }
         stateTime += deltaTime;
@@ -78,12 +84,6 @@ public class Monster extends SimpleCharacter {
         currentHP -= damage;
     }
 
-    public void setDie() {
-        drawCharacter = false;
-        for (Weapon weapon : weapons) {
-            weapon.setDrawWeapon(false);
-        }
-    }
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);

@@ -130,6 +130,13 @@ public class WorldMap {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        if (!player.isAlive()) {
+            player.activateDying();
+            if (player.isFinishDying()) {
+                setOver(true);
+            }
+            return;
+        }
         for (Room room : rooms) {
             room.update(deltaTime);
         }
@@ -306,9 +313,6 @@ public class WorldMap {
     }
 
     public boolean isOver() {
-        if (player.getCurrentHP() <= 0) {
-            isOver = true;
-        }
         return isOver;
     }
 

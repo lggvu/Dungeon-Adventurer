@@ -37,6 +37,7 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
+    private boolean isDying = false;
     private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
@@ -70,7 +71,8 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-        maxArmor = Integer.MAX_VALUE - 100;
+//        maxArmor = Integer.MAX_VALUE - 100;
+//        System.out.println(maxArmor);
         this.currentArmor = getCurrentMaxArmor();
         dodgeAnimation = new Animation<>(0.05f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
         this.maxMana = source.get("energy").getAsInt();
@@ -78,6 +80,13 @@ public abstract class Player extends SimpleCharacter {
         return source;
     }
 
+    @Override
+    public void activateDying() {
+        if (!isDying) {
+            isDying = true;
+            super.activateDying();
+        }
+    }
     private void updatePlayerVision() {
         monsterInVision.clear();
         Vector2 playerPos = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
@@ -156,6 +165,12 @@ public abstract class Player extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
+            return;
+        }
+
         updatePlayerVision();
         specialSkill.update(deltaTime);
         dodgeSkill.update(deltaTime);
