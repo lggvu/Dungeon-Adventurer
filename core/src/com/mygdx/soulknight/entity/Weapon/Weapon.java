@@ -19,6 +19,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public abstract class Weapon implements Pickable, AbilityDrawer {
     private final static String INFO_PATH = "info/weapon_info.json";
@@ -211,5 +212,14 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
             return damage + owner.getAbility().getDamageIncrease();
         }
         return damage;
+    }
+
+    public static boolean randomCrit(float criticalRate) {
+        Random rand = new Random();
+        float float_random = rand.nextFloat();
+        if (float_random <= criticalRate) {
+            return true;
+        }
+        return false;
     }
 }

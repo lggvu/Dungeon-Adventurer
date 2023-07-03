@@ -83,7 +83,7 @@ public class Gun extends Weapon {
         gunBarrelY += (width - originX) * MathUtils.sinDeg(degree);
         owner.getMap().createAnExplosion(owner, gunBarrelX, gunBarrelY, 15, this.shotExplosionAnimation, false);
         bulletArrayList.add(new Bullet(owner, bulletTextureRegion, explosionAnimation, getCurrentDamage(), gunBarrelX, gunBarrelY, direction,
-                bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon));
+                bulletSpeed, effectsEnum, numDestroyObject, numEnemyHit, getCurrentNumWallCollide(), degreeChangePerSec, rangeWeapon, criticalRate));
     }
 
 

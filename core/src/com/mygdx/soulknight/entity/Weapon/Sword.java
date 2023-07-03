@@ -67,7 +67,7 @@ public class Sword extends Weapon {
         if (isAllowedAttack()) {
             elapsedSeconds = 0;
             subOwnerMana();
-            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum));
+            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum, criticalRate));
         }
     }
 

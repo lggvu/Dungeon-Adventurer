@@ -80,7 +80,8 @@ public class Monster extends SimpleCharacter {
         }
     }
     @Override
-    public void getHit(int damage, DamageType damageType) {
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
+        getMap().addDamageNumber(damage, damageType, isCrit, x, y);
         currentHP -= damage;
     }
 

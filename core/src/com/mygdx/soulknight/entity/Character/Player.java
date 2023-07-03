@@ -121,10 +121,11 @@ public abstract class Player extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage, DamageType damageType) {
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
         if (isImmunityWithDamage(damageType)) {
             return;
         }
+        getMap().addDamageNumber(damage, damageType, isCrit, x, y);
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;
