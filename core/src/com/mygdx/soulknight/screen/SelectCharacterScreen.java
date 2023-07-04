@@ -13,7 +13,6 @@ import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Adventurer;
 import com.mygdx.soulknight.entity.Character.Assassin;
-import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextItem;
 

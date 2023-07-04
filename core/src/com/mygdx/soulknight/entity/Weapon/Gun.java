@@ -8,17 +8,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.entity.Effect.CharacterEffect;
-import com.mygdx.soulknight.entity.Effect.Effect;
-import com.mygdx.soulknight.entity.Effect.Explosion;
-import com.mygdx.soulknight.entity.Effect.RegionEffect;
-import com.mygdx.soulknight.entity.Map.DestroyableObject;
-import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class Gun extends Weapon {

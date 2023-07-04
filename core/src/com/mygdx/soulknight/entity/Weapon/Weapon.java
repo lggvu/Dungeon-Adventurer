@@ -6,17 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.AbilityDrawer;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.entity.Effect.Effect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
 import com.mygdx.soulknight.entity.Item.Pickable;
-import com.mygdx.soulknight.util.SpriteLoader;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;

@@ -9,15 +9,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.ability.Ability;
-import com.mygdx.soulknight.ability.AbilityDrawer;
 import com.mygdx.soulknight.entity.Character.Player;
-import com.mygdx.soulknight.util.SpriteLoader;
-import com.mygdx.soulknight.util.TextItem;
-
 import java.util.ArrayList;
 
 public class SelectAbilityScreen extends ScreenAdapter {

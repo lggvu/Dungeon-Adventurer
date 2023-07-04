@@ -1,19 +1,15 @@
 package com.mygdx.soulknight.entity.Character;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Monster extends SimpleCharacter {
     protected float attackRadius = 200;

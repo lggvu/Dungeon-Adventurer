@@ -1,12 +1,8 @@
 package com.mygdx.soulknight.entity.Effect;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
@@ -15,7 +11,6 @@ import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;

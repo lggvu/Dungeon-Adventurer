@@ -13,9 +13,7 @@ import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 

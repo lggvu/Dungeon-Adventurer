@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -24,7 +23,6 @@ import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 
-import java.io.FileWriter;
 import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {

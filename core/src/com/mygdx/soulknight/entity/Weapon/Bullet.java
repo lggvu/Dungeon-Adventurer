@@ -1,6 +1,5 @@
 package com.mygdx.soulknight.entity.Weapon;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
-import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 

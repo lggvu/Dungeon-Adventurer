@@ -1,18 +1,12 @@
 package com.mygdx.soulknight.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class SpriteLoader {
     public static TextureInfo[] loadTextureInfo(String sourceImage) {

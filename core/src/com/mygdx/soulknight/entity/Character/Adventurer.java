@@ -1,15 +1,12 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.PlayerSkill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
-import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Adventurer extends Player {
     private Gun specialGun;
