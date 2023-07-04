@@ -1750,36 +1750,36 @@
     <object id="943" name="knight" x="736" y="912">
      <point/>
     </object>
-    <object id="945" x="736" y="1168">
+    <object id="945" name="knight" x="736" y="1168">
      <point/>
     </object>
-    <object id="946" x="1248" y="912">
+    <object id="946" name="knight" x="1248" y="912">
      <point/>
     </object>
-    <object id="947" x="1296" y="544">
+    <object id="947" name="knight" x="1296" y="544">
      <point/>
     </object>
-    <object id="948" x="1280" y="1152">
+    <object id="948" name="knight" x="1280" y="1152">
      <point/>
     </object>
    </objectgroup>
    <objectgroup id="69" name="NIGHTMARE" visible="0">
-    <object id="949" x="976" y="1168">
+    <object id="949" name="knight" x="976" y="1168">
      <point/>
     </object>
-    <object id="950" x="912" y="1024">
+    <object id="950" name="knight" x="912" y="1024">
      <point/>
     </object>
-    <object id="951" x="1152" y="864">
+    <object id="951" name="knight" x="1152" y="864">
      <point/>
     </object>
-    <object id="952" x="1440" y="496">
+    <object id="952" name="knight" x="1440" y="496">
      <point/>
     </object>
-    <object id="953" x="1456" y="880">
+    <object id="953" name="knight" x="1456" y="880">
      <point/>
     </object>
-    <object id="954" x="1344" y="816">
+    <object id="954" name="knight" x="1344" y="816">
      <point/>
     </object>
    </objectgroup>
