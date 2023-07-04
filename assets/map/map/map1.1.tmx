@@ -701,7 +701,7 @@
   <object id="921" x="1328" y="1008" width="16" height="48"/>
   <object id="922" x="1200" y="1008" width="128" height="16"/>
  </objectgroup>
- <objectgroup id="14" name="door_layer">
+ <objectgroup id="14" name="door_layer" visible="0">
   <object id="394" gid="9674" x="288" y="1520" width="16" height="16"/>
   <object id="395" gid="9738" x="288" y="1536" width="16" height="16"/>
   <object id="396" gid="9675" x="304" y="1520" width="16" height="16"/>
@@ -764,7 +764,7 @@
   <object id="592" x="448" y="400" width="64" height="16"/>
   <object id="593" x="464" y="384" width="32" height="16"/>
  </objectgroup>
- <objectgroup id="94" name="destroyable_object">
+ <objectgroup id="94" name="destroyable_object" visible="0">
   <object id="777" name="start_point" x="64" y="1568">
    <point/>
   </object>
