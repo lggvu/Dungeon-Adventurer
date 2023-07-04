@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="73" nextobjectid="1631">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="73" nextobjectid="1648">
  <tileset firstgid="1" source="../tsx/dungeontileset-extended.tsx"/>
  <tileset firstgid="4097" name="Dungeon_Tileset" tilewidth="16" tileheight="16" tilecount="100" columns="10">
   <image source="../img/Dungeon_Tileset.png" width="160" height="160"/>
@@ -1668,7 +1668,7 @@
   <object id="1629" gid="8631" x="1216" y="496" width="16" height="16"/>
   <object id="1630" gid="8631" x="1408" y="544" width="16" height="16"/>
  </objectgroup>
- <group id="7" name="room" locked="1">
+ <group id="7" name="room">
   <group id="20" name="start_room">
    <objectgroup id="14" name="area">
     <object id="464" x="816" y="2048" width="608" height="176"/>
@@ -1679,6 +1679,9 @@
     <object id="678" name="start_point" x="1056" y="2320">
      <point/>
     </object>
+    <object id="1637" x="1088" y="1856" width="80" height="48"/>
+    <object id="1638" x="1424" y="2112" width="144" height="48"/>
+    <object id="1639" x="1520" y="2160" width="48" height="48"/>
    </objectgroup>
   </group>
   <group id="25" name="0">
@@ -1689,6 +1692,8 @@
     <object id="485" x="1872" y="2176" width="144" height="160"/>
     <object id="486" x="2016" y="2176" width="48" height="80"/>
     <object id="487" x="2144" y="2176" width="240" height="96"/>
+    <object id="1640" x="1520" y="2224" width="144" height="48"/>
+    <object id="1641" x="1872" y="1968" width="160" height="16"/>
    </objectgroup>
    <objectgroup id="26" name="EASY">
     <object id="780" name="knight" x="1760" y="2080">
@@ -1747,6 +1752,8 @@
     <object id="808" x="2144" y="1504" width="128" height="16"/>
     <object id="809" x="2272" y="1424" width="48" height="16"/>
     <object id="810" x="1808" y="1504" width="48" height="32"/>
+    <object id="1643" x="1872" y="1920" width="160" height="32"/>
+    <object id="1644" x="1904" y="1856" width="16" height="32"/>
    </objectgroup>
    <objectgroup id="31" name="EASY">
     <object id="792" name="knight" x="2112" y="1856">
@@ -1834,6 +1841,9 @@
     <object id="470" x="1008" y="1328" width="160" height="464"/>
     <object id="471" x="1168" y="1328" width="480" height="400"/>
     <object id="472" x="1328" y="1600" width="400" height="192"/>
+    <object id="1634" x="960" y="1680" width="48" height="48"/>
+    <object id="1635" x="1088" y="1792" width="80" height="48"/>
+    <object id="1636" x="1648" y="1328" width="16" height="48"/>
    </objectgroup>
    <objectgroup id="36" name="EASY">
     <object id="819" name="knight" x="1104" y="1648">
@@ -1898,6 +1908,9 @@
     <object id="458" x="704" y="1856" width="80" height="80"/>
     <object id="459" x="544" y="1920" width="96" height="16"/>
     <object id="460" x="240" y="1920" width="240" height="16"/>
+    <object id="1631" x="192" y="1328" width="48" height="80"/>
+    <object id="1632" x="304" y="1936" width="112" height="48"/>
+    <object id="1633" x="912" y="1680" width="32" height="48"/>
    </objectgroup>
    <objectgroup id="41" name="EASY">
     <object id="833" name="knight" x="240" y="1840">
@@ -2015,6 +2028,7 @@
     <object id="446" x="128" y="352" width="176" height="144"/>
     <object id="447" x="48" y="496" width="336" height="416"/>
     <object id="448" x="16" y="912" width="400" height="320"/>
+    <object id="1647" x="192" y="1232" width="48" height="80"/>
    </objectgroup>
    <objectgroup id="51" name="EASY">
     <object id="863" name="knight" x="176" y="576">
@@ -2135,6 +2149,7 @@
     <object id="676" x="1616" y="160" width="640" height="944"/>
     <object id="677" x="1808" y="1104" width="448" height="48"/>
     <object id="1347" x="1392" y="208" width="224" height="48"/>
+    <object id="1646" x="2000" y="1152" width="64" height="48"/>
    </objectgroup>
    <objectgroup id="61" name="EASY">
     <object id="893" name="knight" x="1792" y="1072">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="57" nextobjectid="1814">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="57" nextobjectid="1834">
  <tileset firstgid="1" source="../tsx/Floor.tsx"/>
  <tileset firstgid="5" source="../tsx/Decor.tsx"/>
  <tileset firstgid="86" source="../tsx/DoubleDoor.tsx"/>
@@ -892,7 +892,7 @@
   <object id="1640" x="2096" y="624" width="48" height="16"/>
   <object id="1641" x="2224" y="624" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="56" name="destroyable_object" visible="0">
+ <objectgroup id="56" name="destroyable_object">
   <object id="1644" name="ark" gid="5866" x="128" y="2160" width="16" height="16"/>
   <object id="1645" name="ark" gid="5866" x="480" y="2336" width="16" height="16"/>
   <object id="1646" name="ark_weapon" gid="5995" x="304" y="2256" width="16" height="16"/>
@@ -1055,8 +1055,8 @@
   <object id="1812" name="LARGE_EXPLOSION" gid="35" x="1184" y="2352" width="16" height="16"/>
   <object id="1813" name="LARGE_EXPLOSION" gid="35" x="560" y="1680" width="16" height="16"/>
  </objectgroup>
- <group id="9" name="room" visible="0" locked="1">
-  <group id="18" name="start_room" locked="1">
+ <group id="9" name="room">
+  <group id="18" name="start_room" visible="0">
    <objectgroup id="19" name="area">
     <object id="1378" x="0" y="2048" width="272" height="336"/>
     <object id="1379" x="272" y="2048" width="96" height="288"/>
@@ -1064,14 +1064,17 @@
     <object id="1381" name="start_point" x="64" y="2336">
      <point/>
     </object>
+    <object id="1818" x="560" y="2160" width="112" height="80"/>
+    <object id="1819" x="256" y="2000" width="128" height="48"/>
    </objectgroup>
   </group>
-  <group id="20" name="0" locked="1">
+  <group id="20" name="0" visible="0">
    <objectgroup id="11" name="area">
     <object id="213" x="96" y="1616" width="576" height="320"/>
     <object id="215" x="672" y="1616" width="48" height="48"/>
     <object id="216" x="672" y="1904" width="48" height="32"/>
     <object id="218" x="48" y="1680" width="48" height="192"/>
+    <object id="1820" x="256" y="1936" width="128" height="48"/>
    </objectgroup>
    <objectgroup id="31" name="EASY">
     <object id="1417" name="knight" x="304" y="1824">
@@ -1118,7 +1121,7 @@
     </object>
    </objectgroup>
   </group>
-  <group id="21" name="1" locked="1">
+  <group id="21" name="1">
    <objectgroup id="12" name="area">
     <object id="219" x="64" y="992" width="128" height="400"/>
     <object id="221" x="192" y="800" width="832" height="544"/>
@@ -1199,13 +1202,15 @@
     </object>
    </objectgroup>
   </group>
-  <group id="23" name="2" locked="1">
+  <group id="23" name="2">
    <objectgroup id="14" name="area">
     <object id="230" x="64" y="176" width="144" height="288"/>
     <object id="232" x="208" y="176" width="448" height="432"/>
     <object id="233" x="656" y="240" width="368" height="416"/>
-    <object id="234" x="336" y="608" width="320" height="48"/>
-    <object id="235" x="272" y="64" width="368" height="112"/>
+    <object id="1821" x="320" y="608" width="336" height="64"/>
+    <object id="1822" x="656" y="656" width="368" height="16"/>
+    <object id="1823" x="320" y="672" width="80" height="112"/>
+    <object id="1825" x="256" y="64" width="400" height="112"/>
    </objectgroup>
    <objectgroup id="39" name="EASY">
     <object id="1454" name="knight" x="544" y="512">
@@ -1237,6 +1242,12 @@
     <object id="1462" name="knight" x="240" y="512">
      <point/>
     </object>
+    <object id="1827" name="knight" x="592" y="416">
+     <point/>
+    </object>
+    <object id="1828" name="knight" x="384" y="608">
+     <point/>
+    </object>
    </objectgroup>
    <objectgroup id="41" name="HARD">
     <object id="1463" name="knight" x="928" y="592">
@@ -1246,6 +1257,12 @@
      <point/>
     </object>
     <object id="1465" name="knight" x="592" y="96">
+     <point/>
+    </object>
+    <object id="1829" name="knight" x="992" y="528">
+     <point/>
+    </object>
+    <object id="1830" name="knight" x="288" y="160">
      <point/>
     </object>
    </objectgroup>
@@ -1265,9 +1282,12 @@
     <object id="1470" name="knight" x="960" y="400">
      <point/>
     </object>
+    <object id="1826" name="knight" x="432" y="96">
+     <point/>
+    </object>
    </objectgroup>
   </group>
-  <group id="24" name="3" locked="1">
+  <group id="24" name="3">
    <objectgroup id="13" name="area">
     <object id="223" x="1328" y="1456" width="464" height="368"/>
     <object id="224" x="1520" y="1824" width="560" height="96"/>
@@ -1352,10 +1372,12 @@
     </object>
    </objectgroup>
   </group>
-  <group id="25" name="4" locked="1">
+  <group id="25" name="4">
    <objectgroup id="15" name="area">
     <object id="236" x="1392" y="640" width="992" height="560"/>
     <object id="237" x="1392" y="1200" width="816" height="128"/>
+    <object id="1832" x="2384" y="640" width="16" height="560"/>
+    <object id="1833" x="1360" y="1216" width="32" height="112"/>
    </objectgroup>
    <objectgroup id="47" name="EASY">
     <object id="1521" name="knight" x="1632" y="1264">
@@ -1417,10 +1439,12 @@
     </object>
    </objectgroup>
   </group>
-  <group id="26" name="5" locked="1">
+  <group id="26" name="5">
    <objectgroup id="10" name="area">
     <object id="211" x="816" y="1936" width="624" height="448"/>
     <object id="212" x="816" y="1840" width="512" height="96"/>
+    <object id="1814" x="800" y="1840" width="16" height="544"/>
+    <object id="1817" x="688" y="2160" width="112" height="80"/>
    </objectgroup>
    <objectgroup id="52" name="EASY">
     <object id="1538" name="knight" x="896" y="2192">
@@ -1470,7 +1494,7 @@
     </object>
    </objectgroup>
   </group>
-  <group id="22" name="final_room" locked="1">
+  <group id="22" name="final_room">
    <objectgroup id="27" name="NIGHTMARE">
     <object id="1408" name="knight" x="1888" y="480">
      <point/>
@@ -1540,6 +1564,7 @@
     <object id="1397" name="gate_position" x="1200" y="848">
      <point/>
     </object>
+    <object id="1831" x="2096" y="544" width="176" height="80"/>
    </objectgroup>
   </group>
  </group>
