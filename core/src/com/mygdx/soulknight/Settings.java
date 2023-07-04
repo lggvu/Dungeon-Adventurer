@@ -15,13 +15,15 @@ public class Settings {
 		DODGE,
 		SPECIAL_SKILL
 	}
-	private final static String SETTING_PATH = "info/settings.json";
+
+	private final static String SETTING_PATH = "assets/info/settings.json";
 
 	public static HashMap<GameButton, Integer> keyboardSetting = new HashMap<>();
 
 	public static void loadSetting() {
 		try {
 			JsonObject json = new Gson().fromJson(Gdx.files.internal(SETTING_PATH).reader(), JsonObject.class);
+			System.out.println("LOAD SETTING");
 			fps = json.get("FPS").getAsInt();
 			keyboardSetting.put(GameButton.DODGE, json.get("DODGE_KEY_CODE").getAsInt());
 			keyboardSetting.put(GameButton.SPECIAL_SKILL, json.get("SPEC_KEY_CODE").getAsInt());
@@ -34,6 +36,7 @@ public class Settings {
 
 	public static void saveSetting() {
 		Gson gson = new Gson();
+		System.out.println("SAVE SETTING");
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.add("FPS", new JsonPrimitive(fps));
 		jsonObject.add("SPEC_KEY_CODE", new JsonPrimitive(keyboardSetting.get(GameButton.SPECIAL_SKILL)));
@@ -41,7 +44,7 @@ public class Settings {
 		jsonObject.add("MUSIC_VOLUME", new JsonPrimitive(music.getVolume()));
 		jsonObject.add("SOUND_VOLUME", new JsonPrimitive(sound.getVolume()));
 		String json = gson.toJson(jsonObject);
-		Gdx.files.external(SETTING_PATH).writeString(json, false);
+		Gdx.files.local(SETTING_PATH).writeString(json, false);
 	}
 
 	public static void updateDodgeKeyCode(int keyCode) {
