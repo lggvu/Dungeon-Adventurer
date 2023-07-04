@@ -173,10 +173,10 @@ public abstract class SimpleCharacter {
     }
 
     public void move(float x, float y, float deltaTime) {
-        move(x, y, deltaTime, speedRun);
+        move(x, y, deltaTime, speedRun, 0);
     }
 
-    public void move(float x, float y, float deltaTime, float speed) {
+    public void move(float x, float y, float deltaTime, float speed, float gap) {
         stateTime += deltaTime;
         setLastMoveDirection(x, y);
         x = lastMoveDirection.x;
@@ -184,11 +184,11 @@ public abstract class SimpleCharacter {
         float testX = this.x + x * deltaTime * speed;
         float testY = this.y + y * deltaTime * speed;
         ArrayList<SimpleCharacter> allCharacter = map.getAllCharacter();
-        Rectangle rectangleTest = new Rectangle(this.x, testY, getWidth(), getHeight());
+        Rectangle rectangleTest = new Rectangle(this.x, testY, getWidth()+gap, getHeight()-getHeight()/3+gap);
         if (y != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.y = testY;
         }
-        rectangleTest = new Rectangle(testX, this.y, getWidth(), getHeight());
+        rectangleTest = new Rectangle(testX, this.y, getWidth(), getHeight()-getHeight()/3);
         if (x != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.x = testX;
         }

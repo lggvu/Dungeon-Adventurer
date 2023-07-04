@@ -15,7 +15,7 @@ public class Push extends CharacterEffect {
     @Override
     public void update(float deltaTime, SimpleCharacter affectedCharacter) {
         timeLeft -= deltaTime;
-        affectedCharacter.move(pushDirection.x, pushDirection.y, deltaTime, speedPush);
+        affectedCharacter.move(pushDirection.x, pushDirection.y, deltaTime, speedPush, 100);
     }
 
     @Override
