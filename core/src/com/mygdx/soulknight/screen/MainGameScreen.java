@@ -54,8 +54,8 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
-        specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Input.Keys.P);
-        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Input.Keys.H);
+        specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Settings.GameButton.SPECIAL_SKILL);
+        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Settings.GameButton.DODGE);
         coolDownBar = new CoolDownBar(player);
     }
 

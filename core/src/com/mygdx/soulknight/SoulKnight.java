@@ -7,6 +7,7 @@ import com.mygdx.soulknight.screen.MenuScreen;
 public class SoulKnight extends Game {
     @Override
     public void create () {
+        Settings.loadSetting();
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         this.setScreen(new MenuScreen(this));
     }

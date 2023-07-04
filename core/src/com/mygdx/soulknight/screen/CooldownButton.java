@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.PlayerSkill;
 
 public class CooldownButton extends Actor {
@@ -17,7 +18,7 @@ public class CooldownButton extends Actor {
 
     private float radius, margin;
 
-    public CooldownButton(final PlayerSkill playerSkill, float x, float y, float radius, float margin, final int key) {
+    public CooldownButton(final PlayerSkill playerSkill, float x, float y, float radius, float margin, final Settings.GameButton gameButton) {
         this.playerSkill = playerSkill;
         this.radius = radius;
         this.margin = margin;
@@ -26,24 +27,25 @@ public class CooldownButton extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
-                    playerSkill.activateSkill();
-                    return true;
-                }
-                return false;
+            if (!playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
+                playerSkill.activateSkill();
+                return true;
+            }
+            return false;
             }
         });
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == key && !playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
-                    playerSkill.activateSkill();
-                    return true;
-                }
-                return false;
+            if (keycode == Settings.getKeyCode(gameButton) && !playerSkill.isInProgresss() && !playerSkill.isCoolingDown()) {
+                playerSkill.activateSkill();
+                return true;
+            }
+            return false;
             }
         });
     }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

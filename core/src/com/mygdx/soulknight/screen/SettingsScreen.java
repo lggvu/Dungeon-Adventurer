@@ -2,20 +2,13 @@ package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -109,15 +102,51 @@ public class SettingsScreen implements Screen {
         });
         table.add(soundVolumeSlider).width(200).padBottom(10).row();
 
+        final Label dodgeBtn = new Label("Dodge Button:", skin);
+        table.add(dodgeBtn).left().padRight(10);
+        TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
+        final TextField field = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.DODGE)), textFieldStyle);
+        field.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                String key = Input.Keys.toString(keycode);
+                if (key.length() == 1) {
+                    field.setText(key.toUpperCase());
+                    Settings.updateDodgeKeyCode(keycode);
+                }
+                return false;
+            }
+        });
+        field.setMaxLength(1);
+        table.add(field).row();
+
+        final Label specialBtn = new Label("Special Skill Button:", skin);
+        table.add(specialBtn).left().padRight(10);
+        final TextField fieldSpec = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.SPECIAL_SKILL)), textFieldStyle);
+        fieldSpec.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                String key = Input.Keys.toString(keycode);
+                if (key.length() == 1) {
+                    fieldSpec.setText(key.toUpperCase());
+                    Settings.updateSpecKeyCode(keycode);
+                }
+                return false;
+            }
+        });
+        fieldSpec.setMaxLength(1);
+        table.add(fieldSpec).row();
+
         // Add a button to go back to the main menu
         Button okButton = new TextButton("OK", skin);
         okButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (gameScreen != null) {
-                	game.setScreen(new PauseGameScreen(game,gameScreen));
-                }
-                dispose();
+            if (gameScreen != null) {
+                game.setScreen(new PauseGameScreen(game,gameScreen));
+            }
+            Settings.saveSetting();
+            dispose();
             }
         });
         table.add(okButton).colspan(2).padTop(50);
@@ -135,8 +164,8 @@ public class SettingsScreen implements Screen {
 
         // Allow navigating back to the main menu by pressing the ESC key
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-        	if (gameScreen != null) {
-            	game.setScreen(new PauseGameScreen(game,gameScreen));
+            if (gameScreen != null) {
+                game.setScreen(new PauseGameScreen(game,gameScreen));
             }
             dispose();
         }
