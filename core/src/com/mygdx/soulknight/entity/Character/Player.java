@@ -73,7 +73,7 @@ public abstract class Player extends SimpleCharacter {
 //        maxArmor = Integer.MAX_VALUE - 100;
 //        System.out.println(maxArmor);
         this.currentArmor = getCurrentMaxArmor();
-        dodgeAnimation = new Animation<>(0.05f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
+        dodgeAnimation = new Animation<>(0.1f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
