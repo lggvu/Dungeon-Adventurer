@@ -80,7 +80,7 @@ public class Sword extends Weapon {
             if (owner.isFlipX() != texture.isFlipY()) {
                 texture.flip(false, true);
             }
-            float degree = owner.getCurrentHeadDirection().angleDeg(new Vector2(1, 0));
+            float degree = owner.isFlipX() ? 180 : 0;
             Vector2 weaponPos = owner.getAbsoluteWeaponPos();
             float dlX = weaponPos.x;
             float dlY = weaponPos.y - originY;

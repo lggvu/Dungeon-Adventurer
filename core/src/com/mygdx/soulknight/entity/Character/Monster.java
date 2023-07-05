@@ -48,7 +48,7 @@ public class Monster extends SimpleCharacter {
         if (isStunned) {
             return;
         }
-        stateTime += deltaTime;
+
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
@@ -56,8 +56,9 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedInRangeAttack);
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
-                stateTime -= deltaTime;
                 move(direction.x, direction.y, deltaTime);
+                setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
+                updateMovementAnimation(deltaTime);
             }
             this.attack(direction);
         }
@@ -67,11 +68,15 @@ public class Monster extends SimpleCharacter {
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
             if (!map.isMapCollision(new Rectangle(testX, testY, this.maxWidth, this.maxHeight)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
-                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
+                setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
+                updateMovementAnimation(deltaTime);
             } else {
-                stateTime -= deltaTime;
-                lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
+                float x = MathUtils.random(-100, 100);
+                float y = MathUtils.random(-100, 100);
+                if (x != 0 || y != 0) {
+                    lastMoveDirection = new Vector2(x, y).nor();
+                }
             }
         }
     }
