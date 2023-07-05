@@ -115,7 +115,149 @@
             "monsters/Flying eye/6_1_1.png"
         ]
     },
+    "monster_1": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ]
+    },
+    "monster_2": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ]
+    },
+    "monster_3": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ]
+    },
+    "monster_4": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ]
+    },
     "teacher": {
+        "type": "boss",
+        "texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ],
+        "hp": 30,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 32,
+        "weapon_y": 32,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ]
+    },
+    "boss_1": {
+        "type": "boss",
+        "texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ],
+        "hp": 30,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 32,
+        "weapon_y": 32,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ]
+    },
+    "boss_2": {
         "type": "boss",
         "texture_path": [
             "monsters/Daco/1_1_1.png",
