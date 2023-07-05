@@ -38,7 +38,7 @@ public abstract class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private boolean isDying = false, isMoving = false;
-    private Music movingSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/running2.mp3"));;
+    private Music movingSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/running-2.mp3"));;
     private Skill dodgeSkill = new Skill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
@@ -65,6 +65,7 @@ public abstract class Player extends SimpleCharacter {
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         setMaxWeaponNumber(2);
+        this.movingSound.setVolume(0.9f);
     }
 
 
@@ -224,11 +225,12 @@ public abstract class Player extends SimpleCharacter {
                 attack(attackDirection);
             }
         }
-        if (this.movingSound.isPlaying()) {
+        if (isMoving & !this.movingSound.isPlaying()) {
+            this.movingSound.play();
+        }
+        if (!isMoving){
             this.movingSound.stop();
         }
-        this.movingSound.play();
-
         ArrayList<Pickable> collectItem = autoCollect();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
