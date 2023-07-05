@@ -476,7 +476,7 @@
 148,148,148,148,148,148,148,148,148,148,148,148,148,148,148,148,148,0,0,0,0,0,0,148,148,148,148,148,148,148,148,148,148,148,148,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,147,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="door_layer">
+ <objectgroup id="6" name="door_layer" visible="0">
   <object id="1556" gid="33" x="672" y="2208" width="16" height="16"/>
   <object id="1557" gid="33" x="528" y="1616" width="16" height="16"/>
   <object id="1560" gid="33" x="1344" y="1280" width="16" height="16"/>
@@ -489,7 +489,6 @@
   <object id="1580" x="672" y="2192" width="16" height="16"/>
   <object id="1581" x="1232" y="1824" width="32" height="16"/>
   <object id="1584" x="1344" y="1264" width="16" height="32"/>
-  <object id="1585" x="1072" y="1360" width="240" height="16"/>
   <object id="1587" x="368" y="800" width="16"/>
   <object id="1588" gid="33" x="320" y="800" width="16" height="16"/>
   <object id="1589" gid="33" x="336" y="800" width="16" height="16"/>
@@ -892,7 +891,7 @@
   <object id="1640" x="2096" y="624" width="48" height="16"/>
   <object id="1641" x="2224" y="624" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="56" name="destroyable_object">
+ <objectgroup id="56" name="destroyable_object" visible="0">
   <object id="1644" name="ark" gid="5866" x="128" y="2160" width="16" height="16"/>
   <object id="1645" name="ark" gid="5866" x="480" y="2336" width="16" height="16"/>
   <object id="1646" name="ark_weapon" gid="5995" x="304" y="2256" width="16" height="16"/>
@@ -1055,7 +1054,7 @@
   <object id="1812" name="LARGE_EXPLOSION" gid="35" x="1184" y="2352" width="16" height="16"/>
   <object id="1813" name="LARGE_EXPLOSION" gid="35" x="560" y="1680" width="16" height="16"/>
  </objectgroup>
- <group id="9" name="room">
+ <group id="9" name="room" visible="0">
   <group id="18" name="start_room" visible="0">
    <objectgroup id="19" name="area">
     <object id="1378" x="0" y="2048" width="272" height="336"/>
