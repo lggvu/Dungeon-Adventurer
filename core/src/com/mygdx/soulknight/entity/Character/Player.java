@@ -175,7 +175,7 @@ public abstract class Player extends SimpleCharacter {
         specialSkill.update(deltaTime);
         dodgeSkill.update(deltaTime);
         if (dodgeSkill.isInProgresss()) {
-            move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f, 10f);
+            move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f);
         } else {
             applyEffect(deltaTime);
         }
