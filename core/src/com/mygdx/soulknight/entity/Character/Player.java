@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,7 +37,8 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
-    private boolean isDying = false;
+    private boolean isDying = false, isMoving = false;
+    private Music movingSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/running2.mp3"));;
     private Skill dodgeSkill = new Skill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
@@ -202,8 +204,10 @@ public abstract class Player extends SimpleCharacter {
                 moveDirection = moveDirection.nor();
                 move(moveDirection.x, moveDirection.y, deltaTime);
                 actualLastMoveDirection = new Vector2(moveDirection.x, moveDirection.y).nor();
+                isMoving = true;
             } else {
                 stateTime = 0;
+                isMoving = false;
             }
 
             this.room = map.getRoomPlayerIn();
@@ -213,13 +217,17 @@ public abstract class Player extends SimpleCharacter {
             if (room != null && room.getMonsterAlive().size() > 0) {
                 fighting = true;
                 room.setCombat(true);
-                setLastMoveDirection(attackDirection.x, attackDirection.y);
+                setLookAtDirection(attackDirection.x, attackDirection.y);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 attack(attackDirection);
             }
         }
+        if (this.movingSound.isPlaying()) {
+            this.movingSound.stop();
+        }
+        this.movingSound.play();
 
         ArrayList<Pickable> collectItem = autoCollect();
 
@@ -353,5 +361,8 @@ public abstract class Player extends SimpleCharacter {
 
     public Skill getSpecialSkill() {
         return specialSkill;
+    }
+    public Music getMovingSound(){
+        return this.movingSound;
     }
 }
