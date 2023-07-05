@@ -184,11 +184,11 @@ public abstract class SimpleCharacter {
         float testX = this.x + x * deltaTime * speed;
         float testY = this.y + y * deltaTime * speed;
         ArrayList<SimpleCharacter> allCharacter = map.getAllCharacter();
-        Rectangle rectangleTest = new Rectangle(this.x, testY, getWidth()+gap, getHeight()-getHeight()/3+gap);
+        Rectangle rectangleTest = new Rectangle(this.x, testY, getWidth(), getHeight()-getHeight()/3+gap);
         if (y != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.y = testY;
         }
-        rectangleTest = new Rectangle(testX, this.y, getWidth(), getHeight()-getHeight()/3);
+        rectangleTest = new Rectangle(testX, this.y, getWidth(), getHeight()-getHeight()/3+gap);
         if (x != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.x = testX;
         }
