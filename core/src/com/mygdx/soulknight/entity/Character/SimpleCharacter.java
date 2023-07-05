@@ -148,8 +148,8 @@ public abstract class SimpleCharacter {
     public boolean isAlive() {
         return currentHP > 0;
     }
-    private float maxWidth=0;
-    private float maxHeight=0;
+    protected float maxWidth=0;
+    protected float maxHeight=0;
     public JsonObject load() {
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);

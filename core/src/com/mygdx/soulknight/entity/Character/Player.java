@@ -70,7 +70,7 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-//        maxArmor = Integer.MAX_VALUE - 100;
+        maxArmor = Integer.MAX_VALUE - 100;
 //        System.out.println(maxArmor);
         this.currentArmor = getCurrentMaxArmor();
         dodgeAnimation = new Animation<>(0.1f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
