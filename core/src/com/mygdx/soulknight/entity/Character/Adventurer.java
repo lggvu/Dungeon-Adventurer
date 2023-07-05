@@ -34,7 +34,7 @@ public class Adventurer extends Player {
         super.update(deltaTime);
         specialGun.update(deltaTime);
         if (specialSkill.isInProgresss()) {
-            specialGun.attack(lastMoveDirection);
+            specialGun.attack(getLookAtDirection());
         }
     }
 
