@@ -66,7 +66,7 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+            if (!map.isMapCollision(new Rectangle(testX, testY, this.maxWidth, this.maxHeight)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
                 stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
             } else {
