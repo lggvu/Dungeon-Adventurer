@@ -10,6 +10,7 @@
  </tileset>
  <tileset firstgid="4489" source="../../split_map/tsx/dungeontileset-extended.tsx"/>
  <tileset firstgid="8585" source="../tsx/Decor.tsx"/>
+ <tileset firstgid="8666" source="../tsx/DarkDungeon.tsx"/>
  <layer id="1" name="base" width="150" height="150" locked="1">
   <data encoding="csv">
 4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,4325,
@@ -626,7 +627,7 @@
 4137,4148,4148,4148,4148,4148,4148,4148,4148,4148,4142,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4137,4138,4138,4138,4138,4138,4142,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="5" name="collision_layer">
+ <objectgroup id="5" name="collision_layer" visible="0">
   <object id="1" x="336" y="32" width="432" height="16"/>
   <object id="2" x="768" y="32" height="64"/>
   <object id="3" x="336" y="32" height="96"/>
@@ -1106,7 +1107,7 @@
   <object id="1350" name="MEDIUM_EXPLOSION" gid="1367" x="1248" y="560" width="16" height="16"/>
   <object id="1351" name="MEDIUM_EXPLOSION" gid="1367" x="1376" y="688" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="19" name="door_layer">
+ <objectgroup id="19" name="door_layer" visible="0">
   <object id="492" gid="4136" x="1328" y="272" width="16" height="16"/>
   <object id="493" gid="4136" x="1344" y="272" width="16" height="16"/>
   <object id="494" gid="4136" x="1360" y="272" width="16" height="16"/>
@@ -1175,7 +1176,7 @@
   <object id="1096" gid="4135" x="1536" y="2224" width="16" height="16"/>
   <object id="1097" x="1520" y="2208" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="71" name="destroyable_object">
+ <objectgroup id="71" name="destroyable_object" visible="0">
   <object id="1116" name="ark" gid="4469" x="976" y="2160" width="16" height="16"/>
   <object id="1117" name="ark" gid="4469" x="1216" y="2064" width="16" height="16"/>
   <object id="1118" name="ark" gid="4469" x="1264" y="2224" width="16" height="16"/>
@@ -1668,7 +1669,7 @@
   <object id="1629" gid="8631" x="1216" y="496" width="16" height="16"/>
   <object id="1630" gid="8631" x="1408" y="544" width="16" height="16"/>
  </objectgroup>
- <group id="7" name="room">
+ <group id="7" name="room" visible="0">
   <group id="20" name="start_room">
    <objectgroup id="14" name="area">
     <object id="464" x="816" y="2048" width="608" height="176"/>
