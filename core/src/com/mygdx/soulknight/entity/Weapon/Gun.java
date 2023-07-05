@@ -1,5 +1,7 @@
 package com.mygdx.soulknight.entity.Weapon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,6 +10,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.entity.Character.Monster;
+import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.screen.SettingsScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
@@ -24,6 +31,8 @@ public class Gun extends Weapon {
     private int numEnemyHit = 1;
     private float degreeChangePerSec = 0;
     private ArrayList<Float> directionAttack = new ArrayList<>();
+    private Music shootSound;
+
 
     public Gun(String texturePath, String bulletTexturePath, String explosionTexturePath, String shotExplosionTexturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate, float bulletSpeed) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
@@ -33,6 +42,7 @@ public class Gun extends Weapon {
         TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         this.explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         this.shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
+
     }
 
     @Override
@@ -45,6 +55,9 @@ public class Gun extends Weapon {
         String explosionTexturePath = jsonObject.get("explosion_texture").getAsString();
         TextureRegion[] explosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(explosionTexturePath));
         explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
+        String soundPath = jsonObject.get("sound_effect").getAsString();
+        this.shootSound = Gdx.audio.newMusic(Gdx.files.internal(soundPath));
+        Settings.allSound.add(this.shootSound);
         String shotExplosionTexturePath = jsonObject.get("shot_explosion_texture").getAsString();
         TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
@@ -61,6 +74,12 @@ public class Gun extends Weapon {
     }
 
     protected void shot(Vector2 direction) {
+        if (owner instanceof SimpleCharacter) {
+            if (this.shootSound.isPlaying()) {
+                this.shootSound.stop();
+            }
+            this.shootSound.play();
+        }
         float degree = direction.angleDeg(new Vector2(1, 0));
         float gunBarrelX, gunBarrelY;
         gunBarrelX = gunBarrelY = 0;
@@ -167,5 +186,12 @@ public class Gun extends Weapon {
     }
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;
+    }
+
+    public Music getShootSound() {
+        return shootSound;
+    }
+    public void setShootSound(Music sound){
+        this.shootSound = sound;
     }
 }

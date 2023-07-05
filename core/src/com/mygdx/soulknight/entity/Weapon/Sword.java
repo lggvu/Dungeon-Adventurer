@@ -1,11 +1,15 @@
 package com.mygdx.soulknight.entity.Weapon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ public class Sword extends Weapon {
     private Animation<TextureInfo> swordAnimation;
     private Vector2 attackDirection;
     private ArrayList<Slice> slices = new ArrayList<>();
-
+    private Music slashSound;
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {
         super(texturePath, damage, energyCost, intervalSeconds, rangeWeapon, criticalRate);
     }
@@ -34,6 +38,9 @@ public class Sword extends Weapon {
             frames[count++] = new TextureInfo(iterator.next().getAsString());
         }
         swordAnimation = new Animation<>(jsonObject.get("properties").getAsJsonObject().get("duration").getAsFloat(), frames);
+        String soundPath = jsonObject.get("sound_effect").getAsString();
+        this.slashSound = Gdx.audio.newMusic(Gdx.files.internal(soundPath));
+        Settings.allSound.add(this.slashSound);
         return jsonObject;
     }
 
@@ -54,7 +61,14 @@ public class Sword extends Weapon {
 
     @Override
     public boolean attack(Vector2 direction) {
+
         if (isAllowedAttack()) {
+            if (owner instanceof SimpleCharacter) {
+                if (this.slashSound.isPlaying()) {
+                    this.slashSound.stop();
+                }
+                this.slashSound.play();
+            }
             elapsedSeconds = 0;
             subOwnerMana();
             slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum, criticalRate));

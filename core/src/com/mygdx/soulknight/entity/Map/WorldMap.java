@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,6 +52,7 @@ public class WorldMap {
     private boolean isOver = false;
     private Level level;
     private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
+
     public WorldMap(String tmxPath, Player player, Level level) {
         this.level = level;
         this.player = player;
@@ -212,6 +214,7 @@ public class WorldMap {
         for (RegionEffect regionEffect: regionEffectArrayList){
             if (!(regionEffect instanceof Explosion)) {
                 regionEffect.draw(batch);
+
             }
         }
 
@@ -360,6 +363,7 @@ public class WorldMap {
     public void removeDestroyableObject(ArrayList<DestroyableObject> objects) {
         for (DestroyableObject object : objects) {
             removeDestroyableObject(object);
+
         }
     }
 
@@ -418,6 +422,7 @@ public class WorldMap {
 
     public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
         regionEffectArrayList.add(new Explosion(owner, x, y, radius, dealDame));
+
     }
 
     public ArrayList<Room> getRooms() {

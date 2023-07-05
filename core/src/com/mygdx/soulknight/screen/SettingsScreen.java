@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -13,12 +14,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 
+import java.util.ArrayList;
+
 public class SettingsScreen implements Screen {
     private Stage stage;
     private SoulKnight game;
     private Skin skin;
     private MainGameScreen gameScreen = null;
-
     public SettingsScreen(SoulKnight game, MainGameScreen gameScreen) {
         this.game = game;
         this.gameScreen = gameScreen;
@@ -93,7 +95,7 @@ public class SettingsScreen implements Screen {
         table.add(soundLabel).left().padRight(10);
 
         final Slider soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        soundVolumeSlider.setValue(Settings.sound.getVolume());
+        soundVolumeSlider.setValue(Settings.explosionSound.getVolume());
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

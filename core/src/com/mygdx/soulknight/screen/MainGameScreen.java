@@ -31,7 +31,7 @@ public class MainGameScreen extends ScreenAdapter {
     private WorldMap map;
     private Player player;
     private Stage stage1, stage2, stage3;
-    private Music backgroundMusic;
+    private Music backgroundMusic,soundEffect;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
     private CooldownButton specialSkillCooldownButton, dodgeCooldownBtn;
@@ -100,16 +100,9 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.update(deltaTime);
         if (map.isOver()) {
-            if (player.isAlive()) {
-                game.setScreen(new EndGameScreen(game,true));
-                this.dispose();
-                return;
-            }
-            else{
-                game.setScreen(new EndGameScreen(game,false));
-                this.dispose();
-                return;
-            }
+            game.setScreen(new EndGameScreen(game,player.isAlive()));
+            this.dispose();
+            return;
         }
 
         map.draw(batch);
@@ -134,6 +127,7 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.dispose();
         specialSkillCooldownButton.disposeShapeRenderer();
         dodgeCooldownBtn.disposeShapeRenderer();
+        player.getMovingSound().dispose();
     }
 
     

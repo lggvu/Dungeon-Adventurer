@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Character;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,7 @@ public abstract class SimpleCharacter {
     private int id;
     private Ability ability = new Ability();
     protected boolean drawCharacter = true;
+
     public SimpleCharacter(String characterName, WorldMap map) {
         this.characterName = characterName;
         this.map = map;
@@ -396,4 +398,5 @@ public abstract class SimpleCharacter {
     public void setMaxWeaponNumber(int maxWeaponNumber) {
         this.maxWeaponNumber = maxWeaponNumber;
     }
+
 }

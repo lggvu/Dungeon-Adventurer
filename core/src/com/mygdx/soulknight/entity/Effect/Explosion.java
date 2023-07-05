@@ -1,9 +1,11 @@
 package com.mygdx.soulknight.entity.Effect;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
@@ -28,6 +30,7 @@ public class Explosion extends RegionEffect {
     private SimpleCharacter owner = null;
     private Animation<TextureRegion> explosionAnimation;
     private ArrayList<SimpleCharacter> allAffected = new ArrayList<>();
+    private Music explosionSound = Settings.explosionSound;
     public Explosion(SimpleCharacter owner, float x, float y, float radius, Animation<TextureRegion> explosionAnimation, boolean dealDame) {
         this.radius = radius;
         this.x = x;
@@ -37,6 +40,12 @@ public class Explosion extends RegionEffect {
         stateTime = 0f;
         this.dealDame = dealDame;
         this.owner = owner;
+        if (owner == null){
+            if (Settings.explosionSound.isPlaying()){
+                Settings.explosionSound.stop();
+            }
+            Settings.explosionSound.play();
+        }
     }
 
     public Explosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
@@ -47,6 +56,7 @@ public class Explosion extends RegionEffect {
     public void update(float deltaTime, WorldMap map) {
         stateTime += deltaTime;
         destroyableObjectRemoveList.clear();
+
         if (!dealDame) {return;}
         Vector2 centerPos = new Vector2(x, y);
         if (owner == null || owner instanceof Player) {
