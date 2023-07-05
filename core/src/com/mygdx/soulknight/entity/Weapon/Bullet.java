@@ -1,6 +1,5 @@
 package com.mygdx.soulknight.entity.Weapon;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.CharacterEffect;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
-import com.mygdx.soulknight.entity.Effect.Explosion;
 import com.mygdx.soulknight.entity.Effect.RegionEffect;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 
@@ -35,6 +33,7 @@ public class Bullet {
     private SimpleCharacter target = null;
     private float degreeChangePerSec = 60f;
     private Animation<TextureRegion> explosionAnimation;
+    private float criticalRate;
     public Vector2 getDirection() {
         return direction;
     }
@@ -60,7 +59,7 @@ public class Bullet {
     }
     public Bullet(SimpleCharacter owner, TextureRegion bulletTexture, Animation<TextureRegion> explosionAnimation, int damage, float x, float y,
                   Vector2 direction, float speed, ArrayList<EffectEnum> effectsEnum, int numDestroyObject,
-                  int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft) {
+                  int numEnemyHit, int numWallCollide, float degreeChangePerSec, float distanceLeft, float criticalRate) {
         this.explosionAnimation = explosionAnimation;
         this.x = x - width / 2;
         this.y = y - height / 2;
@@ -75,6 +74,7 @@ public class Bullet {
         this.degreeChangePerSec = degreeChangePerSec;
         this.distanceLeft = distanceLeft;
         this.damage = damage;
+        this.criticalRate = criticalRate;
     }
     public void update(float deltaTime) {
         if (degreeChangePerSec != 0) {
@@ -165,7 +165,11 @@ public class Bullet {
                 if (character.getRectangle().overlaps(rectangle) && !enemyHitRecently.contains(rmList)) {
                     character.addEffects(CharacterEffect.loadEffect(effectsEnum, getDirection()));
                     numEnemyHit--;
-                    character.getHit(damage, DamageType.PHYSIC);
+                    if (Weapon.randomCrit(criticalRate)) {
+                        character.getHit(damage * 2, DamageType.PHYSIC, true);
+                    } else {
+                        character.getHit(damage, DamageType.PHYSIC, false);
+                    }
                     enemyHitRecently.add(character);
                     break;
                 }

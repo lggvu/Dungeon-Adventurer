@@ -1,19 +1,15 @@
 package com.mygdx.soulknight.entity.Character;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.util.SpriteLoader;
 
 public class Monster extends SimpleCharacter {
     protected float attackRadius = 200;
@@ -39,13 +35,20 @@ public class Monster extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
-        applyEffect(deltaTime);
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
-        if (isStunned || !isAlive()) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
             return;
         }
+
+        applyEffect(deltaTime);
+        if (isStunned) {
+            return;
+        }
+        stateTime += deltaTime;
         float playerX = map.getPlayer().getX();
         float playerY = map.getPlayer().getY();
         float distance = (float) Math.sqrt(Math.pow(playerX - getX(), 2) + Math.pow(playerY - getY(), 2));
@@ -53,6 +56,7 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedInRangeAttack);
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
+                stateTime -= deltaTime;
                 move(direction.x, direction.y, deltaTime);
             }
             this.attack(direction);
@@ -62,24 +66,21 @@ public class Monster extends SimpleCharacter {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+            if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
             } else {
+                stateTime -= deltaTime;
                 lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
             }
         }
     }
     @Override
-    public void getHit(int damage, DamageType damageType) {
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
+        getMap().addDamageNumber(damage, damageType, isCrit, x, y);
         currentHP -= damage;
     }
 
-    public void setDie() {
-        drawCharacter = false;
-        for (Weapon weapon : weapons) {
-            weapon.setDrawWeapon(false);
-        }
-    }
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);

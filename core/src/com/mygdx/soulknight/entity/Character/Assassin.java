@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.DamageType;
-import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.PlayerSkill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
@@ -42,7 +41,7 @@ public class Assassin extends Player {
 
     @Override
     public void getHit(int damage, DamageType damageType) {
-        if (specialSkill.isInProgresss()) {
+        if (!specialSkill.isInProgresss()) {
             super.getHit(damage, damageType);
         }
     }

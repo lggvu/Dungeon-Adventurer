@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -37,6 +36,7 @@ public abstract class Player extends SimpleCharacter {
     private boolean fighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
+    private boolean isDying = false;
     private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
@@ -70,19 +70,27 @@ public abstract class Player extends SimpleCharacter {
     public JsonObject load() {
         JsonObject source = super.load();
         this.maxArmor = source.get("armor").getAsInt();
-        maxArmor = Integer.MAX_VALUE - 100;
+//        maxArmor = Integer.MAX_VALUE - 100;
+//        System.out.println(maxArmor);
         this.currentArmor = getCurrentMaxArmor();
-        dodgeAnimation = new Animation<>(0.05f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
+        dodgeAnimation = new Animation<>(0.1f, SpriteLoader.loadTextureInfo(source.get("dodge_texture_path").getAsJsonArray()));
         this.maxMana = source.get("energy").getAsInt();
         setCurrentMana(maxMana);
         return source;
     }
 
+    @Override
+    public void activateDying() {
+        if (!isDying) {
+            isDying = true;
+            super.activateDying();
+        }
+    }
     private void updatePlayerVision() {
         monsterInVision.clear();
-        Vector2 playerPos = new Vector2(x + width / 2, y + height / 2);
+        Vector2 playerPos = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
         for (SimpleCharacter character : getEnemyList()) {
-            Vector2 monsterPos = new Vector2(character.x + character.width / 2, character.y + character.height / 2);
+            Vector2 monsterPos = new Vector2(character.x + character.getWidth() / 2, character.y + character.getHeight() / 2);
             if (monsterPos.dst(playerPos) > visionRange) {
                 monsterInVision.put(character, false);
                 continue;
@@ -112,10 +120,11 @@ public abstract class Player extends SimpleCharacter {
     }
 
     @Override
-    public void getHit(int damage, DamageType damageType) {
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
         if (isImmunityWithDamage(damageType)) {
             return;
         }
+        getMap().addDamageNumber(damage, damageType, isCrit, x, y);
         if (currentArmor < damage) {
             currentHP = currentHP - (damage - currentArmor);
             currentArmor = 0;
@@ -156,6 +165,12 @@ public abstract class Player extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
+            return;
+        }
+
         updatePlayerVision();
         specialSkill.update(deltaTime);
         dodgeSkill.update(deltaTime);
@@ -254,7 +269,7 @@ public abstract class Player extends SimpleCharacter {
         if (roomPlayerIn != null) {
             float minDst = Float.MAX_VALUE;
             Vector2 direction = null;
-            Vector2 playerPosition = new Vector2(x + width / 2, y + height / 2);
+            Vector2 playerPosition = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
             for (Monster monster : roomPlayerIn.getMonsterAlive()) {
                 if (isInVision(monster)) {
                     Vector2 monsterPos = new Vector2(monster.getX() + monster.getWidth() / 2, monster.getY() + monster.getHeight() / 2);

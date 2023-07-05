@@ -13,9 +13,7 @@ import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
-import com.mygdx.soulknight.screen.MainGameScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
@@ -30,13 +28,12 @@ public abstract class SimpleCharacter {
     protected boolean isStunned = false;
     protected String characterName;
     protected Animation<TextureInfo> animationMovement;
+    protected Animation<TextureInfo> dyingAnimation;
     private int maxHP = 10;
     protected float stateTime = 0f;
     protected int currentHP = 10;
     protected float x = 30;
     protected float y = 30;
-    protected float width = 20;
-    protected float height = 32;
     protected float weaponX, weaponY;
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
@@ -110,6 +107,14 @@ public abstract class SimpleCharacter {
         }
     }
 
+    public void activateDying() {
+        stateTime = 0;
+        drawCharacter = false;
+        for (Weapon weapon : weapons) {
+            weapon.setDrawWeapon(false);
+        }
+    }
+
     public void addEffect(CharacterEffect effect) {
         if (isImmuneWithEffect(effect)) {
             return;
@@ -144,11 +149,10 @@ public abstract class SimpleCharacter {
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(SimpleCharacter.CHARACTER_INFO_PATH).reader(), JsonObject.class);
             JsonObject source = json.get(characterName).getAsJsonObject();
-            width = source.get("width").getAsFloat();
-            height = source.get("height").getAsFloat();
             weaponX = source.get("weapon_x").getAsFloat();
             weaponY = source.get("weapon_y").getAsFloat();
             animationMovement = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("texture_path").getAsJsonArray()));
+            dyingAnimation = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("die_texture_path").getAsJsonArray()));
             maxHP = source.get("hp").getAsInt();
             currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
@@ -180,11 +184,11 @@ public abstract class SimpleCharacter {
         float testX = this.x + x * deltaTime * speed;
         float testY = this.y + y * deltaTime * speed;
         ArrayList<SimpleCharacter> allCharacter = map.getAllCharacter();
-        Rectangle rectangleTest = new Rectangle(this.x, testY, width, height);
+        Rectangle rectangleTest = new Rectangle(this.x, testY, getWidth(), getHeight());
         if (y != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.y = testY;
         }
-        rectangleTest = new Rectangle(testX, this.y, width, height);
+        rectangleTest = new Rectangle(testX, this.y, getWidth(), getHeight());
         if (x != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.x = testX;
         }
@@ -212,12 +216,19 @@ public abstract class SimpleCharacter {
     }
 
     public void draw(SpriteBatch batch) {
+        if (!isAlive()) {
+            if (!isFinishDying()) {
+                TextureInfo textureInfo = dyingAnimation.getKeyFrame(stateTime, true);
+                batch.draw(textureInfo.getTextureRegion(), x, y, textureInfo.getWidth(), textureInfo.getHeight());
+            }
+            return;
+        }
         if (!drawCharacter) {
             return;
         }
         for (CharacterEffect effect : effectArrayList) {
             if (effect.isDrawEffect() && !isImmuneWithEffect(effect)) {
-                effect.draw(batch, x + width / 2, y + height + 8);
+                effect.draw(batch, x + getWidth() / 2, y + getHeight() + 8);
                 break;
             }
         }
@@ -227,6 +238,10 @@ public abstract class SimpleCharacter {
             textureRegion.flip(true, false);
         }
         batch.draw(textureRegion, x, y, textureInfo.getWidth(), textureInfo.getHeight());
+    }
+
+    public boolean isFinishDying() {
+        return dyingAnimation.isAnimationFinished(stateTime);
     }
 
     public void collectWeapon(Weapon weapon) {
@@ -247,14 +262,14 @@ public abstract class SimpleCharacter {
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x, y, getWidth(), getWidth());
     }
     public float getWidth() {
-        return width;
+        return animationMovement.getKeyFrame(stateTime, true).getWidth();
     }
 
     public float getHeight() {
-        return height;
+        return animationMovement.getKeyFrame(stateTime, true).getHeight();
     }
 
     public float getX() {
@@ -282,11 +297,6 @@ public abstract class SimpleCharacter {
         return weaponY;
     }
 
-    public void setSize(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-
     public Weapon getCurrentWeapon() {
         if (weapons.size() > 0) {
             return weapons.get(currentWeaponId);
@@ -298,7 +308,10 @@ public abstract class SimpleCharacter {
         this.speedRun = speedRun;
     }
 
-    public abstract void getHit(int damage, DamageType damageType);
+    public void getHit(int damamge, DamageType damageType) {
+        getHit(damamge, damageType, false);
+    }
+    public abstract void getHit(int damage, DamageType damageType, boolean isCrit);
     public abstract void attack(Vector2 direction);
 
     public Vector2 getLastMoveDirection() {

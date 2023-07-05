@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -24,7 +23,6 @@ import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 
-import java.io.FileWriter;
 import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {
@@ -56,8 +54,8 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
-        specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Input.Keys.P);
-        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Input.Keys.H);
+        specialSkillCooldownButton = new CooldownButton(player.getSpecialSkill(),Gdx.graphics.getWidth() - 160,160,50f,4f, Settings.GameButton.SPECIAL_SKILL);
+        dodgeCooldownBtn = new CooldownButton(player.getDodgeSkill(),Gdx.graphics.getWidth() - 80,250,20f,0, Settings.GameButton.DODGE);
         coolDownBar = new CoolDownBar(player);
     }
 

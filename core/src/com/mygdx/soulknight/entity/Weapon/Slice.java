@@ -24,13 +24,15 @@ public class Slice {
     private int damage;
     private ArrayList<Integer> characterAttackedId = new ArrayList<>();
     private ArrayList<EffectEnum> effectsEnum;
-    public Slice(Animation<TextureInfo> animation, Vector2 direction, SimpleCharacter owner, float rangeWeapon, int damage, ArrayList<EffectEnum> effectsEnum) {
+    private float criticalRate;
+    public Slice(Animation<TextureInfo> animation, Vector2 direction, SimpleCharacter owner, float rangeWeapon, int damage, ArrayList<EffectEnum> effectsEnum, float criticalRate) {
         this.owner = owner;
         this.directionDegree = direction.angleDeg(new Vector2(1, 0));
         this.animation = animation;
         this.rangeWeapon = rangeWeapon;
         this.damage = damage;
         this.effectsEnum = effectsEnum;
+        this.criticalRate = criticalRate;
     }
 
     public boolean isStop() {
@@ -50,7 +52,11 @@ public class Slice {
                 isCollide = Collision.isArcCollideRect(weaponPos, rangeWeapon, startDegree, endDegree, enemy.getRectangle());
                 if (!characterAttackedId.contains(enemy.getId()) && isCollide) {
                     characterAttackedId.add(enemy.getId());
-                    enemy.getHit(damage, DamageType.PHYSIC);
+                    if (Weapon.randomCrit(criticalRate)) {
+                        enemy.getHit(damage * 2, DamageType.PHYSIC, true);
+                    } else {
+                        enemy.getHit(damage, DamageType.PHYSIC, false);
+                    }
                     Vector2 enemyPos = new Vector2(enemy.getX() + enemy.getWidth() / 2, enemy.getY() + enemy.getHeight() / 2);
                     enemy.addEffects(CharacterEffect.loadEffect(effectsEnum, enemyPos.sub(weaponPos)));
                 }

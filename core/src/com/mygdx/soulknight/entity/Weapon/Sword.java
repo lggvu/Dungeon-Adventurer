@@ -1,21 +1,11 @@
 package com.mygdx.soulknight.entity.Weapon;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.entity.DamageType;
-import com.mygdx.soulknight.entity.Effect.CharacterEffect;
-import com.mygdx.soulknight.entity.Map.DestroyableObject;
-import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
@@ -67,7 +57,7 @@ public class Sword extends Weapon {
         if (isAllowedAttack()) {
             elapsedSeconds = 0;
             subOwnerMana();
-            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum));
+            slices.add(new Slice(swordAnimation, direction, owner, rangeWeapon, getCurrentDamage(), effectsEnum, criticalRate));
         }
     }
 

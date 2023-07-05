@@ -2,118 +2,138 @@
     "king": {
         "type": "hero",
         "texture_path": [
-            "character/jungler/animation_new.png"
+            "character/jungler/animation_1_10.png"
         ],
         "hp": 7,
         "armor": 6,
         "energy": 200,
         "speed_run": 180,
         "default_weapon": "Sword 1",
-        "width": 32,
-        "height": 32,
         "weapon_x": 16,
         "weapon_y": 16,
         "dodge_texture_path": [
-            "character/jungler/animation_new.png"
+            "character/jungler/animation_1_10.png"
         ],
-        "cooldown_special_skill_texture_path": "cooldown/1.png"
+        "cooldown_special_skill_texture_path": "cooldown/1.png",
+        "die_texture_path": [
+            "character/jungler/animation_1_10.png"
+        ]
     },
     "adventurer": {
         "type": "hero",
         "texture_path": [
-            "character/jungler/animation_new.png"
+            "character/adventurer/animation_1_3.png"
         ],
         "hp": 6,
         "armor": 6,
         "energy": 150,
         "speed_run": 200,
         "default_weapon": "Sword 1",
-        "width": 32,
-        "height": 32,
         "weapon_x": 12,
         "weapon_y": 16,
         "dodge_texture_path": [
-            "character/jungler/animation_new.png"
+            "character/adventurer/dodge/dodge_0_1_1.png",
+            "character/adventurer/dodge/dodge_1_1_1.png",
+            "character/adventurer/dodge/dodge_2_1_1.png",
+            "character/adventurer/dodge/dodge_3_1_1.png",
+            "character/adventurer/dodge/dodge_4_1_1.png",
+            "character/adventurer/dodge/dodge_5_1_1.png",
+            "character/adventurer/dodge/dodge_6_1_1.png",
+            "character/adventurer/dodge/dodge_7_1_1.png",
+            "character/adventurer/dodge/dodge_8_1_1.png"
         ],
-        "cooldown_special_skill_texture_path": "cooldown/2.png"
+        "cooldown_special_skill_texture_path": "cooldown/2.png",
+        "die_texture_path": [
+            "character/adventurer/dying_1_7.png"
+        ]
     },
     "jungler": {
         "type": "hero",
         "texture_path": [
-            "character/jungler/animation_new.png"
+            "character/jungler/animation_1_10.png"
         ],
         "hp": 8,
         "armor": 8,
         "energy": 100,
         "speed_run": 180,
         "default_weapon": "Gun Red S",
-        "width": 32,
-        "height": 32,
         "weapon_x": 16,
         "weapon_y": 16,
         "dodge_texture_path": [
-            "character/jungler/animation_new.png"
+            "character/jungler/animation_1_10.png"
         ],
-        "cooldown_special_skill_texture_path": "cooldown/3.png"
+        "cooldown_special_skill_texture_path": "cooldown/3.png",
+        "die_texture_path": [
+            "character/jungler/animation_1_10.png"
+        ]
     },
     "assassin": {
         "type": "hero",
         "texture_path": [
-            "character/assassin/animation_new.png"
+            "character/assassin/animation_1_8.png"
         ],
         "hp": 3,
         "armor": 7,
         "energy": 200,
         "speed_run": 250,
         "default_weapon": "Sword 1",
-        "width": 20,
-        "height": 28,
         "weapon_x": 16,
         "weapon_y": 12,
         "dodge_texture_path": [
-            "character/assassin/animation_new.png"
+            "character/assassin/animation_1_8.png"
         ],
         "immortal_texture_path": [
-            "character/assassin/animation_new.png"
+            "character/assassin/special-skill_1_8.png"
         ],
-        "cooldown_special_skill_texture_path": "cooldown/4.png"
+        "cooldown_special_skill_texture_path": "cooldown/4.png",
+        "die_texture_path": [
+            "character/assassin/dying_1_9.png"
+        ]
     },
     "knight": {
         "type": "monster",
         "texture_path": [
-            "monsters/Flying eye/1.png",
-            "monsters/Flying eye/2.png",
-            "monsters/Flying eye/3.png",
-            "monsters/Flying eye/4.png",
-            "monsters/Flying eye/5.png",
-            "monsters/Flying eye/6.png"
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
         ],
         "hp": 7,
         "speed_run": 30,
         "default_weapon": "Gun Monster 1",
-        "width": 32,
-        "height": 32,
         "weapon_x": 16,
         "weapon_y": 16,
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
+        ]
     },
     "teacher": {
         "type": "boss",
         "texture_path": [
-            "monsters/Daco/1.png",
-            "monsters/Daco/2.png",
-            "monsters/Daco/3.png",
-            "monsters/Daco/4.png",
-            "monsters/Daco/5.png",
-            "monsters/Daco/6.png"
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
         ],
         "hp": 30,
         "speed_run": 30,
         "default_weapon": "Gun Monster 1",
-        "width": 64,
-        "height": 64,
         "weapon_x": 32,
         "weapon_y": 32,
-        "cooldown_special_skill_texture_path": "cooldown_circle.png"
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ]
     }
 }

@@ -1,12 +1,10 @@
 package com.mygdx.soulknight.entity.Character;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
@@ -48,12 +46,19 @@ public class Boss extends Monster {
 
     @Override
     public void update(float deltaTime) {
-        applyEffect(deltaTime);
-        currentTimeCount += deltaTime;
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
-        if (isStunned || !isAlive()) {
+
+        if (!isAlive()) {
+            stateTime += deltaTime;
+            return;
+        }
+
+        applyEffect(deltaTime);
+        currentTimeCount += deltaTime;
+
+        if (isStunned) {
             return;
         }
 
@@ -78,7 +83,9 @@ public class Boss extends Monster {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            if (!map.isMapCollision(new Rectangle(testX, testY, width, height)) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+            stateTime += deltaTime;
+            if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
+                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
             } else {
                 lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();

@@ -1,6 +1,7 @@
 package com.mygdx.soulknight.entity.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -14,17 +15,18 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.entity.Character.Monster;
 import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.*;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
+import com.mygdx.soulknight.util.FontDrawer;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class WorldMap {
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
     private Level level;
+    private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
     public WorldMap(String tmxPath, Player player, Level level) {
         this.level = level;
         this.player = player;
@@ -124,12 +127,39 @@ public class WorldMap {
 
     }
 
+    public void addDamageNumber(int damage, DamageType damageType, boolean isCrit, float x, float y) {
+        if (isCrit) {
+            fontDrawers.add(new FontDrawer(Integer.toString(damage), Color.YELLOW, x, y));
+            return;
+        }
+        switch (damageType) {
+            case FIRE:
+                fontDrawers.add(new FontDrawer(Integer.toString(damage), Color.YELLOW, x, y));
+                return;
+            case PHYSIC:
+                fontDrawers.add(new FontDrawer(Integer.toString(damage), Color.BLACK, x, y));
+                return;
+            case POISON:
+                fontDrawers.add(new FontDrawer(Integer.toString(damage), Color.GREEN, x, y));
+                return;
+            case LIGHTNING:
+                fontDrawers.add(new FontDrawer(Integer.toString(damage), Color.BLUE, x, y));
+        }
+    }
+
     public Level getLevel() {
         return level;
     }
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        if (!player.isAlive()) {
+            player.activateDying();
+            if (player.isFinishDying()) {
+                setOver(true);
+            }
+            return;
+        }
         for (Room room : rooms) {
             room.update(deltaTime);
         }
@@ -157,6 +187,16 @@ public class WorldMap {
         if (clearFinalRoom) {
             stateTime += deltaTime;
         }
+
+        ArrayList<FontDrawer> rmFont = new ArrayList<>();
+        for (FontDrawer fontDrawer : fontDrawers) {
+            fontDrawer.update(deltaTime);
+            if (fontDrawer.isFinished()) {
+                rmFont.add(fontDrawer);
+                fontDrawer.dispose();
+            }
+        }
+        fontDrawers.removeAll(rmFont);
     }
 
     public void draw(SpriteBatch batch) {
@@ -205,6 +245,10 @@ public class WorldMap {
             if (regionEffect instanceof Explosion) {
                 regionEffect.draw(batch);
             }
+        }
+
+        for (FontDrawer fontDrawer : fontDrawers) {
+            fontDrawer.draw(batch);
         }
 
         if (clearFinalRoom) {
@@ -306,9 +350,6 @@ public class WorldMap {
     }
 
     public boolean isOver() {
-        if (player.getCurrentHP() <= 0) {
-            isOver = true;
-        }
         return isOver;
     }
 
