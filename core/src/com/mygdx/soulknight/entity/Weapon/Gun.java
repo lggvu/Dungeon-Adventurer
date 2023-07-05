@@ -167,7 +167,7 @@ public class Gun extends Weapon {
         }
 
         Vector2 weaponPos = owner.getAbsoluteWeaponPos();
-        float degree = owner.getLastMoveDirection().angleDeg(new Vector2(1, 0));
+        float degree = owner.getLookAtDirection().angleDeg(new Vector2(1, 0));
         float dlX = weaponPos.x;
         float dlY = weaponPos.y - originY;
         if (owner.isFlipX()) {
