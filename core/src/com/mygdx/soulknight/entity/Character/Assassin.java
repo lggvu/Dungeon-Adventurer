@@ -42,9 +42,9 @@ public class Assassin extends Player {
     }
 
     @Override
-    public void getHit(int damage, DamageType damageType) {
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
         if (!specialSkill.isInProgresss()) {
-            super.getHit(damage, damageType);
+            super.getHit(damage, damageType, isCrit);
         }
     }
 }
