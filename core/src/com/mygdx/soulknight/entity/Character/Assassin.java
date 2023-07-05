@@ -23,10 +23,12 @@ public class Assassin extends Player {
         specialSkill = new PlayerSkill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
             @Override
             public void activateSkill() {
-                super.activateSkill();
-                Animation<TextureInfo> temp = animationMovement;
-                animationMovement = immortalAnimation;
-                immortalAnimation = temp;
+                if (!getDodgeSkill().isInProgresss()) {
+                    super.activateSkill();
+                    Animation<TextureInfo> temp = animationMovement;
+                    animationMovement = immortalAnimation;
+                    immortalAnimation = temp;
+                }
             }
             @Override
             public void deactivateSkill() {
