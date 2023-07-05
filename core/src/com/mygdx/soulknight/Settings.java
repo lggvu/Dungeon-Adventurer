@@ -80,6 +80,7 @@ public class Settings {
 	}
 
 	public static void updateSoundVolume(float x) {
+		soundVolume = x;
 		for (Music sound:allSound){
 			sound.setVolume(x);
 		}

@@ -7,21 +7,25 @@ import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
+import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 public class Adventurer extends Player {
     private Gun specialGun;
     public Adventurer() {
         super("adventurer", null);
-        specialGun = new Gun("weapon/sword.png", "bullet/bullet4.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 0.2f, 500, 0.3f, 500f);
-        specialGun.addDirectionAttack(0, 45, 90, 135, 180, 235, 270, 315);
-        specialGun.setOwner(this);
-        specialGun.setDrawWeapon(false);
+//        specialGun = new Gun("weapon/sword.png", "bullet/bullet4.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", "bullet-effects/Shot3/shot3-sheet_1_8.png", 2, 0, 0.2f, 500, 0.3f, 500f);
+//        specialGun.addDirectionAttack(0, 45, 90, 135, 180, 235, 270, 315);
+//        specialGun.setOwner(this);
+//        specialGun.setDrawWeapon(false);
     }
 
     @Override
     public JsonObject load() {
         JsonObject source = super.load();
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
+        specialGun = (Gun) Weapon.load(source.get("special_gun").getAsString());
+        specialGun.setOwner(this);
+        specialGun.setDrawWeapon(false);
         specialSkill = new Skill(
                 new TextureRegion(new Texture(textureSpecPath)),
                 1f, 1f

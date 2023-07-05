@@ -27,7 +27,8 @@
         ],
         "default_weapons": [
             "Sword 1"
-        ]
+        ],
+        "special_gun": "Special Gun"
     },
     "jungler": {
         "type": "hero",
