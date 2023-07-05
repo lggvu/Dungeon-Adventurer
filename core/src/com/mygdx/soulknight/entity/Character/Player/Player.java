@@ -66,7 +66,6 @@ public abstract class Player extends SimpleCharacter {
 
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
-        setMaxWeaponNumber(2);
         Settings.addSound(movingSound);
     }
 

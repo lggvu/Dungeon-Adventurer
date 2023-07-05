@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="62" nextobjectid="761">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="86" nextobjectid="870">
  <tileset firstgid="1" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
  <tileset firstgid="193" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="ground" width="150" height="150">
@@ -925,63 +925,60 @@
   <object id="760" name="POISON_REGION" gid="174" x="358.667" y="2245.33" width="16" height="16"/>
  </objectgroup>
  <group id="7" name="room">
-  <group id="26" name="4">
+  <group id="26" name="4" visible="0">
    <objectgroup id="30" name="EASY" visible="0">
-    <object id="556" name="knight" x="2235" y="1070">
+    <object id="556" name="monster_4" x="2235" y="1070">
      <point/>
     </object>
-    <object id="557" name="knight" x="2293" y="1222">
+    <object id="557" name="monster_3" x="2293" y="1222">
      <point/>
     </object>
-    <object id="558" name="knight" x="1998" y="1134">
+    <object id="558" name="monster_2" x="1998" y="1134">
      <point/>
     </object>
-    <object id="559" name="knight" x="1992" y="1283">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="41" name="MEDIUM">
-    <object id="650" name="knight" x="2235" y="1070">
-     <point/>
-    </object>
-    <object id="651" name="knight" x="2293" y="1222">
-     <point/>
-    </object>
-    <object id="652" name="knight" x="1998" y="1134">
-     <point/>
-    </object>
-    <object id="653" name="knight" x="1992" y="1283">
-     <point/>
-    </object>
-    <object id="757" name="knight" x="2118.67" y="1162.67">
+    <object id="559" name="monster_1" x="1992" y="1283">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="60" name="HARD" visible="0">
-    <object id="726" name="knight" x="2235" y="1070">
+   <objectgroup id="65" name="MEDIUM" visible="0">
+    <object id="783" name="monster_4" x="2235" y="1070">
      <point/>
     </object>
-    <object id="727" name="knight" x="2293" y="1222">
+    <object id="784" name="monster_3" x="2293" y="1222">
      <point/>
     </object>
-    <object id="728" name="knight" x="1998" y="1134">
+    <object id="785" name="monster_2" x="1998" y="1134">
      <point/>
     </object>
-    <object id="729" name="knight" x="1992" y="1283">
+    <object id="786" name="monster_1" x="1992" y="1283">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="61" name="NIGHTMARE" visible="0">
-    <object id="730" name="knight" x="2235" y="1070">
+   <objectgroup id="66" name="HARD" visible="0">
+    <object id="787" name="monster_4" x="2235" y="1070">
      <point/>
     </object>
-    <object id="731" name="knight" x="2293" y="1222">
+    <object id="788" name="monster_3" x="2293" y="1222">
      <point/>
     </object>
-    <object id="732" name="knight" x="1998" y="1134">
+    <object id="789" name="monster_2" x="1998" y="1134">
      <point/>
     </object>
-    <object id="733" name="knight" x="1992" y="1283">
+    <object id="790" name="monster_1" x="1992" y="1283">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="67" name="NIGHTMARE" visible="0">
+    <object id="791" name="monster_4" x="2235" y="1070">
+     <point/>
+    </object>
+    <object id="792" name="monster_3" x="2293" y="1222">
+     <point/>
+    </object>
+    <object id="793" name="monster_2" x="1998" y="1134">
+     <point/>
+    </object>
+    <object id="794" name="monster_1" x="1992" y="1283">
      <point/>
     </object>
    </objectgroup>
@@ -989,63 +986,60 @@
     <object id="492" x="1920" y="977" width="464" height="418"/>
    </objectgroup>
   </group>
-  <group id="25" name="3">
+  <group id="25" name="3" visible="0">
    <objectgroup id="31" name="EASY">
-    <object id="560" name="knight" x="1972" y="194">
+    <object id="560" name="monster_4" x="1972" y="194">
      <point/>
     </object>
-    <object id="561" name="knight" x="1963" y="350">
+    <object id="561" name="monster_3" x="1963" y="350">
      <point/>
     </object>
-    <object id="562" name="knight" x="2292" y="284">
+    <object id="562" name="monster_2" x="2292" y="284">
      <point/>
     </object>
-    <object id="563" name="knight" x="2307" y="185">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="40" name="MEDIUM">
-    <object id="646" name="knight" x="1972" y="194">
-     <point/>
-    </object>
-    <object id="647" name="knight" x="1963" y="350">
-     <point/>
-    </object>
-    <object id="648" name="knight" x="2292" y="284">
-     <point/>
-    </object>
-    <object id="649" name="knight" x="2307" y="185">
-     <point/>
-    </object>
-    <object id="756" name="knight" x="2146.67" y="92">
+    <object id="563" name="monster_1" x="2307" y="185">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="58" name="HARD">
-    <object id="718" name="knight" x="1972" y="194">
+   <objectgroup id="68" name="MEDIUM">
+    <object id="795" name="monster_4" x="1972" y="194">
      <point/>
     </object>
-    <object id="719" name="knight" x="1963" y="350">
+    <object id="796" name="monster_3" x="1963" y="350">
      <point/>
     </object>
-    <object id="720" name="knight" x="2292" y="284">
+    <object id="797" name="monster_2" x="2292" y="284">
      <point/>
     </object>
-    <object id="721" name="knight" x="2307" y="185">
+    <object id="798" name="monster_1" x="2307" y="185">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="59" name="NIGHTMARE">
-    <object id="722" name="knight" x="1972" y="194">
+   <objectgroup id="69" name="HARD">
+    <object id="799" name="monster_4" x="1972" y="194">
      <point/>
     </object>
-    <object id="723" name="knight" x="1963" y="350">
+    <object id="800" name="monster_3" x="1963" y="350">
      <point/>
     </object>
-    <object id="724" name="knight" x="2292" y="284">
+    <object id="801" name="monster_2" x="2292" y="284">
      <point/>
     </object>
-    <object id="725" name="knight" x="2307" y="185">
+    <object id="802" name="monster_1" x="2307" y="185">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="70" name="NIGHTMARE">
+    <object id="803" name="monster_4" x="1972" y="194">
+     <point/>
+    </object>
+    <object id="804" name="monster_3" x="1963" y="350">
+     <point/>
+    </object>
+    <object id="805" name="monster_2" x="2292" y="284">
+     <point/>
+    </object>
+    <object id="806" name="monster_1" x="2307" y="185">
      <point/>
     </object>
    </objectgroup>
@@ -1055,61 +1049,58 @@
   </group>
   <group id="23" name="1">
    <objectgroup id="32" name="EASY">
-    <object id="571" name="knight" x="65" y="339">
+    <object id="571" name="monster_4" x="65" y="339">
      <point/>
     </object>
-    <object id="570" name="knight" x="74" y="201">
+    <object id="570" name="monster_3" x="74" y="201">
      <point/>
     </object>
-    <object id="569" name="knight" x="400" y="276">
+    <object id="569" name="monster_2" x="400" y="276">
      <point/>
     </object>
-    <object id="568" name="knight" x="389" y="157">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="39" name="MEDIUM">
-    <object id="642" name="knight" x="65" y="339">
-     <point/>
-    </object>
-    <object id="643" name="knight" x="74" y="201">
-     <point/>
-    </object>
-    <object id="644" name="knight" x="400" y="276">
-     <point/>
-    </object>
-    <object id="645" name="knight" x="389" y="157">
-     <point/>
-    </object>
-    <object id="755" name="knight" x="298.667" y="244">
+    <object id="568" name="monster_1" x="389" y="157">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="54" name="HARD">
-    <object id="702" name="knight" x="65" y="339">
+   <objectgroup id="80" name="MEDIUM">
+    <object id="846" name="monster_4" x="65" y="339">
      <point/>
     </object>
-    <object id="703" name="knight" x="74" y="201">
+    <object id="847" name="monster_3" x="74" y="201">
      <point/>
     </object>
-    <object id="704" name="knight" x="400" y="276">
+    <object id="848" name="monster_2" x="400" y="276">
      <point/>
     </object>
-    <object id="705" name="knight" x="389" y="157">
+    <object id="849" name="monster_1" x="389" y="157">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="55" name="NIGHTMARE">
-    <object id="706" name="knight" x="65" y="339">
+   <objectgroup id="81" name="HARD">
+    <object id="850" name="monster_4" x="65" y="339">
      <point/>
     </object>
-    <object id="707" name="knight" x="74" y="201">
+    <object id="851" name="monster_3" x="74" y="201">
      <point/>
     </object>
-    <object id="708" name="knight" x="400" y="276">
+    <object id="852" name="monster_2" x="400" y="276">
      <point/>
     </object>
-    <object id="709" name="knight" x="389" y="157">
+    <object id="853" name="monster_1" x="389" y="157">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="82" name="NIGHTMARE">
+    <object id="854" name="monster_4" x="65" y="339">
+     <point/>
+    </object>
+    <object id="855" name="monster_3" x="74" y="201">
+     <point/>
+    </object>
+    <object id="856" name="monster_2" x="400" y="276">
+     <point/>
+    </object>
+    <object id="857" name="monster_1" x="389" y="157">
      <point/>
     </object>
    </objectgroup>
@@ -1119,61 +1110,58 @@
   </group>
   <group id="24" name="2">
    <objectgroup id="33" name="EASY" visible="0">
-    <object id="567" name="knight" x="1361" y="210">
+    <object id="567" name="monster_4" x="1361" y="210">
      <point/>
     </object>
-    <object id="566" name="knight" x="1092" y="222">
+    <object id="566" name="monster_3" x="1092" y="222">
      <point/>
     </object>
-    <object id="564" name="knight" x="1226" y="116">
+    <object id="564" name="monster_2" x="1226" y="116">
      <point/>
     </object>
-    <object id="565" name="knight" x="1215" y="278">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="38" name="MEDIUM" visible="0">
-    <object id="638" name="knight" x="1361" y="210">
-     <point/>
-    </object>
-    <object id="639" name="knight" x="1092" y="222">
-     <point/>
-    </object>
-    <object id="640" name="knight" x="1226" y="116">
-     <point/>
-    </object>
-    <object id="641" name="knight" x="1215" y="278">
-     <point/>
-    </object>
-    <object id="754" name="knight" x="1312" y="301.333">
+    <object id="565" name="monster_1" x="1215" y="278">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="56" name="HARD" visible="0">
-    <object id="710" name="knight" x="1361" y="210">
+   <objectgroup id="77" name="MEDIUM" visible="0">
+    <object id="834" name="monster_4" x="1361" y="210">
      <point/>
     </object>
-    <object id="711" name="knight" x="1092" y="222">
+    <object id="835" name="monster_3" x="1092" y="222">
      <point/>
     </object>
-    <object id="712" name="knight" x="1226" y="116">
+    <object id="836" name="monster_2" x="1226" y="116">
      <point/>
     </object>
-    <object id="713" name="knight" x="1215" y="278">
+    <object id="837" name="monster_1" x="1215" y="278">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="57" name="NIGHTMARE" visible="0">
-    <object id="714" name="knight" x="1361" y="210">
+   <objectgroup id="78" name="HARD" visible="0">
+    <object id="838" name="monster_4" x="1361" y="210">
      <point/>
     </object>
-    <object id="715" name="knight" x="1092" y="222">
+    <object id="839" name="monster_3" x="1092" y="222">
      <point/>
     </object>
-    <object id="716" name="knight" x="1226" y="116">
+    <object id="840" name="monster_2" x="1226" y="116">
      <point/>
     </object>
-    <object id="717" name="knight" x="1215" y="278">
+    <object id="841" name="monster_1" x="1215" y="278">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="79" name="NIGHTMARE" visible="0">
+    <object id="842" name="monster_4" x="1361" y="210">
+     <point/>
+    </object>
+    <object id="843" name="monster_3" x="1092" y="222">
+     <point/>
+    </object>
+    <object id="844" name="monster_2" x="1226" y="116">
+     <point/>
+    </object>
+    <object id="845" name="monster_1" x="1215" y="278">
      <point/>
     </object>
    </objectgroup>
@@ -1183,61 +1171,58 @@
   </group>
   <group id="22" name="0">
    <objectgroup id="34" name="EASY">
-    <object id="575" name="knight" x="416" y="1198">
+    <object id="575" name="monster_1" x="416" y="1198">
      <point/>
     </object>
-    <object id="572" name="knight" x="148" y="1075">
+    <object id="572" name="monster_4" x="148" y="1075">
      <point/>
     </object>
-    <object id="573" name="knight" x="76" y="1252">
+    <object id="573" name="monster_3" x="76" y="1252">
      <point/>
     </object>
-    <object id="574" name="knight" x="231" y="1301">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="42" name="MEDIUM">
-    <object id="654" name="knight" x="416" y="1198">
-     <point/>
-    </object>
-    <object id="655" name="knight" x="148" y="1075">
-     <point/>
-    </object>
-    <object id="656" name="knight" x="76" y="1252">
-     <point/>
-    </object>
-    <object id="657" name="knight" x="231" y="1301">
-     <point/>
-    </object>
-    <object id="753" name="knight" x="290.667" y="1105.33">
+    <object id="574" name="monster_2" x="231" y="1301">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="52" name="HARD">
-    <object id="694" name="knight" x="416" y="1198">
+   <objectgroup id="74" name="MEDIUM">
+    <object id="822" name="monster_1" x="416" y="1198">
      <point/>
     </object>
-    <object id="695" name="knight" x="148" y="1075">
+    <object id="823" name="monster_4" x="148" y="1075">
      <point/>
     </object>
-    <object id="696" name="knight" x="76" y="1252">
+    <object id="824" name="monster_3" x="76" y="1252">
      <point/>
     </object>
-    <object id="697" name="knight" x="231" y="1301">
+    <object id="825" name="monster_2" x="231" y="1301">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="53" name="NIGHTMARE">
-    <object id="698" name="knight" x="416" y="1198">
+   <objectgroup id="75" name="HARD">
+    <object id="826" name="monster_1" x="416" y="1198">
      <point/>
     </object>
-    <object id="699" name="knight" x="148" y="1075">
+    <object id="827" name="monster_4" x="148" y="1075">
      <point/>
     </object>
-    <object id="700" name="knight" x="76" y="1252">
+    <object id="828" name="monster_3" x="76" y="1252">
      <point/>
     </object>
-    <object id="701" name="knight" x="231" y="1301">
+    <object id="829" name="monster_2" x="231" y="1301">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="76" name="NIGHTMARE">
+    <object id="830" name="monster_1" x="416" y="1198">
+     <point/>
+    </object>
+    <object id="831" name="monster_4" x="148" y="1075">
+     <point/>
+    </object>
+    <object id="832" name="monster_3" x="76" y="1252">
+     <point/>
+    </object>
+    <object id="833" name="monster_2" x="231" y="1301">
      <point/>
     </object>
    </objectgroup>
@@ -1246,89 +1231,83 @@
    </objectgroup>
   </group>
   <group id="29" name="final_room">
-   <objectgroup id="35" name="EASY" visible="0">
-    <object id="576" name="teacher" x="2037" y="2036">
+   <objectgroup id="35" name="EASY">
+    <object id="576" name="boss_1" x="2037" y="2036">
      <properties>
       <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
-    <object id="577" name="knight" x="2038" y="2209">
+    <object id="577" name="monster_3" x="2038" y="2209">
      <point/>
     </object>
-    <object id="578" name="knight" x="2303" y="2053">
+    <object id="578" name="monster_2" x="2303" y="2053">
      <point/>
     </object>
-    <object id="579" name="knight" x="2308" y="2280">
+    <object id="579" name="monster_1" x="2308" y="2280">
+     <point/>
+    </object>
+    <object id="782" name="monster_4" x="2082.67" y="2277.33">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="43" name="MEDIUM">
-    <object id="658" name="teacher" x="2037" y="2036">
+   <objectgroup id="71" name="MEDIUM">
+    <object id="807" name="boss_1" x="2037" y="2036">
      <properties>
       <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
-    <object id="659" name="knight" x="2038" y="2209">
+    <object id="808" name="monster_3" x="2038" y="2209">
      <point/>
     </object>
-    <object id="660" name="knight" x="2303" y="2053">
+    <object id="809" name="monster_2" x="2303" y="2053">
      <point/>
     </object>
-    <object id="661" name="knight" x="2308" y="2280">
+    <object id="810" name="monster_1" x="2308" y="2280">
      <point/>
     </object>
-    <object id="747" name="knight" x="2149.33" y="2116">
+    <object id="811" name="monster_4" x="2082.67" y="2277.33">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="50" name="HARD" visible="0">
-    <object id="686" name="teacher" x="2037" y="2036">
+   <objectgroup id="72" name="HARD">
+    <object id="812" name="boss_1" x="2037" y="2036">
      <properties>
       <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
-    <object id="687" name="knight" x="2038" y="2209">
+    <object id="813" name="monster_3" x="2038" y="2209">
      <point/>
     </object>
-    <object id="688" name="knight" x="2303" y="2053">
+    <object id="814" name="monster_2" x="2303" y="2053">
      <point/>
     </object>
-    <object id="689" name="knight" x="2308" y="2280">
+    <object id="815" name="monster_1" x="2308" y="2280">
      <point/>
     </object>
-    <object id="748" name="knight" x="2144" y="2108">
-     <point/>
-    </object>
-    <object id="749" name="knight" x="2164" y="2258.67">
+    <object id="816" name="monster_4" x="2082.67" y="2277.33">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="51" name="NIGHTMARE" visible="0">
-    <object id="690" name="teacher" x="2037" y="2036">
+   <objectgroup id="73" name="NIGHTMARE">
+    <object id="817" name="boss_1" x="2037" y="2036">
      <properties>
       <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
-    <object id="691" name="knight" x="2038" y="2209">
+    <object id="818" name="monster_3" x="2038" y="2209">
      <point/>
     </object>
-    <object id="692" name="knight" x="2303" y="2053">
+    <object id="819" name="monster_2" x="2303" y="2053">
      <point/>
     </object>
-    <object id="693" name="knight" x="2308" y="2280">
+    <object id="820" name="monster_1" x="2308" y="2280">
      <point/>
     </object>
-    <object id="750" name="knight" x="2168" y="2093.33">
-     <point/>
-    </object>
-    <object id="751" name="knight" x="2084" y="2288">
-     <point/>
-    </object>
-    <object id="752" name="knight" x="2200" y="2234.67">
+    <object id="821" name="monster_4" x="2082.67" y="2277.33">
      <point/>
     </object>
    </objectgroup>
@@ -1348,77 +1327,95 @@
    </objectgroup>
   </group>
   <group id="28" name="6">
-   <objectgroup id="36" name="EASY" visible="0">
-    <object id="552" name="knight" x="1326" y="1064">
-     <point/>
-    </object>
-    <object id="553" name="knight" x="1088" y="1341">
-     <point/>
-    </object>
-    <object id="554" name="knight" x="1331" y="1345">
-     <point/>
-    </object>
-    <object id="555" name="knight" x="1190" y="1363">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="44" name="MEDIUM" visible="0">
-    <object id="662" name="knight" x="1326" y="1064">
-     <point/>
-    </object>
-    <object id="663" name="knight" x="1088" y="1341">
-     <point/>
-    </object>
-    <object id="664" name="knight" x="1331" y="1345">
-     <point/>
-    </object>
-    <object id="665" name="knight" x="1190" y="1363">
-     <point/>
-    </object>
-    <object id="741" name="knight" x="1101.33" y="1140">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="48" name="HARD" visible="0">
-    <object id="678" name="knight" x="1326" y="1064">
-     <point/>
-    </object>
-    <object id="679" name="knight" x="1088" y="1341">
-     <point/>
-    </object>
-    <object id="680" name="knight" x="1331" y="1345">
-     <point/>
-    </object>
-    <object id="681" name="knight" x="1190" y="1363">
-     <point/>
-    </object>
-    <object id="742" name="knight" x="1337.33" y="1138.67">
-     <point/>
-    </object>
-    <object id="743" name="knight" x="1289.33" y="1217.33">
-     <point/>
-    </object>
-   </objectgroup>
    <objectgroup id="49" name="NIGHTMARE">
-    <object id="682" name="knight" x="1326" y="1064">
+    <object id="682" name="monster_1" x="1326" y="1064">
      <point/>
     </object>
-    <object id="683" name="knight" x="1088" y="1341">
+    <object id="683" name="monster_4" x="1088" y="1341">
      <point/>
     </object>
-    <object id="684" name="knight" x="1331" y="1345">
+    <object id="684" name="monster_3" x="1331" y="1345">
      <point/>
     </object>
-    <object id="685" name="knight" x="1190" y="1363">
+    <object id="685" name="monster_2" x="1190" y="1363">
      <point/>
     </object>
-    <object id="744" name="knight" x="1134.67" y="1093.33">
+    <object id="744" name="monster_1" x="1134.67" y="1093.33">
      <point/>
     </object>
-    <object id="745" name="knight" x="1162.67" y="1200">
+    <object id="745" name="monster_1" x="1162.67" y="1200">
      <point/>
     </object>
-    <object id="746" name="knight" x="1325.33" y="1156">
+    <object id="746" name="monster_1" x="1325.33" y="1156">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="63" name="HARD">
+    <object id="768" name="monster_1" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="769" name="monster_4" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="770" name="monster_3" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="771" name="monster_2" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="772" name="monster_1" x="1134.67" y="1093.33">
+     <point/>
+    </object>
+    <object id="773" name="monster_1" x="1162.67" y="1200">
+     <point/>
+    </object>
+    <object id="774" name="monster_1" x="1325.33" y="1156">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="64" name="MEDIUM">
+    <object id="775" name="monster_1" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="776" name="monster_4" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="777" name="monster_3" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="778" name="monster_2" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="779" name="monster_1" x="1134.67" y="1093.33">
+     <point/>
+    </object>
+    <object id="780" name="monster_1" x="1162.67" y="1200">
+     <point/>
+    </object>
+    <object id="781" name="monster_1" x="1325.33" y="1156">
+     <point/>
+    </object>
+   </objectgroup>
+   <objectgroup id="62" name="EASY">
+    <object id="761" name="monster_1" x="1326" y="1064">
+     <point/>
+    </object>
+    <object id="762" name="monster_4" x="1088" y="1341">
+     <point/>
+    </object>
+    <object id="763" name="monster_3" x="1331" y="1345">
+     <point/>
+    </object>
+    <object id="764" name="monster_2" x="1190" y="1363">
+     <point/>
+    </object>
+    <object id="765" name="monster_1" x="1134.67" y="1093.33">
+     <point/>
+    </object>
+    <object id="766" name="monster_1" x="1162.67" y="1200">
+     <point/>
+    </object>
+    <object id="767" name="monster_1" x="1325.33" y="1156">
      <point/>
     </object>
    </objectgroup>
@@ -1428,76 +1425,58 @@
   </group>
   <group id="27" name="5" visible="0">
    <objectgroup id="37" name="EASY">
-    <object id="548" name="knight" x="1093" y="2158">
+    <object id="548" name="monster_4" x="1093" y="2158">
      <point/>
     </object>
-    <object id="549" name="knight" x="1144" y="2291">
+    <object id="549" name="monster_3" x="1144" y="2291">
      <point/>
     </object>
-    <object id="550" name="knight" x="1364" y="2284">
+    <object id="550" name="monster_2" x="1364" y="2284">
      <point/>
     </object>
-    <object id="551" name="knight" x="1368" y="2132">
-     <point/>
-    </object>
-   </objectgroup>
-   <objectgroup id="46" name="MEDIUM">
-    <object id="670" name="knight" x="1093" y="2158">
-     <point/>
-    </object>
-    <object id="671" name="knight" x="1144" y="2291">
-     <point/>
-    </object>
-    <object id="672" name="knight" x="1364" y="2284">
-     <point/>
-    </object>
-    <object id="673" name="knight" x="1368" y="2132">
-     <point/>
-    </object>
-    <object id="735" name="knight" x="1216" y="2076">
+    <object id="551" name="monster_1" x="1368" y="2132">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="47" name="HARD">
-    <object id="674" name="knight" x="1093" y="2158">
+   <objectgroup id="83" name="MEDIUM">
+    <object id="858" name="monster_4" x="1093" y="2158">
      <point/>
     </object>
-    <object id="675" name="knight" x="1144" y="2291">
+    <object id="859" name="monster_3" x="1144" y="2291">
      <point/>
     </object>
-    <object id="676" name="knight" x="1364" y="2284">
+    <object id="860" name="monster_2" x="1364" y="2284">
      <point/>
     </object>
-    <object id="677" name="knight" x="1368" y="2132">
-     <point/>
-    </object>
-    <object id="736" name="knight" x="1249.33" y="2200">
-     <point/>
-    </object>
-    <object id="737" name="knight" x="1237.33" y="2314.67">
+    <object id="861" name="monster_1" x="1368" y="2132">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="45" name="NIGHTMARE">
-    <object id="666" name="knight" x="1093" y="2158">
+   <objectgroup id="84" name="HARD">
+    <object id="862" name="monster_4" x="1093" y="2158">
      <point/>
     </object>
-    <object id="667" name="knight" x="1144" y="2291">
+    <object id="863" name="monster_3" x="1144" y="2291">
      <point/>
     </object>
-    <object id="668" name="knight" x="1364" y="2284">
+    <object id="864" name="monster_2" x="1364" y="2284">
      <point/>
     </object>
-    <object id="669" name="knight" x="1368" y="2132">
+    <object id="865" name="monster_1" x="1368" y="2132">
      <point/>
     </object>
-    <object id="738" name="knight" x="1236" y="2101.33">
+   </objectgroup>
+   <objectgroup id="85" name="NIGHTMARE">
+    <object id="866" name="monster_4" x="1093" y="2158">
      <point/>
     </object>
-    <object id="739" name="knight" x="1244" y="2221.33">
+    <object id="867" name="monster_3" x="1144" y="2291">
      <point/>
     </object>
-    <object id="740" name="knight" x="1136" y="2042.67">
+    <object id="868" name="monster_2" x="1364" y="2284">
+     <point/>
+    </object>
+    <object id="869" name="monster_1" x="1368" y="2132">
      <point/>
     </object>
    </objectgroup>

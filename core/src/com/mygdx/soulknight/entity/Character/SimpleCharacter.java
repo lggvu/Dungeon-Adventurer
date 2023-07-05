@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
@@ -21,6 +23,7 @@ import com.mygdx.soulknight.util.TextureInfo;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class SimpleCharacter {
     public static final String CHARACTER_INFO_PATH = "info/character_info.json";
@@ -162,9 +165,35 @@ public abstract class SimpleCharacter {
             maxHP = source.get("hp").getAsInt();
             currentHP = getCurrentMaxHP();
             speedRun = source.get("speed_run").getAsFloat();
-            Weapon weapon = Weapon.load(source.get("default_weapon").getAsString());
-            weapon.setOwner(this);
-            collectWeapon(weapon);
+            String type = source.get("type").getAsString();
+            int defaultWeaponNumber;
+            switch (type) {
+                case "hero":
+                    defaultWeaponNumber = 2;
+                    break;
+                case "monster":
+                    defaultWeaponNumber = 1;
+                    break;
+                case "boss":
+                    defaultWeaponNumber = 1000;
+                    break;
+                default:
+                    throw new Exception("Something wrong here");
+            }
+            setMaxWeaponNumber(defaultWeaponNumber);
+            JsonArray weaponArray = source.get("default_weapons").getAsJsonArray();
+
+            if (weaponArray.size() > defaultWeaponNumber) {
+                throw new Exception("Number of default weapons can not greater than max weapon number");
+            }
+
+            Iterator<JsonElement> iterator = weaponArray.iterator();
+            while (iterator.hasNext()) {
+                Weapon weapon = Weapon.load(iterator.next().getAsString());
+                weapon.setOwner(this);
+                collectWeapon(weapon);
+            }
+
             for(TextureInfo textureInfo : textureInfos){
                 if(textureInfo.getWidth()>this.maxWidth){
                     this.maxWidth= textureInfo.getWidth();

@@ -1,24 +1,4 @@
 {
-    "king": {
-        "type": "hero",
-        "texture_path": [
-            "character/jungler/animation_1_10.png"
-        ],
-        "hp": 7,
-        "armor": 6,
-        "energy": 200,
-        "speed_run": 180,
-        "default_weapon": "Sword 1",
-        "weapon_x": 16,
-        "weapon_y": 16,
-        "dodge_texture_path": [
-            "character/jungler/animation_1_10.png"
-        ],
-        "cooldown_special_skill_texture_path": "cooldown/1.png",
-        "die_texture_path": [
-            "character/jungler/animation_1_10.png"
-        ]
-    },
     "adventurer": {
         "type": "hero",
         "texture_path": [
@@ -28,7 +8,6 @@
         "armor": 6,
         "energy": 150,
         "speed_run": 200,
-        "default_weapon": "Sword 1",
         "weapon_x": 12,
         "weapon_y": 16,
         "dodge_texture_path": [
@@ -45,6 +24,9 @@
         "cooldown_special_skill_texture_path": "cooldown/2.png",
         "die_texture_path": [
             "character/adventurer/dying_1_7.png"
+        ],
+        "default_weapons": [
+            "Sword 1"
         ]
     },
     "jungler": {
@@ -56,7 +38,6 @@
         "armor": 8,
         "energy": 100,
         "speed_run": 180,
-        "default_weapon": "Gun Red S",
         "weapon_x": 16,
         "weapon_y": 16,
         "dodge_texture_path": [
@@ -65,6 +46,9 @@
         "cooldown_special_skill_texture_path": "cooldown/3.png",
         "die_texture_path": [
             "character/jungler/animation_1_10.png"
+        ],
+        "default_weapons": [
+            "Gun Red S"
         ]
     },
     "assassin": {
@@ -76,7 +60,6 @@
         "armor": 7,
         "energy": 200,
         "speed_run": 250,
-        "default_weapon": "Sword 1",
         "weapon_x": 16,
         "weapon_y": 12,
         "dodge_texture_path": [
@@ -88,9 +71,12 @@
         "cooldown_special_skill_texture_path": "cooldown/4.png",
         "die_texture_path": [
             "character/assassin/dying_1_9.png"
+        ],
+        "default_weapons": [
+            "Sword 1"
         ]
     },
-    "knight": {
+    "monster_1": {
         "type": "monster",
         "texture_path": [
             "monsters/Flying eye/1_1_1.png",
@@ -102,10 +88,8 @@
         ],
         "hp": 7,
         "speed_run": 30,
-        "default_weapon": "Gun Monster 1",
         "weapon_x": 16,
         "weapon_y": 16,
-        "cooldown_special_skill_texture_path": "cooldown_circle.png",
         "die_texture_path": [
             "monsters/Flying eye/dying_1_8.png"
         ],
@@ -116,9 +100,80 @@
             "monsters/Flying eye/4_1_1.png",
             "monsters/Flying eye/5_1_1.png",
             "monsters/Flying eye/6_1_1.png"
+        ],
+        "default_weapons": [
+            "Gun Monster 1"
         ]
     },
-    "teacher1": {
+    "monster_2": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/axe-monster/animation_1_7.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "die_texture_path": [
+            "monsters/Flying eye/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/axe-monster/attack/1_1_1.png",
+            "monsters/axe-monster/attack/2_1_1.png",
+            "monsters/axe-monster/attack/3_1_1.png",
+            "monsters/axe-monster/attack/4_1_1.png",
+            "monsters/axe-monster/attack/5_1_1.png",
+            "monsters/axe-monster/attack/6_1_1.png",
+            "monsters/axe-monster/attack/7_1_1.png",
+            "monsters/axe-monster/attack/8_1_1.png",
+            "monsters/axe-monster/attack/9_1_1.png",
+            "monsters/axe-monster/attack/10_1_1.png",
+            "monsters/axe-monster/attack/11_1_1.png",
+            "monsters/axe-monster/attack/12_1_1.png"
+        ],
+        "default_weapons": [
+            "Gun Monster 1"
+        ]
+    },
+    "monster_3": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/ghoul/animation_1_8.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "die_texture_path": [
+            "monsters/Flying eye/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/ghoul/animation_1_8.png"
+        ],
+        "default_weapons": [
+            "Gun Monster 1"
+        ]
+    },
+    "monster_4": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/golem/animation_1_11.png"
+        ],
+        "hp": 7,
+        "speed_run": 30,
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "die_texture_path": [
+            "monsters/Flying eye/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/golem/animation_1_11.png"
+        ],
+        "default_weapons": [
+            "Gun Monster 2"
+        ]
+    },
+    "boss_1": {
         "type": "boss",
         "texture_path": [
             "monsters/Daco/1_1_1.png",
@@ -128,10 +183,8 @@
         ],
         "hp": 30,
         "speed_run": 30,
-        "default_weapon": "Gun Monster 1",
         "weapon_x": 32,
         "weapon_y": 32,
-        "cooldown_special_skill_texture_path": "cooldown_circle.png",
         "die_texture_path": [
             "monsters/Daco/dying_1_8.png"
         ],
@@ -140,19 +193,22 @@
             "monsters/Daco/2_1_1.png",
             "monsters/Daco/3_1_1.png",
             "monsters/Daco/4_1_1.png"
+        ],
+        "default_weapons": [
+            "Gun Boss 1",
+            "Gun Boss 2",
+            "Gun Boss 3"
         ]
     },
-    "teacher": {
+    "boss_2": {
         "type": "boss",
         "texture_path": [
             "monsters/flame-demon/animation_1_10.png"
         ],
         "hp": 30,
         "speed_run": 30,
-        "default_weapon": "Gun Monster 1",
         "weapon_x": 32,
         "weapon_y": 32,
-        "cooldown_special_skill_texture_path": "cooldown_circle.png",
         "die_texture_path": [
             "monsters/Daco/dying_1_8.png"
         ],
@@ -172,6 +228,11 @@
             "monsters/flame-demon/attack/demon_cleave_13_1_1.png",
             "monsters/flame-demon/attack/demon_cleave_14_1_1.png",
             "monsters/flame-demon/attack/demon_cleave_15_1_1.png"
+        ],
+        "default_weapons": [
+            "Gun Boss 1",
+            "Gun Boss 2",
+            "Gun Boss 3"
         ]
     }
 }
