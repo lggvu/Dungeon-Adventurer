@@ -57,7 +57,7 @@ public class Gun extends Weapon {
         explosionAnimation = new Animation<TextureRegion>(0.05f, explosionFrames);
         String soundPath = jsonObject.get("sound_effect").getAsString();
         this.shootSound = Gdx.audio.newMusic(Gdx.files.internal(soundPath));
-        Settings.allSound.add(this.shootSound);
+        Settings.addSound(this.shootSound);
         String shotExplosionTexturePath = jsonObject.get("shot_explosion_texture").getAsString();
         TextureRegion[] shotExplosionFrames = SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName(shotExplosionTexturePath));
         shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
@@ -186,10 +186,6 @@ public class Gun extends Weapon {
     }
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;
-    }
-
-    public Music getShootSound() {
-        return shootSound;
     }
     public void setShootSound(Music sound){
         this.shootSound = sound;

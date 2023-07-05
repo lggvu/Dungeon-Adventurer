@@ -40,7 +40,7 @@ public class Sword extends Weapon {
         swordAnimation = new Animation<>(jsonObject.get("properties").getAsJsonObject().get("duration").getAsFloat(), frames);
         String soundPath = jsonObject.get("sound_effect").getAsString();
         this.slashSound = Gdx.audio.newMusic(Gdx.files.internal(soundPath));
-        Settings.allSound.add(this.slashSound);
+        Settings.addSound(this.slashSound);
         return jsonObject;
     }
 

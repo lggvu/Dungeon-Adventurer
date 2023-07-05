@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.entity.Weapon.Gun;
@@ -26,9 +27,9 @@ public class Boss extends Monster {
         gun_3.setNumWallCollide(3);
 
         //add sound for weapons
-        gun_1.setShootSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav")));
-        gun_2.setShootSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav")));
-        gun_3.setShootSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav")));
+        gun_1.setShootSound(Settings.addSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav"))));
+        gun_2.setShootSound(Settings.addSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav"))));
+        gun_3.setShootSound(Settings.addSound(Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.wav"))));
         for (int i = -30; i <= 30; i+=5) {
             gun_1.addDirectionAttack(i);
             gun_2.addDirectionAttack(i);

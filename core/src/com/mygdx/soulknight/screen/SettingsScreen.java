@@ -95,7 +95,7 @@ public class SettingsScreen implements Screen {
         table.add(soundLabel).left().padRight(10);
 
         final Slider soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        soundVolumeSlider.setValue(Settings.explosionSound.getVolume());
+        soundVolumeSlider.setValue(Settings.soundVolume);
         soundVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

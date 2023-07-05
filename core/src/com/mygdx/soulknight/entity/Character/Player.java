@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -38,7 +39,7 @@ public abstract class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private boolean isDying = false, isMoving = false;
-    private Music movingSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/running-2.mp3"));;
+    private Music movingSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/running-2.mp3"));
     private Skill dodgeSkill = new Skill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
@@ -64,7 +65,7 @@ public abstract class Player extends SimpleCharacter {
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         setMaxWeaponNumber(2);
-        this.movingSound.setVolume(0.9f);
+        Settings.addSound(movingSound);
     }
 
 
@@ -365,8 +366,5 @@ public abstract class Player extends SimpleCharacter {
 
     public Skill getSpecialSkill() {
         return specialSkill;
-    }
-    public Music getMovingSound(){
-        return this.movingSound;
     }
 }

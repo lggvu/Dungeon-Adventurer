@@ -26,9 +26,11 @@ public class Settings {
 			JsonObject json = new Gson().fromJson(Gdx.files.internal(SETTING_PATH).reader(), JsonObject.class);
 			System.out.println("LOAD SETTING");
 			fps = json.get("FPS").getAsInt();
+			soundVolume = json.get("SOUND_VOLUME").getAsFloat();
 			keyboardSetting.put(GameButton.DODGE, json.get("DODGE_KEY_CODE").getAsInt());
 			keyboardSetting.put(GameButton.SPECIAL_SKILL, json.get("SPEC_KEY_CODE").getAsInt());
 			music.setVolume(json.get("MUSIC_VOLUME").getAsFloat());
+			addSound(explosionSound);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,6 +44,7 @@ public class Settings {
 		jsonObject.add("SPEC_KEY_CODE", new JsonPrimitive(keyboardSetting.get(GameButton.SPECIAL_SKILL)));
 		jsonObject.add("DODGE_KEY_CODE", new JsonPrimitive(keyboardSetting.get(GameButton.DODGE)));
 		jsonObject.add("MUSIC_VOLUME", new JsonPrimitive(music.getVolume()));
+		jsonObject.add("SOUND_VOLUME", new JsonPrimitive(soundVolume));
 		String json = gson.toJson(jsonObject);
 		Gdx.files.local(SETTING_PATH).writeString(json, false);
 	}
@@ -61,10 +64,17 @@ public class Settings {
 	}
 
 	public static int fps = 60;
+	public static float soundVolume = 0.3f;
 	public static Music music = Gdx.audio.newMusic(Gdx.files.internal("music/After-School.mp3"));
 	public static Music explosionSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.mp3"));
 
-	public static ArrayList<Music> allSound = new ArrayList<>();
+	private static ArrayList<Music> allSound = new ArrayList<>();
+
+	public static Music addSound(Music sound) {
+		allSound.add(sound);
+		sound.setVolume(soundVolume);
+		return sound;
+	}
 	public static void updateMusicVolume(float x) {
 		music.setVolume(x);
 	}

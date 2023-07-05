@@ -127,7 +127,6 @@ public class MainGameScreen extends ScreenAdapter {
         backgroundMusic.dispose();
         specialSkillCooldownButton.disposeShapeRenderer();
         dodgeCooldownBtn.disposeShapeRenderer();
-        player.getMovingSound().dispose();
     }
 
     
