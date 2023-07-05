@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity.Character;
+package com.mygdx.soulknight.entity.Character.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.entity.Character.Monster.Monster;
+import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Item.Item;
 import com.mygdx.soulknight.entity.Item.Pickable;
@@ -93,7 +95,7 @@ public abstract class Player extends SimpleCharacter {
         monsterInVision.clear();
         Vector2 playerPos = new Vector2(x + getWidth() / 2, y + getHeight() / 2);
         for (SimpleCharacter character : getEnemyList()) {
-            Vector2 monsterPos = new Vector2(character.x + character.getWidth() / 2, character.y + character.getHeight() / 2);
+            Vector2 monsterPos = new Vector2(character.getX() + character.getWidth() / 2, character.getY() + character.getHeight() / 2);
             if (monsterPos.dst(playerPos) > visionRange) {
                 monsterInVision.put(character, false);
                 continue;

@@ -3,7 +3,7 @@ package com.mygdx.soulknight.entity.Item;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.Player.Player;
 
 public class Item implements Pickable {
     private enum ItemType {

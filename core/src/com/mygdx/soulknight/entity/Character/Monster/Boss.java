@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity.Character;
+package com.mygdx.soulknight.entity.Character.Monster;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;

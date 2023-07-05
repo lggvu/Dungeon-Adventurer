@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.ability.AbilityDrawer;
-import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 import java.util.ArrayList;

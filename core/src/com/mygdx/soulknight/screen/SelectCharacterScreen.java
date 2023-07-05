@@ -11,8 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
-import com.mygdx.soulknight.entity.Character.Adventurer;
-import com.mygdx.soulknight.entity.Character.Assassin;
+import com.mygdx.soulknight.entity.Character.Player.Adventurer;
+import com.mygdx.soulknight.entity.Character.Player.Assassin;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextItem;
 

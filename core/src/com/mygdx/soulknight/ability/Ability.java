@@ -2,7 +2,7 @@ package com.mygdx.soulknight.ability;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 
 import java.util.ArrayList;

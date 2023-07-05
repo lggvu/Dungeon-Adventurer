@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
-import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 

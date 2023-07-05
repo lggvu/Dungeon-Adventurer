@@ -6,8 +6,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.soulknight.entity.Character.Boss;
-import com.mygdx.soulknight.entity.Character.Monster;
+import com.mygdx.soulknight.entity.Character.Monster.Boss;
+import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Item.Item;
 import java.util.ArrayList;
 

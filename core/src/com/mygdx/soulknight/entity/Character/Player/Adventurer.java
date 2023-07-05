@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.entity.Character;
+package com.mygdx.soulknight.entity.Character.Player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -4,7 +4,7 @@
         "gun_texture": "weapon/weapon.png",
         "bullet_texture": "bullet-effects/Shot4/shot4_asset.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 3,
             "energy_cost": 1,
@@ -35,7 +35,7 @@
         "gun_texture": "weapon/weapon1.png",
         "bullet_texture": "bullet-effects/Shot4/shot4_asset.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 5,
             "energy_cost": 2,
@@ -66,7 +66,7 @@
         "gun_texture": "weapon/red-gun-S.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 3,
             "energy_cost": 1,
@@ -97,7 +97,7 @@
         "gun_texture": "weapon/red-gun-M.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 4,
             "energy_cost": 2,
@@ -130,7 +130,7 @@
         "gun_texture": "weapon/red-gun-L.png",
         "bullet_texture": "bullet-effects/Shot3/shot3-bullet.png",
         "explosion_texture": "bullet-effects/Shot3/shot3-sheet_1_8.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 6,
             "energy_cost": 2.5,
@@ -162,7 +162,7 @@
         "gun_texture": "weapon/red-gun-XL.png",
         "bullet_texture": "bullet-effects/Shot6/shot6-bullet.png",
         "explosion_texture": "bullet-effects/Shot6/shot6-sheet_1_12.png",
-	"sound_effect": "sound-effect/pistol-shoot.mp3",
+	    "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 12,
             "energy_cost": 3,
@@ -195,9 +195,9 @@
     "Gun Monster 1": {
         "type": "Gun",
         "gun_texture": "weapon/weapon.png",
-        "bullet_texture": "bullet-effects/Shot4/shot4_asset.png",
+        "bullet_texture": "bullet/bullet3.png",
         "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
-	"sound_effect": "sound-effect/monster-hit.mp3",
+	    "sound_effect": "sound-effect/monster-hit.mp3",
         "properties": {
             "damage": 3,
             "energy_cost": 2,
@@ -230,7 +230,7 @@
             "weapon/slices/slice1/1_36_53.png",
             "weapon/slices/slice1/2_32_53.png"
         ],
-	"sound_effect": "sound-effect/sword-hit.mp3",
+	    "sound_effect": "sound-effect/sword-hit.mp3",
         "properties": {
             "damage": 8,
             "energy_cost": 1.0,

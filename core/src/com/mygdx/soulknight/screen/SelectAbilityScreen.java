@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.ability.Ability;
-import com.mygdx.soulknight.entity.Character.Player;
+import com.mygdx.soulknight.entity.Character.Player.Player;
 import java.util.ArrayList;
 
 public class SelectAbilityScreen extends ScreenAdapter {

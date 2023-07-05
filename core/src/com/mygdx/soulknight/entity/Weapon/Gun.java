@@ -11,10 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Settings;
-import com.mygdx.soulknight.entity.Character.Monster;
-import com.mygdx.soulknight.entity.Character.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.screen.SettingsScreen;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
