@@ -48,7 +48,7 @@ public class Room {
 
         for (MapObject mapObject : monsterPositionLayer.getObjects()) {
             Rectangle monsterPos = ((RectangleMapObject) mapObject).getRectangle();
-            if (!mapObject.getProperties().containsKey("monster_type")) {
+            if (!mapObject.getProperties().containsKey("boss")) {
                 Monster monster = new Monster(mapObject.getName(), map, this);
                 monster.setPosition(monsterPos.x, monsterPos.y);
                 monsterAlive.add(monster);

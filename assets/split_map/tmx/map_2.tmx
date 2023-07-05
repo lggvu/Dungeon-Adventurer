@@ -1249,7 +1249,7 @@
    <objectgroup id="35" name="EASY" visible="0">
     <object id="576" name="teacher" x="2037" y="2036">
      <properties>
-      <property name="monster_type" value="boss"/>
+      <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
@@ -1263,10 +1263,10 @@
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="43" name="MEDIUM" visible="0">
+   <objectgroup id="43" name="MEDIUM">
     <object id="658" name="teacher" x="2037" y="2036">
      <properties>
-      <property name="monster_type" value="boss"/>
+      <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
@@ -1286,7 +1286,7 @@
    <objectgroup id="50" name="HARD" visible="0">
     <object id="686" name="teacher" x="2037" y="2036">
      <properties>
-      <property name="monster_type" value="boss"/>
+      <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
@@ -1309,7 +1309,7 @@
    <objectgroup id="51" name="NIGHTMARE" visible="0">
     <object id="690" name="teacher" x="2037" y="2036">
      <properties>
-      <property name="monster_type" value="boss"/>
+      <property name="boss" value=""/>
      </properties>
      <point/>
     </object>
