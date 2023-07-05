@@ -9,11 +9,11 @@ import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 public class Boss extends Monster {
-    private float timeShotAgain = 2f;
-    private float currentTimeCount = 1f;
     public Boss(String characterName, WorldMap map, Room room) {
         super(characterName, map, room);
         setMaxWeaponNumber(3);
+        attackSkill.setTotalTimeCoolDown(2f);
+        attackSkill.setCurrentTimeCoolDown(1f);
         weapons.clear();
 //        gun_1 chase (đạn chậm 100f)
 //        gun_2 bắn xung quanh (đạn trung bình 300f)
@@ -49,14 +49,18 @@ public class Boss extends Monster {
         for (Weapon weapon : weapons) {
             weapon.update(deltaTime);
         }
+        attackSkill.update(deltaTime);
 
         if (!isAlive()) {
             stateTime += deltaTime;
             return;
         }
 
+        if (attackSkill.isInProgresss()) {
+            return;
+        }
+
         applyEffect(deltaTime);
-        currentTimeCount += deltaTime;
 
         if (isStunned) {
             return;
@@ -72,12 +76,6 @@ public class Boss extends Monster {
                 move(direction.x, direction.y, deltaTime);
                 setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
                 updateMovementAnimation(deltaTime);
-            }
-            if (currentTimeCount >= timeShotAgain) {
-                currentTimeCount = 0;
-                this.attack(direction);
-                switchWeapon();
-                getCurrentWeapon().setDrawWeapon(false);
             }
         }
         else {
@@ -97,14 +95,14 @@ public class Boss extends Monster {
                 }
             }
         }
-        if (currentTimeCount >= timeShotAgain) {
-            currentTimeCount = 0;
+        if (!attackSkill.isInProgresss() && !attackSkill.isCoolingDown()) {
             Vector2 lookAtDirection = getLookAtDirection();
             if (lookAtDirection != null && (lookAtDirection.x != 0 || lookAtDirection.y != 0)) {
-                this.attack(lookAtDirection);
+                attackSkill.setAttackDirection(lookAtDirection);
             } else {
-                this.attack(new Vector2(1, 0));
+                attackSkill.setAttackDirection(new Vector2(1, 0));
             }
+            attackSkill.activateSkill();
             switchWeapon();
         }
     }

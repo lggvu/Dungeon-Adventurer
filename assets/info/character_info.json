@@ -108,9 +108,17 @@
         "cooldown_special_skill_texture_path": "cooldown_circle.png",
         "die_texture_path": [
             "monsters/Flying eye/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/Flying eye/1_1_1.png",
+            "monsters/Flying eye/2_1_1.png",
+            "monsters/Flying eye/3_1_1.png",
+            "monsters/Flying eye/4_1_1.png",
+            "monsters/Flying eye/5_1_1.png",
+            "monsters/Flying eye/6_1_1.png"
         ]
     },
-    "teacher": {
+    "teacher1": {
         "type": "boss",
         "texture_path": [
             "monsters/Daco/1_1_1.png",
@@ -126,6 +134,44 @@
         "cooldown_special_skill_texture_path": "cooldown_circle.png",
         "die_texture_path": [
             "monsters/Daco/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/Daco/1_1_1.png",
+            "monsters/Daco/2_1_1.png",
+            "monsters/Daco/3_1_1.png",
+            "monsters/Daco/4_1_1.png"
+        ]
+    },
+    "teacher": {
+        "type": "boss",
+        "texture_path": [
+            "monsters/flame-demon/animation_1_10.png"
+        ],
+        "hp": 30,
+        "speed_run": 30,
+        "default_weapon": "Gun Monster 1",
+        "weapon_x": 32,
+        "weapon_y": 32,
+        "cooldown_special_skill_texture_path": "cooldown_circle.png",
+        "die_texture_path": [
+            "monsters/Daco/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/flame-demon/attack/demon_cleave_1_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_2_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_3_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_4_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_5_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_6_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_7_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_8_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_9_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_10_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_11_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_12_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_13_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_14_1_1.png",
+            "monsters/flame-demon/attack/demon_cleave_15_1_1.png"
         ]
     }
 }
