@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.entity.DamageType;
-import com.mygdx.soulknight.entity.PlayerSkill;
+import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
@@ -20,7 +20,7 @@ public class Assassin extends Player {
         JsonObject source = super.load();
         immortalAnimation = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("immortal_texture_path").getAsJsonArray()));
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        specialSkill = new PlayerSkill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
+        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
             @Override
             public void activateSkill() {
                 if (!getDodgeSkill().isInProgresss()) {

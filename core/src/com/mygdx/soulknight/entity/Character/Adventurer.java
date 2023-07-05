@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.entity.PlayerSkill;
+import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 
@@ -22,7 +22,7 @@ public class Adventurer extends Player {
     public JsonObject load() {
         JsonObject source = super.load();
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        specialSkill = new PlayerSkill(
+        specialSkill = new Skill(
                 new TextureRegion(new Texture(textureSpecPath)),
                 1f, 1f
         );

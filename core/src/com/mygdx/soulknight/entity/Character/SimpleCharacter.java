@@ -312,7 +312,9 @@ public abstract class SimpleCharacter {
         getHit(damamge, damageType, false);
     }
     public abstract void getHit(int damage, DamageType damageType, boolean isCrit);
-    public abstract void attack(Vector2 direction);
+    public boolean attack(Vector2 direction) {
+        return getCurrentWeapon().attack(direction);
+    }
 
     public Vector2 getLastMoveDirection() {
         return lastMoveDirection;

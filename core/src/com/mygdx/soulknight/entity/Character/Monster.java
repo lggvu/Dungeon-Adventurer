@@ -88,10 +88,6 @@ public class Monster extends SimpleCharacter {
             weapon.draw(batch);
         }
     }
-    @Override
-    public void attack(Vector2 direction) {
-        getCurrentWeapon().attack(direction);
-    }
     public Room getRoom(){
         return this.room;
     }

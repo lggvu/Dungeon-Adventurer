@@ -96,7 +96,7 @@ public class Gun extends Weapon {
     }
 
     @Override
-    public void attack(Vector2 direction) {
+    public boolean attack(Vector2 direction) {
         if (isAllowedAttack()) {
             float degree = direction.angleDeg(new Vector2(1, 0));
             for (Float deg : directionAttack) {
@@ -105,7 +105,9 @@ public class Gun extends Weapon {
             }
             elapsedSeconds = 0;
             subOwnerMana();
+            return true;
         }
+        return false;
     }
 
     @Override

@@ -98,7 +98,7 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
     }
 
     //    When we have more weapon, we set attack function to an abstract class
-    public abstract void attack(Vector2 direction);
+    public abstract boolean attack(Vector2 direction);
     public abstract void draw(SpriteBatch batch);
     public void subOwnerMana() {
         if (owner instanceof Player) {

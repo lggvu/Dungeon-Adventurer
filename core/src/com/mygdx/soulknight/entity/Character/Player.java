@@ -14,7 +14,7 @@ import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Map.DestroyableObject;
 import com.mygdx.soulknight.entity.Map.Room;
 import com.mygdx.soulknight.entity.Map.WorldMap;
-import com.mygdx.soulknight.entity.PlayerSkill;
+import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
@@ -37,7 +37,7 @@ public abstract class Player extends SimpleCharacter {
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private boolean isDying = false;
-    private PlayerSkill dodgeSkill = new PlayerSkill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
+    private Skill dodgeSkill = new Skill(new TextureRegion(new Texture("buff/Dodge.png")), 0.5f, 0.5f) {
         @Override
         public void activateSkill() {
             super.activateSkill();
@@ -54,7 +54,7 @@ public abstract class Player extends SimpleCharacter {
             dodgeAnimation = temp;
         }
     };
-    protected PlayerSkill specialSkill;
+    protected Skill specialSkill;
     protected Animation<TextureInfo> dodgeAnimation;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
@@ -134,10 +134,6 @@ public abstract class Player extends SimpleCharacter {
         if (currentHP < 0) {
             currentHP = 0;
         }
-    }
-    @Override
-    public void attack(Vector2 direction) {
-        getCurrentWeapon().attack(direction);
     }
 
     @Override
@@ -351,11 +347,11 @@ public abstract class Player extends SimpleCharacter {
         this.currentArmor = currentArmor;
     }
 
-    public PlayerSkill getDodgeSkill() {
+    public Skill getDodgeSkill() {
         return dodgeSkill;
     }
 
-    public PlayerSkill getSpecialSkill() {
+    public Skill getSpecialSkill() {
         return specialSkill;
     }
 }

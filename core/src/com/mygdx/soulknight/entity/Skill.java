@@ -2,7 +2,7 @@ package com.mygdx.soulknight.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class PlayerSkill {
+public class Skill {
     protected TextureRegion textureRegion;
     protected float currentTimeCoolDown = 0;
     protected float totalTimeCoolDown;
@@ -11,7 +11,7 @@ public class PlayerSkill {
     protected boolean justFinishImplement = false;
     protected boolean justFinishCooldown = false;
 
-    public PlayerSkill(TextureRegion textureRegion, float totalTimeCoolDown, float totalTimeImplement) {
+    public Skill(TextureRegion textureRegion, float totalTimeCoolDown, float totalTimeImplement) {
         this.textureRegion = textureRegion;
         this.totalTimeCoolDown = totalTimeCoolDown;
         this.totalTimeImplement = totalTimeImplement;
