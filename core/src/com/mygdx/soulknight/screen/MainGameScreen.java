@@ -100,9 +100,16 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         map.update(deltaTime);
         if (map.isOver()) {
-            game.setScreen(new MenuScreen(game));
-            this.dispose();
-            return;
+            if (player.isAlive()) {
+                game.setScreen(new EndGameScreen(game,true));
+                this.dispose();
+                return;
+            }
+            else{
+                game.setScreen(new EndGameScreen(game,false));
+                this.dispose();
+                return;
+            }
         }
 
         map.draw(batch);

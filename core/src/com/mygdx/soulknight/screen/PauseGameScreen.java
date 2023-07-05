@@ -35,9 +35,10 @@ public class PauseGameScreen implements Screen {
 
 	     Button settingsButton = new TextButton("Go to Settings", skin);
 	     Button resumeButton = new TextButton("Resume Game", skin);
-	
-	
-	     // Add click listeners to the buttons
+		 Button exitGameButton = new TextButton("Exit Game", skin);
+
+
+		// Add click listeners to the buttons
 	     settingsButton.addListener(new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
@@ -57,6 +58,14 @@ public class PauseGameScreen implements Screen {
 	        	 dispose();
 	         }
 	     });
+		exitGameButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// Handle the "Resume Game" button click
+				game.setScreen(new MenuScreen(game));
+				dispose();
+			}
+		});
 	     Table table = new Table();
 	     table.setFillParent(true);
 
@@ -64,7 +73,8 @@ public class PauseGameScreen implements Screen {
 	     table.add(settingsButton).pad(10);
 	     table.row();
 	     table.add(resumeButton).pad(10);
-
+		 table.row();
+		 table.add(exitGameButton).pad(10);
 	     // Create a background image or colored image
 	     
 	     stage.addActor(table);
