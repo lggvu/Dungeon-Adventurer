@@ -70,6 +70,8 @@ public class Boss extends Monster {
             Vector2 direction = new Vector2(playerX - getX(), playerY - getY()).nor();
             if (direction.x != 0 || direction.y != 0) {
                 move(direction.x, direction.y, deltaTime);
+                setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
+                updateMovementAnimation(deltaTime);
             }
             if (currentTimeCount >= timeShotAgain) {
                 currentTimeCount = 0;
@@ -83,18 +85,23 @@ public class Boss extends Monster {
             setSpeedRun(speedWhenIdle);
             float testX = this.getX() + lastMoveDirection.x * speedRun * deltaTime;
             float testY = this.getY() + lastMoveDirection.y * speedRun * deltaTime;
-            stateTime += deltaTime;
             if (!map.isMapCollision(new Rectangle(testX, testY, getWidth(), getHeight())) && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
-                stateTime -= deltaTime;
                 move(lastMoveDirection.x, lastMoveDirection.y, deltaTime);
+                setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
+                updateMovementAnimation(deltaTime);
             } else {
-                lastMoveDirection = new Vector2(MathUtils.random(-100, 100), MathUtils.random(-100, 100)).nor();
+                float x = MathUtils.random(-100, 100);
+                float y = MathUtils.random(-100, 100);
+                if (x != 0 || y != 0) {
+                    lastMoveDirection = new Vector2(x, y).nor();
+                }
             }
         }
         if (currentTimeCount >= timeShotAgain) {
             currentTimeCount = 0;
-            if (lastMoveDirection != null && (lastMoveDirection.x != 0 || lastMoveDirection.y != 0)) {
-                this.attack(lastMoveDirection);
+            Vector2 lookAtDirection = getLookAtDirection();
+            if (lookAtDirection != null && (lookAtDirection.x != 0 || lookAtDirection.y != 0)) {
+                this.attack(lookAtDirection);
             } else {
                 this.attack(new Vector2(1, 0));
             }

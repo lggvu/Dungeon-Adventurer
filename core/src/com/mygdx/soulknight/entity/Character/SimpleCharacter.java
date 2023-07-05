@@ -28,8 +28,6 @@ public abstract class SimpleCharacter {
     private static int ID = 0;
     protected boolean isStunned = false;
     protected String characterName;
-
-    protected TextureInfo staticTexture;
     protected Animation<TextureInfo> animationMovement;
     protected Animation<TextureInfo> dyingAnimation;
     private int maxHP = 10;
@@ -40,7 +38,7 @@ public abstract class SimpleCharacter {
     protected float weaponX, weaponY;
     protected float speedRun = 180f;
     protected Vector2 lastMoveDirection = new Vector2(1, 0);
-    protected Vector2 currentHeadDirection = new Vector2(1, 0);
+    private Vector2 lookAtDirection = new Vector2(1, 0);
     protected int currentWeaponId = 0;
     protected ArrayList<Weapon> weapons = new ArrayList<>();
     private int maxWeaponNumber = 1;
@@ -193,8 +191,7 @@ public abstract class SimpleCharacter {
     }
 
     public void move(float x, float y, float deltaTime, float speed) {
-        stateTime += deltaTime;
-        setLastMoveDirection(x, y);
+        lastMoveDirection = new Vector2(x, y).nor();
         x = lastMoveDirection.x;
         y = lastMoveDirection.y;
         float testX = this.x + x * deltaTime * speed;
@@ -210,6 +207,10 @@ public abstract class SimpleCharacter {
         }
     }
 
+    public Vector2 getLastMoveDirection() {
+        return lastMoveDirection;
+    }
+
     public boolean isCollisionWithOtherCharacter(Rectangle rectangle, ArrayList<SimpleCharacter> characters) {
         for (SimpleCharacter character : characters) {
             if (!character.equals(this) && rectangle.overlaps(character.getRectangle())) {
@@ -218,19 +219,12 @@ public abstract class SimpleCharacter {
         }
         return false;
     }
-
-    protected void setLastMoveDirection(float x, float y) {
-        lastMoveDirection = new Vector2(x, y).nor();
-        float degree = lastMoveDirection.angleDeg(currentHeadDirection);
-        if (degree > 90 && degree < 270) {
-            currentHeadDirection = new Vector2(currentHeadDirection.x * (-1), 0);
-        }
+    protected void setLookAtDirection(float x, float y) {
+        lookAtDirection = new Vector2(x, y).nor();
     }
-
     public boolean isFlipX() {
-        return currentHeadDirection.x == -1;
+        return lookAtDirection.x < 0;
     }
-
     public void draw(SpriteBatch batch) {
         if (!isAlive()) {
             if (!isFinishDying()) {
@@ -254,6 +248,14 @@ public abstract class SimpleCharacter {
             textureRegion.flip(true, false);
         }
         batch.draw(textureRegion, x, y, textureInfo.getWidth(), textureInfo.getHeight());
+    }
+
+    public Vector2 getLookAtDirection() {
+        return lookAtDirection;
+    }
+
+    public void updateMovementAnimation(float deltaTime) {
+        stateTime += deltaTime;
     }
 
     public boolean isFinishDying() {
@@ -332,9 +334,6 @@ public abstract class SimpleCharacter {
         return getCurrentWeapon().attack(direction);
     }
 
-    public Vector2 getLastMoveDirection() {
-        return lastMoveDirection;
-    }
 
     public int getCurrentHP() {
         return currentHP;
@@ -344,9 +343,6 @@ public abstract class SimpleCharacter {
         this.currentHP = currentHP;
     }
 
-    public Vector2 getCurrentHeadDirection() {
-        return currentHeadDirection;
-    }
 
     public ArrayList<Weapon> getWeapons() {
         return weapons;

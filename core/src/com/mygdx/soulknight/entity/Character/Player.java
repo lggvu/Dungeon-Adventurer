@@ -58,7 +58,6 @@ public abstract class Player extends SimpleCharacter {
     protected Animation<TextureInfo> dodgeAnimation;
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
-    private Vector2 actualLastMoveDirection = new Vector2(1, 0);
 
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
@@ -171,7 +170,9 @@ public abstract class Player extends SimpleCharacter {
         specialSkill.update(deltaTime);
         dodgeSkill.update(deltaTime);
         if (dodgeSkill.isInProgresss()) {
-            move(actualLastMoveDirection.x, actualLastMoveDirection.y, deltaTime, 400f);
+            Vector2 lmdr = getLastMoveDirection();
+            move(lmdr.x, lmdr.y, deltaTime, 400f);
+            updateMovementAnimation(deltaTime);
         } else {
             applyEffect(deltaTime);
         }
@@ -199,9 +200,10 @@ public abstract class Player extends SimpleCharacter {
             }
 
             if (moveDirection.x != 0 || moveDirection.y != 0) {
+                updateMovementAnimation(deltaTime);
                 moveDirection = moveDirection.nor();
                 move(moveDirection.x, moveDirection.y, deltaTime);
-                actualLastMoveDirection = new Vector2(moveDirection.x, moveDirection.y).nor();
+                setLookAtDirection(lastMoveDirection.x, lastMoveDirection.y);
             } else {
                 stateTime = 0;
             }
@@ -213,7 +215,7 @@ public abstract class Player extends SimpleCharacter {
             if (room != null && room.getMonsterAlive().size() > 0) {
                 fighting = true;
                 room.setCombat(true);
-                setLastMoveDirection(attackDirection.x, attackDirection.y);
+                setLookAtDirection(attackDirection.x, attackDirection.y);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -280,10 +282,8 @@ public abstract class Player extends SimpleCharacter {
                 return direction;
             }
         }
-        return lastMoveDirection;
+        return getLookAtDirection();
     }
-
-
 
     public ArrayList<Pickable> autoCollect() {
         ArrayList<Pickable> removeList = new ArrayList<>();
