@@ -96,7 +96,7 @@
         "type": "Gun",
         "gun_texture": "weapon/red-gun-M.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
-        "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "explosion_texture": "bullet-effects/poison-explosion-1_2_5.png",
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 4,
@@ -129,7 +129,7 @@
         "type": "Gun",
         "gun_texture": "weapon/red-gun-L.png",
         "bullet_texture": "bullet-effects/Shot3/shot3-bullet.png",
-        "explosion_texture": "bullet-effects/Shot3/shot3-sheet_1_8.png",
+        "explosion_texture": "bullet-effects/poison-explosion-1_2_5.png",
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 6,
@@ -187,6 +187,117 @@
             "bullet_rotation_speed": 0
         },
         "shot_explosion_texture": "bullet-effects/Shot6/shot6-explosion-start-sheet_1_4.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
+    "Gun Venom S": {
+        "type": "Gun",
+        "gun_texture": "weapon/venom-gun-S.png",
+        "bullet_texture": "bullet-effects/Shot1/shot1-bullet.png",
+        "explosion_texture": "bullet-effects/poison-explosion-1_2_5.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 2,
+            "energy_cost": 0,
+            "attack_speed": 0.2,
+            "range": 500,
+            "critical_rate": 0.3,
+            "bullet_speed": 500.0,
+            "attack_directions": [
+                0,
+                45,
+                90,
+                135,
+                180,
+                235,
+                270,
+                315
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "POISON"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot1/shot1-explosion-start-sheet_1_4.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
+    "Gun Venom M": {
+        "type": "Gun",
+        "gun_texture": "weapon/venom-gun-M.png",
+        "bullet_texture": "bullet-effects/Shot1/shot1-bullet.png",
+        "explosion_texture": "bullet-effects/poison-explosion-1_2_5.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 4,
+            "energy_cost": 0,
+            "attack_speed": 0.2,
+            "range": 500,
+            "critical_rate": 0.3,
+            "bullet_speed": 500.0,
+            "attack_directions": [
+                0,
+                45,
+                90,
+                135,
+                180,
+                235,
+                270,
+                315
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "POISON"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot1/shot1-explosion-start-sheet_1_4.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
+    "Gun Venom L": {
+        "type": "Gun",
+        "gun_texture": "weapon/venom-gun-L.png",
+        "bullet_texture": "bullet-effects/Shot1/shot1-bullet.png",
+        "explosion_texture": "bullet-effects/poison-explosion-2_2_5.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 6,
+            "energy_cost": 0,
+            "attack_speed": 0.2,
+            "range": 500,
+            "critical_rate": 0.3,
+            "bullet_speed": 500.0,
+            "attack_directions": [
+                0,
+                45,
+                90,
+                135,
+                180,
+                235,
+                270,
+                315
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "POISON"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot1/shot1-explosion-start-sheet_1_4.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,

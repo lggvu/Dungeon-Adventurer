@@ -480,6 +480,21 @@ public class WorldMap {
     public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
         regionEffectArrayList.add(new Explosion(owner, x, y, radius, dealDame));
 
+        weapon = Weapon.load("Gun Venom S");
+        weapon.setPosition(190, 255);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Venom M");
+        weapon.setPosition(190, 450);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Venom L");
+        weapon.setPosition(190, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
     }
 
     public ArrayList<Room> getRooms() {
