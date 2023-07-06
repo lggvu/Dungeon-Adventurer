@@ -3,6 +3,7 @@ package com.mygdx.soulknight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -71,6 +72,8 @@ public class Settings {
 	public static Music explosionSound = Gdx.audio.newMusic(Gdx.files.internal("sound-effect/explosion.mp3"));
 
 	private static ArrayList<Music> allSound = new ArrayList<>();
+
+	public final static Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
 
 	public static Music addSound(Music sound) {
 		allSound.add(sound);

@@ -7,27 +7,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
-import java.io.File;
 
-public class MenuScreen extends ScreenAdapter {
+public class SelectModeScreen extends ScreenAdapter {
     SpriteBatch batch;
-    Texture background;
+    Stage stage;
     SoulKnight game;
-    private Stage stage;
-    private boolean isExistStateDict = false;
-
-    public MenuScreen(SoulKnight game) {
-        File file = new File(Settings.STATE_DICT_PATH);
-        isExistStateDict = file.exists();
-        this.game = game;
+    Texture background;
+    public SelectModeScreen(SoulKnight game) {
         batch = new SpriteBatch();
+        this.game = game;
         background = new Texture("dark_menu.png");
     }
 
@@ -36,35 +31,24 @@ public class MenuScreen extends ScreenAdapter {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        Button startGame = new TextButton("Start Game", Settings.skin);
-        // Add click listeners to the buttons
-        startGame.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SelectModeScreen(game));
-                dispose();
-            }
-        });
-
-        Button continueGame = new TextButton("Continue", Settings.skin);
-        if (isExistStateDict) {
-            continueGame.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(new MainGameScreen(game));
-                    dispose();
-                }
-            });
-        } else {
-            continueGame.setDisabled(true);
-        }
-
         Table table = new Table();
         table.setFillParent(true);
 
-        table.add(startGame).width(200).pad(20);
-        table.row();
-        table.add(continueGame).width(200).pad(20);
+        Level[] levels = Level.class.getEnumConstants();
+
+        for (Level level : levels) {
+            TextButton button = new TextButton(level.name(), Settings.skin);
+            final Level gameLevel = level;
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new SelectCharacterScreen(game, gameLevel));
+                    dispose();
+                }
+            });
+            table.add(button).width(200).pad(20);
+            table.row();
+        }
 
         stage.addActor(table);
     }

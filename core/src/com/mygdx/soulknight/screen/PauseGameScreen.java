@@ -30,56 +30,52 @@ public class PauseGameScreen implements Screen {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-	     // Create the pause menu buttons
-	     Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
-
-	     Button settingsButton = new TextButton("Go to Settings", skin);
-	     Button resumeButton = new TextButton("Resume Game", skin);
-		 Button exitGameButton = new TextButton("Exit Game", skin);
+		Button settingsButton = new TextButton("Go to Settings", skin);
+		Button resumeButton = new TextButton("Resume Game", skin);
+		Button exitGameButton = new TextButton("Exit Game", skin);
 
 
 		// Add click listeners to the buttons
-	     settingsButton.addListener(new ClickListener() {
-	         @Override
-	         public void clicked(InputEvent event, float x, float y) {
-	             // Handle the "Go to Settings" button click
-	             // Add code to navigate to the settings screen
-	        	 game.setScreen(new SettingsScreen(game,gameScreen));
-	        	 dispose();
-	         }
-	     });
-	
-	     resumeButton.addListener(new ClickListener() {
-	         @Override
-	         public void clicked(InputEvent event, float x, float y) {
-	             // Handle the "Resume Game" button click
-	        	 game.setScreen(gameScreen);
-	        	 gameScreen.resumeGame();
-	        	 dispose();
-	         }
-	     });
+		settingsButton.addListener(new ClickListener() {
+		@Override
+		public void clicked(InputEvent event, float x, float y) {
+			// Handle the "Go to Settings" button click
+			// Add code to navigate to the settings screen
+			game.setScreen(new SettingsScreen(game,gameScreen));
+			dispose();
+		}
+		});
+
+		resumeButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+			// Handle the "Resume Game" button click
+			game.setScreen(gameScreen);
+			gameScreen.resumeGame();
+			dispose();
+			}
+		});
+
 		exitGameButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				// Handle the "Resume Game" button click
-				game.setScreen(new MenuScreen(game));
-				dispose();
+			// Handle the "Resume Game" button click
+			game.setScreen(new MenuScreen(game));
+			dispose();
 			}
 		});
-	     Table table = new Table();
-	     table.setFillParent(true);
+		Table table = new Table();
+		table.setFillParent(true);
 
-	     // Add the buttons to the table
-	     table.add(settingsButton).pad(10);
-	     table.row();
-	     table.add(resumeButton).pad(10);
-		 table.row();
-		 table.add(exitGameButton).pad(10);
-	     // Create a background image or colored image
-	     
-	     stage.addActor(table);
+		// Add the buttons to the table
+		table.add(settingsButton).pad(10);
+		table.row();
+		table.add(resumeButton).pad(10);
+		table.row();
+		table.add(exitGameButton).pad(10);
+		// Create a background image or colored image
 
-
+		stage.addActor(table);
 	}
 
 	@Override
