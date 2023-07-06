@@ -97,6 +97,21 @@ public class WorldMap {
             MapGroupLayer groupLayer = (MapGroupLayer) roomLayers.getLayers().get(i);
             rooms.add(new Room(groupLayer, this));
         }
+
+        Weapon weapon = Weapon.load("Gun Venom S");
+        weapon.setPosition(190, 255);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Venom M");
+        weapon.setPosition(190, 450);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Venom L");
+        weapon.setPosition(190, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
     }
 
     public void addDamageNumber(int damage, DamageType damageType, boolean isCrit, float x, float y) {
@@ -259,8 +274,8 @@ public class WorldMap {
     }
 
     public void draw(SpriteBatch batch) {
-        camera.position.x = player.getX() + player.getWidth() / 2;
-        camera.position.y = player.getY() + player.getHeight() / 2;
+        camera.position.x = player.getX();
+        camera.position.y = player.getY();
         camera.update();
         mapRenderer.setView(camera);
         mapRenderer.render();
@@ -480,20 +495,7 @@ public class WorldMap {
     public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
         regionEffectArrayList.add(new Explosion(owner, x, y, radius, dealDame));
 
-        weapon = Weapon.load("Gun Venom S");
-        weapon.setPosition(190, 255);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Venom M");
-        weapon.setPosition(190, 450);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
-
-        weapon = Weapon.load("Gun Venom L");
-        weapon.setPosition(190, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
 
     }
 
