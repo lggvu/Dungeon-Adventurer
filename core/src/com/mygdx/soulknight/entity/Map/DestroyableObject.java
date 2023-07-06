@@ -37,6 +37,7 @@ public class DestroyableObject implements GameElement {
         } else if (name.equals("ARK_WEAPON")) {
             Weapon weapon = Weapon.load("Gun Red S");
             weapon.setPosition(getX(), getY());
+            weapon.setOnGround(true);
             pickableObject = weapon;
         }
     }
