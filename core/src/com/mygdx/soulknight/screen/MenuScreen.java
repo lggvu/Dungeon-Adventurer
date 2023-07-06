@@ -4,13 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -23,12 +27,24 @@ public class MenuScreen extends ScreenAdapter {
     private Stage stage;
     private boolean isExistStateDict = false;
 
+    private Skin skin;
+
     public MenuScreen(SoulKnight game) {
         File file = new File(Settings.STATE_DICT_PATH);
         isExistStateDict = file.exists();
         this.game = game;
         batch = new SpriteBatch();
         background = new Texture("dark_menu.png");
+
+        TextureRegionDrawable buttonDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("start_game_scale.png")));
+        BitmapFont font = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = buttonDrawable;
+
+        skin = new Skin();
+        skin.add("default", textButtonStyle);
     }
 
     @Override
@@ -36,7 +52,7 @@ public class MenuScreen extends ScreenAdapter {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        Button startGame = new TextButton("Start Game", Settings.skin);
+        TextButton startGame = new TextButton("", skin);
         // Add click listeners to the buttons
         startGame.addListener(new ClickListener() {
             @Override
@@ -62,7 +78,7 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
 
-        table.add(startGame).width(200).pad(20);
+        table.add(startGame).pad(20);
         table.row();
         table.add(continueGame).width(200).pad(20);
 
