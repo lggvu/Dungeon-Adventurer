@@ -236,14 +236,22 @@ public abstract class SimpleCharacter {
         float testX = this.x + x * deltaTime * speed;
         float testY = this.y + y * deltaTime * speed;
         ArrayList<SimpleCharacter> allCharacter = map.getAllCharacter();
-        Rectangle rectangleTest = new Rectangle(this.x, testY, this.maxWidth, this.maxHeight-this.maxHeight/2);
+        Rectangle rectangleTest = getMoveRectangle(this.x, testY);
         if (y != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.y = testY;
         }
-        rectangleTest = new Rectangle(testX, this.y,this.maxWidth, this.maxHeight-this.maxHeight/2);
+        rectangleTest = getMoveRectangle(testX, this.y);
         if (x != 0 && !map.isMapCollision(rectangleTest) && !isCollisionWithOtherCharacter(rectangleTest, allCharacter)) {
             this.x = testX;
         }
+    }
+
+    public Rectangle getMoveRectangle() {
+        return getMoveRectangle(getX(), getY());
+    }
+
+    public Rectangle getMoveRectangle(float x, float y) {
+        return new Rectangle(x, y, maxWidth, maxHeight / 2);
     }
 
     public Vector2 getLastMoveDirection() {

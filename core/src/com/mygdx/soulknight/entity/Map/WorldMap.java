@@ -379,13 +379,13 @@ public class WorldMap {
     }
 
     public Room getRoomPlayerIn() {
-        if (isInDoor(player.getRectangle())) {
+        if (isInDoor(player.getMoveRectangle())) {
             return null;
         }
 
         for (Room room : rooms) {
             for (Rectangle rect : room.getRoomArea()) {
-                if (player.getRectangle().overlaps(rect)) {
+                if (player.getMoveRectangle().overlaps(rect)) {
                     return room;
                 }
             }
