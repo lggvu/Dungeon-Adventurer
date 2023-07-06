@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Settings {
+
+	public final static String STATE_DICT_PATH = "assets/info/state_dict.json";
 	public enum GameButton {
 		DODGE,
 		SPECIAL_SKILL

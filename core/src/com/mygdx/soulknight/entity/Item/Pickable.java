@@ -9,4 +9,6 @@ public interface Pickable {
     public float getHeight();
 
     public void draw(SpriteBatch batch);
+
+    public String getTypeString();
 }

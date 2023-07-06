@@ -94,6 +94,14 @@ public abstract class SimpleCharacter {
         getCurrentWeapon().setDrawWeapon(true);
     }
 
+    protected int getCurrentWeaponId() {
+        return currentWeaponId;
+    }
+
+    protected void setCurrentWeaponId(int currentWeaponId) {
+        this.currentWeaponId = currentWeaponId;
+    }
+
     protected void applyEffect(float deltaTime) {
         this.isStunned = false;
         ArrayList<CharacterEffect> removeList = new ArrayList<>();

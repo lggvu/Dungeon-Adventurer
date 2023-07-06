@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.Level;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
+
+import java.io.File;
 
 public class MenuScreen extends ScreenAdapter {
     SpriteBatch batch;
@@ -24,8 +27,13 @@ public class MenuScreen extends ScreenAdapter {
     private BitmapFont hoverFont;
     private Array<TextItem> textItems;
     private TextItem selectedText = null;
+    private boolean isExistStateDict = false;
 
     public MenuScreen(SoulKnight game) {
+
+        File file = new File(Settings.STATE_DICT_PATH);
+        isExistStateDict = file.exists();
+
         this.game = game;
         batch = new SpriteBatch();
         background = new Texture("dark_menu.png");
@@ -65,6 +73,19 @@ public class MenuScreen extends ScreenAdapter {
         ) {
             if (Gdx.input.isTouched() && selectedText != null) {
                 game.setScreen(new SelectCharacterScreen(game, Level.valueOf(selectedText.getText().toUpperCase())));
+            }
+        }
+
+        if (isExistStateDict) {
+            if (
+                (Gdx.input.getX() > 0) &&
+                (Gdx.input.getX() < 100) &&
+                (Gdx.input.getY() > 0) &&
+                (Gdx.input.getY() < 100)
+            ) {
+                if (Gdx.input.isTouched()) {
+                    game.setScreen(new MainGameScreen(game));
+                }
             }
         }
 

@@ -76,6 +76,11 @@ public class Item implements Pickable {
         batch.draw(item.texture, x, y, item.width, item.height);
     }
 
+    @Override
+    public String getTypeString() {
+        return this.item.name();
+    }
+
     public void use(Player player) {
         switch (item.type) {
             case HP:

@@ -40,6 +40,7 @@ public class Ability  {
         public float getCurrentTimeCoolDown() {
             return currentTimeCooldown;
         }
+
     }
 
     private boolean isFireImmunity = false;

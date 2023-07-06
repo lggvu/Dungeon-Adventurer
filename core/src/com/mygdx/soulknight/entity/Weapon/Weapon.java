@@ -218,4 +218,13 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         }
         return false;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getTypeString() {
+        return "Weapon";
+    }
 }

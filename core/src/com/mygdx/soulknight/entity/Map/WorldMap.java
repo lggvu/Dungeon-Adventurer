@@ -16,7 +16,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Json;
+import com.google.gson.*;
 import com.mygdx.soulknight.Level;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
@@ -30,6 +33,7 @@ import com.mygdx.soulknight.util.FontDrawer;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class WorldMap {
     private OrthographicCamera camera;
@@ -50,13 +54,13 @@ public class WorldMap {
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
     private Level level;
+    String mapPath;
     private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
-
     public WorldMap(String tmxPath, Player player, Level level) {
+        this.mapPath = tmxPath;
         this.level = level;
         this.player = player;
         teleGateTextureRegions = SpriteLoader.splitTextureByFileName("tele_4_4.png");
-//        teleGate = new Animation<>(0.15f, );
         camera = new OrthographicCamera();
         camera.setToOrtho(false, (float) (Gdx.graphics.getWidth() / 1.5), (float) (Gdx.graphics.getHeight() / 1.5));
         tiledMap = new TmxMapLoader().load(tmxPath);
@@ -92,40 +96,6 @@ public class WorldMap {
             MapGroupLayer groupLayer = (MapGroupLayer) roomLayers.getLayers().get(i);
             rooms.add(new Room(groupLayer, this));
         }
-
-//        temp
-        Item item = new Item(Item.ItemEnum.HP_STONE, 50, 400);
-        itemsOnGround.add(item);
-
-        item = new Item(Item.ItemEnum.LIFE_POTION,400, 50);
-        itemsOnGround.add(item);
-
-        item = new Item(Item.ItemEnum.MANA_STONE,200, 50);
-        itemsOnGround.add(item);
-
-        item = new Item(Item.ItemEnum.MANA_POTION,50, 200);
-        itemsOnGround.add(item);
-
-        Weapon weapon = Weapon.load("Gun Red M");
-        weapon.setPosition(100, 100);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
-
-        weapon = Weapon.load("Gun Red XL");
-        weapon.setPosition(250, 250);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
-
-        weapon = Weapon.load("Gun Red S");
-        weapon.setPosition(110, 100);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
-
-        weapon = Weapon.load("Gun Red L");
-        weapon.setPosition(190, 250);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
-
     }
 
     public void addDamageNumber(int damage, DamageType damageType, boolean isCrit, float x, float y) {
@@ -152,7 +122,94 @@ public class WorldMap {
         return level;
     }
 
+    public void saveStateDict() {
+        Gson gson = new Gson();
+        System.out.println("SAVE STATE DICT");
+        String json = gson.toJson(getStateDict());
+        Gdx.files.local(Settings.STATE_DICT_PATH).writeString(json, false);
+    }
+
+    public JsonObject getStateDict() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("map_path", new JsonPrimitive(mapPath));
+        jsonObject.add("level", new JsonPrimitive(this.level.name()));
+        jsonObject.add("player", player.getStateDict());
+
+//        List all destroyable object left
+        JsonArray jsonArray = new JsonArray();
+        for (DestroyableObject destroyableObject : getDestroyableObjects()) {
+            jsonArray.add(destroyableObject.getId());
+        }
+        jsonObject.add("destroyable_object_ids", jsonArray);
+
+        jsonArray = new JsonArray();
+        for (Room room : rooms) {
+            if (room.getNumMonsterLeft() > 0) {
+                jsonArray.add(room.getRoomName());
+            }
+        }
+        jsonObject.add("room_names", jsonArray);
+
+        JsonArray onGroundItems = new JsonArray();
+        JsonObject onGroundItem;
+
+        for (Pickable pickable : itemsOnGround) {
+            onGroundItem = new JsonObject();
+            onGroundItem.addProperty("type", pickable.getTypeString());
+            onGroundItem.addProperty("x", pickable.getX());
+            onGroundItem.addProperty("y", pickable.getY());
+            if (pickable instanceof Weapon) {
+                onGroundItem.addProperty("name", ((Weapon) pickable).getName());
+            }
+            onGroundItems.add(onGroundItem);
+        }
+
+        jsonObject.add("items_on_ground", onGroundItems);
+        return jsonObject;
+    }
+
+
+    public JsonObject loadStateDict(JsonObject jsonObject) {
+        player.loadStateDict(jsonObject.get("player").getAsJsonObject());
+        ArrayList<DestroyableObject> temp = destroyableObjects;
+        destroyableObjects = new ArrayList<>();
+        Iterator<JsonElement> iterator = jsonObject.get("destroyable_object_ids").getAsJsonArray().iterator();
+        while (iterator.hasNext()) {
+            destroyableObjects.add(temp.get(iterator.next().getAsInt()));
+        }
+        ArrayList<String> roomArrayList = new ArrayList<>();
+        iterator = jsonObject.get("room_names").getAsJsonArray().iterator();
+        while (iterator.hasNext()) {
+            roomArrayList.add(iterator.next().getAsString());
+        }
+        for (Room room : rooms) {
+            if (!roomArrayList.contains(room.getRoomName())) {
+                room.killAllMonster();
+            }
+        }
+        iterator = jsonObject.get("items_on_ground").getAsJsonArray().iterator();
+        while (iterator.hasNext()) {
+            JsonObject itemObject = iterator.next().getAsJsonObject();
+            String type = itemObject.get("type").getAsString();
+            float x = itemObject.get("x").getAsFloat();
+            float y = itemObject.get("y").getAsFloat();
+            if (type.equals("Weapon")) {
+                Weapon weapon = Weapon.load(itemObject.get("name").getAsString());
+                weapon.setPosition(x, y);
+                weapon.setOnGround(true);
+                itemsOnGround.add(weapon);
+            } else {
+                itemsOnGround.add(new Item(Item.ItemEnum.valueOf(type), x, y));
+            }
+        }
+        return jsonObject;
+    }
+
+
     public void update(float deltaTime) {
+        if (player.isJustStopFighting() && player.isAlive()) {
+            saveStateDict();
+        }
         player.update(deltaTime);
         if (!player.isAlive()) {
             player.activateDying();

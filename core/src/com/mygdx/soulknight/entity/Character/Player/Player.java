@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
@@ -29,6 +32,7 @@ import com.mygdx.soulknight.util.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public abstract class Player extends SimpleCharacter {
     private int maxArmor;
@@ -38,6 +42,7 @@ public abstract class Player extends SimpleCharacter {
     private float timeHealArmor = 1.5f;
     private float currentHealArmor = 0;
     private boolean fighting = false;
+    private boolean justStopFighting = false;
     private float visionRange = 1000f;
     private float collectRange = 30f;
     private boolean isDying = false, isMoving = false;
@@ -165,6 +170,7 @@ public abstract class Player extends SimpleCharacter {
 
     @Override
     public void update(float deltaTime) {
+        justStopFighting = false;
 
         if (!isAlive()) {
             stateTime += deltaTime;
@@ -216,13 +222,19 @@ public abstract class Player extends SimpleCharacter {
             }
 
             this.room = map.getRoomPlayerIn();
+
+            boolean lastState = fighting;
             fighting = false;
 
             Vector2 attackDirection = getAttackDirection(room);
-            if (room != null && room.getMonsterAlive().size() > 0) {
+            if (room != null && room.getNumMonsterLeft() > 0) {
                 fighting = true;
                 room.setCombat(true);
                 setLookAtDirection(attackDirection.x, attackDirection.y);
+            }
+
+            if (lastState == true && fighting == false) {
+                justStopFighting = true;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -273,6 +285,10 @@ public abstract class Player extends SimpleCharacter {
                 collectWeapon((Weapon) item);
             }
         }
+    }
+
+    public boolean isJustStopFighting() {
+        return justStopFighting;
     }
 
     protected Vector2 getAttackDirection(Room roomPlayerIn) {
@@ -367,5 +383,48 @@ public abstract class Player extends SimpleCharacter {
 
     public Skill getSpecialSkill() {
         return specialSkill;
+    }
+
+    public JsonObject getStateDict() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("class_name", this.getClass().getName());
+        jsonObject.addProperty("hp", getCurrentHP());
+        jsonObject.addProperty("armor", getCurrentArmor());
+        jsonObject.addProperty("mana", getCurrentMana());
+        jsonObject.addProperty("x", getX());
+        jsonObject.addProperty("y", getY());
+        jsonObject.addProperty("current_weapon_id", getCurrentWeaponId());
+        JsonArray jsonArray = new JsonArray();
+        for (Weapon weapon : weapons) {
+            jsonArray.add(weapon.getName());
+        }
+        jsonObject.add("weapons", jsonArray);
+        jsonArray = new JsonArray();
+        for (Ability.AbilityEnum abilityEnum : getAbility().getAbilityEnumArrayList()) {
+            jsonArray.add(abilityEnum.name());
+        }
+        jsonObject.add("ability", jsonArray);
+        return jsonObject;
+    }
+
+    public JsonObject loadStateDict(JsonObject jsonObject) {
+        Iterator<JsonElement> iterator = jsonObject.get("ability").getAsJsonArray().iterator();
+        while (iterator.hasNext()) {
+            getAbility().addAbility(this, Ability.AbilityEnum.valueOf(iterator.next().getAsString()));
+        }
+        setCurrentHP(jsonObject.get("hp").getAsInt());
+        setCurrentArmor(jsonObject.get("armor").getAsInt());
+        setCurrentMana(jsonObject.get("mana").getAsInt());
+        setPosition(jsonObject.get("x").getAsFloat(), jsonObject.get("y").getAsFloat());
+        iterator = jsonObject.get("weapons").getAsJsonArray().iterator();
+        weapons.clear();
+        while (iterator.hasNext()) {
+            Weapon weapon = Weapon.load(iterator.next().getAsString());
+            weapon.setDrawWeapon(false);
+            collectWeapon(weapon);
+        }
+        setCurrentWeaponId(jsonObject.get("current_weapon_id").getAsInt());
+        getCurrentWeapon().setDrawWeapon(true);
+        return jsonObject;
     }
 }

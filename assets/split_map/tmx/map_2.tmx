@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="86" nextobjectid="870">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="86" nextobjectid="871">
  <tileset firstgid="1" source="../tsx/16x16 dungeon ii wall reconfig v04 spritesheet.tsx"/>
  <tileset firstgid="193" source="../tsx/dungeontileset-extended.tsx"/>
  <layer id="1" name="ground" width="150" height="150">
@@ -923,6 +923,7 @@
   <object id="758" name="LIGHTNING_REGION" gid="142" x="84" y="2125.33" width="16" height="16"/>
   <object id="759" name="FIRE_REGION" gid="141" x="250.667" y="2281.33" width="16" height="16"/>
   <object id="760" name="POISON_REGION" gid="174" x="358.667" y="2245.33" width="16" height="16"/>
+  <object id="870" name="ark_weapon" gid="180" x="322.667" y="2305.33" width="16" height="16"/>
  </objectgroup>
  <group id="7" name="room">
   <group id="26" name="4" visible="0">

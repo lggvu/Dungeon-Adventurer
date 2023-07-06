@@ -104,6 +104,10 @@ public class Room {
         return monsterAlive;
     }
 
+    public int getNumMonsterLeft() {
+        return monsterAlive.size();
+    }
+
     public ArrayList<Monster> getMonsterDie() {
         return monsterDie;
     }
@@ -127,5 +131,12 @@ public class Room {
         return roomArea;
     }
 
-    //
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void killAllMonster() {
+        monsterAlive.clear();
+    }
+//
 }

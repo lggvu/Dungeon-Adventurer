@@ -11,7 +11,7 @@ import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 
 
-public class DestroyableObject implements GameElement {
+public class DestroyableObject{
     private TextureRegion region;
     private float x, y;
     private float width = 16;
@@ -37,6 +37,7 @@ public class DestroyableObject implements GameElement {
         } else if (name.equals("ARK_WEAPON")) {
             Weapon weapon = Weapon.load("Gun Red S");
             weapon.setPosition(getX(), getY());
+            weapon.setOnGround(true);
             pickableObject = weapon;
         }
     }
@@ -73,13 +74,7 @@ public class DestroyableObject implements GameElement {
         batch.draw(region, x, y, width, height);
     }
 
-    @Override
-    public JsonObject stateDict() {
-        return null;
-    }
-
-    @Override
-    public void loadStateDict(JsonObject jsonObject) {
-
+    public int getId() {
+        return id;
     }
 }

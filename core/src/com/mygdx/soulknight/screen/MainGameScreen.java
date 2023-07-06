@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -23,6 +24,7 @@ import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 
+import java.lang.reflect.Constructor;
 import java.nio.file.Paths;
 
 public class MainGameScreen extends ScreenAdapter {
@@ -31,7 +33,7 @@ public class MainGameScreen extends ScreenAdapter {
     private WorldMap map;
     private Player player;
     private Stage stage1, stage2, stage3;
-    private Music backgroundMusic,soundEffect;
+    private Music backgroundMusic;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
     private CooldownButton specialSkillCooldownButton, dodgeCooldownBtn;
@@ -44,13 +46,34 @@ public class MainGameScreen extends ScreenAdapter {
 
     public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
-        batch = new SpriteBatch();
         this.player = player;
         map = new WorldMap("split_map/tmx/map_2.tmx", player, level);
-        minimap = new Minimap(map.getTiledMap(), player);
         player.setMap(map);
+        initScreenElement();
+    }
+
+    public MainGameScreen(SoulKnight game) {
+        this.game = game;
+        try {
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(Settings.STATE_DICT_PATH).reader(), JsonObject.class);
+            Level level = Level.valueOf(json.get("level").getAsString());
+            Class<?> clazz = Class.forName(json.get("player").getAsJsonObject().get("class_name").getAsString());
+            // Get the constructor that takes no arguments
+            Constructor<?> constructor = clazz.getConstructor();
+            // Create an instance of the class using the constructor
+            player = (Player) constructor.newInstance();
+            map = new WorldMap(json.get("map_path").getAsString(), player, level);
+            player.setMap(map);
+            map.loadStateDict(json);
+            initScreenElement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void initScreenElement() {
+        batch = new SpriteBatch();
+        minimap = new Minimap(map.getTiledMap(), player);
         backgroundMusic = Settings.music;
-        backgroundMusic.setVolume(0.0f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
         pauseButton = this.pauseButton(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
