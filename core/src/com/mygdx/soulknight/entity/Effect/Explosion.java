@@ -30,7 +30,6 @@ public class Explosion extends RegionEffect {
     private SimpleCharacter owner = null;
     private Animation<TextureRegion> explosionAnimation;
     private ArrayList<SimpleCharacter> allAffected = new ArrayList<>();
-    private Music explosionSound = Settings.explosionSound;
     public Explosion(SimpleCharacter owner, float x, float y, float radius, Animation<TextureRegion> explosionAnimation, boolean dealDame) {
         this.radius = radius;
         this.x = x;

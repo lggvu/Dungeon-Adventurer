@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
 
@@ -32,6 +33,7 @@ public class EndGameScreen extends ScreenAdapter {
         else {
             content = "You have failed! Try again when you are better";
         }
+        Gdx.files.local(Settings.STATE_DICT_PATH).delete();
     }
 
     @Override
