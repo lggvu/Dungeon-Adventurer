@@ -57,6 +57,7 @@ public class WorldMap {
     String mapPath;
     private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
     public WorldMap(String tmxPath, Player player, Level level) {
+        DestroyableObject.resetID();
         this.mapPath = tmxPath;
         this.level = level;
         this.player = player;

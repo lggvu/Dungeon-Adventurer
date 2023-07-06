@@ -21,6 +21,11 @@ public class DestroyableObject{
     private Rectangle rectangle;
     private Pickable pickableObject;
     private String name;
+
+    public static void resetID() {
+        count = 0;
+    }
+
     public DestroyableObject(TiledMapTileMapObject object) {
         region = object.getTextureRegion();
         name = object.getName();
