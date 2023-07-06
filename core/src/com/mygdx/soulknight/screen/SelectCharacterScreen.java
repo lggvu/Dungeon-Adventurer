@@ -41,7 +41,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         textItems = new Array<>();
 
 //        Texture texture1 =
-        character1Texture = SpriteLoader.splitTextureByFileName("character/adventurer/animation_1_3.png")[0][0];
+        character1Texture = SpriteLoader.splitTextureByFileName("character/adventurer/animation/1_1_1.png")[0][0];
         character2Texture = SpriteLoader.splitTextureByFileName("character/jungler/animation_1_10.png")[0][0];
         character3Texture = SpriteLoader.splitTextureByFileName("character/assassin/animation_1_8.png")[0][0];
 

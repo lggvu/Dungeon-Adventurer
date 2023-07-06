@@ -2,7 +2,13 @@
     "adventurer": {
         "type": "hero",
         "texture_path": [
-            "character/adventurer/animation_1_3.png"
+            "character/adventurer/animation/1_1_1.png",
+            "character/adventurer/animation/2_1_1.png",
+            "character/adventurer/animation/3_1_1.png",
+            "character/adventurer/animation/4_1_1.png",
+            "character/adventurer/animation/5_1_1.png",
+            "character/adventurer/animation/6_1_1.png",
+            "character/adventurer/animation/7_1_1.png"
         ],
         "hp": 6,
         "armor": 6,
