@@ -78,8 +78,10 @@ public class MainGameScreen extends ScreenAdapter {
         skin.add("stamina_icon", new Texture("hud_bar/stamina_icon.png"));
         skin.add("left_right_border", new Texture("hud_bar/left_right_border.png"));
         skin.add("up_down_border", new Texture("hud_bar/up_down_border.png"));
+        skin.add("armor_icon", new Texture("hud_bar/armor_icon.png"));
         skin.add("heart_icon_color", Color.RED);
         skin.add("mana_icon_color", Color.BLUE);
+        skin.add("armor_icon_color", Color.GRAY);
         skin.add("stamina_icon_color", Color.GRAY);
 
         batch = new SpriteBatch();
@@ -213,7 +215,7 @@ public class MainGameScreen extends ScreenAdapter {
         offsetY -= (barHeight * scale + gapHeight);
         drawOneBar("mana_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentMana() / player.getCurrentMaxMana());
         offsetY -= (barHeight * scale + gapHeight);
-        drawOneBar("stamina_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentArmor() / player.getCurrentMaxArmor());
+        drawOneBar("armor_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentArmor() / player.getCurrentMaxArmor());
 
 //        batchHealth.begin();
 //        float cX = paddingX;
