@@ -34,7 +34,9 @@
         "default_weapons": [
             "Gun Red XL"
         ],
-        "special_gun": "Special Gun"
+        "special_gun": "Special Gun",
+        "description": "Immortal in 1s",
+        "idle_texture_path": "dark_menu.png"
     },
     "jungler": {
         "type": "hero",
@@ -56,7 +58,9 @@
         ],
         "default_weapons": [
             "Gun Red S"
-        ]
+        ],
+        "description": "Immortal in 1s",
+        "idle_texture_path": "dark_menu.png"
     },
     "assassin": {
         "type": "hero",
@@ -81,7 +85,9 @@
         ],
         "default_weapons": [
             "Sword 1"
-        ]
+        ],
+        "description": "Immortal in 1s",
+        "idle_texture_path": "dark_menu.png"
     },
     "monster_1": {
         "type": "monster",

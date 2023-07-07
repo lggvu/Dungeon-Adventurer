@@ -28,7 +28,10 @@ public class TextItem {
             return this.normalFont;
         }
     }
-
+    public void setScale(float scale) {
+        hoverFont.getData().setScale(scale);
+        normalFont.getData().setScale(scale);
+    }
     public void setPosition(Vector2 position) {
         this.position = position;
     }

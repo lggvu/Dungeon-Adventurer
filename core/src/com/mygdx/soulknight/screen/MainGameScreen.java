@@ -206,9 +206,6 @@ public class MainGameScreen extends ScreenAdapter {
         float paddingX = 10;
         float paddingY = 10;
 
-//        skin.add("heart_icon", new Texture("hud_bar/hp_icon.png"));
-//        skin.add("mana_icon", new Texture("hud_bar/mana_icon.png"));
-//        skin.add("stamina_icon", new Texture("hud_bar/stamina_icon.png"));
         float offsetY = Gdx.graphics.getHeight() - paddingY - barHeight * scale;
         float barX = paddingX + maxWidthIcon * scale + gapWidth;
         drawOneBar("heart_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentHP() / player.getCurrentMaxHP());
@@ -216,67 +213,6 @@ public class MainGameScreen extends ScreenAdapter {
         drawOneBar("mana_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentMana() / player.getCurrentMaxMana());
         offsetY -= (barHeight * scale + gapHeight);
         drawOneBar("armor_icon", paddingX, offsetY, barX, barWidth, scale,(float) player.getCurrentArmor() / player.getCurrentMaxArmor());
-
-//        batchHealth.begin();
-//        float cX = paddingX;
-//        Texture icon = skin.get("heart_icon", Texture.class);
-//        Texture leftRight = skin.get("left_right_border", Texture.class);
-//        Texture upDown = skin.get("up_down_border", Texture.class);
-//        batchHealth.draw(icon, cX, topDown(paddingY + (icon.getHeight() + 1) * scale), icon.getWidth() * scale, icon.getHeight() * scale);
-//        cX += icon.getWidth() * scale + gapWidth;
-//        batchHealth.draw(leftRight, cX, topDown(paddingY + leftRight.getHeight() * scale), leftRight.getWidth() * scale, leftRight.getHeight() * scale);
-//        cX += leftRight.getWidth() * scale;
-//        batchHealth.draw(upDown, cX, topDown(paddingY + upDown.getHeight() * scale), barWidth * scale, upDown.getHeight() * scale);
-//        batchHealth.draw(upDown, cX, topDown(paddingY + leftRight.getHeight() * scale), barWidth * scale, upDown.getHeight() * scale);
-//        cX += barWidth * scale;
-//        batchHealth.draw(leftRight, cX, topDown(paddingY + leftRight.getHeight() * scale), leftRight.getWidth() * scale, leftRight.getHeight() * scale);
-//        batchHealth.end();
-//        float barHeight = 20;
-//        float boardWidth = 250;
-//        float boardHeight = 80;
-//
-//        float barX = 25;
-//
-//        float barHPY = Gdx.graphics.getHeight() - 25;
-//        float barManaY = Gdx.graphics.getHeight() - 50;
-//        float barArmorY = Gdx.graphics.getHeight() - 75;
-//        float boardY = Gdx.graphics.getHeight() - boardHeight;
-//
-//        // Calculate the width of current health
-//        float healthBarWidth = barWidth * ((float) player.getCurrentHP() / player.getCurrentMaxHP());
-//        float armorBarWidth = barWidth * ((float) player.getCurrentArmor() / player.getCurrentMaxArmor());
-//        float manaBarWidth = barWidth * ((float) player.getCurrentMana() / player.getCurrentMaxMana());
-
-        // Start the shape rendering
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-////         Set the color for the filled portion of the health bar
-//        shapeRenderer.setColor(new Color(234/255f,182/255f,118/255f,1));
-//        shapeRenderer.rect(0, boardY, boardWidth, boardHeight);
-//        shapeRenderer.end();
-
-//        float scale = 1f, hudWidth = hudBar.getWidth() * scale, hudHeight = hudBar.getHeight() * scale;
-
-//        batchHealth.begin();
-//        batchHealth.draw(hudBar, 0, Gdx.graphics.getHeight() - hudHeight, hudWidth, hudHeight);
-//        batchHealth.end();
-
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(Color.BLACK);
-//        shapeRenderer.rect(barX, barHPY, barWidth, barHeight);
-//        shapeRenderer.rect(barX, barArmorY, barWidth, barHeight);
-//        shapeRenderer.rect(barX, barManaY, barWidth, barHeight);
-//
-//        // Set the color for the outline of the health bar
-//        shapeRenderer.setColor(Color.RED);
-//        shapeRenderer.rect(barX, barHPY, healthBarWidth, barHeight);
-//
-//        shapeRenderer.setColor(Color.BLUE);
-//        shapeRenderer.rect(barX, barManaY, manaBarWidth, barHeight);
-//
-//        shapeRenderer.setColor(Color.GRAY);
-//        shapeRenderer.rect(barX, barArmorY, armorBarWidth, barHeight);
-//
-//        shapeRenderer.end();
     }
 
     public void resumeGame() {
