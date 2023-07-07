@@ -182,7 +182,7 @@
             "monsters/Daco/3_1_1.png",
             "monsters/Daco/4_1_1.png"
         ],
-        "hp": 100,
+        "hp": 200,
         "speed_run": 30,
         "weapon_x": 32,
         "weapon_y": 32,
@@ -206,7 +206,7 @@
         "texture_path": [
             "monsters/flame-demon/animation_1_10.png"
         ],
-        "hp": 150,
+        "hp": 300,
         "speed_run": 30,
         "weapon_x": 32,
         "weapon_y": 32,

@@ -625,7 +625,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="collision_layer" visible="0">
+ <objectgroup id="4" name="collision_layer">
   <object id="1" x="0" y="80" width="256" height="16"/>
   <object id="2" x="256" y="48" width="16" height="48"/>
   <object id="3" x="272" y="48" width="64" height="16"/>
@@ -1199,10 +1199,10 @@
     <object id="728" name="monster_1" x="521.101" y="1888.99">
      <point/>
     </object>
-    <object id="729" name="monster_1" x="162.385" y="1635.78">
+    <object id="729" name="monster_1" x="166.931" y="1643.74">
      <point/>
     </object>
-    <object id="730" name="monster_1" x="92.6606" y="1809.17">
+    <object id="730" name="monster_1" x="109.71" y="1814.85">
      <point/>
     </object>
    </objectgroup>
@@ -1243,7 +1243,7 @@
     <object id="793" name="monster_1" x="229.528" y="1747.02">
      <point/>
     </object>
-    <object id="794" name="monster_2" x="86.1983" y="1252.88">
+    <object id="794" name="monster_2" x="107.794" y="1260.84">
      <point/>
     </object>
     <object id="795" name="monster_2" x="435.001" y="1434.3">
@@ -1260,7 +1260,7 @@
     <object id="783" name="monster_3" x="348.854" y="1572.15">
      <point/>
     </object>
-    <object id="784" name="monster_2" x="585.552" y="1526.28">
+    <object id="784" name="monster_2" x="573.049" y="1531.96">
      <point/>
     </object>
     <object id="785" name="monster_3" x="127.753" y="1455.63">
@@ -1288,7 +1288,7 @@
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="15" name="NIGHTMARE" visible="0">
+   <objectgroup id="15" name="NIGHTMARE">
     <object id="798" name="monster_2" x="324.844" y="1367.65">
      <point/>
     </object>
@@ -1298,7 +1298,7 @@
     <object id="800" name="monster_3" x="356.872" y="1578.16">
      <point/>
     </object>
-    <object id="801" name="monster_4" x="593.57" y="1532.29">
+    <object id="801" name="monster_4" x="562.881" y="1536.84">
      <point/>
     </object>
     <object id="802" name="monster_3" x="135.771" y="1461.64">
@@ -1459,7 +1459,7 @@
     <object id="847" name="monster_2" x="778.802" y="486.943">
      <point/>
     </object>
-    <object id="848" name="monster_2" x="85.2535" y="424.731">
+    <object id="848" name="monster_2" x="144.358" y="452.01">
      <point/>
     </object>
    </objectgroup>
@@ -1515,11 +1515,11 @@
     <object id="865" name="monster_3" x="784.946" y="492.32">
      <point/>
     </object>
-    <object id="866" name="monster_2" x="91.3978" y="430.108">
+    <object id="866" name="monster_2" x="98.2175" y="457.387">
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="27" name="NIGHTMARE" visible="0">
+   <objectgroup id="27" name="NIGHTMARE">
     <object id="867" name="monster_1" x="592.62" y="508.326">
      <point/>
     </object>
@@ -1577,13 +1577,13 @@
     <object id="885" name="monster_1" x="353.303" y="1000">
      <point/>
     </object>
-    <object id="886" name="monster_1" x="31.49" y="848.694">
+    <object id="886" name="monster_1" x="38.3097" y="856.65">
      <point/>
     </object>
     <object id="887" name="monster_1" x="94.47" y="970.814">
      <point/>
     </object>
-    <object id="888" name="monster_1" x="690.476" y="431.644">
+    <object id="888" name="monster_1" x="705.252" y="440.737">
      <point/>
     </object>
     <object id="889" name="monster_4" x="231.183" y="632.104">
@@ -1595,19 +1595,19 @@
     <object id="891" name="monster_4" x="503.072" y="645.161">
      <point/>
     </object>
-    <object id="892" name="monster_4" x="72.9647" y="545.315">
+    <object id="892" name="monster_4" x="88.8774" y="540.769">
      <point/>
     </object>
     <object id="893" name="monster_4" x="803.379" y="572.197">
      <point/>
     </object>
-    <object id="894" name="monster_4" x="567.588" y="420.123">
+    <object id="894" name="monster_4" x="533.489" y="454.222">
      <point/>
     </object>
-    <object id="895" name="monster_2" x="313.364" y="441.628">
+    <object id="895" name="monster_2" x="298.588" y="451.858">
      <point/>
     </object>
-    <object id="896" name="monster_2" x="308.756" y="544.547">
+    <object id="896" name="monster_2" x="311.029" y="593.422">
      <point/>
     </object>
     <object id="897" name="monster_2" x="402.458" y="785.714">
@@ -1634,7 +1634,7 @@
     <object id="899" name="monster_1" x="928" y="2208">
      <point/>
     </object>
-    <object id="900" name="monster_1" x="1321" y="2313">
+    <object id="900" name="monster_1" x="1322.14" y="2331.19">
      <point/>
     </object>
     <object id="901" name="monster_1" x="1236" y="1968">
@@ -1649,7 +1649,7 @@
     <object id="904" name="monster_2" x="1091" y="1947">
      <point/>
     </object>
-    <object id="905" name="monster_2" x="776" y="1832">
+    <object id="905" name="monster_2" x="793.049" y="1841.09">
      <point/>
     </object>
     <object id="906" name="monster_2" x="1338" y="2172">
@@ -1666,7 +1666,7 @@
     <object id="909" name="monster_1" x="935" y="2215">
      <point/>
     </object>
-    <object id="910" name="monster_1" x="1328" y="2320">
+    <object id="910" name="monster_1" x="1325.73" y="2334.78">
      <point/>
     </object>
     <object id="911" name="monster_1" x="1243" y="1975">
@@ -1681,7 +1681,7 @@
     <object id="914" name="monster_2" x="1098" y="1954">
      <point/>
     </object>
-    <object id="915" name="monster_2" x="783" y="1839">
+    <object id="915" name="monster_2" x="801.186" y="1865.14">
      <point/>
     </object>
     <object id="916" name="monster_2" x="1345" y="2179">
@@ -1757,7 +1757,7 @@
     <object id="938" name="monster_1" x="863.99" y="2122.02">
      <point/>
     </object>
-    <object id="939" name="monster_1" x="956.99" y="2235.02">
+    <object id="939" name="monster_1" x="935.394" y="2217.97">
      <point/>
     </object>
     <object id="940" name="monster_1" x="1349.99" y="2340.02">
@@ -1811,10 +1811,10 @@
     <object id="956" name="monster_4" x="1374.68" y="1837.88">
      <point/>
     </object>
-    <object id="957" name="monster_4" x="973.401" y="1865.4">
+    <object id="957" name="monster_4" x="983.63" y="1875.63">
      <point/>
     </object>
-    <object id="958" name="monster_4" x="1074.29" y="2118.78">
+    <object id="958" name="monster_4" x="1117.49" y="2075.59">
      <point/>
     </object>
    </objectgroup>
@@ -1842,7 +1842,7 @@
     <object id="960" name="monster_1" x="1868.84" y="1993.81">
      <point/>
     </object>
-    <object id="961" name="monster_1" x="2035.08" y="2174.96">
+    <object id="961" name="monster_1" x="2054.39" y="2187.03">
      <point/>
     </object>
     <object id="962" name="monster_1" x="1703.74" y="1444.62">
@@ -2028,7 +2028,7 @@
     <object id="1065" name="monster_1" x="1810.36" y="1906.67">
      <point/>
     </object>
-    <object id="1066" name="monster_1" x="1820.68" y="1938.78">
+    <object id="1066" name="monster_1" x="1777.24" y="1948.43">
      <point/>
     </object>
     <object id="1067" name="monster_1" x="1701.44" y="2095.85">
@@ -2323,7 +2323,7 @@
     <object id="1187" name="monster_1" x="927.731" y="1001.05">
      <point/>
     </object>
-    <object id="1188" name="monster_1" x="948.679" y="1182.1">
+    <object id="1188" name="monster_1" x="948.679" y="1202.74">
      <point/>
     </object>
     <object id="1189" name="monster_1" x="1198.57" y="1328.74">
@@ -2509,7 +2509,7 @@
     </object>
    </objectgroup>
   </group>
-  <group id="16" name="final_room">
+  <group id="16" name="final_room" visible="0">
    <objectgroup id="17" name="area" visible="0">
     <object id="316" x="960" y="336" width="48" height="112"/>
     <object id="317" x="656" y="64" width="352" height="272"/>
@@ -2525,16 +2525,16 @@
     <object id="715" name="monster_1" x="378.947" y="161.162">
      <point/>
     </object>
-    <object id="1262" name="monster_1" x="875.355" y="216.968">
+    <object id="1262" name="monster_1" x="885.355" y="239.968">
      <point/>
     </object>
-    <object id="1264" name="monster_1" x="692.803" y="297.77">
+    <object id="1264" name="monster_1" x="683.803" y="295.77">
      <point/>
     </object>
-    <object id="1265" name="monster_2" x="157.115" y="166.093">
+    <object id="1265" name="monster_2" x="163.115" y="194.093">
      <point/>
     </object>
-    <object id="1266" name="monster_2" x="502.768" y="194.523">
+    <object id="1266" name="monster_2" x="503.768" y="212.523">
      <point/>
     </object>
     <object id="1267" name="monster_2" x="734.7" y="149.633">
@@ -2569,12 +2569,12 @@
     <object id="1275" name="monster_1" x="990.573" y="366.602">
      <point/>
     </object>
-    <object id="1296" name="boss_1" x="119.707" y="200.509">
+    <object id="1296" name="boss_1" x="119.707" y="193.509">
      <point/>
     </object>
    </objectgroup>
    <objectgroup id="20" name="HARD" visible="0">
-    <object id="1284" name="monster_1" x="401.392" y="182.111">
+    <object id="1284" name="monster_1" x="383.392" y="177.111">
      <point/>
     </object>
     <object id="1285" name="monster_1" x="897.8" y="237.917">
@@ -2583,10 +2583,10 @@
     <object id="1286" name="monster_1" x="715.248" y="318.719">
      <point/>
     </object>
-    <object id="1287" name="monster_2" x="179.56" y="187.042">
+    <object id="1287" name="monster_2" x="188.56" y="194.042">
      <point/>
     </object>
-    <object id="1288" name="monster_2" x="525.213" y="215.472">
+    <object id="1288" name="monster_2" x="502.213" y="210.472">
      <point/>
     </object>
     <object id="1289" name="monster_2" x="757.145" y="170.582">
@@ -2604,27 +2604,27 @@
     <object id="1293" name="monster_3" x="674.847" y="158.611">
      <point/>
     </object>
-    <object id="1297" name="boss_1" x="134.67" y="193.027">
+    <object id="1297" name="boss_1" x="138.67" y="185.027">
      <point/>
     </object>
    </objectgroup>
    <objectgroup id="21" name="NIGHTMARE">
-    <object id="1298" name="monster_1" x="411.866" y="192.585">
+    <object id="1298" name="monster_1" x="389.866" y="184.585">
      <point/>
     </object>
-    <object id="1299" name="monster_1" x="929.223" y="246.895">
+    <object id="1299" name="monster_1" x="953.223" y="242.895">
      <point/>
     </object>
-    <object id="1300" name="monster_1" x="800.539" y="330.69">
+    <object id="1300" name="monster_1" x="691.539" y="307.69">
      <point/>
     </object>
-    <object id="1301" name="monster_2" x="190.034" y="197.516">
+    <object id="1301" name="monster_2" x="199.034" y="224.516">
      <point/>
     </object>
-    <object id="1302" name="monster_2" x="535.687" y="225.946">
+    <object id="1302" name="monster_2" x="505.687" y="203.946">
      <point/>
     </object>
-    <object id="1303" name="monster_2" x="767.619" y="181.056">
+    <object id="1303" name="monster_2" x="752.619" y="164.056">
      <point/>
     </object>
     <object id="1304" name="monster_2" x="74.8168" y="215.471">
@@ -2633,13 +2633,13 @@
     <object id="1305" name="monster_1" x="999.554" y="384.558">
      <point/>
     </object>
-    <object id="1306" name="monster_3" x="511.746" y="285.799">
+    <object id="1306" name="monster_3" x="511.746" y="279.799">
      <point/>
     </object>
     <object id="1307" name="monster_3" x="685.321" y="169.085">
      <point/>
     </object>
-    <object id="1308" name="boss_2" x="145.144" y="203.501">
+    <object id="1308" name="boss_2" x="146.144" y="194.501">
      <point/>
     </object>
     <object id="1309" name="boss_1" x="332.186" y="125.692">
