@@ -111,7 +111,7 @@
         "texture_path": [
             "monsters/axe-monster/animation_1_7.png"
         ],
-        "hp": 7,
+        "hp": 15,
         "speed_run": 30,
         "weapon_x": 16,
         "weapon_y": 16,
@@ -141,7 +141,7 @@
         "texture_path": [
             "monsters/ghoul/animation_1_8.png"
         ],
-        "hp": 7,
+        "hp": 20,
         "speed_run": 30,
         "weapon_x": 16,
         "weapon_y": 16,
@@ -160,7 +160,7 @@
         "texture_path": [
             "monsters/golem/animation_1_11.png"
         ],
-        "hp": 7,
+        "hp": 30,
         "speed_run": 30,
         "weapon_x": 16,
         "weapon_y": 16,
@@ -182,7 +182,7 @@
             "monsters/Daco/3_1_1.png",
             "monsters/Daco/4_1_1.png"
         ],
-        "hp": 30,
+        "hp": 100,
         "speed_run": 30,
         "weapon_x": 32,
         "weapon_y": 32,
@@ -206,7 +206,7 @@
         "texture_path": [
             "monsters/flame-demon/animation_1_10.png"
         ],
-        "hp": 30,
+        "hp": 150,
         "speed_run": 30,
         "weapon_x": 32,
         "weapon_y": 32,
