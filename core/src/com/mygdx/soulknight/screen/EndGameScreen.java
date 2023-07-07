@@ -11,6 +11,10 @@ import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Random;
+
 public class EndGameScreen extends ScreenAdapter {
     private final SoulKnight game;
     private SpriteBatch batch;
@@ -23,7 +27,7 @@ public class EndGameScreen extends ScreenAdapter {
     public EndGameScreen(SoulKnight game, Boolean status) {
         this.game = game;
         batch = new SpriteBatch();
-        background = new Texture("select-character.png");
+        loadRandomBackground();
         textFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
         hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         confirmText = new TextItem("CONFIRM", new Vector2(Gdx.graphics.getWidth() / 1.2f, Gdx.graphics.getHeight() / 9.1f), textFont, hoverFont);
@@ -34,6 +38,29 @@ public class EndGameScreen extends ScreenAdapter {
             content = "You have failed! Try again when you are better";
         }
         Gdx.files.local(Settings.STATE_DICT_PATH).delete();
+    }
+
+    private void loadRandomBackground() {
+        File backgroundDirectory = new File("background/endgame");
+        File[] backgroundFiles = backgroundDirectory.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".png");
+            }
+        });
+
+        for (File file : backgroundFiles) {
+            System.out.println(file.getPath());
+        }
+        if (backgroundFiles != null && backgroundFiles.length > 0) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(backgroundFiles.length);
+            String randomBackgroundPath = backgroundFiles[randomIndex].getPath();
+            background = new Texture(randomBackgroundPath);
+        } else {
+            // Fallback to a default background if no suitable backgrounds are found
+            background = new Texture("backgrounds/endgame/dungeon background 1.png");
+        }
     }
 
     @Override
@@ -57,7 +84,6 @@ public class EndGameScreen extends ScreenAdapter {
         this.hoverFont.draw(batch, content, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 2f);
         confirmText.getFont().draw(batch, confirmText.getLayout(), confirmText.getPosition().x, confirmText.getPosition().y);
         batch.end();
-
     }
 
     @Override
@@ -65,6 +91,5 @@ public class EndGameScreen extends ScreenAdapter {
         background.dispose();
         textFont.dispose();
         hoverFont.dispose();
-
     }
 }
