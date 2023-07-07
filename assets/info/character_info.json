@@ -106,12 +106,12 @@
             "Gun Monster 1"
         ]
     },
-    "monster_2": {
+    "monster_4": {
         "type": "monster",
         "texture_path": [
             "monsters/axe-monster/animation_1_7.png"
         ],
-        "hp": 15,
+        "hp": 30,
         "speed_run": 30,
         "weapon_x": 16,
         "weapon_y": 16,
@@ -133,13 +133,32 @@
             "monsters/axe-monster/attack/12_1_1.png"
         ],
         "default_weapons": [
+            "Gun Monster 2"
+        ]
+    },
+    "monster_2": {
+        "type": "monster",
+        "texture_path": [
+            "monsters/ghoul/animation_1_8.png"
+        ],
+        "hp": 15,
+        "speed_run": 30,
+        "weapon_x": 16,
+        "weapon_y": 16,
+        "die_texture_path": [
+            "monsters/Flying eye/dying_1_8.png"
+        ],
+        "attack_texture_path": [
+            "monsters/ghoul/animation_1_8.png"
+        ],
+        "default_weapons": [
             "Gun Monster 1"
         ]
     },
     "monster_3": {
         "type": "monster",
         "texture_path": [
-            "monsters/ghoul/animation_1_8.png"
+            "monsters/golem/animation_1_11.png"
         ],
         "hp": 20,
         "speed_run": 30,
@@ -149,29 +168,10 @@
             "monsters/Flying eye/dying_1_8.png"
         ],
         "attack_texture_path": [
-            "monsters/ghoul/animation_1_8.png"
+            "monsters/golem/animation_1_11.png"
         ],
         "default_weapons": [
             "Gun Monster 1"
-        ]
-    },
-    "monster_4": {
-        "type": "monster",
-        "texture_path": [
-            "monsters/golem/animation_1_11.png"
-        ],
-        "hp": 30,
-        "speed_run": 30,
-        "weapon_x": 16,
-        "weapon_y": 16,
-        "die_texture_path": [
-            "monsters/Flying eye/dying_1_8.png"
-        ],
-        "attack_texture_path": [
-            "monsters/golem/animation_1_11.png"
-        ],
-        "default_weapons": [
-            "Gun Monster 2"
         ]
     },
     "boss_1": {
