@@ -112,7 +112,7 @@
             "monsters/axe-monster/animation_1_7.png"
         ],
         "hp": 30,
-        "speed_run": 30,
+        "speed_run": 50,
         "weapon_x": 16,
         "weapon_y": 16,
         "die_texture_path": [
