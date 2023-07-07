@@ -2,12 +2,16 @@ package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
@@ -16,115 +20,149 @@ import com.mygdx.soulknight.entity.Character.Player.Assassin;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextItem;
 
+import java.util.ArrayList;
+
 public class SelectCharacterScreen extends ScreenAdapter {
     private final SoulKnight game;
     private Texture background;
-    private BitmapFont normalFont ;
-    private BitmapFont hoverFont;
-    private Array<TextItem> textItems;
     private TextItem selectedText = null;
     private TextItem playText;
-    private TextureRegion character1Texture;
-    private TextureRegion character2Texture;
-    private TextureRegion character3Texture;
     private Level level;
-    private SpriteBatch batch;
+    private SpriteBatch batch = new SpriteBatch();
+    private ArrayList<CharacterImageContainer> characterImageContainers = new ArrayList<>();
+    private int selectedIndex = -1;
 
+    class CharacterImageContainer {
+        private float x, y, width, height, heightImg, padding = 1;
+        private Texture texture;
+        private TextItem textItem;
+        private boolean hover = false;
+        private ShapeRenderer shapeRenderer = new ShapeRenderer();
+        private SpriteBatch batch = new SpriteBatch();
+        public CharacterImageContainer(String texturePath, float x, float y, float width, float height, float imgHeightRatio, TextItem textItem) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.texture = new Texture(texturePath);
+            this.heightImg = imgHeightRatio * height;
+            this.textItem = textItem;
+            GlyphLayout layout = textItem.getLayout();
+            float yPos = y + (height - heightImg + layout.height) / 2;
+            this.textItem.setPosition(new Vector2(x + (width - layout.width) / 2, yPos));
+        }
+
+        public void setHover(boolean hover) {
+            textItem.setHovered(hover);
+            this.hover = hover;
+        }
+
+        public void draw() {
+            if (hover) {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(Color.WHITE);
+                shapeRenderer.rect(x - padding, y - padding, width + padding * 2, height + padding * 2);
+                shapeRenderer.setColor(Color.BLACK);
+                shapeRenderer.rect(x, y, width, height);
+                shapeRenderer.end();
+            }
+            batch.begin();
+            textItem.draw(batch);
+            batch.draw(texture, x, y + height - heightImg, width, heightImg);
+            batch.end();
+        }
+
+        public void dispose() {
+            textItem.dispose();
+            texture.dispose();
+            shapeRenderer.dispose();
+            batch.dispose();
+        }
+    }
 
     public SelectCharacterScreen(SoulKnight game, Level level) {
         this.level = level;
         this.game = game;
-        batch = new SpriteBatch();
-        background = new Texture("select-character.png");
-        normalFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
-        hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
-        textItems = new Array<>();
+        background = new Texture("black_back.png");
+        float startX = 200, startY = 250, width = 250, height = 400, imgHeightRatio = 0.85f;
 
-//        Texture texture1 =
-        character1Texture = SpriteLoader.splitTextureByFileName("character/adventurer/animation/1_1_1.png")[0][0];
-        character2Texture = SpriteLoader.splitTextureByFileName("character/jungler/animation_1_10.png")[0][0];
-        character3Texture = SpriteLoader.splitTextureByFileName("character/assassin/animation_1_8.png")[0][0];
+        float gap = (Gdx.graphics.getWidth() - startX * 2 - width * 3) / 2;
+        TextItem text1 = createTextItem("Adventurer");
+        TextItem text2 = createTextItem("Jungler");
+        TextItem text3 = createTextItem("Assassin");
+        playText = createTextItem("PLAY >>>");
+        playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
 
-        TextItem text1 = new TextItem("Adventurer", new Vector2(Gdx.graphics.getWidth()/5.8f,Gdx.graphics.getHeight()/2.9f), normalFont, hoverFont);
-        TextItem text2 = new TextItem("Jungler", new Vector2(Gdx.graphics.getWidth()/2.65f,Gdx.graphics.getHeight()/2.9f), normalFont, hoverFont);
-        TextItem text3 = new TextItem("Assassin", new Vector2(Gdx.graphics.getWidth()/1.9f,Gdx.graphics.getHeight()/2.9f), normalFont, hoverFont);
-        TextItem text4 = new TextItem("TrungTT", new Vector2(Gdx.graphics.getWidth()/1.45f,Gdx.graphics.getHeight()/2.9f), normalFont, hoverFont);
-        playText = new TextItem("PLAY >>>", new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f), normalFont, hoverFont);
+        characterImageContainers.add(new CharacterImageContainer("dark_menu.png", startX, startY, width, height, imgHeightRatio, text1));
+        characterImageContainers.add(new CharacterImageContainer("dark_menu.png", startX + (gap + width), startY, width, height, imgHeightRatio, text2));
+        characterImageContainers.add(new CharacterImageContainer("dark_menu.png", startX + (gap + width) * 2, startY, width, height, imgHeightRatio, text3));
+    }
 
-        textItems.add(text1);
-        textItems.add(text2);
-        textItems.add(text3);
-        textItems.add(text4);
-
+    private TextItem createTextItem(String text) {
+        BitmapFont normalFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
+        BitmapFont hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
+        return new TextItem(text, null, normalFont, hoverFont);
     }
     @Override
     public void render(float delta) {
-//        System.out.println("" + Gdx.graphics.getWidth() + " " + Gdx.graphics.getHeight());
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        if (Gdx.input.getX()>= playText.getPosition().x && Gdx.input.getX() <= playText.getPosition().x + playText.getLayout().width &&
-                Gdx.input.getY() -30 >= Gdx.graphics.getHeight() - playText.getPosition().y - playText.getLayout().height &&
-                Gdx.input.getY() -30 <= Gdx.graphics.getHeight() - playText.getPosition().y) {
-            playText.setHovered(true);
-            if (Gdx.input.isTouched() && selectedText != null) {
-                String txt = selectedText.getText();
-                if (txt.equals("Assassin")) {
-//                    game.setScreen(new MainGameScreen(game, new Assassin()));
-                    game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
-                } else if (txt.equals("Adventurer")) {
-                    game.setScreen(new SelectAbilityScreen(game, level, new Adventurer()));
-                } else {
-                    game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
-                }
-                this.dispose();
-            }
-        }else{
-            playText.setHovered(false);
-        }
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(character1Texture, Gdx.graphics.getWidth()/5.8f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/3.7f);
-        batch.draw(character2Texture, Gdx.graphics.getWidth()/2.65f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/8.5f,Gdx.graphics.getHeight()/3.65f);
-        batch.draw(character3Texture, Gdx.graphics.getWidth()/1.9f, Gdx.graphics.getHeight()/2.6f, Gdx.graphics.getWidth()/6f,Gdx.graphics.getHeight()/2.9f);
-
-        for (TextItem item : textItems) {
-            BitmapFont font = item.getFont();
-            Vector2 position = item.getPosition();
-
-            // Draw the text
-            font.draw(batch, item.getLayout(), position.x, position.y);
-        }
-        playText.getFont().draw(batch, playText.getLayout(), playText.getPosition().x, playText.getPosition().y);
-
         batch.end();
 
-        for (TextItem item : textItems) {
-            if (Gdx.input.getX()>= item.getPosition().x && Gdx.input.getX() <= item.getPosition().x + item.getLayout().width &&
-                    Gdx.input.getY() -30 >= Gdx.graphics.getHeight()/1.45f - item.getPosition().y - item.getLayout().height &&
-                    Gdx.input.getY() -30 <= Gdx.graphics.getHeight() - item.getPosition().y ) {
-
-                item.setHovered(true);
-                if (Gdx.input.isTouched()){
-                    if (selectedText != null){
-                        selectedText.setSelected(false);
-                    }
-                    item.setSelected(true);
-                    selectedText = item;
-
+        float mouseX = Gdx.input.getX(), mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        int count = 0;
+        for (CharacterImageContainer c : characterImageContainers) {
+            if (c.x <= mouseX && mouseX <= c.x + c.width && c.y <= mouseY && mouseY <= c.y + c.height) {
+                c.setHover(true);
+                if (Gdx.input.isTouched()) {
+                    selectedIndex = count;
                 }
             } else {
-                item.setHovered(false);
+                c.setHover(false);
             }
+            count++;
         }
+
+        if (selectedIndex >= 0) {
+            characterImageContainers.get(selectedIndex).setHover(true);
+        }
+
+        Vector2 position = playText.getPosition();
+        GlyphLayout pLayout = playText.getLayout();
+        float px = position.x, py = position.y, pwidth = pLayout.width, pheight = pLayout.height;
+        if (px <= mouseX && mouseX <= px + pwidth && py - pheight <= mouseY && mouseY <= py) {
+            playText.setHovered(true);
+            if (Gdx.input.isTouched()) {
+                switch (selectedIndex) {
+                    case 0:
+                        game.setScreen(new SelectAbilityScreen(game, level, new Adventurer()));
+                        dispose();
+                        return;
+                    case 1:
+                    case 2:
+                        game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
+                        dispose();
+                        return;
+                }
+            }
+        } else {
+            playText.setHovered(false);
+        }
+        for (CharacterImageContainer characterImageContainer : characterImageContainers) {
+            characterImageContainer.draw();
+        }
+        batch.begin();
+        playText.draw(batch);
+        batch.end();
     }
     @Override
     public void dispose() {
         background.dispose();
-        normalFont.dispose();
-        hoverFont.dispose();
-        character1Texture.getTexture().dispose();
-        character2Texture.getTexture().dispose();
-        character3Texture.getTexture().dispose();
+        batch.dispose();
+        for (CharacterImageContainer characterImageContainer : characterImageContainers) {
+            characterImageContainer.dispose();
+        }
     }
 }

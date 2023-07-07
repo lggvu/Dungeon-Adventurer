@@ -55,7 +55,7 @@ public class EndGameScreen extends ScreenAdapter {
         }
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.hoverFont.draw(batch, content, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 2f);
-        confirmText.getFont().draw(batch, confirmText.getLayout(), confirmText.getPosition().x, confirmText.getPosition().y);
+        confirmText.draw(batch);
         batch.end();
 
     }

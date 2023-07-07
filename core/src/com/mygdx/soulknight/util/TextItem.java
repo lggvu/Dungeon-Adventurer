@@ -2,6 +2,7 @@ package com.mygdx.soulknight.util;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class TextItem {
@@ -19,7 +20,7 @@ public class TextItem {
         this.hoverFont = hoverFont;
     }
 
-    public BitmapFont getFont() {
+    private BitmapFont getFont() {
         if (selected || hovered) {
             return this.hoverFont;
         }
@@ -28,28 +29,20 @@ public class TextItem {
         }
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
-
     public Vector2 getPosition() {
         return this.position;
     }
-
     public String getText() {
         return this.text;
     }
     public void setSelected(boolean selected){
         this.selected = selected;
     }
-    public boolean isSelected(){
-        return this.selected;
-    }
     public void setHovered(boolean hovered){
         this.hovered = hovered;
-    }
-    public boolean isHovered(){
-        return this.hovered;
     }
     public GlyphLayout getLayout(){
         GlyphLayout layout = new GlyphLayout();
@@ -57,9 +50,12 @@ public class TextItem {
         return layout;
     }
 
+    public void draw(SpriteBatch batch) {
+        getFont().draw(batch, getLayout(), position.x, position.y);
+    }
+
     public void dispose() {
         normalFont.dispose();
         hoverFont.dispose();
     }
-
 }
