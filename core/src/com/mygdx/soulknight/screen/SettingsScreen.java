@@ -26,6 +26,10 @@ public class SettingsScreen implements Screen {
         this.gameScreen = gameScreen;
         skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
     }
+    public SettingsScreen(SoulKnight game){
+        this.game = game;
+        skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
+    }
 
     @Override
     public void show() {
@@ -146,6 +150,9 @@ public class SettingsScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
             if (gameScreen != null) {
                 game.setScreen(new PauseGameScreen(game,gameScreen));
+            }
+            else{
+                game.setScreen(new MenuScreen(game));
             }
             Settings.saveSetting();
             dispose();

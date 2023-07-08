@@ -75,13 +75,22 @@ public class MenuScreen extends ScreenAdapter {
         } else {
             continueGame.setDisabled(true);
         }
-
+        Button settings = new TextButton("Settings", Settings.skin);
+        settings.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SettingsScreen(game));
+                dispose();
+            }
+        });
         Table table = new Table();
         table.setFillParent(true);
 
         table.add(startGame).pad(20);
         table.row();
         table.add(continueGame).width(200).pad(20);
+        table.row();
+        table.add(settings).width(200).pad(20);
 
         stage.addActor(table);
     }
