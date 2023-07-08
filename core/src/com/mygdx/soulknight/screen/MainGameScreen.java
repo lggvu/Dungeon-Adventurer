@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -39,6 +40,7 @@ public class MainGameScreen extends ScreenAdapter {
     private final static Animation<TextureRegion> WIN_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/win_game_1_24.png")));
     private final static Animation<TextureRegion> LOSE_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/lose_game_1_24.png")));
     private WorldMap map;
+    private Level level;
     private Player player;
     private Stage stage1, stage2, stage3, stage4;
     private Music backgroundMusic;
@@ -46,7 +48,7 @@ public class MainGameScreen extends ScreenAdapter {
     private TextButton pauseButton;
     private CooldownButton specialSkillCooldownButton, dodgeCooldownBtn;
     private CoolDownBar coolDownBar;
-    private float stateTime = 0;
+    private float stateTime = 0, currentTimeCount;
     private Skin skin = new Skin();
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
@@ -55,24 +57,39 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
         this.player = player;
-        map = new WorldMap("split_map/tmx/map_2.tmx", player, level);
-        player.setMap(map);
+        this.level = level;
+        loadNextMap();
         initScreenElement();
+    }
+
+    public void loadNextMap() {
+        boolean save = false;
+        if (map != null) {
+            save = true;
+            map.dispose();
+        }
+        map = new WorldMap(mapLeft.get(0), player, level);
+        minimap = new Minimap(map.getTiledMap(), player);
+        mapLeft.remove(0);
+        if (save) {saveStateDict();}
+        player.setMap(map);
     }
 
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         try {
             JsonObject json = new Gson().fromJson(Gdx.files.internal(Settings.STATE_DICT_PATH).reader(), JsonObject.class);
-            Level level = Level.valueOf(json.get("level").getAsString());
+            level = Level.valueOf(json.get("level").getAsString());
+            currentTimeCount = json.get("time_count").getAsFloat();
             Class<?> clazz = Class.forName(json.get("player").getAsJsonObject().get("class_name").getAsString());
             // Get the constructor that takes no arguments
             Constructor<?> constructor = clazz.getConstructor();
             // Create an instance of the class using the constructor
             player = (Player) constructor.newInstance();
-            map = new WorldMap(json.get("map_path").getAsString(), player, level);
+            map = new WorldMap(json.get("current_map").getAsJsonObject().get("map_path").getAsString(), player, level);
             player.setMap(map);
-            map.loadStateDict(json);
+            player.loadStateDict(json.get("player").getAsJsonObject());
+            map.loadStateDict(json.get("current_map").getAsJsonObject());
             initScreenElement();
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,18 +159,28 @@ public class MainGameScreen extends ScreenAdapter {
         stage4.addActor(btn);
     }
 
+    public JsonObject getStateDict() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("level", new JsonPrimitive(this.level.name()));
+        jsonObject.add("player", player.getStateDict());
+        jsonObject.add("current_map", map.getStateDict());
+        jsonObject.addProperty("time_count", currentTimeCount);
+        return jsonObject;
+    }
+
     public void saveStateDict() {
         Gson gson = new Gson();
         System.out.println("SAVE STATE DICT");
-        String json = gson.toJson(map.getStateDict());
+        String json = gson.toJson(getStateDict());
         Gdx.files.local(Settings.STATE_DICT_PATH).writeString(json, false);
     }
     @Override
     public void render(float deltaTime) {
-//        if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+        currentTimeCount += deltaTime;
+        if (Gdx.input.isKeyPressed(Input.Keys.U)) {
 //            player.setCurrentHP(0);
-//            map.setOver(true);
-//        }
+            map.setOver(true);
+        }
         if (player.isJustStopFighting() && player.isAlive()) {
             saveStateDict();
         }
@@ -174,7 +201,10 @@ public class MainGameScreen extends ScreenAdapter {
         stage2.draw();
         stage1.act(deltaTime);
         stage1.draw();
-        if (map.isOver()) {
+
+        if (map.isOver() && mapLeft.size() > 0 && player.isAlive()) {
+            game.setScreen(new SelectAbilityScreen(game, this));
+        } else if (map.isOver()) {
             Settings.deleteStateDict();
             if (player.getMovingSound().isPlaying()) {
                 player.getMovingSound().stop();
@@ -217,6 +247,10 @@ public class MainGameScreen extends ScreenAdapter {
 
     private float topDown(float y) {
         return Gdx.graphics.getHeight() - y;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     private void drawOneBar(String iconName, float offsetX, float offsetY, float barX, float barWidth, float scale, float ratio) {

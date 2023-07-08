@@ -18,21 +18,18 @@ import java.util.ArrayList;
 public class SelectAbilityScreen extends ScreenAdapter {
     private Texture background = new Texture("select-character.png");
     private SoulKnight game;
-    private Level level;
-    private Player player;
     private ArrayList<Ability.AbilityEnum> abilityEnums = new ArrayList<>();
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
-    public SelectAbilityScreen(SoulKnight game, Level level, Player player) {
-        this.level = level;
+    private MainGameScreen mainGameScreen;
+    public SelectAbilityScreen(SoulKnight game, MainGameScreen screen) {
         this.game = game;
-        this.player = player;
-
+        mainGameScreen = screen;
         Ability.AbilityEnum[] enums = Ability.AbilityEnum.class.getEnumConstants();
         ArrayList<Ability.AbilityEnum> abilitiesLeft = new ArrayList<>();
         for (Ability.AbilityEnum abilityEnum : enums) {
-            if (!player.getAbility().getAbilityEnumArrayList().contains(abilityEnum)) {
+            if (!screen.getPlayer().getAbility().getAbilityEnumArrayList().contains(abilityEnum)) {
                 abilitiesLeft.add(abilityEnum);
             }
         }
@@ -87,8 +84,10 @@ public class SelectAbilityScreen extends ScreenAdapter {
                 hoverIndex = i;
                 if (Gdx.input.isTouched()) {
                     isCick = true;
+                    Player player = mainGameScreen.getPlayer();
                     player.getAbility().addAbility(player, abilityEnums.get(i));
-                    game.setScreen(new MainGameScreen(game, player, level));
+                    mainGameScreen.loadNextMap();
+                    game.setScreen(mainGameScreen);
                 }
             }
         }

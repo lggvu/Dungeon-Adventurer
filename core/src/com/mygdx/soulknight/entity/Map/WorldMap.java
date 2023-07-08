@@ -53,13 +53,11 @@ public class WorldMap {
     private float stateTime = 0;
     private boolean clearFinalRoom = false;
     private boolean isOver = false;
-    private Level level;
     String mapPath;
     private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
     public WorldMap(String tmxPath, Player player, Level level) {
         DestroyableObject.resetID();
         this.mapPath = tmxPath;
-        this.level = level;
         this.player = player;
         teleGateTextureRegions = SpriteLoader.splitTextureByFileName("tele_4_4.png");
         camera = new OrthographicCamera();
@@ -95,7 +93,7 @@ public class WorldMap {
         int roomLayerCount = roomLayers.getLayers().size();
         for (int i = 0; i < roomLayerCount; i++) {
             MapGroupLayer groupLayer = (MapGroupLayer) roomLayers.getLayers().get(i);
-            rooms.add(new Room(groupLayer, this));
+            rooms.add(new Room(groupLayer, this, level));
         }
 
         Weapon weapon = Weapon.load("Gun Venom S");
@@ -134,15 +132,9 @@ public class WorldMap {
         }
     }
 
-    public Level getLevel() {
-        return level;
-    }
-
     public JsonObject getStateDict() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("map_path", new JsonPrimitive(mapPath));
-        jsonObject.add("level", new JsonPrimitive(this.level.name()));
-        jsonObject.add("player", player.getStateDict());
 
 //        List all destroyable object left
         JsonArray jsonArray = new JsonArray();
@@ -179,7 +171,6 @@ public class WorldMap {
 
 
     public JsonObject loadStateDict(JsonObject jsonObject) {
-        player.loadStateDict(jsonObject.get("player").getAsJsonObject());
         ArrayList<DestroyableObject> temp = destroyableObjects;
         destroyableObjects = new ArrayList<>();
         Iterator<JsonElement> iterator = jsonObject.get("destroyable_object_ids").getAsJsonArray().iterator();

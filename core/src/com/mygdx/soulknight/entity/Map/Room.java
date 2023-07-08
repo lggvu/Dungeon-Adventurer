@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.entity.Character.Monster.Boss;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Item.Item;
@@ -18,11 +19,11 @@ public class Room {
     private ArrayList<Rectangle> roomArea;
     private String roomName;
     private boolean combat = false;
-    public Room(MapGroupLayer roomLayers, WorldMap map) {
+    public Room(MapGroupLayer roomLayers, WorldMap map, Level level) {
         this.map = map;
         roomName = roomLayers.getName();
         MapLayer layer = roomLayers.getLayers().get("area");
-        MapLayer monsterPositionLayer = roomLayers.getLayers().get(map.getLevel().name());
+        MapLayer monsterPositionLayer = roomLayers.getLayers().get(level.name());
         roomArea = new ArrayList<>();
         for (MapObject mapObject : layer.getObjects()) {
             if (mapObject instanceof RectangleMapObject) {

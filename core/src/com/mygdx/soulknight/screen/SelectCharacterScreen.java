@@ -180,12 +180,12 @@ public class SelectCharacterScreen extends ScreenAdapter {
                 String characterName = characterImageContainers.get(selectedIndex).textItem.getText();
                 switch (characterName) {
                     case "Adventurer":
-                        game.setScreen(new SelectAbilityScreen(game, level, new Adventurer()));
+                        game.setScreen(new MainGameScreen(game, new Adventurer(), level));
                         dispose();
                         return;
                     case "Jungler":
                     case "Assassin":
-                        game.setScreen(new SelectAbilityScreen(game, level, new Assassin()));
+                        game.setScreen(new MainGameScreen(game, new Assassin(), level));
                         dispose();
                         return;
                 }
