@@ -70,7 +70,7 @@
         "properties": {
             "damage": 3,
             "energy_cost": 1,
-            "attack_speed": 1.0,
+            "attack_speed": 0.5,
             "range": 500,
             "critical_rate": 0.2,
             "bullet_speed": 1000.0,
@@ -109,7 +109,7 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 1,
+            "num_wall_collide": 0,
             "num_enemy_hit": 1,
             "effect": [
                 "STUN",
@@ -134,7 +134,7 @@
         "properties": {
             "damage": 6,
             "energy_cost": 2.5,
-            "attack_speed": 0.5,
+            "attack_speed": 1.0,
             "range": 550,
             "critical_rate": 0.6,
             "bullet_speed": 850.0,
@@ -142,12 +142,11 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 1,
+            "num_wall_collide": 0,
             "num_enemy_hit": 1,
             "effect": [
                 "STUN",
-                "PUSH",
-                "POISON"
+                "PUSH"
             ],
             "bullet_rotation_speed": 0
         },
@@ -164,25 +163,24 @@
         "explosion_texture": "bullet-effects/Shot6/shot6-sheet_1_12.png",
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
-            "damage": 12,
+            "damage": 10,
             "energy_cost": 3,
-            "attack_speed": 0.4,
+            "attack_speed": 1.2,
             "range": 650,
-            "critical_rate": 1.0,
+            "critical_rate": 0.8,
             "bullet_speed": 800.0,
             "attack_directions": [
                 0,
                 15,
-                -15,
-                7.5,
-                -7.5
+                -15
             ],
             "num_destroy_object": 1,
             "num_wall_collide": 1,
             "num_enemy_hit": 1,
             "effect": [
                 "STUN",
-                "PUSH"
+                "PUSH",
+                "MEDIUM_EXPLOSION"
             ],
             "bullet_rotation_speed": 0
         },
@@ -200,20 +198,13 @@
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 2,
-            "energy_cost": 0,
-            "attack_speed": 0.2,
-            "range": 500,
-            "critical_rate": 0.3,
-            "bullet_speed": 500.0,
+            "energy_cost": 1.5,
+            "attack_speed": 0.5,
+            "range": 450,
+            "critical_rate": 0.5,
+            "bullet_speed": 900.0,
             "attack_directions": [
-                0,
-                45,
-                90,
-                135,
-                180,
-                235,
-                270,
-                315
+                0
             ],
             "num_destroy_object": 1,
             "num_wall_collide": 1,
@@ -237,23 +228,16 @@
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 4,
-            "energy_cost": 0,
-            "attack_speed": 0.2,
-            "range": 500,
-            "critical_rate": 0.3,
-            "bullet_speed": 500.0,
+            "energy_cost": 2,
+            "attack_speed": 0.7,
+            "range": 550,
+            "critical_rate": 0.6,
+            "bullet_speed": 900.0,
             "attack_directions": [
-                0,
-                45,
-                90,
-                135,
-                180,
-                235,
-                270,
-                315
+                0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 1,
+            "num_wall_collide": 0,
             "num_enemy_hit": 1,
             "effect": [
                 "POISON"
@@ -273,24 +257,17 @@
         "explosion_texture": "bullet-effects/poison-explosion-2_2_5.png",
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
-            "damage": 6,
-            "energy_cost": 0,
-            "attack_speed": 0.2,
-            "range": 500,
-            "critical_rate": 0.3,
-            "bullet_speed": 500.0,
+            "damage": 5.5,
+            "energy_cost": 3.5,
+            "attack_speed": 1.0,
+            "range": 600,
+            "critical_rate": 0.9,
+            "bullet_speed": 900.0,
             "attack_directions": [
-                0,
-                45,
-                90,
-                135,
-                180,
-                235,
-                270,
-                315
+                0, 15, -15, 7.5, -7.5
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 1,
+            "num_wall_collide": 0,
             "num_enemy_hit": 1,
             "effect": [
                 "POISON"
@@ -300,6 +277,66 @@
         "shot_explosion_texture": "bullet-effects/Shot1/shot1-explosion-start-sheet_1_4.png",
         "width": 14,
         "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
+    "Shot Gun Base": {
+        "type": "Gun",
+        "gun_texture": "weapon/shotgun-base.png",
+        "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
+        "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 10,
+            "energy_cost": 2,
+            "attack_speed": 1.8,
+            "range": 300,
+            "critical_rate": 0.8,
+            "bullet_speed": 500.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 2,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 2,
+            "effect": [
+                "STUN", "PUSH", "MEDIUM_EXPLOSION"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
+        "width": 25,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
+    "Shot Gun Pro": {
+        "type": "Gun",
+        "gun_texture": "weapon/shotgun-pro.png",
+        "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
+        "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 15,
+            "energy_cost": 2.5,
+            "attack_speed": 2,
+            "range": 350,
+            "critical_rate": 0.8,
+            "bullet_speed": 550.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 2,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 2,
+            "effect": [
+                "STUN", "PUSH", "LARGE_EXPLOSION"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
+        "width": 25,
+        "height": 7,
         "origin_x": 1,
         "origin_y": 5
     },
