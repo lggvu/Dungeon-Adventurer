@@ -181,6 +181,9 @@ public class Gun extends Weapon {
         }
         return numWallCollide;
     }
+    public void emptyBulletArrayList(){
+        bulletArrayList.clear();
+    }
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;
     }
