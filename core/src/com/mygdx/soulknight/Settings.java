@@ -27,9 +27,9 @@ public class Settings {
 	public static HashMap<GameButton, Integer> keyboardSetting = new HashMap<>();
 
 	public static void deleteStateDict() {
-		if (new File(STATE_DICT_PATH).exists()) {
-			Gdx.files.local(STATE_DICT_PATH).delete();
-			System.out.println("DELETE STATE DICT");
+		if (Gdx.files.local(STATE_DICT_PATH).exists()) {
+			String x = Gdx.files.local(STATE_DICT_PATH).delete() ? "SUCCESS" : "FAIL";
+			System.out.println("DELETE STATE DICT: " + x);
 		}
 	}
 

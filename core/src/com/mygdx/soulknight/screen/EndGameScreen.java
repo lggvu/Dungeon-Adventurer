@@ -23,6 +23,7 @@ import com.mygdx.soulknight.util.TextItem;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.Reader;
 import java.util.*;
 
 public class EndGameScreen extends ScreenAdapter {
@@ -36,6 +37,7 @@ public class EndGameScreen extends ScreenAdapter {
     private Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
 
     public EndGameScreen(SoulKnight game, Level level, float currentTime) {
+        System.out.println("Time finish: " + currentTime);
         this.game = game;
         batch = new SpriteBatch();
         loadLeaderBoard(level, currentTime);
@@ -43,12 +45,13 @@ public class EndGameScreen extends ScreenAdapter {
         BitmapFont textFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
         BitmapFont hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         confirmText = new TextItem("CONFIRM", new Vector2(Gdx.graphics.getWidth() / 1.2f, Gdx.graphics.getHeight() / 9.1f), textFont, hoverFont);
-        Settings.deleteStateDict();
     }
 
     public void loadLeaderBoard(Level level, float currentTime) {
         try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(LEADERBOARD_SAVE_PATH).reader(), JsonObject.class);
+            Reader reader = Gdx.files.internal(LEADERBOARD_SAVE_PATH).reader();
+            JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+            reader.close();
             JsonArray jsonArray = json.get(level.name()).getAsJsonArray();
             jsonArray.add(currentTime);
             Iterator<JsonElement> iterator = jsonArray.iterator();

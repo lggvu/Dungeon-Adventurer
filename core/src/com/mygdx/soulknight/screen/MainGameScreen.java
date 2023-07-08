@@ -18,9 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
@@ -29,10 +27,12 @@ import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
 import com.mygdx.soulknight.util.SpriteLoader;
 
+import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -53,12 +53,13 @@ public class MainGameScreen extends ScreenAdapter {
     private boolean clickEndBtn = false;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
-    ArrayList<String> mapLeft = new ArrayList<>(Arrays.asList("split_map/tmx/map_2.tmx", "split_map/tmx/map_2.tmx"));
+    ArrayList<String> mapLeft = new ArrayList<>();
 
     public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
         this.player = player;
         this.level = level;
+        mapLeft = new ArrayList<>(Arrays.asList("split_map/tmx/map_2.tmx", "split_map/tmx/map_2.tmx"));
         loadNextMap();
         initScreenElement();
     }
@@ -79,7 +80,9 @@ public class MainGameScreen extends ScreenAdapter {
     public MainGameScreen(SoulKnight game) {
         this.game = game;
         try {
-            JsonObject json = new Gson().fromJson(Gdx.files.internal(Settings.STATE_DICT_PATH).reader(), JsonObject.class);
+            Reader reader = Gdx.files.internal(Settings.STATE_DICT_PATH).reader();
+            JsonObject json = new Gson().fromJson(reader, JsonObject.class);
+            reader.close();
             level = Level.valueOf(json.get("level").getAsString());
             currentTimeCount = json.get("time_count").getAsFloat();
             Class<?> clazz = Class.forName(json.get("player").getAsJsonObject().get("class_name").getAsString());
@@ -91,6 +94,10 @@ public class MainGameScreen extends ScreenAdapter {
             player.setMap(map);
             player.loadStateDict(json.get("player").getAsJsonObject());
             map.loadStateDict(json.get("current_map").getAsJsonObject());
+            Iterator<JsonElement> iterator = json.get("map_left").getAsJsonArray().iterator();
+            while (iterator.hasNext()) {
+                mapLeft.add(iterator.next().getAsString());
+            }
             initScreenElement();
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,6 +173,11 @@ public class MainGameScreen extends ScreenAdapter {
         jsonObject.add("player", player.getStateDict());
         jsonObject.add("current_map", map.getStateDict());
         jsonObject.addProperty("time_count", currentTimeCount);
+        JsonArray jsonArray = new JsonArray();
+        for (String name : mapLeft) {
+            jsonArray.add(name);
+        }
+        jsonObject.add("map_left", jsonArray);
         return jsonObject;
     }
 
@@ -206,8 +218,9 @@ public class MainGameScreen extends ScreenAdapter {
 
         if (map.isOver() && mapLeft.size() > 0 && player.isAlive()) {
             game.setScreen(new SelectAbilityScreen(game, this));
-        } else if (map.isOver()) {
-            Settings.deleteStateDict();
+        } else if (map.isOver() && (mapLeft.size() == 0 || !player.isAlive())) {
+//            Settings.deleteStateDict();
+            if (stateTime == 0) {Settings.deleteStateDict();}
             if (player.getMovingSound().isPlaying()) {
                 player.getMovingSound().stop();
             }
