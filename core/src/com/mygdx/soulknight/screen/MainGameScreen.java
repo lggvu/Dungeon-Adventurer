@@ -29,7 +29,6 @@ import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.io.Reader;
 import java.lang.reflect.Constructor;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -154,7 +153,7 @@ public class MainGameScreen extends ScreenAdapter {
         btn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new EndGameScreen(game, level, currentTimeCount));
+                game.setScreen(new LeaderBoardScreen(game, level, currentTimeCount));
                 clickEndBtn = true;
                 }
             }

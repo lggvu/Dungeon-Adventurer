@@ -20,7 +20,7 @@ public class TextItem {
         this.hoverFont = hoverFont;
     }
 
-    private BitmapFont getFont() {
+    public BitmapFont getFont() {
         if (selected || hovered) {
             return this.hoverFont;
         }
