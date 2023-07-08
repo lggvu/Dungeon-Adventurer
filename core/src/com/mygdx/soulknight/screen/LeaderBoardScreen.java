@@ -74,6 +74,10 @@ public class LeaderBoardScreen extends ScreenAdapter {
         labelStyle.font.getData().setScale(0.7f);
     }
 
+    public LeaderBoardScreen(SoulKnight game) {
+        this(game, Level.EASY, -1);
+    }
+
     class TextItemWithBorder {
         private TextItem textItem;
         private boolean hover = false;
@@ -110,8 +114,10 @@ public class LeaderBoardScreen extends ScreenAdapter {
             JsonObject json = new Gson().fromJson(reader, JsonObject.class);
             reader.close();
 
-            JsonArray jsonArray = json.get(level.name()).getAsJsonArray();
-            jsonArray.add(currentTime);
+            if (currentTime >= 0) {
+                JsonArray jsonArray = json.get(level.name()).getAsJsonArray();
+                jsonArray.add(currentTime);
+            }
 
             Level[] enums = Level.class.getEnumConstants();
             ArrayList<Float> timeCompletes;

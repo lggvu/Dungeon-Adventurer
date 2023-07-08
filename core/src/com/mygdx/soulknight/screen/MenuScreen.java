@@ -27,7 +27,6 @@ public class MenuScreen extends ScreenAdapter {
     private Stage stage;
     private boolean isExistStateDict = false;
 
-    private Skin skin;
 
     public MenuScreen(SoulKnight game) {
         File file = new File(Settings.STATE_DICT_PATH);
@@ -42,9 +41,6 @@ public class MenuScreen extends ScreenAdapter {
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = buttonDrawable;
-
-        skin = new Skin();
-        skin.add("default", textButtonStyle);
     }
 
     @Override
@@ -52,7 +48,7 @@ public class MenuScreen extends ScreenAdapter {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        TextButton startGame = new TextButton("", skin);
+        TextButton startGame = new TextButton("Start Game", Settings.skin);
         // Add click listeners to the buttons
         startGame.addListener(new ClickListener() {
             @Override
@@ -75,6 +71,16 @@ public class MenuScreen extends ScreenAdapter {
         } else {
             continueGame.setDisabled(true);
         }
+
+        Button leaderBoard = new TextButton("Leaderboard", Settings.skin);
+        leaderBoard.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LeaderBoardScreen(game));
+                dispose();
+            }
+        });
+
         Button settings = new TextButton("Settings", Settings.skin);
         settings.addListener(new ClickListener() {
             @Override
@@ -86,11 +92,14 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
 
-        table.add(startGame).pad(20);
+        float width = Gdx.graphics.getWidth() * 0.25f, padding = Gdx.graphics.getHeight() * 0.025f;
+        table.add(startGame).width(width).pad(padding);
         table.row();
-        table.add(continueGame).width(200).pad(20);
+        table.add(continueGame).width(width).pad(padding);
         table.row();
-        table.add(settings).width(200).pad(20);
+        table.add(leaderBoard).width(width).pad(padding);
+        table.row();
+        table.add(settings).width(width).pad(padding);
 
         stage.addActor(table);
     }
