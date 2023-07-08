@@ -50,6 +50,7 @@ public class MainGameScreen extends ScreenAdapter {
     private CoolDownBar coolDownBar;
     private float stateTime = 0, currentTimeCount;
     private Skin skin = new Skin();
+    private boolean clickEndBtn = false;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
     ArrayList<String> mapLeft = new ArrayList<>(Arrays.asList("split_map/tmx/map_2.tmx", "split_map/tmx/map_2.tmx"));
@@ -147,6 +148,7 @@ public class MainGameScreen extends ScreenAdapter {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new EndGameScreen(game, level, currentTimeCount));
+                clickEndBtn = true;
                 }
             }
         );
@@ -200,6 +202,7 @@ public class MainGameScreen extends ScreenAdapter {
         stage2.draw();
         stage1.act(deltaTime);
         stage1.draw();
+        coolDownBar.draw();
 
         if (map.isOver() && mapLeft.size() > 0 && player.isAlive()) {
             game.setScreen(new SelectAbilityScreen(game, this));
@@ -227,7 +230,9 @@ public class MainGameScreen extends ScreenAdapter {
                 stage4.draw();
             }
         }
-        coolDownBar.draw();
+        if (clickEndBtn) {
+            dispose();
+        }
     }
 
     @Override
