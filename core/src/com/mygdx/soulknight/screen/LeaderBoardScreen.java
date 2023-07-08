@@ -52,7 +52,7 @@ public class LeaderBoardScreen extends ScreenAdapter {
         headingFont.getData().setScale(2);
         normalFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         loadLeaderBoard(level, currentTime);
-        background = new Texture("black_back.png");
+        background = new Texture("background.png");
         BitmapFont textFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
         BitmapFont hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         confirmText = new TextItem("CONFIRM", new Vector2(Gdx.graphics.getWidth() / 1.2f, Gdx.graphics.getHeight() / 9.1f), textFont, hoverFont);

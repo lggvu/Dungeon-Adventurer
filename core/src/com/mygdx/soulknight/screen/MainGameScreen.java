@@ -59,9 +59,9 @@ public class MainGameScreen extends ScreenAdapter {
         this.player = player;
         this.level = level;
         mapLeft = new ArrayList<>(Arrays.asList(
-                "assets/map/map/map3.1.tmx",
-                "assets/map/map/map4.1.tmx",
                 "assets/map/map/map2.1.tmx",
+                "assets/map/map/map4.1.tmx",
+                "assets/map/map/map3.1.tmx",
                 "assets/map/map/map5.1.tmx",
                 "assets/map/map/map1.1.tmx"
         ));
