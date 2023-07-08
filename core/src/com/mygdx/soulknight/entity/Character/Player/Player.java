@@ -69,6 +69,10 @@ public abstract class Player extends SimpleCharacter {
     protected HashMap<SimpleCharacter, Boolean> monsterInVision = new HashMap<>();
     private Room room;
 
+    public Music getMovingSound() {
+        return movingSound;
+    }
+
     public Player(String characterName, WorldMap map) {
         super(characterName, map);
         Settings.addSound(movingSound);

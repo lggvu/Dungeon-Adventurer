@@ -8,7 +8,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +26,7 @@ import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.lang.reflect.Constructor;
 import java.nio.file.Paths;
@@ -31,16 +34,17 @@ import java.nio.file.Paths;
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
     private SpriteBatch batch, batchHealth;
+    private final static Animation<TextureRegion> WIN_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/win_game_1_24.png")));
+    private final static Animation<TextureRegion> LOSE_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/lose_game_1_24.png")));
     private WorldMap map;
     private Player player;
-    private Stage stage1, stage2, stage3;
+    private Stage stage1, stage2, stage3, stage4;
     private Music backgroundMusic;
     private float musicPosition = 0.0f;
     private TextButton pauseButton;
     private CooldownButton specialSkillCooldownButton, dodgeCooldownBtn;
     private CoolDownBar coolDownBar;
-    private float countTime = 0;
-
+    private float stateTime = 0;
     private Skin skin = new Skin();
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
@@ -101,10 +105,13 @@ public class MainGameScreen extends ScreenAdapter {
         stage1 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         stage2 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         stage3 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage4 = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage1);
         inputMultiplexer.addProcessor(stage2);
         inputMultiplexer.addProcessor(stage3);
+        inputMultiplexer.addProcessor(stage4);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -114,32 +121,33 @@ public class MainGameScreen extends ScreenAdapter {
         stage2.setKeyboardFocus(specialSkillCooldownButton);
         stage3.addActor(dodgeCooldownBtn);
         stage3.setKeyboardFocus(dodgeCooldownBtn);
+
+        Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
+        TextButton btn = new TextButton("Continue", skin);
+        btn.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new EndGameScreen(game, player.isAlive()));
+                    dispose();
+                }
+            }
+        );
+
+        float width = Gdx.graphics.getWidth() / 6f, height = Gdx.graphics.getHeight() / 15f;
+        float x = (Gdx.graphics.getWidth() - width) / 2, y = Gdx.graphics.getHeight() / 4f;
+        btn.setPosition(x, y);
+        btn.setSize(width, height);
+        stage4.addActor(btn);
     }
 
     @Override
     public void render(float deltaTime) {
-        countTime += deltaTime;
-        if (countTime > 1) {
-            countTime = 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Y) && countTime >= 1) {
-            countTime = 0;
-            try {
-                Gson gson = new Gson();
-                System.out.println(Paths.get(Gdx.files.getLocalStoragePath(),"assets", "state_dict.json").toString());
-//                gson.toJson(map, );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         Gdx.gl.glClearColor(28/255f,17/255f,23/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        map.update(deltaTime);
-        if (map.isOver()) {
-            game.setScreen(new EndGameScreen(game,player.isAlive()));
-            this.dispose();
-            return;
+
+        if (!map.isOver()) {
+            map.update(deltaTime);
         }
 
         map.draw(batch);
@@ -151,6 +159,29 @@ public class MainGameScreen extends ScreenAdapter {
         stage2.draw();
         stage1.act(deltaTime);
         stage1.draw();
+        if (map.isOver()) {
+            if (player.getMovingSound().isPlaying()) {
+                player.getMovingSound().stop();
+            }
+            stateTime += deltaTime;
+            TextureRegion textureRegion;
+            Animation<TextureRegion> temp;
+            if (player.isAlive()) {
+                temp = WIN_GAME;
+            } else {
+                temp = LOSE_GAME;
+            }
+            textureRegion = temp.getKeyFrame(stateTime, false);
+            float width = Gdx.graphics.getWidth() / 2, height = width;
+            float x = (Gdx.graphics.getWidth() - width) / 2, y = (Gdx.graphics.getHeight() - height) / 2;
+            batchHealth.begin();
+            batchHealth.draw(textureRegion, x, y, width, height);
+            batchHealth.end();
+            if (temp.isAnimationFinished(stateTime)) {
+                stage4.act(deltaTime);
+                stage4.draw();
+            }
+        }
         coolDownBar.draw();
     }
 
@@ -161,6 +192,8 @@ public class MainGameScreen extends ScreenAdapter {
         stage1.dispose();
         stage2.dispose();
         stage3.dispose();
+        stage4.dispose();
+        stage4.dispose();
         backgroundMusic.dispose();
         specialSkillCooldownButton.disposeShapeRenderer();
         dodgeCooldownBtn.disposeShapeRenderer();
