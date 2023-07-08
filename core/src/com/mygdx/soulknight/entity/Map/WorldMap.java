@@ -97,17 +97,47 @@ public class WorldMap {
         }
 
         Weapon weapon = Weapon.load("Gun Venom S");
-        weapon.setPosition(190, 255);
+        weapon.setPosition(140, 255);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
 
         weapon = Weapon.load("Gun Venom M");
-        weapon.setPosition(190, 450);
+        weapon.setPosition(150, 450);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
 
         weapon = Weapon.load("Gun Venom L");
-        weapon.setPosition(190, 350);
+        weapon.setPosition(160, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Red S");
+        weapon.setPosition(170, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Red M");
+        weapon.setPosition(80, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Red L");
+        weapon.setPosition(90, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Gun Red XL");
+        weapon.setPosition(490, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Shot Gun Base");
+        weapon.setPosition(390, 350);
+        weapon.setOnGround(true);
+        itemsOnGround.add(weapon);
+
+        weapon = Weapon.load("Shot Gun Pro");
+        weapon.setPosition(290, 350);
         weapon.setOnGround(true);
         itemsOnGround.add(weapon);
     }
