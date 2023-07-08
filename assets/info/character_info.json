@@ -59,6 +59,7 @@
         "default_weapons": [
             "Gun Red S"
         ],
+        "special_gun": "Kunai",
         "description": "Immortal in 1s",
         "idle_texture_path": "character/jungler/idle.png"
     },

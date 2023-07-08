@@ -378,6 +378,37 @@
         "origin_x": 1,
         "origin_y": 5
     },
+    "Kunai": {
+        "type": "Gun",
+        "gun_texture": "weapon/red-gun-XL.png",
+        "bullet_texture": "bullet/kunai.png",
+        "explosion_texture": "bullet-effects/Shot3/shot3-sheet_1_8.png",
+        "sound_effect": "sound-effect/pistol-shoot.mp3",
+        "properties": {
+            "damage": 2,
+            "energy_cost": 0,
+            "attack_speed": 0.2,
+            "range": 1000,
+            "critical_rate": 0.3,
+            "bullet_speed": 500.0,
+            "attack_directions": [
+                0
+            ],
+            "num_destroy_object": 1,
+            "num_wall_collide": 1,
+            "num_enemy_hit": 1,
+            "effect": [
+                "STUN",
+                "PUSH"
+            ],
+            "bullet_rotation_speed": 0
+        },
+        "shot_explosion_texture": "bullet-effects/Shot3/shot3-sheet_1_8.png",
+        "width": 14,
+        "height": 10,
+        "origin_x": 1,
+        "origin_y": 5
+    },
     "Sword 1": {
         "type": "Sword",
         "sword_texture": "weapon/sword.png",

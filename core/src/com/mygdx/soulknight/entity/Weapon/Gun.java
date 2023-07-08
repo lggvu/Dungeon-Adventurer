@@ -70,7 +70,7 @@ public class Gun extends Weapon {
         super();
     }
 
-    protected void shot(Vector2 direction) {
+    public void shot(Vector2 direction) {
         if (owner instanceof SimpleCharacter && this.shootSound != null) {
             if (this.shootSound.isPlaying()) {
                 this.shootSound.stop();
@@ -180,6 +180,9 @@ public class Gun extends Weapon {
             return numWallCollide + owner.getAbility().getWallCollideIncrease();
         }
         return numWallCollide;
+    }
+    public void emptyBulletArrayList(){
+        bulletArrayList.clear();
     }
     public ArrayList<Bullet> getBulletArrayList() {
         return bulletArrayList;

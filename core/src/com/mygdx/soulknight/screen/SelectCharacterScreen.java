@@ -20,6 +20,7 @@ import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player.Adventurer;
 import com.mygdx.soulknight.entity.Character.Player.Assassin;
+import com.mygdx.soulknight.entity.Character.Player.Jungler;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextItem;
@@ -198,6 +199,9 @@ public class SelectCharacterScreen extends ScreenAdapter {
                         dispose();
                         return;
                     case "Jungler":
+                        game.setScreen(new SelectAbilityScreen(game, level, new Jungler()));
+                        dispose();
+                        return;
                     case "Assassin":
                         game.setScreen(new MainGameScreen(game, new Assassin(), level));
                         dispose();
