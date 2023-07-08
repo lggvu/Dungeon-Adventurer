@@ -32,6 +32,8 @@ import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.util.FontDrawer;
 import com.mygdx.soulknight.util.SpriteLoader;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,7 +54,7 @@ public class WorldMap {
     private ArrayList<TiledMapTileMapObject> doorTiledMapObject = new ArrayList<>();
     private float stateTime = 0;
     private boolean clearFinalRoom = false;
-    private boolean isOver = false;
+    private boolean isOver = false, firstUpdate = true;
     String mapPath;
     private ArrayList<FontDrawer> fontDrawers = new ArrayList<>();
     public WorldMap(String tmxPath, Player player, Level level) {
@@ -237,6 +239,10 @@ public class WorldMap {
 
 
     public void update(float deltaTime) {
+        if (firstUpdate) {
+            firstUpdate = false;
+            return;
+        }
         player.update(deltaTime);
         if (!player.isAlive()) {
             player.activateDying();
