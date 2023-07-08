@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="57" nextobjectid="2507">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="16" tileheight="16" infinite="0" nextlayerid="57" nextobjectid="2508">
  <tileset firstgid="1" source="../tsx/Floor.tsx"/>
  <tileset firstgid="5" source="../tsx/Decor.tsx"/>
  <tileset firstgid="86" source="../tsx/DoubleDoor.tsx"/>
@@ -891,7 +891,7 @@
   <object id="1640" x="2096" y="624" width="48" height="16"/>
   <object id="1641" x="2224" y="624" width="48" height="16"/>
  </objectgroup>
- <objectgroup id="56" name="destroyable_object">
+ <objectgroup id="56" name="destroyable_object" visible="0">
   <object id="1644" name="ark" gid="5866" x="128" y="2160" width="16" height="16"/>
   <object id="1645" name="ark" gid="5866" x="480" y="2336" width="16" height="16"/>
   <object id="1646" name="ark_weapon" gid="5995" x="304" y="2256" width="16" height="16"/>
@@ -1709,8 +1709,8 @@
     </object>
    </objectgroup>
   </group>
-  <group id="24" name="3" visible="0">
-   <objectgroup id="13" name="area" visible="0">
+  <group id="24" name="3">
+   <objectgroup id="13" name="area">
     <object id="223" x="1328" y="1456" width="464" height="368"/>
     <object id="224" x="1520" y="1824" width="560" height="96"/>
     <object id="225" x="1792" y="1520" width="288" height="304"/>
@@ -1721,6 +1721,7 @@
     <object id="1471" x="2080" y="2048" width="272" height="64"/>
     <object id="1472" x="2192" y="2112" width="160" height="240"/>
     <object id="1473" x="2144" y="1888" height="32"/>
+    <object id="2507" x="1187" y="1616" width="140" height="206"/>
    </objectgroup>
    <objectgroup id="43" name="EASY" visible="0">
     <object id="2067" name="monster_1" x="1408.01" y="1525.34">
@@ -2363,7 +2364,7 @@
    </objectgroup>
   </group>
   <group id="26" name="5" visible="0">
-   <objectgroup id="10" name="area" visible="0">
+   <objectgroup id="10" name="area">
     <object id="211" x="816" y="1936" width="624" height="448"/>
     <object id="212" x="816" y="1840" width="512" height="96"/>
     <object id="1814" x="800" y="1840" width="16" height="544"/>
@@ -2522,7 +2523,7 @@
      <point/>
     </object>
    </objectgroup>
-   <objectgroup id="55" name="NIGHTMARE">
+   <objectgroup id="55" name="NIGHTMARE" visible="0">
     <object id="2365" name="monster_1" x="1158.8" y="2104.33">
      <point/>
     </object>
@@ -2627,7 +2628,7 @@
     </object>
    </objectgroup>
   </group>
-  <group id="22" name="final_room" visible="0">
+  <group id="22" name="final_room">
    <objectgroup id="27" name="NIGHTMARE" visible="0">
     <object id="2468" name="monster_1" x="1429.82" y="220.404">
      <point/>
