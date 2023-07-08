@@ -8,7 +8,15 @@ import java.util.ArrayList;
 
 public abstract class CharacterEffect extends Effect {
     protected TextureRegion textureRegion = null;
+    protected float timeCount = 0.4f;
     public abstract void update(float deltaTime, SimpleCharacter affectedCharacter);
+    public void setTimeCount(float timeCount) {
+        this.timeCount = timeCount;
+    }
+
+    public float getTimeCount() {
+        return timeCount;
+    }
 
     public static ArrayList<CharacterEffect> loadEffect(ArrayList<EffectEnum> effectsEnum, Vector2 pushDirection) {
         ArrayList<CharacterEffect> effects = new ArrayList<>();
@@ -31,6 +39,8 @@ public abstract class CharacterEffect extends Effect {
                 return new Poison();
             case FIRE:
                 return new Fire();
+            case LIGHTNING:
+                return new Lightning();
             default:
                 return null;
         }
