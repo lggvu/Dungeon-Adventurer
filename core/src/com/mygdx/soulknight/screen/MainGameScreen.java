@@ -37,8 +37,8 @@ import java.util.Arrays;
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
     private SpriteBatch batch, batchHealth;
-    private final static Animation<TextureRegion> WIN_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/win_game_1_24.png")));
-    private final static Animation<TextureRegion> LOSE_GAME = new Animation<>(0.15f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/lose_game_1_24.png")));
+    private final static Animation<TextureRegion> WIN_GAME = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/win_game_1_24.png")));
+    private final static Animation<TextureRegion> LOSE_GAME = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/lose_game_1_24.png")));
     private WorldMap map;
     private Level level;
     private Player player;
@@ -146,8 +146,7 @@ public class MainGameScreen extends ScreenAdapter {
         btn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(new EndGameScreen(game, player.isAlive()));
-                    dispose();
+                game.setScreen(new EndGameScreen(game, level, currentTimeCount));
                 }
             }
         );
@@ -176,7 +175,6 @@ public class MainGameScreen extends ScreenAdapter {
     }
     @Override
     public void render(float deltaTime) {
-        currentTimeCount += deltaTime;
         if (Gdx.input.isKeyPressed(Input.Keys.U)) {
 //            player.setCurrentHP(0);
             map.setOver(true);
@@ -189,6 +187,7 @@ public class MainGameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!map.isOver()) {
+            currentTimeCount += deltaTime;
             map.update(deltaTime);
         }
 

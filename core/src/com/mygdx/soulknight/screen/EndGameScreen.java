@@ -7,62 +7,76 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Level;
 import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Random;
+import java.util.*;
 
 public class EndGameScreen extends ScreenAdapter {
+    public final static String LEADERBOARD_SAVE_PATH = "assets/info/leader_board.json";
     private final SoulKnight game;
     private SpriteBatch batch;
     private Texture background;
-    private BitmapFont textFont;
-    private BitmapFont hoverFont;
     private TextItem confirmText;
-    private String content;
+    private ArrayList<Float> timeCompletes = new ArrayList<>();
+    private Stage stage;
+    private Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
 
-    public EndGameScreen(SoulKnight game, Boolean status) {
+    public EndGameScreen(SoulKnight game, Level level, float currentTime) {
         this.game = game;
         batch = new SpriteBatch();
-        loadRandomBackground();
-        textFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
-        hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
+        loadLeaderBoard(level, currentTime);
+        background = new Texture("black_back.png");
+        BitmapFont textFont = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
+        BitmapFont hoverFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
         confirmText = new TextItem("CONFIRM", new Vector2(Gdx.graphics.getWidth() / 1.2f, Gdx.graphics.getHeight() / 9.1f), textFont, hoverFont);
-        if (status == true){
-            content = "Congratulations, you have finished mode X in Y seconds";
-        }
-        else {
-            content = "You have failed! Try again when you are better";
-        }
         Settings.deleteStateDict();
     }
 
-    private void loadRandomBackground() {
-        File backgroundDirectory = new File("background/endgame");
-        File[] backgroundFiles = backgroundDirectory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".png");
+    public void loadLeaderBoard(Level level, float currentTime) {
+        try {
+            JsonObject json = new Gson().fromJson(Gdx.files.internal(LEADERBOARD_SAVE_PATH).reader(), JsonObject.class);
+            JsonArray jsonArray = json.get(level.name()).getAsJsonArray();
+            jsonArray.add(currentTime);
+            Iterator<JsonElement> iterator = jsonArray.iterator();
+            while (iterator.hasNext()) {
+                timeCompletes.add(iterator.next().getAsFloat());
             }
-        });
-
-        for (File file : backgroundFiles) {
-            System.out.println(file.getPath());
-        }
-        if (backgroundFiles != null && backgroundFiles.length > 0) {
-            Random random = new Random();
-            int randomIndex = random.nextInt(backgroundFiles.length);
-            String randomBackgroundPath = backgroundFiles[randomIndex].getPath();
-            background = new Texture(randomBackgroundPath);
-        } else {
-            // Fallback to a default background if no suitable backgrounds are found
-            background = new Texture("backgrounds/endgame/dungeon background 1.png");
+            Collections.sort(timeCompletes);
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(json);
+            Gdx.files.local(LEADERBOARD_SAVE_PATH).writeString(jsonString, false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
+    @Override
+    public void show() {
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        Gdx.input.setInputProcessor(stage);
+        Table table = new Table();
+        table.setFillParent(true);
+        for (int i = 1; i <= 5; i++) {
+            if (i > timeCompletes.size()) {break;}
+            table.add(new Label("" + i, skin)).width(50).left().padRight(10);
+            table.add(new Label("" + timeCompletes.get(i - 1), skin)).left().padRight(10);
+            table.row();
+        }
+        stage.addActor(table);
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -81,15 +95,16 @@ public class EndGameScreen extends ScreenAdapter {
             confirmText.setHovered(false);
         }
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.hoverFont.draw(batch, content, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 2f);
+//        this.hoverFont.draw(batch, content, Gdx.graphics.getWidth() / 3f, Gdx.graphics.getHeight() / 2f);
         confirmText.draw(batch);
         batch.end();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         background.dispose();
-        textFont.dispose();
-        hoverFont.dispose();
+        confirmText.dispose();
     }
 }
