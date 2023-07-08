@@ -258,6 +258,18 @@ public abstract class SimpleCharacter {
         this.y = y;
     }
 
+    public Room getRoom() {
+        return room;
+    }
+
+    public float getMaxWidth() {
+        return maxWidth;
+    }
+
+    public float getMaxHeight() {
+        return maxHeight;
+    }
+
     public Rectangle getMoveRectangle(float x, float y) {
         return new Rectangle(x, y, maxWidth, maxHeight / 2);
     }

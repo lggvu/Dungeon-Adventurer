@@ -40,8 +40,8 @@ public class Kunai {
 
     }
     public void shot(Vector2 direction){
-        this.x=this.owner.getX()+this.owner.getWidth()/2;
-        this.y=this.owner.getY()+this.owner.getHeight()/2;
+        this.x=this.owner.getX();
+        this.y=this.owner.getY();
         this.direction=direction;
         this.isFlying=true;
 
@@ -52,12 +52,11 @@ public class Kunai {
             float testX = this.x + direction.x * speed * deltaTime;
             float testY = this.y + direction.y * speed * deltaTime;
 
-            Rectangle rectangleTest = new Rectangle(this.x, testY, bulletTexture.getWidth()/20, bulletTexture.getHeight()/20);
-            if (!map.isMapCollision(rectangleTest)) {
-                System.out.println("MOvingggg");
+            Rectangle rectangleTest = new Rectangle(this.x, testY, owner.getMaxWidth(), owner.getMaxHeight());
+            if (!map.isMapCollision(rectangleTest)){
                 this.y = testY;
             }
-            rectangleTest = new Rectangle(testX, this.y, bulletTexture.getWidth()/20, bulletTexture.getHeight()/20);
+            rectangleTest = new Rectangle(testX, this.y, owner.getMaxWidth(), owner.getMaxHeight());
             if (!map.isMapCollision(rectangleTest)) {
                 this.x = testX;
             }

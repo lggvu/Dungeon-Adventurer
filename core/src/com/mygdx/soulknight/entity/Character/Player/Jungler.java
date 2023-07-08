@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.entity.Weapon.Bullet;
 import com.mygdx.soulknight.entity.Weapon.Gun;
@@ -19,8 +20,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
 public class Jungler extends Player {
-    private Texture kunaiTexture = new Texture("bullet/kunai.png");
-    private Kunai kunai;
+    private Animation<TextureInfo> immortalAnimation;
 
     public Jungler() {
         super("jungler", null);
@@ -29,43 +29,33 @@ public class Jungler extends Player {
     @Override
     public JsonObject load() {
         JsonObject source = super.load();
+        immortalAnimation = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("immortal_texture_path").getAsJsonArray()));
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        kunai = new Kunai();
-        kunai.setOwner(this);
-        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 2f) {
+        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
             @Override
             public void activateSkill() {
-                super.activateSkill();
-                kunai.shot(getLastMoveDirection());
-
+                if (!getDodgeSkill().isInProgresss()) {
+                    super.activateSkill();
+                    Animation<TextureInfo> temp = animationMovement;
+                    animationMovement = immortalAnimation;
+                    immortalAnimation = temp;
+                }
             }
             @Override
-            public void deactivateSkill(){
+            public void deactivateSkill() {
                 super.deactivateSkill();
-                kunai.isFlying=false;
+                Animation<TextureInfo> temp = animationMovement;
+                animationMovement = immortalAnimation;
+                immortalAnimation = temp;
             }
         };
         return source;
     }
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
 
-        if (specialSkill.isInProgresss()) {
-            kunai.update(deltaTime,getMap());
-            if (Gdx.input.isKeyPressed(Input.Keys.O)) {
-                setX(kunai.getX());
-                setY(kunai.getY());
-                specialSkill.deactivateSkill();
-            }
-        }
-    }
     @Override
-    public void draw(SpriteBatch batch) {
-
-        super.draw(batch);
-        if (specialSkill.isInProgresss()) {
-            kunai.draw(batch);
+    public void getHit(int damage, DamageType damageType, boolean isCrit) {
+        if (!specialSkill.isInProgresss()) {
+            super.getHit(damage, damageType, isCrit);
         }
     }
 }
