@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 public class Settings {
 
 	public final static String STATE_DICT_PATH = "assets/info/state_dict.json";
+
 	public enum GameButton {
 		DODGE,
 		SPECIAL_SKILL
@@ -23,6 +25,13 @@ public class Settings {
 	private final static String SETTING_PATH = "assets/info/settings.json";
 
 	public static HashMap<GameButton, Integer> keyboardSetting = new HashMap<>();
+
+	public static void deleteStateDict() {
+		if (new File(STATE_DICT_PATH).exists()) {
+			Gdx.files.local(STATE_DICT_PATH).delete();
+			System.out.println("DELETE STATE DICT");
+		}
+	}
 
 	public static void loadSetting() {
 		try {
@@ -80,6 +89,7 @@ public class Settings {
 		sound.setVolume(soundVolume);
 		return sound;
 	}
+
 	public static void updateMusicVolume(float x) {
 		music.setVolume(x);
 	}

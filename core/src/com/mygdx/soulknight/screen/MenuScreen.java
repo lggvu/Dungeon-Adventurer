@@ -57,6 +57,7 @@ public class MenuScreen extends ScreenAdapter {
         startGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Settings.deleteStateDict();
                 game.setScreen(new SelectModeScreen(game));
                 dispose();
             }

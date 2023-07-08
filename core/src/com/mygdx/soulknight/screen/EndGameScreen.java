@@ -37,7 +37,7 @@ public class EndGameScreen extends ScreenAdapter {
         else {
             content = "You have failed! Try again when you are better";
         }
-        Gdx.files.local(Settings.STATE_DICT_PATH).delete();
+        Settings.deleteStateDict();
     }
 
     private void loadRandomBackground() {

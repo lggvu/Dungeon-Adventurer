@@ -138,13 +138,6 @@ public class WorldMap {
         return level;
     }
 
-    public void saveStateDict() {
-        Gson gson = new Gson();
-        System.out.println("SAVE STATE DICT");
-        String json = gson.toJson(getStateDict());
-        Gdx.files.local(Settings.STATE_DICT_PATH).writeString(json, false);
-    }
-
     public JsonObject getStateDict() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("map_path", new JsonPrimitive(mapPath));
@@ -223,9 +216,6 @@ public class WorldMap {
 
 
     public void update(float deltaTime) {
-        if (player.isJustStopFighting() && player.isAlive()) {
-            saveStateDict();
-        }
         player.update(deltaTime);
         if (!player.isAlive()) {
             player.activateDying();

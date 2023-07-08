@@ -30,6 +30,8 @@ import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.lang.reflect.Constructor;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainGameScreen extends ScreenAdapter {
     SoulKnight game;
@@ -48,7 +50,7 @@ public class MainGameScreen extends ScreenAdapter {
     private Skin skin = new Skin();
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Minimap minimap;
-
+    ArrayList<String> mapLeft = new ArrayList<>(Arrays.asList("split_map/tmx/map_2.tmx", "split_map/tmx/map_2.tmx"));
 
     public MainGameScreen(SoulKnight game, Player player, Level level) {
         this.game = game;
@@ -140,8 +142,21 @@ public class MainGameScreen extends ScreenAdapter {
         stage4.addActor(btn);
     }
 
+    public void saveStateDict() {
+        Gson gson = new Gson();
+        System.out.println("SAVE STATE DICT");
+        String json = gson.toJson(map.getStateDict());
+        Gdx.files.local(Settings.STATE_DICT_PATH).writeString(json, false);
+    }
     @Override
     public void render(float deltaTime) {
+//        if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+//            player.setCurrentHP(0);
+//            map.setOver(true);
+//        }
+        if (player.isJustStopFighting() && player.isAlive()) {
+            saveStateDict();
+        }
 
         Gdx.gl.glClearColor(28/255f,17/255f,23/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -160,6 +175,7 @@ public class MainGameScreen extends ScreenAdapter {
         stage1.act(deltaTime);
         stage1.draw();
         if (map.isOver()) {
+            Settings.deleteStateDict();
             if (player.getMovingSound().isPlaying()) {
                 player.getMovingSound().stop();
             }
