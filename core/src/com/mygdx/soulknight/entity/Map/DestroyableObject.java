@@ -40,7 +40,9 @@ public class DestroyableObject{
         if (name.equals("ARK")) {
             pickableObject = Item.getRandomItem(getX(), getY());
         } else if (name.equals("ARK_WEAPON")) {
-            Weapon weapon = Weapon.load("Gun Red S");
+            String[] weaponsName = new String[] {"Gun Red M", "Gun Red L", "Gun Red XL", "Gun Venom S", "Gun Venom M", "Gun Venom L", "Shot Gun Base", "Shot Gun Pro"};
+            int randomIndex = (int) (Math.random() * weaponsName.length);
+            Weapon weapon = Weapon.load(weaponsName[randomIndex]);
             weapon.setPosition(getX(), getY());
             weapon.setOnGround(true);
             pickableObject = weapon;
