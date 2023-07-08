@@ -99,7 +99,7 @@
             "monsters/Flying eye/5_1_1.png",
             "monsters/Flying eye/6_1_1.png"
         ],
-        "hp": 7,
+        "hp": 30,
         "speed_run": 30,
         "weapon_x": 16,
         "weapon_y": 16,
@@ -123,12 +123,12 @@
         "texture_path": [
             "monsters/axe-monster/animation_1_7.png"
         ],
-        "hp": 7,
-        "speed_run": 30,
+        "hp": 70,
+        "speed_run": 20,
         "weapon_x": 16,
         "weapon_y": 16,
         "die_texture_path": [
-            "monsters/Flying eye/dying_1_8.png"
+            "monsters/axe-monster/dying_1_4.png"
         ],
         "attack_texture_path": [
             "monsters/axe-monster/attack/1_1_1.png",
@@ -153,8 +153,8 @@
         "texture_path": [
             "monsters/ghoul/animation_1_8.png"
         ],
-        "hp": 7,
-        "speed_run": 30,
+        "hp": 35,
+        "speed_run": 50,
         "weapon_x": 16,
         "weapon_y": 16,
         "die_texture_path": [
@@ -172,8 +172,8 @@
         "texture_path": [
             "monsters/golem/animation_1_11.png"
         ],
-        "hp": 7,
-        "speed_run": 30,
+        "hp": 65,
+        "speed_run": 15,
         "weapon_x": 16,
         "weapon_y": 16,
         "die_texture_path": [
@@ -194,7 +194,7 @@
             "monsters/Daco/3_1_1.png",
             "monsters/Daco/4_1_1.png"
         ],
-        "hp": 30,
+        "hp": 100,
         "speed_run": 30,
         "weapon_x": 32,
         "weapon_y": 32,
@@ -218,12 +218,29 @@
         "texture_path": [
             "monsters/flame-demon/animation_1_10.png"
         ],
-        "hp": 30,
-        "speed_run": 30,
+        "hp": 150,
+        "speed_run": 20,
         "weapon_x": 32,
         "weapon_y": 32,
         "die_texture_path": [
-            "monsters/Daco/dying_1_8.png"
+            "monsters/flame-demon/dying/demon_death_1.png",
+            "monsters/flame-demon/dying/demon_death_2.png",
+            "monsters/flame-demon/dying/demon_death_3.png",
+            "monsters/flame-demon/dying/demon_death_4.png",
+            "monsters/flame-demon/dying/demon_death_5.png",
+            "monsters/flame-demon/dying/demon_death_6.png",
+            "monsters/flame-demon/dying/demon_death_7.png",
+            "monsters/flame-demon/dying/demon_death_8.png",
+            "monsters/flame-demon/dying/demon_death_9.png",
+            "monsters/flame-demon/dying/demon_death_10.png",
+            "monsters/flame-demon/dying/demon_death_11.png",
+            "monsters/flame-demon/dying/demon_death_12.png",
+            "monsters/flame-demon/dying/demon_death_13.png",
+            "monsters/flame-demon/dying/demon_death_14.png",
+            "monsters/flame-demon/dying/demon_death_15.png",
+            "monsters/flame-demon/dying/demon_death_16.png",
+            "monsters/flame-demon/dying/demon_death_17.png",
+            "monsters/flame-demon/dying/demon_death_18.png"
         ],
         "attack_texture_path": [
             "monsters/flame-demon/attack/demon_cleave_1_1_1.png",
