@@ -43,7 +43,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private int maxHP = -1, maxMana = -1, maxArmor = -1;
 
     class CharacterImageContainer {
-        private float x, y, width, height, heightImg, padding = 1;
+        private float x, y, width, height, heightImg, border = 1;
         private Texture texture;
         private TextItem textItem;
         private boolean hover = false;
@@ -70,7 +70,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
             if (hover) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setColor(Color.WHITE);
-                shapeRenderer.rect(x - padding, y - padding, width + padding * 2, height + padding * 2);
+                shapeRenderer.rect(x - border, y - border, width + border * 2, height + border * 2);
                 shapeRenderer.setColor(Color.BLACK);
                 shapeRenderer.rect(x, y, width, height);
                 shapeRenderer.end();
@@ -106,14 +106,21 @@ public class SelectCharacterScreen extends ScreenAdapter {
         background = new Texture("black_back.png");
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
-
-        float startX = 200, startY = 250, width = 250, height = 400, imgHeightRatio = 0.85f;
-        float gap = (Gdx.graphics.getWidth() - startX * 2 - width * 3) / 2;
+        
+        float startXRatio = 0.1f, startYRatio = 0.3f, widthRatio = 0.2f, heightRatio = 0.55f, imgHeightRatio = 0.85f;
+        float gapRatio = (1 - startXRatio * 2 - widthRatio * 3) / 2;
         int i = 0;
         for (String key : charactersInfo.keySet()) {
             TextItem textItem = createTextItem(key.substring(0, 1).toUpperCase() + key.substring(1));
             String idlePath = charactersInfo.get(key).get("idle_texture_path").getAsString();
-            characterImageContainers.add(new CharacterImageContainer(idlePath, startX + (gap + width)*(i++), startY, width, height, imgHeightRatio, textItem));
+            characterImageContainers.add(new CharacterImageContainer(idlePath,
+                    (startXRatio + (gapRatio + widthRatio)*(i++)) * Gdx.graphics.getWidth(),
+                    startYRatio * Gdx.graphics.getHeight(),
+                    widthRatio * Gdx.graphics.getWidth(),
+                    heightRatio * Gdx.graphics.getHeight(),
+                    imgHeightRatio,
+                    textItem
+            ));
         }
     }
     private void loadHeroInfo() {
