@@ -70,7 +70,7 @@ public class Gun extends Weapon {
         super();
     }
 
-    protected void shot(Vector2 direction) {
+    public void shot(Vector2 direction) {
         if (owner instanceof SimpleCharacter && this.shootSound != null) {
             if (this.shootSound.isPlaying()) {
                 this.shootSound.stop();

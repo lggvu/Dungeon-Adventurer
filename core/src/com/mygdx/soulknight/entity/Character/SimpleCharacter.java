@@ -250,6 +250,14 @@ public abstract class SimpleCharacter {
         return getMoveRectangle(getX(), getY());
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
     public Rectangle getMoveRectangle(float x, float y) {
         return new Rectangle(x, y, maxWidth, maxHeight / 2);
     }
