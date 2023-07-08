@@ -9,7 +9,6 @@ public class Poison extends CharacterEffect {
     private final static TextureRegion TEXTURE_REGION = new TextureRegion(new Texture("effect/character_effect/Poison .png"));
     private float timeLeft = 3f;
     private float timeEffectAgain = 1f;
-    private float timeCount = 0.4f;
     private int damage = 1;
     @Override
     public void update(float deltaTime, SimpleCharacter affectedCharacter) {

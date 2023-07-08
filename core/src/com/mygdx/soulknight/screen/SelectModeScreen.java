@@ -36,6 +36,7 @@ public class SelectModeScreen extends ScreenAdapter {
 
         Level[] levels = Level.class.getEnumConstants();
 
+        float width = Gdx.graphics.getWidth() * 0.25f, padding = Gdx.graphics.getHeight() * 0.025f;
         for (Level level : levels) {
             TextButton button = new TextButton(level.name(), Settings.skin);
             final Level gameLevel = level;
@@ -46,7 +47,7 @@ public class SelectModeScreen extends ScreenAdapter {
                     dispose();
                 }
             });
-            table.add(button).width(200).pad(20);
+            table.add(button).width(width).pad(padding);
             table.row();
         }
 

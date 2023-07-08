@@ -36,7 +36,7 @@
         ],
         "special_gun": "Special Gun",
         "description": "Immortal in 1s",
-        "idle_texture_path": "dark_menu.png"
+        "idle_texture_path": "character/adventurer/animation/1_1_1.png"
     },
     "jungler": {
         "type": "hero",
@@ -60,7 +60,7 @@
             "Gun Red S"
         ],
         "description": "Immortal in 1s",
-        "idle_texture_path": "dark_menu.png"
+        "idle_texture_path": "character/jungler/idle.png"
     },
     "assassin": {
         "type": "hero",
@@ -87,7 +87,7 @@
             "Sword 1"
         ],
         "description": "Immortal in 1s",
-        "idle_texture_path": "dark_menu.png"
+        "idle_texture_path": "character/assassin/idle.png"
     },
     "monster_1": {
         "type": "monster",

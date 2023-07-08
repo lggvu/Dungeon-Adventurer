@@ -127,7 +127,6 @@ public abstract class SimpleCharacter {
         for (Weapon weapon : weapons) {
             weapon.setDrawWeapon(false);
         }
-
     }
 
     public void addEffect(CharacterEffect effect) {
@@ -137,6 +136,7 @@ public abstract class SimpleCharacter {
         for (CharacterEffect effect1 : effectArrayList) {
             if (effect1.getClass().getName().equals(effect.getClass().getName())) {
                 effectArrayList.remove(effect1);
+                effect.setTimeCount(effect1.getTimeCount());
                 break;
             }
         }

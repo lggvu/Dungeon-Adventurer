@@ -45,9 +45,9 @@ public class SelectAbilityScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        float size = 200;
+        float size = Gdx.graphics.getHeight() / 4f;
         float marginY = (Gdx.graphics.getHeight() - size) / 2;
-        float marginX = 200;
+        float marginX = Gdx.graphics.getWidth() / 6f;
         float spaceBetween = (Gdx.graphics.getWidth() - marginX * 2 - size * abilityEnums.size()) / (abilityEnums.size() - 1);
 
         batch.begin();

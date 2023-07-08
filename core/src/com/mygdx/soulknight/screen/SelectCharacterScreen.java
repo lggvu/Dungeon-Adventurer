@@ -43,10 +43,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private int maxHP = -1, maxMana = -1, maxArmor = -1;
 
     class CharacterImageContainer {
-        private float x, y, width, height, heightImg, padding = 1;
+        private float x, y, width, height, textureWidth, textureHeight, heightImg, border = 1;
         private Texture texture;
         private TextItem textItem;
         private boolean hover = false;
+        private Texture background = new Texture("dark_menu.png");
 
         public CharacterImageContainer(String texturePath, float x, float y, float width, float height, float imgHeightRatio, TextItem textItem) {
             this.x = x;
@@ -59,6 +60,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
             GlyphLayout layout = textItem.getLayout();
             float yPos = y + (height - heightImg + layout.height) / 2;
             this.textItem.setPosition(new Vector2(x + (width - layout.width) / 2, yPos));
+
+            float padding = heightImg * 0.05f, rectWidth = width - padding * 2, rectHeight = heightImg - padding;
+            float ratio = rectWidth / texture.getWidth() < rectHeight / texture.getHeight() ? rectWidth / texture.getWidth() : rectHeight / texture.getHeight();
+            textureWidth = texture.getWidth() * ratio;
+            textureHeight = texture.getHeight() * ratio;
         }
 
         public void setHover(boolean hover) {
@@ -70,14 +76,15 @@ public class SelectCharacterScreen extends ScreenAdapter {
             if (hover) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setColor(Color.WHITE);
-                shapeRenderer.rect(x - padding, y - padding, width + padding * 2, height + padding * 2);
+                shapeRenderer.rect(x - border, y - border, width + border * 2, height + border * 2);
                 shapeRenderer.setColor(Color.BLACK);
                 shapeRenderer.rect(x, y, width, height);
                 shapeRenderer.end();
             }
             batch.begin();
             textItem.draw(batch);
-            batch.draw(texture, x, y + height - heightImg, width, heightImg);
+            batch.draw(background, x, y + height - heightImg, width, heightImg);
+            batch.draw(texture, x + (width - textureWidth) / 2, y + height - heightImg, textureWidth, textureHeight);
             batch.end();
         }
 
@@ -107,13 +114,20 @@ public class SelectCharacterScreen extends ScreenAdapter {
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
 
-        float startX = 200, startY = 250, width = 250, height = 400, imgHeightRatio = 0.85f;
-        float gap = (Gdx.graphics.getWidth() - startX * 2 - width * 3) / 2;
+        float startXRatio = 0.1f, startYRatio = 0.3f, widthRatio = 0.2f, heightRatio = 0.55f, imgHeightRatio = 0.85f;
+        float gapRatio = (1 - startXRatio * 2 - widthRatio * 3) / 2;
         int i = 0;
         for (String key : charactersInfo.keySet()) {
             TextItem textItem = createTextItem(key.substring(0, 1).toUpperCase() + key.substring(1));
             String idlePath = charactersInfo.get(key).get("idle_texture_path").getAsString();
-            characterImageContainers.add(new CharacterImageContainer(idlePath, startX + (gap + width)*(i++), startY, width, height, imgHeightRatio, textItem));
+            characterImageContainers.add(new CharacterImageContainer(idlePath,
+                    (startXRatio + (gapRatio + widthRatio)*(i++)) * Gdx.graphics.getWidth(),
+                    startYRatio * Gdx.graphics.getHeight(),
+                    widthRatio * Gdx.graphics.getWidth(),
+                    heightRatio * Gdx.graphics.getHeight(),
+                    imgHeightRatio,
+                    textItem
+            ));
         }
     }
     private void loadHeroInfo() {
