@@ -2,6 +2,7 @@ package com.mygdx.soulknight.entity.Weapon;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,7 +31,7 @@ public class Kunai {
 
 
     protected SimpleCharacter owner;
-    private Texture bulletTexture = new Texture("bullet/kunai.png");
+    private TextureRegion bulletTexture = new TextureRegion(new Texture("weapon/kunai.png"));
     private float speed =50f;
     public boolean isFlying=false;
     public Kunai(){}
@@ -63,7 +64,9 @@ public class Kunai {
         }
     }
     public void draw(SpriteBatch batch){
-        batch.draw(bulletTexture, this.x,this.y, 20,20);
+        float height = 17, width = bulletTexture.getTexture().getWidth() * height / bulletTexture.getTexture().getHeight();
+        float degree = direction.angleDeg(new Vector2(1, 0));
+        batch.draw(bulletTexture, this.x,this.y, width/2,height/2, width, height,1,1 , degree);
     }
 
 

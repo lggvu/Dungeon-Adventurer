@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.JsonObject;
+import com.mygdx.soulknight.Settings;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Skill;
 import com.mygdx.soulknight.entity.Weapon.Kunai;
@@ -14,8 +15,7 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
 public class Assassin extends Player {
-
-
+    private float timeFromThrow = 0;
     private Texture kunaiTexture = new Texture("bullet/kunai.png");
     private Kunai kunai;
     public Assassin() {
@@ -31,8 +31,8 @@ public class Assassin extends Player {
             @Override
             public void activateSkill() {
                 super.activateSkill();
+                timeFromThrow = 0;
                 kunai.shot(getLastMoveDirection());
-
             }
             @Override
             public void deactivateSkill(){
@@ -48,11 +48,12 @@ public class Assassin extends Player {
 
         if (specialSkill.isInProgresss()) {
             kunai.update(deltaTime,getMap());
-            if (Gdx.input.isKeyPressed(Input.Keys.O)) {
+            if (Gdx.input.isKeyPressed(Settings.getKeyCode(Settings.GameButton.SPECIAL_SKILL)) && timeFromThrow > 0.3f) {
                 setX(kunai.getX());
                 setY(kunai.getY());
-                specialSkill.deactivateSkill();
+                specialSkill.stopImplement();
             }
+            timeFromThrow += deltaTime;
         }
     }
     @Override
