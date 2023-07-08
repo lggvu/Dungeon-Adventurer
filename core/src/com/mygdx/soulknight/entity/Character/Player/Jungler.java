@@ -1,5 +1,7 @@
 package com.mygdx.soulknight.entity.Character.Player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,24 +31,18 @@ public class Jungler extends Player {
         JsonObject source = super.load();
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
         kunai = new Kunai();
-        kunai.setMap(map);
         kunai.setOwner(this);
-//        kunai.setDrawW
-        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
+        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 2f) {
             @Override
             public void activateSkill() {
                 super.activateSkill();
-                System.out.println("SIUUU");
-                if (!kunai.isFlying) {
-                    kunai.shot(getLastMoveDirection());
-                    kunai.isFlying=true;
+                kunai.shot(getLastMoveDirection());
 
-
-                } else {
-                    setX(kunai.getX());
-                    setY(kunai.getY());
-                    kunai.isFlying = false;
-                }
+            }
+            @Override
+            public void deactivateSkill(){
+                super.deactivateSkill();
+                kunai.isFlying=false;
             }
         };
         return source;
@@ -54,13 +50,22 @@ public class Jungler extends Player {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        kunai.update(deltaTime);
 
+        if (specialSkill.isInProgresss()) {
+            kunai.update(deltaTime,getMap());
+            if (Gdx.input.isKeyPressed(Input.Keys.O)) {
+                setX(kunai.getX());
+                setY(kunai.getY());
+                specialSkill.deactivateSkill();
+            }
+        }
     }
     @Override
     public void draw(SpriteBatch batch) {
 
         super.draw(batch);
-        kunai.draw(batch);
+        if (specialSkill.isInProgresss()) {
+            kunai.draw(batch);
+        }
     }
 }
