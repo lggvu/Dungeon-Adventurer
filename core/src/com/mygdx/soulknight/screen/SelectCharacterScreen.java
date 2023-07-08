@@ -43,10 +43,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private int maxHP = -1, maxMana = -1, maxArmor = -1;
 
     class CharacterImageContainer {
-        private float x, y, width, height, heightImg, border = 1;
+        private float x, y, width, height, textureWidth, textureHeight, heightImg, border = 1;
         private Texture texture;
         private TextItem textItem;
         private boolean hover = false;
+        private Texture background = new Texture("dark_menu.png");
 
         public CharacterImageContainer(String texturePath, float x, float y, float width, float height, float imgHeightRatio, TextItem textItem) {
             this.x = x;
@@ -59,6 +60,11 @@ public class SelectCharacterScreen extends ScreenAdapter {
             GlyphLayout layout = textItem.getLayout();
             float yPos = y + (height - heightImg + layout.height) / 2;
             this.textItem.setPosition(new Vector2(x + (width - layout.width) / 2, yPos));
+
+            float padding = heightImg * 0.05f, rectWidth = width - padding * 2, rectHeight = heightImg - padding;
+            float ratio = rectWidth / texture.getWidth() < rectHeight / texture.getHeight() ? rectWidth / texture.getWidth() : rectHeight / texture.getHeight();
+            textureWidth = texture.getWidth() * ratio;
+            textureHeight = texture.getHeight() * ratio;
         }
 
         public void setHover(boolean hover) {
@@ -77,7 +83,8 @@ public class SelectCharacterScreen extends ScreenAdapter {
             }
             batch.begin();
             textItem.draw(batch);
-            batch.draw(texture, x, y + height - heightImg, width, heightImg);
+            batch.draw(background, x, y + height - heightImg, width, heightImg);
+            batch.draw(texture, x + (width - textureWidth) / 2, y + height - heightImg, textureWidth, textureHeight);
             batch.end();
         }
 
@@ -106,7 +113,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         background = new Texture("black_back.png");
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
-        
+
         float startXRatio = 0.1f, startYRatio = 0.3f, widthRatio = 0.2f, heightRatio = 0.55f, imgHeightRatio = 0.85f;
         float gapRatio = (1 - startXRatio * 2 - widthRatio * 3) / 2;
         int i = 0;
