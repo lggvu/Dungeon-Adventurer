@@ -211,7 +211,7 @@ public abstract class Player extends SimpleCharacter {
                 moveDirection = moveDirection.add(0, -1);
             }
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            if (Gdx.input.isKeyJustPressed(Settings.getKeyCode(Settings.GameButton.SWITCH_WEAPON))) {
                 switchWeapon();
             }
 

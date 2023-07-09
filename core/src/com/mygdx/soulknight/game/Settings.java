@@ -19,7 +19,8 @@ public class Settings {
 
 	public enum GameButton {
 		DODGE,
-		SPECIAL_SKILL
+		SPECIAL_SKILL,
+		SWITCH_WEAPON
 	}
 
 	private final static String SETTING_PATH = "assets/info/settings.json";
@@ -41,6 +42,7 @@ public class Settings {
 			soundVolume = json.get("SOUND_VOLUME").getAsFloat();
 			keyboardSetting.put(GameButton.DODGE, json.get("DODGE_KEY_CODE").getAsInt());
 			keyboardSetting.put(GameButton.SPECIAL_SKILL, json.get("SPEC_KEY_CODE").getAsInt());
+			keyboardSetting.put(GameButton.SWITCH_WEAPON, json.get("SWITCH_WEAPON").getAsInt());
 			music.setVolume(json.get("MUSIC_VOLUME").getAsFloat());
 			addSound(explosionSound);
 		} catch (Exception e) {
@@ -55,6 +57,7 @@ public class Settings {
 		jsonObject.add("FPS", new JsonPrimitive(fps));
 		jsonObject.add("SPEC_KEY_CODE", new JsonPrimitive(keyboardSetting.get(GameButton.SPECIAL_SKILL)));
 		jsonObject.add("DODGE_KEY_CODE", new JsonPrimitive(keyboardSetting.get(GameButton.DODGE)));
+		jsonObject.addProperty("SWITCH_WEAPON", keyboardSetting.get(GameButton.SWITCH_WEAPON));
 		jsonObject.add("MUSIC_VOLUME", new JsonPrimitive(music.getVolume()));
 		jsonObject.add("SOUND_VOLUME", new JsonPrimitive(soundVolume));
 		String json = gson.toJson(jsonObject);
@@ -69,6 +72,11 @@ public class Settings {
 	public static void updateSpecKeyCode(int keyCode) {
 		keyboardSetting.remove(GameButton.SPECIAL_SKILL);
 		keyboardSetting.put(GameButton.SPECIAL_SKILL, keyCode);
+	}
+
+	public static void updateSwitchKeyCode(int keyCode) {
+		keyboardSetting.remove(GameButton.SWITCH_WEAPON);
+		keyboardSetting.put(GameButton.SWITCH_WEAPON, keyCode);
 	}
 
 	public static int getKeyCode(GameButton btn) {

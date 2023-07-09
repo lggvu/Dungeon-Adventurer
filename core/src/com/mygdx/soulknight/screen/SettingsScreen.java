@@ -139,6 +139,23 @@ public class SettingsScreen implements Screen {
         fieldSpec.setMaxLength(1);
         table.add(fieldSpec).row();
 
+        final Label switchBtn = new Label("Switch Weapon Button:", skin);
+        table.add(switchBtn).left().padRight(10);
+        final TextField fieldSwitch = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.SWITCH_WEAPON)), textFieldStyle);
+        fieldSwitch.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                String key = Input.Keys.toString(keycode);
+                if (key.length() == 1) {
+                    fieldSwitch.setText(key.toUpperCase());
+                    Settings.updateSwitchKeyCode(keycode);
+                }
+                return false;
+            }
+        });
+        fieldSwitch.setMaxLength(1);
+        table.add(fieldSwitch).row();
+
         // Add a button to go back to the main menu
         Button okButton = new TextButton("OK", skin);
         okButton.addListener(new ClickListener() {
