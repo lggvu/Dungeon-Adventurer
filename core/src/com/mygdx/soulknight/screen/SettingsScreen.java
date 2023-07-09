@@ -39,7 +39,7 @@ public class SettingsScreen implements Screen {
         final CheckBox fpsCheckbox60 = new CheckBox("60", skin);
         
         Label fpsLabel = new Label("FPS:", skin);
-        table.add(fpsLabel).left().padRight(10);
+        table.add(fpsLabel).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
 
         fpsCheckbox30.setChecked(Settings.fps == 30);
         fpsCheckbox60.setChecked(Settings.fps == 60);
@@ -72,14 +72,14 @@ public class SettingsScreen implements Screen {
         fpsCheckbox60.addListener(checkboxListener);
 
         // Add checkboxes to the table
-        table.add(fpsCheckbox30).left().padRight(10);
-        table.add(fpsCheckbox60).left().padRight(10);
+        table.add(fpsCheckbox30).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
+        table.add(fpsCheckbox60).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
         table.row();
 
         
 
         Label musicLabel = new Label("Music Volume:", skin);
-        table.add(musicLabel).left().padRight(10);
+        table.add(musicLabel).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
 
         final Slider musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, skin);
         musicVolumeSlider.setValue(Settings.music.getVolume());
@@ -92,7 +92,7 @@ public class SettingsScreen implements Screen {
         table.add(musicVolumeSlider).width(200).padBottom(10).row();
 
         Label soundLabel = new Label("Sound Volume:", skin);
-        table.add(soundLabel).left().padRight(10);
+        table.add(soundLabel).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
 
         final Slider soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, skin);
         soundVolumeSlider.setValue(Settings.soundVolume);
@@ -105,7 +105,7 @@ public class SettingsScreen implements Screen {
         table.add(soundVolumeSlider).width(200).padBottom(10).row();
 
         final Label dodgeBtn = new Label("Dodge Button:", skin);
-        table.add(dodgeBtn).left().padRight(10);
+        table.add(dodgeBtn).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
         TextField.TextFieldStyle textFieldStyle = skin.get(TextField.TextFieldStyle.class);
         final TextField field = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.DODGE)), textFieldStyle);
         field.addListener(new InputListener() {
@@ -123,7 +123,7 @@ public class SettingsScreen implements Screen {
         table.add(field).row();
 
         final Label specialBtn = new Label("Special Skill Button:", skin);
-        table.add(specialBtn).left().padRight(10);
+        table.add(specialBtn).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
         final TextField fieldSpec = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.SPECIAL_SKILL)), textFieldStyle);
         fieldSpec.addListener(new InputListener() {
             @Override
@@ -140,7 +140,7 @@ public class SettingsScreen implements Screen {
         table.add(fieldSpec).row();
 
         final Label switchBtn = new Label("Switch Weapon Button:", skin);
-        table.add(switchBtn).left().padRight(10);
+        table.add(switchBtn).left().padRight(vw(0.01f)).padBottom(vh(0.015f));
         final TextField fieldSwitch = new TextField(Input.Keys.toString(Settings.getKeyCode(Settings.GameButton.SWITCH_WEAPON)), textFieldStyle);
         fieldSwitch.addListener(new InputListener() {
             @Override
@@ -176,6 +176,12 @@ public class SettingsScreen implements Screen {
         stage.addActor(table);
     }
 
+    public float vw(float x) {
+        return Gdx.graphics.getWidth() * x;
+    }
+    public float vh(float y) {
+        return Gdx.graphics.getHeight() * y;
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);

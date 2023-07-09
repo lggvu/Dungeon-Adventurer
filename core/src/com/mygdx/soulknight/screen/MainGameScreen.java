@@ -157,11 +157,15 @@ public class MainGameScreen extends ScreenAdapter {
         Skin skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
         TextButton btn = new TextButton("Continue", skin);
         btn.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LeaderBoardScreen(game, level, currentTimeCount));
-                clickEndBtn = true;
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (player.isAlive()) {
+                    game.setScreen(new LeaderBoardScreen(game, level, currentTimeCount));
+                } else {
+                    game.setScreen(new MenuScreen(game));
                 }
+                clickEndBtn = true;
+            }
             }
         );
 
