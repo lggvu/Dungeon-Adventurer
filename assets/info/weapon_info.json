@@ -65,7 +65,7 @@
         "type": "Gun",
         "gun_texture": "weapon/red-gun-S.png",
         "bullet_texture": "bullet-effects/Shot4/shot4-bullet.png",
-        "explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
+        "explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
         "sound_effect": "sound-effect/pistol-shoot.mp3",
         "properties": {
             "damage": 3,
@@ -86,7 +86,7 @@
             ],
             "bullet_rotation_speed": 0
         },
-        "shot_explosion_texture": "bullet-effects/Shot4/shot4-sheet_1_10.png",
+        "shot_explosion_texture": "bullet-effects/Shot4/shot4-explosion-start-sheet_1_5.png",
         "width": 14,
         "height": 10,
         "origin_x": 1,

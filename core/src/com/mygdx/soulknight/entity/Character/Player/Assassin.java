@@ -25,7 +25,7 @@ public class Assassin extends Player {
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
         kunai = new Kunai();
         kunai.setOwner(this);
-        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 2f) {
+        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 5f) {
             @Override
             public void activateSkill() {
                 super.activateSkill();
