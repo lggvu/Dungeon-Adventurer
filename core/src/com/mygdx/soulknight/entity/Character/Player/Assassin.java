@@ -79,7 +79,7 @@ public class Assassin extends Player {
             }
         }
         public void draw(SpriteBatch batch){
-            float height = 17, width = kunaiTexture.getTexture().getWidth() * height / kunaiTexture.getTexture().getHeight();
+            float height = 10, width = kunaiTexture.getTexture().getWidth() * height / kunaiTexture.getTexture().getHeight();
             if (direction.x != 0 || direction.y != 0) {
                 degree = direction.angleDeg(new Vector2(1, 0));
             }

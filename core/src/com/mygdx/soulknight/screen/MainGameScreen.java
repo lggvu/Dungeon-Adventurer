@@ -72,15 +72,13 @@ public class MainGameScreen extends ScreenAdapter {
     }
 
     public void loadNextMap() {
-        boolean save = false;
         if (map != null) {
-            save = true;
             map.dispose();
         }
         map = new WorldMap(mapLeft.get(0), player, level);
         minimap = new Minimap(map.getTiledMap(), player);
         mapLeft.remove(0);
-        if (save) {saveStateDict();}
+        saveStateDict();
         player.setMap(map);
     }
 
