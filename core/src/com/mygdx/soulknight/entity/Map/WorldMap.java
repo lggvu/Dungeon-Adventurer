@@ -92,50 +92,52 @@ public class WorldMap {
             rooms.add(new Room(groupLayer, this, level));
         }
 
-        Weapon weapon = Weapon.load("Gun Venom S");
-        weapon.setPosition(140, 255);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+        if (tmxPath.equals("assets/map/map/map2.1.tmx")) {
+            Weapon weapon = Weapon.load("Gun Venom S");
+            weapon.setPosition(40, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Venom M");
-        weapon.setPosition(150, 450);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Venom M");
+            weapon.setPosition(60, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Venom L");
-        weapon.setPosition(160, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Venom L");
+            weapon.setPosition(80, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Red S");
-        weapon.setPosition(170, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Red S");
+            weapon.setPosition(100, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Red M");
-        weapon.setPosition(80, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Red M");
+            weapon.setPosition(120, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Red L");
-        weapon.setPosition(90, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Red L");
+            weapon.setPosition(140, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Gun Red XL");
-        weapon.setPosition(490, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Gun Red XL");
+            weapon.setPosition(160, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Shot Gun Base");
-        weapon.setPosition(390, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Shot Gun Base");
+            weapon.setPosition(180, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
 
-        weapon = Weapon.load("Shot Gun Pro");
-        weapon.setPosition(290, 350);
-        weapon.setOnGround(true);
-        itemsOnGround.add(weapon);
+            weapon = Weapon.load("Shot Gun Pro");
+            weapon.setPosition(200, 50);
+            weapon.setOnGround(true);
+            itemsOnGround.add(weapon);
+        }
     }
 
     public void addDamageNumber(int damage, DamageType damageType, boolean isCrit, float x, float y) {

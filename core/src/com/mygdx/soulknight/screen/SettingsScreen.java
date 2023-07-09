@@ -10,19 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.game.Settings;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 
 public class SettingsScreen implements Screen {
     private Stage stage;
-    private SoulKnight game;
+    private DungeonAdventurer game;
     private Skin skin;
     private MainGameScreen gameScreen = null;
-    public SettingsScreen(SoulKnight game, MainGameScreen gameScreen) {
+    public SettingsScreen(DungeonAdventurer game, MainGameScreen gameScreen) {
         this.game = game;
         this.gameScreen = gameScreen;
         skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
     }
-    public SettingsScreen(SoulKnight game){
+    public SettingsScreen(DungeonAdventurer game){
         this.game = game;
         skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));
     }

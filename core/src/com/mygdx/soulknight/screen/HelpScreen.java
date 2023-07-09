@@ -12,16 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.game.Settings;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import com.mygdx.soulknight.util.TextWrapper;
 
 public class HelpScreen extends ScreenAdapter {
-    private SoulKnight game;
+    private DungeonAdventurer game;
     private TextWrapper textWrapper;
     private SpriteBatch batch = new SpriteBatch();
     private Stage stage;
     private String text;
-    public HelpScreen(SoulKnight game) {
+    public HelpScreen(DungeonAdventurer game) {
         this.game = game;
         FileHandle fileHandle = Gdx.files.internal("info/help.txt");
         if (fileHandle.exists()) {

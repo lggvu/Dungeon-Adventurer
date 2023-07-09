@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.game.Level;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import com.mygdx.soulknight.entity.Character.Player.Adventurer;
 import com.mygdx.soulknight.entity.Character.Player.Assassin;
 import com.mygdx.soulknight.entity.Character.Player.Jungler;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class SelectCharacterScreen extends ScreenAdapter {
-    private final SoulKnight game;
+    private final DungeonAdventurer game;
     private Texture background;
     private TextItem playText;
     private Level level;
@@ -93,7 +93,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         }
     }
 
-    public SelectCharacterScreen(SoulKnight game, Level level) {
+    public SelectCharacterScreen(DungeonAdventurer game, Level level) {
         this.level = level;
         this.game = game;
 

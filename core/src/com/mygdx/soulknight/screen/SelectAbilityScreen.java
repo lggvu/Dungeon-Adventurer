@@ -9,20 +9,20 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import com.mygdx.soulknight.ability.Ability;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import java.util.ArrayList;
 
 public class SelectAbilityScreen extends ScreenAdapter {
     private Texture background = new Texture("select-character.png");
-    private SoulKnight game;
+    private DungeonAdventurer game;
     private ArrayList<Ability.AbilityEnum> abilityEnums = new ArrayList<>();
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private BitmapFont font = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
     private MainGameScreen mainGameScreen;
-    public SelectAbilityScreen(SoulKnight game, MainGameScreen screen) {
+    public SelectAbilityScreen(DungeonAdventurer game, MainGameScreen screen) {
         this.game = game;
         mainGameScreen = screen;
         Ability.AbilityEnum[] enums = Ability.AbilityEnum.class.getEnumConstants();

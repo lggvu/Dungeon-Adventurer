@@ -20,7 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mygdx.soulknight.game.Level;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import com.mygdx.soulknight.util.TextItem;
 
 import java.io.Reader;
@@ -28,7 +28,7 @@ import java.util.*;
 
 public class LeaderBoardScreen extends ScreenAdapter {
     public final static String LEADERBOARD_SAVE_PATH = "assets/info/leader_board.json";
-    private final SoulKnight game;
+    private final DungeonAdventurer game;
     private BitmapFont headingFont, normalFont;
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -42,7 +42,7 @@ public class LeaderBoardScreen extends ScreenAdapter {
     private Label.LabelStyle labelStyle;
     private Table table;
 
-    public LeaderBoardScreen(SoulKnight game, Level level, float currentTime) {
+    public LeaderBoardScreen(DungeonAdventurer game, Level level, float currentTime) {
         System.out.println("Time finish: " + currentTime);
         selectedLevel = level;
         this.game = game;
@@ -72,7 +72,7 @@ public class LeaderBoardScreen extends ScreenAdapter {
         labelStyle.font.getData().setScale(0.7f);
     }
 
-    public LeaderBoardScreen(SoulKnight game) {
+    public LeaderBoardScreen(DungeonAdventurer game) {
         this(game, Level.EASY, -1);
     }
 

@@ -11,15 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 
 public class PauseGameScreen implements Screen {
     private Stage stage;
-    private SoulKnight game;
+    private DungeonAdventurer game;
     private Skin skin;
     private MainGameScreen gameScreen;
 
-    public PauseGameScreen(SoulKnight game, MainGameScreen gameScreen) {
+    public PauseGameScreen(DungeonAdventurer game, MainGameScreen gameScreen) {
         this.game = game;
         this.gameScreen = gameScreen;
         skin = new Skin(Gdx.files.internal("button/freezing-ui.json"));

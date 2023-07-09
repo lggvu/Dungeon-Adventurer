@@ -13,14 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.game.Level;
 import com.mygdx.soulknight.game.Settings;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 
 public class SelectModeScreen extends ScreenAdapter {
     SpriteBatch batch;
     Stage stage;
-    SoulKnight game;
+    DungeonAdventurer game;
     Texture background;
-    public SelectModeScreen(SoulKnight game) {
+    public SelectModeScreen(DungeonAdventurer game) {
         batch = new SpriteBatch();
         this.game = game;
         background = new Texture("dark_menu.png");

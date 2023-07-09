@@ -16,18 +16,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.soulknight.game.Settings;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import java.io.File;
 
 public class MenuScreen extends ScreenAdapter {
     SpriteBatch batch;
     Texture background;
-    SoulKnight game;
+    DungeonAdventurer game;
     private Stage stage;
     private boolean isExistStateDict = false;
 
 
-    public MenuScreen(SoulKnight game) {
+    public MenuScreen(DungeonAdventurer game) {
         File file = new File(Settings.STATE_DICT_PATH);
         isExistStateDict = file.exists();
         this.game = game;
@@ -107,7 +107,7 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table();
         table.setFillParent(true);
 
-        float width = Gdx.graphics.getWidth() * 0.25f, padding = Gdx.graphics.getHeight() * 0.025f;
+        float width = Gdx.graphics.getWidth() * 0.25f, padding = Gdx.graphics.getHeight() * 0.015f;
         table.add(startGame).width(width).pad(padding);
         table.row();
         table.add(continueGame).width(width).pad(padding);

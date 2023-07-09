@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.*;
 import com.mygdx.soulknight.game.Level;
 import com.mygdx.soulknight.game.Settings;
-import com.mygdx.soulknight.game.SoulKnight;
+import com.mygdx.soulknight.game.DungeonAdventurer;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class MainGameScreen extends ScreenAdapter {
-    SoulKnight game;
+    DungeonAdventurer game;
     private SpriteBatch batch, batchHealth;
     private final static Animation<TextureRegion> WIN_GAME = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/win_game_1_24.png")));
     private final static Animation<TextureRegion> LOSE_GAME = new Animation<>(0.05f, SpriteLoader.to1DArray(SpriteLoader.splitTextureByFileName("end-game/lose_game_1_24.png")));
@@ -56,7 +56,7 @@ public class MainGameScreen extends ScreenAdapter {
     Minimap minimap;
     ArrayList<String> mapLeft = new ArrayList<>();
 
-    public MainGameScreen(SoulKnight game, Player player, Level level) {
+    public MainGameScreen(DungeonAdventurer game, Player player, Level level) {
         this.game = game;
         this.player = player;
         this.level = level;
@@ -82,7 +82,7 @@ public class MainGameScreen extends ScreenAdapter {
         player.setMap(map);
     }
 
-    public MainGameScreen(SoulKnight game) {
+    public MainGameScreen(DungeonAdventurer game) {
         this.game = game;
         try {
             Reader reader = Gdx.files.internal(Settings.STATE_DICT_PATH).reader();
