@@ -369,6 +369,9 @@ public abstract class SimpleCharacter {
         return maxHP + getAbility().getHpIncrease();
     }
 
+    protected int getDefaultMaxHP() {return maxHP;}
+    protected void setDefaultMaxHP(int hp) {maxHP = hp;}
+
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;

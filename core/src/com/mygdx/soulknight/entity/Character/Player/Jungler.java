@@ -10,7 +10,6 @@ import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextureInfo;
 
 public class Jungler extends Player {
-    private Animation<TextureInfo> immortalAnimation;
 
     public Jungler() {
         super("jungler", null);
@@ -19,33 +18,25 @@ public class Jungler extends Player {
     @Override
     public JsonObject load() {
         JsonObject source = super.load();
-        immortalAnimation = new Animation<>(0.15f, SpriteLoader.loadTextureInfo(source.get("immortal_texture_path").getAsJsonArray()));
         String textureSpecPath = source.get("cooldown_special_skill_texture_path").getAsString();
-        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 1f, 1f) {
+        specialSkill = new Skill(new TextureRegion(new Texture(textureSpecPath)), 3f, 5f) {
             @Override
             public void activateSkill() {
-                if (!getDodgeSkill().isInProgresss()) {
-                    super.activateSkill();
-                    Animation<TextureInfo> temp = animationMovement;
-                    animationMovement = immortalAnimation;
-                    immortalAnimation = temp;
-                }
+                super.activateSkill();
+                setDefaultMaxArmor(getDefaultMaxArmor() * 2);
+                setDefaultMaxHP(getDefaultMaxHP() * 2);
+                setCurrentArmor(getCurrentArmor() * 2);
+                setCurrentHP(getCurrentHP() * 2);
             }
             @Override
             public void deactivateSkill() {
                 super.deactivateSkill();
-                Animation<TextureInfo> temp = animationMovement;
-                animationMovement = immortalAnimation;
-                immortalAnimation = temp;
+                setDefaultMaxArmor(getDefaultMaxArmor() / 2);
+                setDefaultMaxHP(getDefaultMaxHP() / 2);
+                setCurrentArmor(getCurrentArmor() > getCurrentMaxArmor() ? getCurrentMaxArmor() : getCurrentArmor());
+                setCurrentHP(getCurrentHP() > getCurrentMaxHP() ? getCurrentMaxHP() : getCurrentHP());
             }
         };
         return source;
-    }
-
-    @Override
-    public void getHit(int damage, DamageType damageType, boolean isCrit) {
-        if (!specialSkill.isInProgresss()) {
-            super.getHit(damage, damageType, isCrit);
-        }
     }
 }
