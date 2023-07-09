@@ -97,6 +97,13 @@ public class MenuScreen extends ScreenAdapter {
                 dispose();
             }
         });
+        Button exitButton = new TextButton("Exit", Settings.skin);
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit(); // Exit the application
+            }
+        });
         Table table = new Table();
         table.setFillParent(true);
 
@@ -110,7 +117,8 @@ public class MenuScreen extends ScreenAdapter {
         table.add(settings).width(width).pad(padding);
         table.row();
         table.add(help).width(width).pad(padding);
-
+        table.row();
+        table.add(exitButton).width(width).pad(padding);
         stage.addActor(table);
     }
 
