@@ -109,7 +109,7 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 0,
+            "num_wall_collide": 1,
             "num_enemy_hit": 1,
             "effect": [
                 "STUN",
@@ -142,7 +142,7 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 0,
+            "num_wall_collide": 1,
             "num_enemy_hit": 1,
             "effect": [
                 "STUN",
@@ -237,7 +237,7 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 0,
+            "num_wall_collide": 1,
             "num_enemy_hit": 1,
             "effect": [
                 "POISON"
@@ -267,7 +267,7 @@
                 0, 15, -15, 7.5, -7.5
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 0,
+            "num_wall_collide": 1,
             "num_enemy_hit": 1,
             "effect": [
                 "POISON"
