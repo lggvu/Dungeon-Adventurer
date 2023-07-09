@@ -39,6 +39,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private Skin skin = new Skin();
     private int maxHP = -1, maxMana = -1, maxArmor = -1;
     private HashMap<String, TextWrapper> spec_skills_description = new HashMap<>();
+    private BitmapFont headingFont;
 
     class CharacterImageContainer {
         private float x, y, width, height, textureWidth, textureHeight, heightImg, border = 1;
@@ -114,11 +115,14 @@ public class SelectCharacterScreen extends ScreenAdapter {
             );
         }
 
-        background = new Texture("select-character.png");
+        background = new Texture("blank-background.png");
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
 
-        float startXRatio = 0.1f, startYRatio = 0.3f, widthRatio = 0.2f, heightRatio = 0.55f, imgHeightRatio = 0.85f;
+        headingFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
+        headingFont.getData().setScale(2);
+
+        float startXRatio = 0.12f, startYRatio = 0.3f, widthRatio = 0.18f, heightRatio = 0.5f, imgHeightRatio = 0.85f;
         float gapRatio = (1 - startXRatio * 2 - widthRatio * 3) / 2;
         int i = 0;
         for (String key : charactersInfo.keySet()) {
@@ -268,6 +272,8 @@ public class SelectCharacterScreen extends ScreenAdapter {
         }
         batch.begin();
         playText.draw(batch);
+        GlyphLayout layout = new GlyphLayout(headingFont, "SELECT CHARACTER");
+        headingFont.draw(batch, layout, (vw(1) - layout.width) / 2, vh(0.8f) + (vh(0.2f) + layout.height) / 2);
         batch.end();
     }
 
@@ -282,6 +288,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         background.dispose();
         batch.dispose();
         shapeRenderer.dispose();
+        headingFont.dispose();
         skin.dispose();
         for (CharacterImageContainer characterImageContainer : characterImageContainers) {
             characterImageContainer.dispose();

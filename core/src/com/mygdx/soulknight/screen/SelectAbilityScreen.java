@@ -15,14 +15,16 @@ import com.mygdx.soulknight.entity.Character.Player.Player;
 import java.util.ArrayList;
 
 public class SelectAbilityScreen extends ScreenAdapter {
-    private Texture background = new Texture("select-character.png");
+    private Texture background = new Texture("blank-background.png");
     private DungeonAdventurer game;
     private ArrayList<Ability.AbilityEnum> abilityEnums = new ArrayList<>();
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt"));
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("font/darker_gray.fnt")), headingFont;
     private MainGameScreen mainGameScreen;
     public SelectAbilityScreen(DungeonAdventurer game, MainGameScreen screen) {
+        headingFont = new BitmapFont(Gdx.files.internal("font/white.fnt"));
+        headingFont.getData().setScale(2);
         this.game = game;
         mainGameScreen = screen;
         Ability.AbilityEnum[] enums = Ability.AbilityEnum.class.getEnumConstants();
@@ -97,13 +99,23 @@ public class SelectAbilityScreen extends ScreenAdapter {
             return;
         }
 
+        batch.begin();
         if (hoverIndex >= 0) {
-            batch.begin();
             GlyphLayout layout = new GlyphLayout();
             layout.setText(font, getAbilityDescription(abilityEnums.get(hoverIndex)));
             font.draw(batch, layout,(Gdx.graphics.getWidth() - layout.width) / 2, (marginY + layout.height) / 2);
-            batch.end();
         }
+        GlyphLayout headingLayout = new GlyphLayout(headingFont, "SELECT ABILITY");
+        float temp = 0.625f;
+        headingFont.draw(batch, headingLayout, (vw(1) - headingLayout.width) / 2, vh(temp) + (vh(1 - temp) + headingLayout.height) / 2);
+        batch.end();
+    }
+
+    public float vw(float x) {
+        return Gdx.graphics.getWidth() * x;
+    }
+    public float vh(float y) {
+        return Gdx.graphics.getHeight() * y;
     }
 
     public String getAbilityDescription(Ability.AbilityEnum abilityEnum) {
@@ -138,5 +150,6 @@ public class SelectAbilityScreen extends ScreenAdapter {
         batch.dispose();
         shapeRenderer.dispose();
         font.dispose();
+        headingFont.dispose();
     }
 }
