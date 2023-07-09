@@ -35,7 +35,7 @@
             "Gun Red XL"
         ],
         "special_gun": "Special Gun",
-        "description": "Pyroshock Mastery: Unleashing a barrage of electrifying fireballs. \nThis character inflicts both fiery damage and stunning shocks upon their enemies.",
+        "description": "Pyroshock Mastery: Unleashing a barrage of electrifying fireballs.\nThis character inflicts both fiery damage and stunning shocks upon their enemies.",
         "idle_texture_path": "character/adventurer/animation/1_1_1.png"
     },
     "jungler": {
@@ -87,7 +87,7 @@
         "default_weapons": [
             "Sword 1"
         ],
-        "description": "Agile Shifter:  This character possesses the remarkable ability to instantaneously teleport\n To a new position, effortlessly evading any harm or danger in the process.",
+        "description": "Agile Shifter:  This character possesses the remarkable ability to instantaneously teleport\nTo a new position, effortlessly evading any harm or danger in the process.",
         "idle_texture_path": "character/assassin/idle.png"
     },
     "monster_1": {

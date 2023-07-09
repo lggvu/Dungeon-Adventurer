@@ -20,6 +20,7 @@ import com.mygdx.soulknight.entity.Character.Player.Assassin;
 import com.mygdx.soulknight.entity.Character.Player.Jungler;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.util.TextItem;
+import com.mygdx.soulknight.util.TextWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,16 +97,21 @@ public class SelectCharacterScreen extends ScreenAdapter {
 
         skin.add("heart_icon", new Texture("hud_bar/hp_icon.png"));
         skin.add("mana_icon", new Texture("hud_bar/mana_icon.png"));
-        skin.add("stamina_icon", new Texture("hud_bar/stamina_icon.png"));
         skin.add("left_right_border", new Texture("hud_bar/left_right_border.png"));
         skin.add("up_down_border", new Texture("hud_bar/up_down_border.png"));
         skin.add("armor_icon", new Texture("hud_bar/armor_icon.png"));
         skin.add("heart_icon_color", Color.RED);
         skin.add("mana_icon_color", Color.BLUE);
         skin.add("armor_icon_color", Color.GRAY);
-        skin.add("stamina_icon_color", Color.GRAY);
 
         loadHeroInfo();
+        for (String key : charactersInfo.keySet()) {
+            skin.add(
+            key + "_spec_texture",
+                new Texture(charactersInfo.get(key).get("cooldown_special_skill_texture_path").getAsString())
+            );
+        }
+
         background = new Texture("black_back.png");
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
@@ -212,30 +218,44 @@ public class SelectCharacterScreen extends ScreenAdapter {
 
         int showInfoIndex = hoverIndex >= 0 ? hoverIndex : (selectedIndex >= 0 ? selectedIndex : -1);
         if (showInfoIndex >= 0) {
-            JsonObject jsonObject = charactersInfo.get(characterImageContainers.get(showInfoIndex).textItem.getText().toLowerCase());
+
+            String key = characterImageContainers.get(showInfoIndex).textItem.getText().toLowerCase();
+            JsonObject jsonObject = charactersInfo.get(key);
 
             float maxWidthIcon = skin.get("heart_icon", Texture.class).getWidth();
             float barHeight = skin.get("left_right_border", Texture.class).getHeight();
-            float scale = 1.5f;
+            float barHR = 0.05f, gapWR = 0.01f, gapHR = 0.01f, offsetXR = 0.05f;
+            float totalHeight = barHR * 3 + gapHR * 2;
+            float offsetYR = (0.3f - totalHeight) / 2;
+            float scale = vh(barHR) / barHeight;
             float barWidth = 150;
 
 //        do not scale
-            float gapWidth = 10;
-            float gapHeight = 10;
-            float paddingX = 50;
-            float paddingY = 10;
+            float gapWidth = vw(gapWR);
+            float gapHeight = vh(gapHR);
+            float paddingX = vw(offsetXR);
+            float paddingY = vh(offsetYR);
 
             float offsetY = paddingY;
             float barX = paddingX + maxWidthIcon * scale + gapWidth;
-            Texture icon = skin.get("stamina_icon", Texture.class);
+
+            float offsetXSkillR = 0.4f;
+            Texture icon = skin.get(key + "_spec_texture", Texture.class);
+            TextWrapper textWrapper = new TextWrapper(
+                new BitmapFont(Gdx.files.internal("font/white.fnt")),
+                vw(0.3f),
+                0.7f,
+                jsonObject.get("description").getAsString()
+            );
             batch.begin();
-            batch.draw(icon, paddingX, offsetY + scale, icon.getWidth() * scale, icon.getHeight() * scale);
-            TextItem textItem = createTextItem(jsonObject.get("description").getAsString());
-            textItem.setScale(0.7f);
-            textItem.setPosition(new Vector2(barX, offsetY + textItem.getLayout().height + scale));
-            textItem.draw(batch);
+            batch.draw(icon, vw(offsetXSkillR), offsetY, vh(totalHeight), vh(totalHeight));
+            textWrapper.draw(
+                batch,
+                vw(offsetXSkillR) + vh(totalHeight) + vw(0.01f),
+                offsetY + vh(totalHeight)
+            );
             batch.end();
-            offsetY += (barHeight * scale + gapHeight);
+
             drawOneBar("armor_icon", paddingX, offsetY, barX, barWidth, scale, jsonObject.get("armor").getAsFloat() / maxArmor);
             offsetY += (barHeight * scale + gapHeight);
             drawOneBar("mana_icon", paddingX, offsetY, barX, barWidth, scale,jsonObject.get("energy").getAsFloat() / maxMana);
@@ -245,6 +265,13 @@ public class SelectCharacterScreen extends ScreenAdapter {
         batch.begin();
         playText.draw(batch);
         batch.end();
+    }
+
+    public float vw(float x) {
+        return Gdx.graphics.getWidth() * x;
+    }
+    public float vh(float y) {
+        return Gdx.graphics.getHeight() * y;
     }
     @Override
     public void dispose() {
