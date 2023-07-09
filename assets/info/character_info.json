@@ -56,12 +56,14 @@
         "die_texture_path": [
             "character/jungler/animation_1_10.png"
         ],
+        "immortal_texture_path": [
+            "character/assassin/special-skill_1_8.png"
+        ],
         "default_weapons": [
             "Gun Red S"
         ],
         "special_gun": "Kunai",
         "description": "Fortified Fury: Occur an intense surge of energy lasting 5 seconds.\nYour character deals double damage and enhances doubled armor",
-
         "idle_texture_path": "character/jungler/idle.png"
     },
     "assassin": {
@@ -77,9 +79,6 @@
         "weapon_y": 12,
         "dodge_texture_path": [
             "character/assassin/animation_1_8.png"
-        ],
-        "immortal_texture_path": [
-            "character/assassin/special-skill_1_8.png"
         ],
         "cooldown_special_skill_texture_path": "cooldown/4.png",
         "die_texture_path": [
