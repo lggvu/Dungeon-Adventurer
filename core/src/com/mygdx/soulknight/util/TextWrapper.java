@@ -42,6 +42,10 @@ public class TextWrapper {
         return wrappedText.toString().trim();
     }
 
+    public BitmapFont getFont() {
+        return font;
+    }
+
     public GlyphLayout getLayout() {
         return layout;
     }

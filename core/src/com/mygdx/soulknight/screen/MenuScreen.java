@@ -88,6 +88,15 @@ public class MenuScreen extends ScreenAdapter {
                 dispose();
             }
         });
+
+        Button help = new TextButton("Help", Settings.skin);
+        help.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new HelpScreen(game));
+                dispose();
+            }
+        });
         Table table = new Table();
         table.setFillParent(true);
 
@@ -99,6 +108,8 @@ public class MenuScreen extends ScreenAdapter {
         table.add(leaderBoard).width(width).pad(padding);
         table.row();
         table.add(settings).width(width).pad(padding);
+        table.row();
+        table.add(help).width(width).pad(padding);
 
         stage.addActor(table);
     }

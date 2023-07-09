@@ -1,0 +1,28 @@
+Game: Dungeon Adventurer
+
+Storyline
+In the depths of a long-forgotten dungeon, a brave and determined hero finds themselves trapped in a realm infested with menacing monsters and dark secrets. In "Dungeon Adventurer", players embark on an epic quest to fight against these monstrous creatures, collect powerful weapons and treasures, and ultimately find a way to escape the treacherous labyrinth.
+
+Act 1: Imprisoned in Darkness
+Our hero awakens in a dimly lit cell, disoriented and surrounded by eerie silence. As they explore their confinements, they discover cryptic writings etched into the walls, hinting at a sinister force that has long held dominion over the dungeon. With only their wits and a basic weapon in hand, our hero begins their journey, determined to uncover the truth and regain their freedom.
+
+Act 2: Battles and Discoveries
+Venturing deeper into the dungeon's winding corridors, our hero encounters a myriad of terrifying monsters lurking in the shadows. Each battle brings them closer to uncovering the dark history of the dungeon and their own purpose within its confines. Along the way, they stumble upon ancient weapons, enchanted artifacts, and hidden treasures that grant them newfound strength and resilience.
+
+Act 3: Unveiling the Secrets
+As our hero delves further into the depths, they encounter powerful guardians and solve intricate puzzles that guard the path to freedom. They unravel the mysteries of the dungeon's origin, learning of an ancient curse that binds the realm and the key to breaking it. The hero must gather scattered fragments of a mystical artifact, protected by formidable adversaries, to unlock the door leading to their escape.
+
+Act 4: The Final Confrontation
+Armed with an arsenal of legendary weapons and aided by newfound allies, our hero faces the ultimate challenge - a climactic battle against the malevolent ruler of the dungeon. The fight tests their skill, courage, and strategic prowess as they confront the embodiment of darkness itself. Victory brings not only liberation but also a chance to restore balance and peace to the world beyond the dungeon's confines.
+
+Epilogue: Triumph and New Beginnings
+Having defeated the tyrant and shattered the curse, our hero emerges from the depths, bearing the scars of their trials and the treasures earned along the way. The once-dreaded dungeon stands defeated, its secrets laid bare. As our hero steps into the sunlight, they leave behind a legacy of bravery and redemption. The world outside awaits, filled with new adventures and opportunities.
+
+"Dungeon Adventurer" is a tale of bravery, resilience, and the indomitable spirit of those who dare to challenge the darkness. Will you have the strength to overcome the monstrous denizens, gather the treasures, and find your way back to the light?
+
+How to play “Dungeon Adventurer”?
+The character is trapped in dungeons with numerous menacing monsters. Players need to manipulate the character to defeat these monsters by collecting the weapon and other items which are put randomly in the map.
+There’s 5 maps in total. Each map will have different structures and players need to find the way to move from the starting point to the gate. The gate helps players escape from current dungeon and move to other dungeon. After escaping 5 dungeons, players finished the game.
+There’s 4 modes corresponding to 4 levels of the game which are: easy, medium, hard and nightmare.
+The leaderboard displays time and scores the players get to finish one game with each corresponding level.
+
