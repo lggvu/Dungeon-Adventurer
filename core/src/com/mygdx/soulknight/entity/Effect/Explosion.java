@@ -1,11 +1,10 @@
 package com.mygdx.soulknight.entity.Effect;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.game.Settings;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;

@@ -8,27 +8,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Layout;
-import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.Level;
-import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.game.Level;
+import com.mygdx.soulknight.game.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player.Adventurer;
 import com.mygdx.soulknight.entity.Character.Player.Assassin;
 import com.mygdx.soulknight.entity.Character.Player.Jungler;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
-import com.mygdx.soulknight.util.SpriteLoader;
 import com.mygdx.soulknight.util.TextItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 
 public class SelectCharacterScreen extends ScreenAdapter {
     private final SoulKnight game;

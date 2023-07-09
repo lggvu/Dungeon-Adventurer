@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.screen;
+package com.mygdx.soulknight.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.game.Settings;
 import com.mygdx.soulknight.entity.Skill;
 
 public class CooldownButton extends Actor {

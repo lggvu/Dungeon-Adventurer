@@ -12,7 +12,7 @@ import com.mygdx.soulknight.ability.AbilityDrawer;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.Effect.EffectEnum;
-import com.mygdx.soulknight.entity.Item.Pickable;
+import com.mygdx.soulknight.entity.Map.Pickable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;

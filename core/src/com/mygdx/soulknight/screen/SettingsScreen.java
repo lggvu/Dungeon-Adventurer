@@ -2,19 +2,15 @@ package com.mygdx.soulknight.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.soulknight.Settings;
-import com.mygdx.soulknight.SoulKnight;
-
-import java.util.ArrayList;
+import com.mygdx.soulknight.game.Settings;
+import com.mygdx.soulknight.game.SoulKnight;
 
 public class SettingsScreen implements Screen {
     private Stage stage;

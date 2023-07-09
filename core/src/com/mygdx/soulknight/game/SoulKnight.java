@@ -1,4 +1,4 @@
-package com.mygdx.soulknight;
+package com.mygdx.soulknight.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

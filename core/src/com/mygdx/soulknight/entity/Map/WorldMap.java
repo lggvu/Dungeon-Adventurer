@@ -16,24 +16,18 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Json;
 import com.google.gson.*;
-import com.mygdx.soulknight.Level;
-import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.game.Level;
 import com.mygdx.soulknight.entity.Character.Monster.Monster;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.entity.DamageType;
 import com.mygdx.soulknight.entity.Effect.*;
-import com.mygdx.soulknight.entity.Item.Item;
-import com.mygdx.soulknight.entity.Item.Pickable;
 import com.mygdx.soulknight.entity.Weapon.Gun;
 import com.mygdx.soulknight.entity.Weapon.Weapon;
 import com.mygdx.soulknight.util.FontDrawer;
 import com.mygdx.soulknight.util.SpriteLoader;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 

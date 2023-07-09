@@ -19,10 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.Level;
-import com.mygdx.soulknight.SoulKnight;
-import com.mygdx.soulknight.ability.Ability;
-import com.mygdx.soulknight.util.SpriteLoader;
+import com.mygdx.soulknight.game.Level;
+import com.mygdx.soulknight.game.SoulKnight;
 import com.mygdx.soulknight.util.TextItem;
 
 import java.io.Reader;

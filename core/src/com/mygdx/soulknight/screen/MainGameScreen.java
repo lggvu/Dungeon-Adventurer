@@ -19,12 +19,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.google.gson.*;
-import com.mygdx.soulknight.Level;
-import com.mygdx.soulknight.Settings;
-import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.game.Level;
+import com.mygdx.soulknight.game.Settings;
+import com.mygdx.soulknight.game.SoulKnight;
 import com.mygdx.soulknight.entity.Character.Player.Player;
 import com.mygdx.soulknight.entity.Map.Minimap;
 import com.mygdx.soulknight.entity.Map.WorldMap;
+import com.mygdx.soulknight.util.CoolDownBar;
+import com.mygdx.soulknight.util.CooldownButton;
 import com.mygdx.soulknight.util.SpriteLoader;
 
 import java.io.Reader;

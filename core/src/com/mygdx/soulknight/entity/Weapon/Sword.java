@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mygdx.soulknight.Settings;
+import com.mygdx.soulknight.game.Settings;
 import com.mygdx.soulknight.entity.Character.SimpleCharacter;
 import com.mygdx.soulknight.util.TextureInfo;
 

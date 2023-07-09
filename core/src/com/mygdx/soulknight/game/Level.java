@@ -1,4 +1,4 @@
-package com.mygdx.soulknight;
+package com.mygdx.soulknight.game;
 
 public enum Level {
     EASY,

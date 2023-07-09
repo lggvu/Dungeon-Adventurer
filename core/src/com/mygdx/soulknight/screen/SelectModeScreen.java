@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.soulknight.Level;
-import com.mygdx.soulknight.Settings;
-import com.mygdx.soulknight.SoulKnight;
+import com.mygdx.soulknight.game.Level;
+import com.mygdx.soulknight.game.Settings;
+import com.mygdx.soulknight.game.SoulKnight;
 
 public class SelectModeScreen extends ScreenAdapter {
     SpriteBatch batch;

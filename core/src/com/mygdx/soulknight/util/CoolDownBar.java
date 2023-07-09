@@ -1,4 +1,4 @@
-package com.mygdx.soulknight.screen;
+package com.mygdx.soulknight.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
