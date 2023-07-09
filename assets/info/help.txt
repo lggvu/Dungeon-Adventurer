@@ -22,7 +22,20 @@ Having defeated the tyrant and shattered the curse, our hero emerges from the de
 
 How to play “Dungeon Adventurer”?
 The character is trapped in dungeons with numerous menacing monsters. Players need to manipulate the character to defeat these monsters by collecting the weapon and other items which are put randomly in the map.
-There’s 5 maps in total. Each map will have different structures and players need to find the way to move from the starting point to the gate. The gate helps players escape from current dungeon and move to other dungeon. After escaping 5 dungeons, players finished the game.
+There’s 5 maps in total. Each map will have different structures and players need to find the way to move from the starting point to the gate. The gate helps players escape from the current dungeon and move to another dungeon. After escaping 5 dungeons, players finished the game.
 There’s 4 modes corresponding to 4 levels of the game which are: easy, medium, hard and nightmare.
 The leaderboard displays time and scores the players get to finish one game with each corresponding level.
+
+Default buttons:
+Move up: W or UP
+Move down: S or DOWN
+Move right: D or RIGHT
+Move left: A or LEFT
+Shoot: Space
+Collect items: Enter
+Change weapon: K
+Dodge Skill: H
+Special Skill: J
+Custom buttons: dodge & special skills & switch weapon
+Players can set up these buttons themselves in the Setting Screen before starting a game or while playing a game.
 
