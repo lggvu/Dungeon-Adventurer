@@ -49,4 +49,8 @@ public class TextWrapper {
     public void draw(SpriteBatch batch, float x, float y) {
         font.draw(batch, layout, x, y);
     }
+
+    public void dispose() {
+        font.dispose();
+    }
 }

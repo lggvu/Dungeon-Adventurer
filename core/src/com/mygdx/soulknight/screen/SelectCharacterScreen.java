@@ -38,6 +38,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private Skin skin = new Skin();
     private int maxHP = -1, maxMana = -1, maxArmor = -1;
+    private HashMap<String, TextWrapper> spec_skills_description = new HashMap<>();
 
     class CharacterImageContainer {
         private float x, y, width, height, textureWidth, textureHeight, heightImg, border = 1;
@@ -45,6 +46,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         private TextItem textItem;
         private boolean hover = false;
         private Texture background = new Texture("dark_menu.png");
+
 
         public CharacterImageContainer(String texturePath, float x, float y, float width, float height, float imgHeightRatio, TextItem textItem) {
             this.x = x;
@@ -112,7 +114,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
             );
         }
 
-        background = new Texture("black_back.png");
+        background = new Texture("select-character.png");
         playText = createTextItem("PLAY >>>");
         playText.setPosition(new Vector2(Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/9.1f));
 
@@ -148,6 +150,12 @@ public class SelectCharacterScreen extends ScreenAdapter {
                     maxArmor = maxArmor > stat ? maxArmor : stat;
                     stat = info.get("energy").getAsInt();
                     maxMana = maxMana > stat ? maxMana : stat;
+                    spec_skills_description.put(characterName, new TextWrapper(
+                        new BitmapFont(Gdx.files.internal("font/white.fnt")),
+                        vw(0.3f),
+                        0.7f,
+                        info.get("description").getAsString())
+                    );
                 }
             }
         } catch (Exception e) {
@@ -192,7 +200,7 @@ public class SelectCharacterScreen extends ScreenAdapter {
         float px = position.x, py = position.y, pwidth = pLayout.width, pheight = pLayout.height;
         if (px <= mouseX && mouseX <= px + pwidth && py - pheight <= mouseY && mouseY <= py) {
             playText.setHovered(true);
-            if (Gdx.input.isTouched()) {
+            if (Gdx.input.isTouched() && selectedIndex >= 0) {
                 String characterName = characterImageContainers.get(selectedIndex).textItem.getText();
                 switch (characterName) {
                     case "Adventurer":
@@ -241,18 +249,14 @@ public class SelectCharacterScreen extends ScreenAdapter {
 
             float offsetXSkillR = 0.4f;
             Texture icon = skin.get(key + "_spec_texture", Texture.class);
-            TextWrapper textWrapper = new TextWrapper(
-                new BitmapFont(Gdx.files.internal("font/white.fnt")),
-                vw(0.3f),
-                0.7f,
-                jsonObject.get("description").getAsString()
-            );
+
             batch.begin();
             batch.draw(icon, vw(offsetXSkillR), offsetY, vh(totalHeight), vh(totalHeight));
+            TextWrapper textWrapper = spec_skills_description.get(key);
             textWrapper.draw(
                 batch,
                 vw(offsetXSkillR) + vh(totalHeight) + vw(0.01f),
-                offsetY + vh(totalHeight)
+                offsetY + (vh(totalHeight) + textWrapper.getLayout().height) / 2
             );
             batch.end();
 
@@ -281,6 +285,9 @@ public class SelectCharacterScreen extends ScreenAdapter {
         skin.dispose();
         for (CharacterImageContainer characterImageContainer : characterImageContainers) {
             characterImageContainer.dispose();
+        }
+        for (String key : spec_skills_description.keySet()) {
+            spec_skills_description.get(key).dispose();
         }
     }
 
