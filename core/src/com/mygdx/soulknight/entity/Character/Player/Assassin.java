@@ -32,7 +32,7 @@ public class Assassin extends Player {
             public void activateSkill() {
                 super.activateSkill();
                 timeFromThrow = 0;
-                kunai.shot(getLastMoveDirection());
+                kunai.attack(getLastMoveDirection());
             }
             @Override
             public void deactivateSkill(){

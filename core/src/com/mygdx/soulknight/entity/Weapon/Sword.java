@@ -17,7 +17,6 @@ import java.util.Iterator;
 
 public class Sword extends Weapon {
     private Animation<TextureInfo> swordAnimation;
-    private Vector2 attackDirection;
     private ArrayList<Slice> slices = new ArrayList<>();
     private Music slashSound;
     public Sword(String texturePath, int damage, int energyCost, float intervalSeconds, int rangeWeapon, float criticalRate) {

@@ -423,7 +423,7 @@ public abstract class SimpleCharacter {
         return ""+id;
     }
 
-    public boolean isImmunityWithDamage(DamageType damageType) {
+    public boolean isImmuneWithDamage(DamageType damageType) {
         if (damageType == DamageType.FIRE && getAbility().isFireImmunity()) {
             return true;
         } else if (damageType == DamageType.LIGHTNING && getAbility().isLightningImmunity()) {

@@ -62,14 +62,6 @@ public abstract class Weapon implements Pickable, AbilityDrawer {
         weaponID = ID++;
     }
 
-    public void setSize(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-    public void setRotateCenter(float origin_x, float origin_y) {
-        this.originX = origin_x;
-        this.originY = origin_y;
-    }
     public void reset() {
         elapsedSeconds = intervalSeconds;
     }

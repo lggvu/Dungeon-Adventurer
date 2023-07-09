@@ -511,9 +511,6 @@ public class WorldMap {
 
     public void createAnExplosion(SimpleCharacter owner, float x, float y, float radius, boolean dealDame) {
         regionEffectArrayList.add(new Explosion(owner, x, y, radius, dealDame));
-
-
-
     }
 
     public ArrayList<Room> getRooms() {

@@ -16,7 +16,7 @@ import com.mygdx.soulknight.util.TextureInfo;
 import java.util.ArrayList;
 
 public class Slice {
-    private final static float DST_UNIT = 50;
+    private final static float DST_UNIT = 25;
     private float stateTime = 0;
     private SimpleCharacter owner;
     private Animation<TextureInfo> animation;
@@ -77,7 +77,7 @@ public class Slice {
         TextureInfo textureInfo = animation.getKeyFrame(stateTime, true);
         float alpha = textureInfo.getHeight() / 2 / DST_UNIT;
         float beta = textureInfo.getWidth() / textureInfo.getHeight();
-        float actualHeight = rangeWeapon / (0.5f + alpha * beta);
+        float actualHeight = rangeWeapon * alpha;
         float actualWidth = beta * actualHeight;
         Vector2 absPos = owner.getAbsoluteWeaponPos();
         float offsetX = absPos.x + rangeWeapon - actualWidth;

@@ -134,7 +134,7 @@ public abstract class Player extends SimpleCharacter {
 
     @Override
     public void getHit(int damage, DamageType damageType, boolean isCrit) {
-        if (isImmunityWithDamage(damageType)) {
+        if (isImmuneWithDamage(damageType)) {
             return;
         }
         getMap().addDamageNumber(damage, damageType, isCrit, x, y);

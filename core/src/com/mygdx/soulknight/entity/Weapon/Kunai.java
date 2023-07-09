@@ -31,8 +31,8 @@ public class Kunai {
 
 
     protected SimpleCharacter owner;
-    private TextureRegion bulletTexture = new TextureRegion(new Texture("weapon/kunai.png"));
-    private float speed =50f;
+    private TextureRegion kunaiTexture = new TextureRegion(new Texture("weapon/kunai.png"));
+    private float speed = 50f;
     public boolean isFlying=false;
     public Kunai(){}
     public void setOwner(SimpleCharacter owner) {
@@ -40,11 +40,11 @@ public class Kunai {
         this.owner = owner;
 
     }
-    public void shot(Vector2 direction){
-        this.x=this.owner.getX();
-        this.y=this.owner.getY();
-        this.direction=direction;
-        this.isFlying=true;
+    public void attack(Vector2 direction){
+        this.x = this.owner.getX();
+        this.y = this.owner.getY();
+        this.direction = direction;
+        this.isFlying = true;
 
     }
     public void update(float deltaTime, WorldMap map){
@@ -64,11 +64,8 @@ public class Kunai {
         }
     }
     public void draw(SpriteBatch batch){
-        float height = 17, width = bulletTexture.getTexture().getWidth() * height / bulletTexture.getTexture().getHeight();
+        float height = 17, width = kunaiTexture.getTexture().getWidth() * height / kunaiTexture.getTexture().getHeight();
         float degree = direction.angleDeg(new Vector2(1, 0));
-        batch.draw(bulletTexture, this.x,this.y, width/2,height/2, width, height,1,1 , degree);
+        batch.draw(kunaiTexture, this.x,this.y, width/2,height/2, width, height,1,1 , degree);
     }
-
-
-
 }

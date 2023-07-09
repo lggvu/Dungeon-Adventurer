@@ -31,7 +31,7 @@ public class Bullet {
     private ArrayList<EffectEnum> effectsEnum;
     private ArrayList<SimpleCharacter> enemyHitRecently = new ArrayList<>();
     private SimpleCharacter target = null;
-    private float degreeChangePerSec = 60f;
+    private float angularV = 60f;
     private Animation<TextureRegion> explosionAnimation;
     private float criticalRate;
     public Vector2 getDirection() {
@@ -71,13 +71,13 @@ public class Bullet {
         this.numDestroyObject = numDestroyObject;
         this.numWallCollide = numWallCollide;
         this.numEnemyHit = numEnemyHit;
-        this.degreeChangePerSec = degreeChangePerSec;
+        this.angularV = degreeChangePerSec;
         this.distanceLeft = distanceLeft;
         this.damage = damage;
         this.criticalRate = criticalRate;
     }
     public void update(float deltaTime) {
-        if (degreeChangePerSec != 0) {
+        if (angularV != 0) {
             Vector2 currentPos = new Vector2(x + width / 2, y + height / 2);
             if (target == null) {
                 float smallestDst = Float.MAX_VALUE;
@@ -95,10 +95,10 @@ public class Bullet {
                 float currentDegree = direction.angleDeg(Ox);
                 if (targetDirection.angleDeg(direction) <= 180) {
 //                    nghĩa là góc target direction đang ở bên phải góc current direction
-                    currentDegree += degreeChangePerSec * deltaTime;
+                    currentDegree += angularV * deltaTime;
                     direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
                 } else {
-                    currentDegree -= degreeChangePerSec * deltaTime;
+                    currentDegree -= angularV * deltaTime;
                     direction = new Vector2(MathUtils.cosDeg(currentDegree), MathUtils.sinDeg(currentDegree));
                 }
             }
