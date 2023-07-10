@@ -23,9 +23,9 @@ public class Gun extends Weapon {
     private TextureRegion bulletTextureRegion;
     private Animation<TextureRegion> explosionAnimation;
     private Animation<TextureRegion> shotExplosionAnimation;
-    private int numDestroyObject = 1;
-    private int numWallCollide = 1;
-    private int numEnemyHit = 1;
+    private int numDestroyObject;
+    private int numWallCollide;
+    private int numEnemyHit;
     private float degreeChangePerSec = 0;
     private ArrayList<Float> directionAttack = new ArrayList<>();
     private Music shootSound;
@@ -60,6 +60,10 @@ public class Gun extends Weapon {
         shotExplosionAnimation = new Animation<>(0.01f, shotExplosionFrames);
         JsonElement jsonElement = properties.get("attack_directions");
         Iterator<JsonElement> directions = jsonElement.getAsJsonArray().iterator();
+        numDestroyObject = properties.get("num_destroy_object").getAsInt();
+        numWallCollide = properties.get("num_wall_collide").getAsInt();
+        numEnemyHit = properties.get("num_enemy_hit").getAsInt();
+        degreeChangePerSec = properties.get("bullet_rotation_speed").getAsFloat();
         while (directions.hasNext()) {
             this.addDirectionAttack(directions.next().getAsFloat());
         }

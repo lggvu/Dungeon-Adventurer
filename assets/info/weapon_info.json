@@ -237,7 +237,7 @@
                 0
             ],
             "num_destroy_object": 1,
-            "num_wall_collide": 1,
+            "num_wall_collide": 2,
             "num_enemy_hit": 1,
             "effect": [
                 "POISON"
